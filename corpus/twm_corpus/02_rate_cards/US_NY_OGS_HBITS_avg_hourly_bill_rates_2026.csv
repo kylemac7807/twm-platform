@@ -1,0 +1,381 @@
+# New York State OGS — HBITS (Hourly Based IT Services) Award 23158 — Average Hourly Bill Rates
+# Source: https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages
+# Issuer: NYS Office of General Services, contract award 23158 (contract period 2024-07-01 to 2029-06-30). Rates effective 7/1/2026.
+# Content: average awarded hourly BILL rates (USD) by job title x skill level (Junior/Mid-Level/Senior/Expert) x region (1-3).
+# Extracted via WebFetch 2026-09-01 (direct download blocked by egress policy). NY State public procurement data.
+# CAVEAT: Region 3 values as extracted were identical to Region 2 in verification spot-checks; an initial page summary
+# suggested some Region 3 values differ (e.g. Web Designer Junior $40.69). Treat Region 3 rows as provisional pending
+# re-verification against the source page. Regions' geographic definitions are on the HBITS contract pages (not captured).
+job_title,skill_level,region,avg_hourly_rate_usd
+Business Analyst,Junior,1,41.01
+Business Analyst,Mid-Level,1,53.45
+Business Analyst,Senior,1,68.30
+Business Analyst,Expert,1,77.56
+Cloud Engineer,Junior,1,50.63
+Cloud Engineer,Mid-Level,1,66.56
+Cloud Engineer,Senior,1,82.12
+Cloud Engineer,Expert,1,95.55
+Database Administrator,Junior,1,44.05
+Database Administrator,Mid-Level,1,56.89
+Database Administrator,Senior,1,73.64
+Database Administrator,Expert,1,84.21
+Database Architect,Junior,1,51.39
+Database Architect,Mid-Level,1,65.78
+Database Architect,Senior,1,83.00
+Database Architect,Expert,1,95.24
+Database Manager,Junior,1,46.78
+Database Manager,Mid-Level,1,58.84
+Database Manager,Senior,1,77.01
+Database Manager,Expert,1,89.63
+Graphic Designer,Junior,1,35.38
+Graphic Designer,Mid-Level,1,43.90
+Graphic Designer,Senior,1,54.83
+Graphic Designer,Expert,1,64.02
+Help Desk Manager,Junior,1,37.32
+Help Desk Manager,Mid-Level,1,44.32
+Help Desk Manager,Senior,1,54.96
+Help Desk Manager,Expert,1,63.50
+IT Manager,Junior,1,46.50
+IT Manager,Mid-Level,1,57.89
+IT Manager,Senior,1,73.60
+IT Manager,Expert,1,85.49
+IT Specialist,Junior,1,41.98
+IT Specialist,Mid-Level,1,56.79
+IT Specialist,Senior,1,72.21
+IT Specialist,Expert,1,85.36
+Network Administrator,Junior,1,41.59
+Network Administrator,Mid-Level,1,52.17
+Network Administrator,Senior,1,66.62
+Network Administrator,Expert,1,76.82
+Network Architect,Junior,1,50.18
+Network Architect,Mid-Level,1,63.81
+Network Architect,Senior,1,79.46
+Network Architect,Expert,1,91.03
+Operations Manager,Junior,1,43.54
+Operations Manager,Mid-Level,1,53.79
+Operations Manager,Senior,1,68.74
+Operations Manager,Expert,1,80.26
+Programmer,Junior,1,42.58
+Programmer,Mid-Level,1,58.87
+Programmer,Senior,1,72.02
+Programmer,Expert,1,81.71
+Project Manager,Junior,1,46.86
+Project Manager,Mid-Level,1,59.71
+Project Manager,Senior,1,79.16
+Project Manager,Expert,1,94.27
+Security Analyst,Junior,1,46.39
+Security Analyst,Mid-Level,1,60.98
+Security Analyst,Senior,1,77.39
+Security Analyst,Expert,1,89.23
+Security Manager,Junior,1,50.30
+Security Manager,Mid-Level,1,65.82
+Security Manager,Senior,1,82.82
+Security Manager,Expert,1,96.53
+Software Analyst,Junior,1,42.61
+Software Analyst,Mid-Level,1,55.56
+Software Analyst,Senior,1,70.71
+Software Analyst,Expert,1,81.64
+Software Architect,Junior,1,53.25
+Software Architect,Mid-Level,1,68.82
+Software Architect,Senior,1,86.35
+Software Architect,Expert,1,97.55
+Software Developer,Junior,1,43.68
+Software Developer,Mid-Level,1,59.59
+Software Developer,Senior,1,74.56
+Software Developer,Expert,1,84.61
+Software Manager,Junior,1,49.48
+Software Manager,Mid-Level,1,63.20
+Software Manager,Senior,1,80.06
+Software Manager,Expert,1,93.33
+Systems Administrator,Junior,1,39.35
+Systems Administrator,Mid-Level,1,50.88
+Systems Administrator,Senior,1,66.99
+Systems Administrator,Expert,1,77.87
+Systems Analyst,Junior,1,42.96
+Systems Analyst,Mid-Level,1,55.24
+Systems Analyst,Senior,1,69.57
+Systems Analyst,Expert,1,80.50
+Systems Architect,Junior,1,52.70
+Systems Architect,Mid-Level,1,67.48
+Systems Architect,Senior,1,84.95
+Systems Architect,Expert,1,96.62
+Systems Developer,Junior,1,45.21
+Systems Developer,Mid-Level,1,59.43
+Systems Developer,Senior,1,74.69
+Systems Developer,Expert,1,85.90
+Technical Writer,Junior,1,33.30
+Technical Writer,Mid-Level,1,40.50
+Technical Writer,Senior,1,49.23
+Technical Writer,Expert,1,58.00
+Tester,Junior,1,37.17
+Tester,Mid-Level,1,45.93
+Tester,Senior,1,57.20
+Tester,Expert,1,65.53
+Training Developer,Junior,1,39.09
+Training Developer,Mid-Level,1,47.96
+Training Developer,Senior,1,59.54
+Training Developer,Expert,1,68.23
+Web Administrator,Junior,1,39.53
+Web Administrator,Mid-Level,1,51.59
+Web Administrator,Senior,1,65.49
+Web Administrator,Expert,1,74.59
+Web Designer,Junior,1,37.99
+Web Designer,Mid-Level,1,48.81
+Web Designer,Senior,1,59.86
+Web Designer,Expert,1,68.04
+Web Developer,Junior,1,42.14
+Web Developer,Mid-Level,1,56.82
+Web Developer,Senior,1,69.37
+Web Developer,Expert,1,78.88
+Web Manager,Junior,1,44.03
+Web Manager,Mid-Level,1,55.38
+Web Manager,Senior,1,71.55
+Web Manager,Expert,1,82.56
+Business Analyst,Junior,2,44.44
+Business Analyst,Mid-Level,2,57.98
+Business Analyst,Senior,2,74.07
+Business Analyst,Expert,2,84.93
+Cloud Engineer,Junior,2,54.88
+Cloud Engineer,Mid-Level,2,72.21
+Cloud Engineer,Senior,2,88.02
+Cloud Engineer,Expert,2,103.14
+Database Administrator,Junior,2,46.90
+Database Administrator,Mid-Level,2,60.52
+Database Administrator,Senior,2,79.59
+Database Administrator,Expert,2,91.93
+Database Architect,Junior,2,54.77
+Database Architect,Mid-Level,2,69.93
+Database Architect,Senior,2,89.86
+Database Architect,Expert,2,102.60
+Database Manager,Junior,2,49.85
+Database Manager,Mid-Level,2,62.49
+Database Manager,Senior,2,83.53
+Database Manager,Expert,2,97.19
+Graphic Designer,Junior,2,38.67
+Graphic Designer,Mid-Level,2,47.92
+Graphic Designer,Senior,2,59.80
+Graphic Designer,Expert,2,69.69
+Help Desk Manager,Junior,2,39.89
+Help Desk Manager,Mid-Level,2,47.62
+Help Desk Manager,Senior,2,59.13
+Help Desk Manager,Expert,2,68.76
+IT Manager,Junior,2,49.94
+IT Manager,Mid-Level,2,62.26
+IT Manager,Senior,2,79.78
+IT Manager,Expert,2,92.75
+IT Specialist,Junior,2,45.05
+IT Specialist,Mid-Level,2,60.55
+IT Specialist,Senior,2,78.61
+IT Specialist,Expert,2,92.43
+Network Administrator,Junior,2,44.36
+Network Administrator,Mid-Level,2,55.75
+Network Administrator,Senior,2,72.12
+Network Administrator,Expert,2,83.21
+Network Architect,Junior,2,53.19
+Network Architect,Mid-Level,2,68.18
+Network Architect,Senior,2,85.49
+Network Architect,Expert,2,98.07
+Operations Manager,Junior,2,46.53
+Operations Manager,Mid-Level,2,58.02
+Operations Manager,Senior,2,75.24
+Operations Manager,Expert,2,87.75
+Programmer,Junior,2,45.30
+Programmer,Mid-Level,2,63.73
+Programmer,Senior,2,77.55
+Programmer,Expert,2,89.07
+Project Manager,Junior,2,50.28
+Project Manager,Mid-Level,2,63.86
+Project Manager,Senior,2,85.19
+Project Manager,Expert,2,101.67
+Security Analyst,Junior,2,49.72
+Security Analyst,Mid-Level,2,66.17
+Security Analyst,Senior,2,83.45
+Security Analyst,Expert,2,96.63
+Security Manager,Junior,2,53.93
+Security Manager,Mid-Level,2,70.91
+Security Manager,Senior,2,90.32
+Security Manager,Expert,2,104.69
+Software Analyst,Junior,2,45.56
+Software Analyst,Mid-Level,2,60.06
+Software Analyst,Senior,2,76.42
+Software Analyst,Expert,2,88.70
+Software Architect,Junior,2,57.00
+Software Architect,Mid-Level,2,74.12
+Software Architect,Senior,2,93.21
+Software Architect,Expert,2,105.46
+Software Developer,Junior,2,46.81
+Software Developer,Mid-Level,2,64.66
+Software Developer,Senior,2,80.82
+Software Developer,Expert,2,92.25
+Software Manager,Junior,2,53.00
+Software Manager,Mid-Level,2,67.94
+Software Manager,Senior,2,87.06
+Software Manager,Expert,2,101.46
+Systems Administrator,Junior,2,42.00
+Systems Administrator,Mid-Level,2,54.30
+Systems Administrator,Senior,2,72.98
+Systems Administrator,Expert,2,83.84
+Systems Analyst,Junior,2,45.55
+Systems Analyst,Mid-Level,2,59.18
+Systems Analyst,Senior,2,74.86
+Systems Analyst,Expert,2,87.06
+Systems Architect,Junior,2,56.14
+Systems Architect,Mid-Level,2,71.74
+Systems Architect,Senior,2,91.51
+Systems Architect,Expert,2,104.83
+Systems Developer,Junior,2,48.04
+Systems Developer,Mid-Level,2,63.74
+Systems Developer,Senior,2,81.13
+Systems Developer,Expert,2,92.97
+Technical Writer,Junior,2,35.16
+Technical Writer,Mid-Level,2,43.50
+Technical Writer,Senior,2,53.14
+Technical Writer,Expert,2,62.48
+Tester,Junior,2,39.65
+Tester,Mid-Level,2,49.27
+Tester,Senior,2,61.53
+Tester,Expert,2,70.35
+Training Developer,Junior,2,41.56
+Training Developer,Mid-Level,2,51.08
+Training Developer,Senior,2,63.71
+Training Developer,Expert,2,72.97
+Web Administrator,Junior,2,42.29
+Web Administrator,Mid-Level,2,55.97
+Web Administrator,Senior,2,70.67
+Web Administrator,Expert,2,80.46
+Web Designer,Junior,2,40.69
+Web Designer,Mid-Level,2,53.03
+Web Designer,Senior,2,64.90
+Web Designer,Expert,2,73.82
+Web Developer,Junior,2,44.85
+Web Developer,Mid-Level,2,61.44
+Web Developer,Senior,2,75.13
+Web Developer,Expert,2,85.79
+Web Manager,Junior,2,46.91
+Web Manager,Mid-Level,2,59.25
+Web Manager,Senior,2,77.81
+Web Manager,Expert,2,89.36
+Business Analyst,Junior,3 (provisional),44.44
+Business Analyst,Mid-Level,3 (provisional),57.98
+Business Analyst,Senior,3 (provisional),74.07
+Business Analyst,Expert,3 (provisional),84.93
+Cloud Engineer,Junior,3 (provisional),54.88
+Cloud Engineer,Mid-Level,3 (provisional),72.21
+Cloud Engineer,Senior,3 (provisional),88.02
+Cloud Engineer,Expert,3 (provisional),103.14
+Database Administrator,Junior,3 (provisional),46.90
+Database Administrator,Mid-Level,3 (provisional),60.52
+Database Administrator,Senior,3 (provisional),79.59
+Database Administrator,Expert,3 (provisional),91.93
+Database Architect,Junior,3 (provisional),54.77
+Database Architect,Mid-Level,3 (provisional),69.93
+Database Architect,Senior,3 (provisional),89.86
+Database Architect,Expert,3 (provisional),102.60
+Database Manager,Junior,3 (provisional),49.85
+Database Manager,Mid-Level,3 (provisional),62.49
+Database Manager,Senior,3 (provisional),83.53
+Database Manager,Expert,3 (provisional),97.19
+Graphic Designer,Junior,3 (provisional),38.67
+Graphic Designer,Mid-Level,3 (provisional),47.92
+Graphic Designer,Senior,3 (provisional),59.80
+Graphic Designer,Expert,3 (provisional),69.69
+Help Desk Manager,Junior,3 (provisional),39.89
+Help Desk Manager,Mid-Level,3 (provisional),47.62
+Help Desk Manager,Senior,3 (provisional),59.13
+Help Desk Manager,Expert,3 (provisional),68.76
+IT Manager,Junior,3 (provisional),49.94
+IT Manager,Mid-Level,3 (provisional),62.26
+IT Manager,Senior,3 (provisional),79.78
+IT Manager,Expert,3 (provisional),92.75
+IT Specialist,Junior,3 (provisional),45.05
+IT Specialist,Mid-Level,3 (provisional),60.55
+IT Specialist,Senior,3 (provisional),78.61
+IT Specialist,Expert,3 (provisional),92.43
+Network Administrator,Junior,3 (provisional),44.36
+Network Administrator,Mid-Level,3 (provisional),55.75
+Network Administrator,Senior,3 (provisional),72.12
+Network Administrator,Expert,3 (provisional),83.21
+Network Architect,Junior,3 (provisional),53.19
+Network Architect,Mid-Level,3 (provisional),68.18
+Network Architect,Senior,3 (provisional),85.49
+Network Architect,Expert,3 (provisional),98.07
+Operations Manager,Junior,3 (provisional),46.53
+Operations Manager,Mid-Level,3 (provisional),58.02
+Operations Manager,Senior,3 (provisional),75.24
+Operations Manager,Expert,3 (provisional),87.75
+Programmer,Junior,3 (provisional),45.30
+Programmer,Mid-Level,3 (provisional),63.73
+Programmer,Senior,3 (provisional),77.55
+Programmer,Expert,3 (provisional),89.07
+Project Manager,Junior,3 (provisional),50.28
+Project Manager,Mid-Level,3 (provisional),63.86
+Project Manager,Senior,3 (provisional),85.19
+Project Manager,Expert,3 (provisional),101.67
+Security Analyst,Junior,3 (provisional),49.72
+Security Analyst,Mid-Level,3 (provisional),66.17
+Security Analyst,Senior,3 (provisional),83.45
+Security Analyst,Expert,3 (provisional),96.63
+Security Manager,Junior,3 (provisional),53.93
+Security Manager,Mid-Level,3 (provisional),70.91
+Security Manager,Senior,3 (provisional),90.32
+Security Manager,Expert,3 (provisional),104.69
+Software Analyst,Junior,3 (provisional),45.56
+Software Analyst,Mid-Level,3 (provisional),60.06
+Software Analyst,Senior,3 (provisional),76.42
+Software Analyst,Expert,3 (provisional),88.70
+Software Architect,Junior,3 (provisional),57.00
+Software Architect,Mid-Level,3 (provisional),74.12
+Software Architect,Senior,3 (provisional),93.21
+Software Architect,Expert,3 (provisional),105.46
+Software Developer,Junior,3 (provisional),46.81
+Software Developer,Mid-Level,3 (provisional),64.66
+Software Developer,Senior,3 (provisional),80.82
+Software Developer,Expert,3 (provisional),92.25
+Software Manager,Junior,3 (provisional),53.00
+Software Manager,Mid-Level,3 (provisional),67.94
+Software Manager,Senior,3 (provisional),87.06
+Software Manager,Expert,3 (provisional),101.46
+Systems Administrator,Junior,3 (provisional),42.00
+Systems Administrator,Mid-Level,3 (provisional),54.30
+Systems Administrator,Senior,3 (provisional),72.98
+Systems Administrator,Expert,3 (provisional),83.84
+Systems Analyst,Junior,3 (provisional),45.55
+Systems Analyst,Mid-Level,3 (provisional),59.18
+Systems Analyst,Senior,3 (provisional),74.86
+Systems Analyst,Expert,3 (provisional),87.06
+Systems Architect,Junior,3 (provisional),56.14
+Systems Architect,Mid-Level,3 (provisional),71.74
+Systems Architect,Senior,3 (provisional),91.51
+Systems Architect,Expert,3 (provisional),104.83
+Systems Developer,Junior,3 (provisional),48.04
+Systems Developer,Mid-Level,3 (provisional),63.74
+Systems Developer,Senior,3 (provisional),81.13
+Systems Developer,Expert,3 (provisional),92.97
+Technical Writer,Junior,3 (provisional),35.16
+Technical Writer,Mid-Level,3 (provisional),43.50
+Technical Writer,Senior,3 (provisional),53.14
+Technical Writer,Expert,3 (provisional),62.48
+Tester,Junior,3 (provisional),39.65
+Tester,Mid-Level,3 (provisional),49.27
+Tester,Senior,3 (provisional),61.53
+Tester,Expert,3 (provisional),70.35
+Training Developer,Junior,3 (provisional),41.56
+Training Developer,Mid-Level,3 (provisional),51.08
+Training Developer,Senior,3 (provisional),63.71
+Training Developer,Expert,3 (provisional),72.97
+Web Administrator,Junior,3 (provisional),42.29
+Web Administrator,Mid-Level,3 (provisional),55.97
+Web Administrator,Senior,3 (provisional),70.67
+Web Administrator,Expert,3 (provisional),80.46
+Web Designer,Junior,3 (provisional),40.69
+Web Designer,Mid-Level,3 (provisional),53.03
+Web Designer,Senior,3 (provisional),64.90
+Web Designer,Expert,3 (provisional),73.82
+Web Developer,Junior,3 (provisional),44.85
+Web Developer,Mid-Level,3 (provisional),61.44
+Web Developer,Senior,3 (provisional),75.13
+Web Developer,Expert,3 (provisional),85.79
+Web Manager,Junior,3 (provisional),46.91
+Web Manager,Mid-Level,3 (provisional),59.25
+Web Manager,Senior,3 (provisional),77.81
+Web Manager,Expert,3 (provisional),89.36

@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# TWM corpus — download ORIGINAL source documents for the rate-card and contract extractions.
+# Run on a machine with normal internet access. Files land beside this script, prefixed by folder.
+# Generated 2026-09-01. Each extraction file's header carries the same URL.
+set -u
+get() { echo "== $1"; curl -fL --retry 2 -A "TWM research kylefmcnamara@gmail.com" -o "$1" "$2" || echo "FAILED: $2"; }
+
+# ---- 02_rate_cards ----
+get "CA_TBIPS_resource_categories_skills_matrix_ORIGINAL.html" "https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html"
+get "CA_TBIPS_solicitation_2025-03_structure_notes_ORIGINAL.pdf" "https://canadabuys.canada.ca/sites/default/files/webform/tender_notice/70780/tbips-solicitation--2025-03-programmer-analysts-resources_en.pdf"
+get "UK_GCloud14_Accenture_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92191/207547418106927-sfia-rate-card-2024-04-26-1631.pdf"
+get "UK_GCloud14_CGI_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92304/159622626613437-sfia-rate-card-2024-05-01-1627.pdf"
+get "UK_GCloud14_Capventis_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/586413/266896957302314-sfia-rate-card-2024-05-07-1231.pdf"
+get "UK_GCloud14_Deloitte_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92485/570357613487365-pricing-document-2024-04-25-1216.pdf"
+get "UK_GCloud14_KPMG_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/93303/654229059113914-sfia-rate-card-2024-04-22-1527.pdf"
+get "UK_HomeOffice_DDaT_pay_framework_allowance_ORIGINAL.html" "https://careers.homeoffice.gov.uk/pay-framework-allowance-pfa/"
+get "US_GSA_CALCplus_ceiling_rates_sample_ORIGINAL.html" "https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/"
+get "US_GSA_ITSchedule_CDOTechnologies_pricelist_legacy_ORIGINAL.PDF" "https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF"
+get "US_GSA_MAS_ConstellationWest_pricelist_54151S_2025_ORIGINAL.PDF" "https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF"
+get "US_GSA_MAS_tCognition_pricelist_54151S_ORIGINAL.PDF" "https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF"
+get "US_NY_OGS_HBITS_avg_hourly_bill_rates_2026_ORIGINAL.html" "https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages"
+get "US_TX_DIR_ITSAC_NTE_rates_2020_DIR-CPO-4653_ORIGINAL.pdf" "https://www.cgi.com/sites/default/files/2020-11/dir-cpo-4653_appendix_c_itsac_nottoexceedrates.pdf"
+get "US_TX_DIR_ITSAC_job_title_descriptions_2024_DIR-CPO-5498_ORIGINAL.pdf" "https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf"
+get "deep2_CA_JobBank_IT_hourly_wages_2023-2024_ORIGINAL.html" "https://www.jobbank.gc.ca/wagereport/occupation/5485"
+get "deep2_UK_GCloud14_HSO_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/716921/634647289633424-sfia-rate-card-2025-04-04-1003.pdf"
+get "deep2_UK_GCloud14_Kainos_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92437/228308292875576-pricing-document-2024-04-29-1415.pdf"
+get "deep2_UK_GCloud14_PwC_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92454/608947631153362-pricing-document-2024-05-07-1221.pdf"
+get "deep2_UK_GCloud14_TCS_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92599/983184540021977-sfia-rate-card-2025-03-12-1629.pdf"
+get "deep2_UK_GCloud14_Version1_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92927/449896507063471-sfia-rate-card-2024-05-02-1527.pdf"
+get "deep2_UK_GCloud14_Wipro_SFIA_ratecard_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/721741/603593367117287-pricing-document-2024-05-04-0702.pdf"
+get "deep2_UK_GCloud14_specialists_SFIA_ratecards_ORIGINAL.pdf" "https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/715368/205749037968743-sfia-rate-card-2024-05-01-1546.pdf"
+get "deep2_US_GSA_CALCplus_category_rate_stats_2026_ORIGINAL.html" "https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/?search=labor_category:<X>&page=1&page_size=1"
+get "deep2_US_NY_OGS_HBITS_definitions_regions_levels_ORIGINAL.html" "https://ogs.ny.gov/procurement/hbits-definitions-23158"
+get "deep2_US_TX_DIR_ITSAC_NTE_rates_2024_DIR-CPO-5570_ORIGINAL.pdf" "https://www.assyst.net/sites/default/files/2024-09/DIR-CPO-5570_Appendix_C_ITSAC_Not-To-Exceed_Rates.pdf"
+
+# ---- 03_contracts_sows ----
+get "EDGAR_Comverse_TechMahindra_MSA_Amendment1_2015_EX10-1_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1549872/000090951815000202/mm07-0715_8ke101.htm"
+get "EDGAR_CoreLogic_NTTData_MSA_Amendment8_2019_EX10-52_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/36047/000003604720000015/clgx-12x31x2019xex1052.htm"
+get "EDGAR_FNIS_MicroGeneral_IT_Services_Agreement_2001_EX10-55_ORIGINAL.txt" "https://www.sec.gov/Archives/edgar/data/888793/000089256902000688/a80182ex10-55.txt"
+get "EDGAR_FirstMidwestBank_FIS_IT_Services_Agreement_2011_EX10-30_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/702325/000104746912001782/a2207583zex-10_30.htm"
+get "EDGAR_ProQuest_IBM_TransitionSOW_RateCard_2006_EX10-34_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/215219/000119312507194090/dex1034.htm"
+get "EDGAR_SAIC_ISIS_TM_Subcontract_LaborRates_2001_EX10-1_ORIGINAL.txt" "https://www.sec.gov/Archives/edgar/data/874015/000091205701536913/a2062055zex-10_1.txt"
+get "EDGAR_Sabre_HP_IT_Services_Agreement_Amend1_2012_EX10-42_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1597033/000119312514090103/d652688dex1042.htm"
+get "EDGAR_Talcott_Cognizant_MSA_2019_EX27h_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/895764/000162828022009907/ex27h-cognizanttalcottmsa.htm"
+get "EDGAR_Textron_CSC_MSA_Amendment7_2010_EX10-22_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/217346/000095012311020392/b83538exv10w22e.htm"
+get "GSA_Army_PWS_Template_Structure_ORIGINAL.pdf" "https://buy.gsa.gov/api/system/files/documents/ArmyPWS.pdf"
+get "MI_DTMB_Deloitte_MiIntegrate_Contract_SOW_Rates_2013-2026_ORIGINAL.pdf" "https://www.michigan.gov/dtmb/-/media/Project/Websites/dtmb/Procurement/Contracts/006/180000000078.pdf"
+get "NY_OGS_HBITS_Process_TaskOrder_Mechanics_ORIGINAL.pdf" "https://online.ogs.ny.gov/purchase/snt/awardnotes/7301223158Attachment07_Process.pdf"
+get "OK_OMES_Deloitte_Signed_Contract_RateCard_2018_ORIGINAL.pdf" "https://www.okcommerce.gov/wp-content/uploads/Monitoring-and-Compliance-Service-Deloitte-Full-Signed-Contract.pdf"
+get "TX_DIR_ITSAC_579_NTE_Rate_Card_2024_ORIGINAL.pdf" "https://dir.texas.gov/sites/default/files/2024-10/ITSAC%20579%20Category%2C%20Title%2C%20Level%2C%20NTE%20Rates.pdf"
+get "deep2_EDGAR_ExpressScripts_OmadaHealth_MSA_2020_EX10-4a_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1611115/000119312525116907/d785770dex104a.htm"
+get "deep2_EDGAR_MobileMessenger_NewMotion_SMS_Addendum_2005_EX10-2_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1022899/000114420407007236/v064884_ex10-2.htm"
+get "deep2_EDGAR_Nielsen_TCS_ARMSA_2007_EX10-16a_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1492633/000119312510155836/dex1016a.htm"
+get "deep2_EDGAR_ScottishRe_ING_Transition_Services_Agreement_2004_EX10-58_ORIGINAL.txt" "https://www.sec.gov/Archives/edgar/data/1064122/000089808005000165/ex10-58.txt"
+get "deep2_EDGAR_Symetra_ACS_IT_Services_Agreement_2004_EX10-1_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1403385/000095013407019558/v31293a2exv10w1.htm"
+get "deep2_EDGAR_USArmy_SFA_IDIQ_Contract_2006_EX10-3_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1471038/000119312510120468/dex103.htm"
+get "deep2_EDGAR_nib_wellteq_SOW_2022_EX4-44_ORIGINAL.htm" "https://www.sec.gov/Archives/edgar/data/1815436/000121390023007932/f20f2022ex4-44_advanced.htm"
+get "deep2_MI_DTMB_Accenture_ITTraining_Contract_2025_MA250000000723_ORIGINAL.pdf" "https://www.michigan.gov/dtmb/-/media/Project/Websites/dtmb/Procurement/Contracts/MiDEAL/002/250000000723.pdf"
+
+echo "Done. Verify with: file *_ORIGINAL.* ; any FAILED lines need manual retrieval — URLs also in the manifests."

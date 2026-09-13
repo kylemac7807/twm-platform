@@ -1,0 +1,52 @@
+# Government of Canada Job Bank — hourly WAGES for core IT occupations (NOC 2021), Canada + provinces
+# VINTAGE/EFFECTIVE: Labour Force Survey reference period 2023-2024 (territories 2024); Job Bank pages last updated 2025-11-19. Extracted 2026-09-01.
+# Sources: https://www.jobbank.gc.ca/wagereport/occupation/5485 (NOC 21231 Software engineers and designers)
+#          https://www.jobbank.gc.ca/wagereport/occupation/22548 (NOC 21232 Software developers and programmers)
+#          https://www.jobbank.gc.ca/wagereport/occupation/22512 (NOC 21220 Cybersecurity specialists)
+#          https://www.jobbank.gc.ca/marketreport/wages-occupation/296723/ca (IT Project Manager job title, NOC 21222 Information systems specialists)
+# Issuer: Employment and Social Development Canada / Statistics Canada LFS. License: Open Government Licence - Canada.
+# *** IMPORTANT CAVEAT: these are EMPLOYEE WAGES (CAD/hour, gross pay), NOT vendor billing rates. To use as a
+# *** Canadian contract-rate proxy, apply a loading factor for payroll burden, overhead, and margin —
+# *** typically ~1.5x-2.2x wage -> fully-burdened supplier bill rate for staff augmentation.
+noc_code,occupation,region,wage_low_cad_hr,wage_median_cad_hr,wage_high_cad_hr,reference_period
+21231,Software engineers and designers,Canada,35.00,56.49,91.35,2023-2024
+21231,Software engineers and designers,Newfoundland and Labrador,33.48,48.88,71.24,2023-2024
+21231,Software engineers and designers,Prince Edward Island,28.88,41.69,78.48,2023-2024
+21231,Software engineers and designers,Nova Scotia,32.32,52.50,98.56,2023-2024
+21231,Software engineers and designers,New Brunswick,26.44,52.88,81.73,2023-2024
+21231,Software engineers and designers,Quebec,35.00,53.60,86.54,2023-2024
+21231,Software engineers and designers,Ontario,36.06,56.73,88.00,2023-2024
+21231,Software engineers and designers,Manitoba,20.00,46.15,69.23,2023-2024
+21231,Software engineers and designers,Saskatchewan,33.65,50.48,74.71,2023-2024
+21231,Software engineers and designers,Alberta,36.06,51.92,100.00,2023-2024
+21231,Software engineers and designers,British Columbia,35.00,62.50,99.04,2023-2024
+21232,Software developers and programmers,Canada,30.00,48.08,76.92,2023-2024
+21232,Software developers and programmers,Newfoundland and Labrador,30.77,43.75,74.52,2023-2024
+21232,Software developers and programmers,Prince Edward Island,26.67,38.46,53.85,2023-2024
+21232,Software developers and programmers,Nova Scotia,24.50,40.87,66.67,2023-2024
+21232,Software developers and programmers,New Brunswick,28.00,45.67,74.04,2023-2024
+21232,Software developers and programmers,Quebec,29.00,45.67,68.13,2023-2024
+21232,Software developers and programmers,Ontario,30.29,48.08,77.40,2023-2024
+21232,Software developers and programmers,Manitoba,30.00,41.03,62.02,2023-2024
+21232,Software developers and programmers,Saskatchewan,28.85,48.07,68.68,2023-2024
+21232,Software developers and programmers,Alberta,29.81,48.08,76.92,2023-2024
+21232,Software developers and programmers,British Columbia,31.25,52.40,84.13,2023-2024
+21220,Cybersecurity specialists,Canada,30.00,49.52,72.12,2023-2024
+21220,Cybersecurity specialists,Ontario,30.00,51.28,72.12,2023-2024
+21220,Cybersecurity specialists,Quebec,30.67,49.23,71.43,2023-2024
+21220,Cybersecurity specialists,Alberta,35.40,50.51,87.09,2024
+21220,Cybersecurity specialists,British Columbia,32.00,47.80,108.17,2023-2024
+21222,IT Project Manager (Information systems specialists),Canada,28.85,46.15,68.68,2023-2024
+21222,IT Project Manager (Information systems specialists),Alberta,27.13,48.08,68.00,2023-2024
+21222,IT Project Manager (Information systems specialists),British Columbia,29.99,46.15,75.44,2023-2024
+21222,IT Project Manager (Information systems specialists),Manitoba,25.70,42.31,62.50,2023-2024
+21222,IT Project Manager (Information systems specialists),New Brunswick,25.65,38.46,54.95,2023-2024
+21222,IT Project Manager (Information systems specialists),Newfoundland and Labrador,23.08,40.30,54.53,2023-2024
+21222,IT Project Manager (Information systems specialists),Northwest Territories,40.31,53.28,73.25,2024
+21222,IT Project Manager (Information systems specialists),Nova Scotia,29.33,43.75,63.46,2023-2024
+21222,IT Project Manager (Information systems specialists),Nunavut,45.68,62.06,80.31,2024
+21222,IT Project Manager (Information systems specialists),Ontario,28.59,47.00,72.60,2023-2024
+21222,IT Project Manager (Information systems specialists),Prince Edward Island,24.04,40.00,61.54,2023-2024
+21222,IT Project Manager (Information systems specialists),Quebec,30.00,46.15,63.19,2023-2024
+21222,IT Project Manager (Information systems specialists),Saskatchewan,28.21,45.13,63.46,2023-2024
+21222,IT Project Manager (Information systems specialists),Yukon Territory,36.93,46.43,75.66,2023-2024

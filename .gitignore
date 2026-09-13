@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+corpus/downloads/
+corpus/originals/
+*.egg-info/
+.pytest_cache/
+# Sept 1 package scripts write fetched originals beside themselves
+corpus/twm_corpus/*_ORIGINAL.*
+corpus/twm_corpus/01_skills_frameworks/*.pdf
+corpus/twm_corpus/01_skills_frameworks/*.xlsx
+corpus/twm_corpus/01_skills_frameworks/*.zip
+corpus/twm_corpus/01_skills_frameworks/*.json
+corpus/twm_corpus/01_skills_frameworks/*.csv

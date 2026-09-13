@@ -1,0 +1,28 @@
+# US GSA CALC+ — Awarded ceiling hourly-rate DISTRIBUTION STATISTICS by labor category
+# VINTAGE/EFFECTIVE: live CALC+ database as of 2026-09-01 (rates on active GSA MAS contracts; refreshed daily by GSA)
+# Source API (public, no auth): https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/?search=labor_category:<X>&page=1&page_size=1
+# API docs: https://open.gsa.gov/api/dx-calc-api/  License: US Government work / CC0
+# Exact-match labor_category searches; stats are GSA API aggregations over fully-burdened NTE ceiling rates (USD/hour).
+labor_category,n,min,max,avg,p25,median,p75,p90,query_date
+Software Developer,181,50.80,287.94,129.57,103.56,121.31,147.31,188.24,2026-09-01
+Software Engineer,320,30.86,258.14,131.51,,126.14,,,2026-09-01
+Programmer Analyst,59,69.44,184.61,113.71,,,,,2026-09-01
+Systems Analyst,284,50.61,315.95,119.60,,,,,2026-09-01
+Systems Engineer,469,47.86,484.59,135.78,111.43,130.69,158.85,185.10,2026-09-01
+Business Analyst,442,32.75,348.79,119.73,95.55,114.21,138.71,162.88,2026-09-01
+Solutions Architect,120,57.27,351.39,184.50,151.46,175.29,209.79,248.53,2026-09-01
+Enterprise Architect,167,83.24,364.69,186.75,146.90,178.97,212.52,275.22,2026-09-01
+Data Engineer,73,79.46,260.04,154.22,133.75,147.90,170.43,207.14,2026-09-01
+Data Scientist,142,65.48,357.51,166.81,130.00,157.21,195.87,230.09,2026-09-01
+Database Administrator,419,50.54,484.31,123.86,100.91,119.46,141.93,161.77,2026-09-01
+Project Manager,2660,38.06,449.75,150.82,119.90,146.64,177.26,210.93,2026-09-01
+Program Manager,2108,38.20,488.26,185.06,150.30,179.21,212.35,252.05,2026-09-01
+Scrum Master,112,57.67,307.17,144.36,112.77,131.37,159.99,205.23,2026-09-01
+Cybersecurity Analyst,36,95.15,239.94,138.89,,,,,2026-09-01
+Information Security Analyst,17,53.75,187.64,127.50,112.72,121.62,149.27,184.52,2026-09-01
+Network Engineer,350,41.96,338.21,124.84,103.18,121.04,141.99,167.40,2026-09-01
+Cloud Engineer,116,67.49,379.79,162.71,136.02,156.62,187.05,227.34,2026-09-01
+DevOps Engineer,86,70.74,270.92,149.55,118.82,139.46,176.61,206.66,2026-09-01
+Quality Assurance Analyst,181,50.61,234.79,105.15,87.64,102.28,123.79,135.44,2026-09-01
+Technical Writer,689,29.50,220.29,93.48,75.30,90.00,108.74,128.72,2026-09-01
+Help Desk Technician,39,38.05,119.25,65.35,,,,,2026-09-01
