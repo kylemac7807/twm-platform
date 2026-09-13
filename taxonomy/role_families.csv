@@ -1,0 +1,19 @@
+family_id,name,definition,scope_notes
+swe,Software Engineering,"Designs, builds and maintains custom application software.","Any language/framework; technology is a tag, never a role. Packaged-platform customisation lives in pkg."
+qe,Quality Engineering,"Plans, executes and automates testing and quality assurance of software and processes.","Includes manual, automation, performance testing and process QA."
+data,Data & Analytics,"Engineers, models, governs and analyses data; builds reporting and analytics.","GIS/geomatics work maps here or to swe with tech tag gis, not to dedicated GIS roles."
+ai,AI & Machine Learning,"Builds, deploys and governs machine learning and AI systems.",Data science for insight stays in data; ML/AI engineering and MLOps live here.
+infra,Cloud & Infrastructure,"Builds and runs compute, storage, cloud, platform and DevOps/SRE capabilities.","Per spec: platform, DevOps/SRE and middleware ops. Middleware/database administration is dba."
+sec,Cybersecurity,"Protects systems and data: security operations, engineering, testing, GRC, IAM, forensics.",Security architecture lives in arch (domain architect). Physical security is out of scope.
+arch,Architecture,"Enterprise, solution, technical and domain architecture.",All architect roles including data/security/network/cloud/business architects.
+dm,Delivery Management,"Manages projects, programmes, agile delivery, PMO and delivery risk.",Product ownership is pm; organisational change management is chg.
+pm,Product Management,"Owns product/service outcomes, roadmaps and backlogs.","Product owner, product manager, service owner."
+ba,Business Analysis,"Elicits, analyses and specifies business and system requirements and processes.",Packaged-platform functional analysis lives in pkg.
+ux,Design & UX,"User research, interaction/service/content/graphic design, accessibility, technical writing.",Front-end coding is swe.
+itops,IT Service & Operations,"Service desk, end-user support, ITSM process roles, IT operations and IT management tiers.","Also holds IT commercial functions (vendor/contract, procurement) and business continuity."
+dba,Database & Middleware Administration,"Administers and develops on databases, middleware and web platforms.",Data engineering/modelling is data; database architecture is arch.
+net,Networking & Telecom Engineering,"Designs, builds and operates networks and telecommunications.",Network security roles are sec; network architecture is arch.
+pkg,Packaged Applications,"Configures, extends, integrates and administers packaged platforms (ERP, CRM, ITSM, insurance cores).","Technology IS the practice here: generic roles carry the platform as a tech tag (sap, salesforce, servicenow...). Kyle to confirm generic-vs-platform-named roles."
+adv,Consulting & Advisory,Management and technology consulting delivered through the consulting pyramid.,Distinct band logic: analyst/consultant/manager/senior manager/director/partner (see band_crosswalk 'Consulting pyramid').
+chg,"Change, Training & Communications","Organisational change management, training delivery/content and programme communications.",ADDED vs spec draft: TBIPS stream 5 and Texas DIR both carry these titles; they are not delivery management. Non-IT adoption work bolts on here.
+exec,Technology Leadership,"C-level and head-of technology roles priced as roles, not bands.","ADDED vs spec draft: G-Cloud 15 and DDaT publish a 'Chief digital and data' category with its own rates (e.g. GBP 3,200/day)."

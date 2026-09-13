@@ -1,0 +1,57 @@
+tag,label,category,aliases
+java,Java,language,j2ee|jee|spring|spring boot
+dotnet,.NET / C#,language,.net|c#|csharp|asp.net|vb.net|dot net
+python,Python,language,django|flask
+javascript,JavaScript / TypeScript,language,js|typescript|node|node.js|nodejs
+react,React,framework,reactjs|react native
+angular,Angular,framework,angularjs
+php,PHP,language,laravel
+ruby,Ruby,language,rails|ruby on rails
+golang,Go,language,go lang
+scala,Scala,language,
+c_cpp,C / C++,language,c++|cpp
+mainframe,Mainframe,platform,cobol|z/os|zos|cics|jcl|ims|pl/i|assembler
+sap,SAP,packaged_erp,abap|hana|s/4hana|s4hana|sap basis|sap bw|sap fico
+oracle_erp,Oracle ERP / EBS / Fusion,packaged_erp,oracle ebs|e-business suite|oracle fusion|oracle cloud erp|peoplesoft|jd edwards|jde
+workday,Workday,packaged_erp,
+dynamics,Microsoft Dynamics 365,packaged_erp,dynamics 365|d365|dynamics ax|dynamics crm|navision|dynamics
+netsuite,NetSuite,packaged_erp,
+erp,ERP (unspecified),packaged_erp,enterprise resource planning
+salesforce,Salesforce,packaged_crm,sfdc|apex|salesforce lightning
+crm,CRM (unspecified),packaged_crm,customer relationship management
+siebel,Siebel,packaged_crm,
+servicenow,ServiceNow,packaged_itsm,service now
+guidewire,Guidewire,packaged_insurance,
+pega,Pega,packaged_bpm,pegasystems
+mulesoft,MuleSoft,integration,mule
+kafka,Kafka,integration,
+informatica,Informatica,data,
+oracle,Oracle Database,database,oracle db|pl/sql|plsql
+sql_server,Microsoft SQL Server,database,mssql|t-sql|tsql|sql server
+db2,IBM Db2,database,
+postgres,PostgreSQL,database,postgresql
+mysql,MySQL,database,
+mongodb,MongoDB,database,mongo
+aws,Amazon Web Services,cloud,amazon web services
+azure,Microsoft Azure,cloud,
+gcp,Google Cloud,cloud,google cloud platform|google cloud
+kubernetes,Kubernetes / containers,platform,k8s|docker|openshift
+terraform,Terraform / IaC,platform,ansible|puppet|chef
+linux,Linux / Unix,platform,unix|redhat|rhel|aix|solaris
+windows,Windows Server,platform,active directory
+vmware,VMware,platform,vsphere
+cisco,Cisco,network,
+wireless,Wireless / WiFi,network,wifi|wi-fi|802.11
+voip,VoIP / Unified communications,network,voice|telephony|unified communications
+snowflake,Snowflake,data,
+databricks,Databricks,data,
+hadoop,Hadoop / Spark,data,spark|hive|big data
+tableau,Tableau,analytics,
+power_bi,Power BI,analytics,powerbi
+sharepoint,SharePoint / Microsoft 365,platform,microsoft 365|m365|office 365|o365
+adobe,Adobe Experience Cloud,platform,aem|adobe experience manager
+cms,Web CMS (WordPress/Drupal),platform,wordpress|drupal
+mobile,Mobile (iOS/Android),platform,ios|android|swift|kotlin|flutter
+gis,GIS / Geomatics,domain,esri|arcgis|geomatics
+genai,Generative AI / LLM,ai,llm|generative ai|openai
+rpa,RPA,automation,uipath|blue prism|automation anywhere

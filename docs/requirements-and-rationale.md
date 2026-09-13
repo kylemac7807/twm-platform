@@ -84,6 +84,18 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 
 **Rationale.** Matches what clients will actually permit, aligns with the two-tier boundary and k-anonymity floor (publish only above minimum cohort), and prefers percentiles over min/max — extremes are noisy and can be identifying.
 
+### 3.5 Role Framework v0 built — **Decided** (Sept 13, 2026), with two **Proposed** items
+
+**What exists.** `taxonomy/` in the twm-platform repo: 18 families, 130 canonical roles, 137 band-crosswalk rows across 10 schemes, a 56-tag technology vocabulary, and 472 seeded title mappings drawn from Texas DIR, NY HBITS, TBIPS, all 12 G-Cloud 15 vendor cards, the DDaT framework and GSA labor categories. Deterministic rules (`src/twm/pipeline/normalize.py`) round-trip 98% of 1,355 observed title×level pairs to exactly one role and band with zero ambiguity, and the four-band crosswalk is rate-monotonic in all 29 public rate grids tested (`taxonomy/REPORT.md`).
+
+**Decided as built.** Band precedence when resolving an observation: the source's own level code → stated years → title modifier → default *intermediate* (counted separately; 2.6% of cases). DDaT/G-Cloud role-specific level labels derive their band from wording rather than being enumerated. No GIS roles: geomatics titles are generic roles tagged `gis`.
+
+**Proposed — awaiting Kyle's call.**
+1. *Two families added to the spec's 16:* Technology Leadership (C-level roles G-Cloud prices separately) and Change, Training & Communications (OCM/trainer/comms titles present in TBIPS and Texas that are not delivery management).
+2. *Packaged Applications uses five generic roles* (functional consultant, developer, technical consultant, architect, administrator) with the platform as the tech tag, instead of platform-named roles such as "SAP Consultant". The normalizer routes generic cores into this family whenever a packaged-platform tag is present. Reverting to platform-named roles is a point release (add roles, re-point mappings).
+
+**Parked from M0.** 31 corpus originals could not be fetched by script (Michigan DTMB 403s, UK Contracts Finder rate limits, one dead GSA link); listed with URLs in `docs/corpus-missing-originals.md` and handed to the Cowork project. Needed for M2 (the Michigan Deloitte contract) and M3, not M1.
+
 ### 3.4 Source stack and licensing
 
 | Source | Contributes | Licence |
@@ -126,6 +138,11 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 | Sept 12, 2026 | Benchmark publication: normalized cuts, distributions, three levels of vendor identity | Decided (confirmed Sept 13, incl. vendor-class) |
 | Sept 13, 2026 | Seniority bands: four (junior/intermediate/senior/lead-principal) + raw evidence stored per observation | Decided |
 | Sept 13, 2026 | Technology as observation attribute (controlled ~40–60 tag vocabulary), not a role multiplier | Decided |
+| Sept 13, 2026 | M0 complete: repo initialised, Sept 1 package + Python toolchain in place, 419 of 450 corpus originals fetched (31 parked → Cowork) | Decided |
+| Sept 13, 2026 | Role Framework v0 built: 18 families / 130 roles / 472 mappings; 98% round-trip, all rate grids band-monotonic (§3.5) | Decided |
+| Sept 13, 2026 | Two added families (Technology Leadership; Change, Training & Communications) | Proposed |
+| Sept 13, 2026 | Packaged Applications as generic roles + platform tech tag (not "SAP Consultant"-style roles) | Proposed |
+| Sept 13, 2026 | Band precedence: source level > stated years > title modifier > default intermediate | Decided |
 
 ## 6. Open questions
 

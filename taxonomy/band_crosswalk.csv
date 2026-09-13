@@ -1,0 +1,138 @@
+source_scheme,source_level,twm_band,notes
+TBIPS,Level 1,junior,<5 yrs
+TBIPS,Level 2,intermediate,5-<10 yrs
+TBIPS,Level 3,senior,10+ yrs (or 5+ yrs + certification for some categories)
+TBIPS,L1,junior,alias
+TBIPS,L2,intermediate,alias
+TBIPS,L3,senior,alias
+Texas DIR,Intern Level 1,junior,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
+Texas DIR,Intern Level 2,junior,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
+Texas DIR,Intern Level 3,junior,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
+Texas DIR,Level 1,intermediate,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
+Texas DIR,Level 2,senior,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
+Texas DIR,Level 3,lead_principal,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
+SFIA,1,junior,crosswalk only; SFIA is not the spine (licensing pending)
+SFIA,2,junior,crosswalk only; SFIA is not the spine (licensing pending)
+SFIA,3,intermediate,crosswalk only; SFIA is not the spine (licensing pending)
+SFIA,4,senior,crosswalk only; SFIA is not the spine (licensing pending)
+SFIA,5,senior,crosswalk only; SFIA is not the spine (licensing pending)
+SFIA,6,lead_principal,crosswalk only; SFIA is not the spine (licensing pending)
+SFIA,7,lead_principal,crosswalk only; SFIA is not the spine (licensing pending)
+DDaT,Trainee,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Apprentice,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Junior,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Associate,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Mid,intermediate,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Standard,intermediate,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Practitioner,intermediate,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Senior,senior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Lead,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Principal,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Head,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+DDaT,Head of,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
+Years stated,<3,junior,years of experience stated in the source
+Years stated,3-7,intermediate,years of experience stated in the source
+Years stated,7-12,senior,years of experience stated in the source
+Years stated,12+,lead_principal,years of experience stated in the source
+NY HBITS,Junior,junior,12-36 months
+NY HBITS,Mid-Level,intermediate,36-60 months
+NY HBITS,Senior,senior,60-84 months
+NY HBITS,Expert,lead_principal,84+ months
+UK G-Cloud 15,Trainee,junior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Apprentice,junior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Junior,junior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Associate,junior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Associate analyst,junior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Standard,intermediate,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Analyst,intermediate,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Developer,intermediate,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Engineer,intermediate,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Tester,intermediate,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Specialist,intermediate,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Senior,senior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Senior analyst,senior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Senior (management),senior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Senior - management,senior,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Lead,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Lead (management),lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Lead - management,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Principal,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Principal (management),lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Principal - management,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Head,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Head (Agile),lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Chief,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Manager,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Senior manager,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Lead manager,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,Lead analyst,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,CDO,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,CISO,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+UK G-Cloud 15,CTO,lead_principal,standardised GC15 card labels; role-specific labels (e.g. 'Operational control manager') derive via title-modifier rules
+Deloitte CS grade,AO and EO,junior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Administrative Officer (AO) and Executive Officer (EO),junior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,EO and HEO,junior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Executive Officer (EO) and Higher Executive Officer (HEO),junior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,HEO,intermediate,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Higher Executive Officer (HEO),intermediate,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,HEO and SEO,intermediate,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,HEO and Senior Executive Officer (SEO),intermediate,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,SEO,senior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Senior Executive Officer (SEO),senior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,SEO and G7,senior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,SEO and Grade 7 (G7),senior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G7,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Grade 7 (G7),lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G7 and G6,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G7 and Grade 6 (G6),lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G6 and G7,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G6,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Grade 6 (G6),lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G6 and SCS,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,G6 and Senior Civil Service (SCS),lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,SCS,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Senior Civil Service (SCS),lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Associate Cyber,junior,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Lead Cyber,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,Principal Cyber,lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Deloitte CS grade,"Principal (""Principle"") Cyber",lead_principal,Deloitte GC15 Civil Service grade-equivalence bands; 4-band collapse of a 7-grade ladder
+Consulting pyramid,Analyst,junior,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Associate,junior,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Consultant,intermediate,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Senior Consultant,senior,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Manager,senior,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Senior Manager,lead_principal,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Associate Director,lead_principal,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Director,lead_principal,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Principal,lead_principal,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Partner,lead_principal,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Consulting pyramid,Managing Director,lead_principal,heuristic for Big-4/SI consulting grades; validate against consulting rate cards
+Title modifier,Sr,senior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Senior,senior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Jr,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Junior,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Lead,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Principal,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Staff,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Chief,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Head of,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Expert,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,SME,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Associate,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Trainee,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Apprentice,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Intern,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Entry Level,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Graduate,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Mid-Level,intermediate,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Intermediate,intermediate,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,I,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,II,intermediate,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,III,senior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,IV,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,V,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Level 1,junior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Level 2,intermediate,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Level 3,senior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Level 4,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Title modifier,Level 5,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
