@@ -1,0 +1,56 @@
+# Corpus sources, the demo set, and Kyle's manual-download list
+
+**Status as of:** September 18, 2026. Companion to `corpus-catalog.md` (what was researched) and `corpus-missing-originals.md` (every unfetched URL).
+
+**Standing purpose (Kyle, Sept 18).** Every contract, rate card, invoice and framework in this corpus is *data for building the platform*: training and evaluation material for the extraction engine, the normalizer, the reconciliation models and the synthetic-document factory. Only true, sourced, recent-vintage public rates may also seed the benchmark ledger (CLAUDE.md data rules). Old or redacted documents still earn their place because they teach document *structure*.
+
+## 1. Sources at a glance
+
+On-disk counts are verified by content sniffing (a `.pdf` must start with `%PDF`), not by file name.
+
+| # | Source | What it is | On disk | Rates visible? | Vintage | What it builds |
+|---|---|---|---|---|---|---|
+| 1 | **SEC EDGAR exhibits** | MSAs, amendments and SOWs that public companies filed as material contracts (banks, insurers, healthcare, telecom, travel). HTML/text. | 222 of 223 (v3) + 17 from Sept 1 | Mostly redacted after April 2019; older ones often unredacted (ProQuest/IBM, SAIC, Omnicell/Aditi) | 2001–2026 | **Extraction training on the hard genus**: long MSAs, nested schedules, amendment chains (Broadridge/IBM 9-doc lineage), Resource-Unit pricing, redaction handling. Templates for the synthetic factory. Never the ledger (stale). |
+| 2 | **UK Contracts Finder** | Signed, redacted government IT contracts and schedules (incl. DWP "Synergy" £710.9M IBM/Oracle, 24 schedules). PDFs saved as `.bin`. | 40 of 48 | Usually redacted (FOIA s.43); structure intact | 2018–2025 | Extraction training on modern mega-deal anatomy: services descriptions, SLAs, charges schedules, exit, benchmarking clauses. |
+| 3 | **Texas DIR contracts** | Full public contract sets per vendor: contract, T&Cs, pricing index, SOW, service-agreement template, originating RFO (Accenture ×4 contracts, Deloitte). | 26 of 26 (recovered Sept 18 via `corpus/scripts/widen_recover.py`) | **Yes** — e.g. Accenture TSS-699 Att 2.1: role × onsite/offsite × 8 contract years | 2019–2025 | Extraction training on linked document *sets* (MSA → SOW → rate exhibit); true recent rates usable as public benchmark observations. |
+| 4 | **Michigan DTMB contracts** | Cumulative PDFs: master contract + every change notice + SOWs in one file; unredacted hourly rates (Knowledge Services $800M staff-aug MSP rate card, Deloitte MiIntegrate $109M 13-year chain). | **0 of 13 (+2 from Sept 1)** — site blocks scripts | **Yes**, richest public rates found | 2013–2027 | Amendment-chain extraction; rate-card extraction; **M2's named second thin-thread document**. Top of the manual list (§3). |
+| 5 | **Other US states + federal** | Florida ITSA executed vendor contracts (10), NY OGS HBITS award + next-gen solicitation (11), Washington work order, Oklahoma/Deloitte signed contract, GSA Alliant 2 / STARS III master contracts. | ~36 of 38 | Mixed; OK/Deloitte and WA yes | 2018–2025 | Staff-aug contract shapes, labor-category frameworks, max-rate mechanics. |
+| 6 | **CanadaBuys / TBIPS** | Federal solicitation packages: Annex A SOW, Task Authorization form, Annex B Basis of Payment; 12 French/bilingual documents. | 22 of 23 + 1 from Sept 1 | Rate *forms* (bid tables), awarded per-diems not public | 2023–2025 | **Canadian-market vocabulary and document shapes** (per-diem, TBIPS levels, bilingual titles) for extraction and for Canadian-shaped synthetic documents. French training text. |
+| 7 | **Invoices, timesheets, audits** | The only true public invoice↔timesheet pair (Texas PUC docket 53815, CorTech/Corix), scanned utility invoices (KY PSC), bankruptcy fee applications with timecard-grade detail (FTX/AlixPartners), audits that perform TWM's reconciliation by hand (Fulton County/Covendis, NYC CityTime), federal invoice templates. | 24 of 27 | Yes (hours × rates) | 2018–2024 | **Reconciliation**: format ground truth for invoices/timecards and the discrepancy classes to plant in synthetic data. Confirms the synthetic factory must carry matched triplets. |
+| 8 | **UK G-Cloud 15 rate cards** | 12 vendors (Accenture, Atos, Capgemini, CGI, Deloitte, IBM, Infosys, Kainos, KPMG, Kyndryl, PwC, TCS, Version 1) on one standard role × level grid with **UK and Offshore** day rates. | 13 extractions (2,600 rate rows); originals are web pages — Accenture's saved | **Yes** | Jan 2026 | Taxonomy seed (M1), **benchmark ledger seed** (named-public, current), rate-card extraction gold candidates, offshore-arbitrage evidence. |
+| 9 | **UK G-Cloud 14 rate cards** | 12 vendors' SFIA 1–7 day-rate PDFs, free-form layouts. | 12 originals + extractions | **Yes** | May 2024 | Rate-card extraction training on *varied* layouts; vintage comparison vs GC15 (+6–15%). |
+| 10 | **US rate schedules** | Texas DIR ITSAC NTE grid (60 titles × 6 levels, 2020 and 2024), NY HBITS awarded averages (31 titles × 4 levels × 3 regions), GSA CALC+ distributions (22 categories), 3 GSA vendor price lists. | All on disk except Constellation West (dead URL) | **Yes** | 2020–2026 | Taxonomy seed (M1), band validation (all monotonic), benchmark reference distributions. |
+| 11 | **Canadian references** | TBIPS category/level definitions (~93), a TBIPS solicitation, Job Bank IT wages (employee wages, not bill rates). | On disk | Definitions + wage proxy | 2023–2025 | Canadian taxonomy crosswalk; interim rate proxy (×1.5–2.2 loading) — flagged, never presented as bill rates. |
+| 12 | **Skills frameworks** | O*NET 31.0 (title synonyms), UK DDaT (role × level ladders), NICE, ENISA ECSF, CEN CWA 16458, Singapore SFw-ICT; ESCO zip in Kyle's Downloads; SFIA pending licence decision. | 16 files | n/a | 2018–2026 | The taxonomy spine and crosswalks; O*NET/ESCO synonyms are the v0.1 title-mapping expansion. |
+
+**Totals:** 360 of 388 v3 originals, 46 of 48 Sept 1 originals, 16 framework files, 13 + ~50 structured extractions. 31 documents still to retrieve (§3).
+
+## 2. The demo set — five documents a viewer can follow end to end
+
+Selection rule: the raw document must be public, visually legible, show real money, and between them the five must exercise every stage — ingest → extract → normalize (role, band, tech, location) → ledger/benchmark → reconcile.
+
+| # | Document | File(s) | Why it is in the demo | Stage it showcases |
+|---|---|---|---|---|
+| 1 | **Accenture — UK G-Cloud 15 rate card** (Jan 2026) | `corpus/twm_corpus/UK_GCloud15_Accenture_service_page_ORIGINAL.html`; extraction `corpus/gc15_ratecards/UK_GCloud15_Accenture_SFIA_ratecard.md` | A household-name vendor publishing **£650 UK vs £275 offshore** for the same developer. Clean table, instant comprehension. Eleven peer vendors on the identical grid. | Extract → normalize → **benchmark**: place Accenture's rate inside the 12-vendor distribution for the same role/band/location. |
+| 2 | **Texas DIR / Accenture DIR-STS-TSS-699** (MSA + SOW + pricing) | `corpus/manifests/v3_downloads/v3_gov/081…087` — esp. `083 …SOW.pdf`, `084` Exhibit 2 Financial Provisions, `085` Att 2.1 Pricing and Volumes | A real, current Accenture contract as a **linked set**: MSA → Statement of Work → rate exhibit with role × onsite/offsite × 8 contract years of escalation. | Ingest a document *family*; extract a wide multi-year rate grid; normalize ~40 Accenture titles; show escalation (≈3%/yr) as a derived fact. |
+| 3 | **Oklahoma OMES / Deloitte signed contract** (2018) | `corpus/twm_corpus/OK_OMES_Deloitte_Signed_Contract_RateCard_2018_ORIGINAL.pdf` | A signed, scanned Big-4 engagement with the consulting pyramid priced in the body text (Partner $350 → Consultant $150) beside a fixed fee of $235,770. The raw text layer misaligns titles and rates — an honest "why this is hard" moment. | Extraction robustness (scan, prose-embedded rates); **consulting-pyramid banding**; fixed-fee vs rate-card reasoning. |
+| 4 | **Omnicell / Aditi Technologies offshore MSA** (EDGAR) | `corpus/manifests/v3_downloads/v3_edgar/181_Omnicell_Inc_offshore_dev_vendor_MSA.htm` | Offshore development centre MSA with SOW template, named-consultant schedule, **per-person per-month** rates and invoicing terms, unredacted. | Unit normalization (monthly → hourly as a *derived* column, never a silent conversion); location = offshore; the contract leg of reconciliation. |
+| 5 | **Texas PUC docket 53815 — CorTech invoice + timesheets** | `corpus/manifests/v3_downloads/v3_invoices/001…004` | The only public **invoice ↔ timesheet pair** found anywhere: per-person weekly hours, regular/OT/DT rates, clock times, invoice totals. | **Reconciliation**: hours on the timecard vs hours invoiced vs rate; the payoff stage where leakage is found. |
+
+**Upgrade when retrieved:** *Michigan DTMB / Deloitte MiIntegrate* (§3, item 1) replaces or joins #3 — a $109M contract with a 13-year change-notice chain and a role × rate × hours table is the best single "follow one contract through time" story in the corpus. **For a Canadian-bank audience** swap in the *SCC TBIPS 2025-03 package* (`corpus/twm_corpus/CA_TBIPS_solicitation_2025-03_structure_notes_ORIGINAL.pdf`) to show Task Authorization + Basis of Payment forms and TBIPS levels.
+
+Demo caveat to keep honest: documents 3–5 are older or non-IT-staffing vintages. They demonstrate the *pipeline*; only documents 1–2 are current enough to show as benchmark evidence.
+
+## 3. To do — Kyle's manual download list (31 documents)
+
+These refuse scripted clients but open in a normal browser. Save with the exact filename shown in `corpus-missing-originals.md` so the re-runnable downloaders recognise them. Ordered by value:
+
+1. **Michigan DTMB / Deloitte MiIntegrate** (contract 180000000078) → `corpus/twm_corpus/MI_DTMB_Deloitte_MiIntegrate_Contract_SOW_Rates_2013-2026_ORIGINAL.pdf`. M2's second thin-thread document and the demo upgrade.
+2. **Michigan DTMB / Knowledge Services** (MA210000000322, manifest row 055) — $800M IT staff-aug MSP with the full hourly rate card by job classification: the closest public analogue to a bank's staff-aug rate card.
+3. **Michigan DTMB — six more named contracts with visible rates** (rows 049–054: Appriss, Datix CONTRAXX on/off-site rates, Accenture MiECC milestone pricing, Deloitte SAP tax portal, LexisNexis VERA $200/hr, IDEMIA) and the **Accenture IT-training contract** from the Sept 1 package.
+4. **Michigan DTMB — six search-indexed PDFs** (rows 056–061), contents unverified; open each and keep those with SOWs or rates.
+5. **UK Contracts Finder — 8 attachments.** Rate-limited rather than blocked: re-run `python ../scripts/v3_download.py` from `corpus/manifests` on another day first; only hand-fetch what still fails.
+6. **Seven singles:** one SEC exhibit (Virtusa), mass.gov, GSA, DCAA Manual 7641.90 (invoice voucher samples — useful for reconciliation formats), CourtListener CS Technology v. Horizon River, NY OMH example invoice (dead link), CanadaBuys.
+7. **GSA Constellation West price list** — URL is dead; search GSA eLibrary for contract 47QTCA25D007E.
+
+After any manual batch, run `python ../scripts/v3_download.py` from `corpus/manifests`; it skips what is present and rewrites `failures.csv`, which keeps the remaining list honest.

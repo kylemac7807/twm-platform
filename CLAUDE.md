@@ -32,6 +32,7 @@ Two axes only: **canonical role** (~120–180, in ~16 families) × **seniority b
 - `corpus/gc15_ratecards/` — 13 G-Cloud 15 vendor rate cards (2026 vintage, UK/offshore columns), already extracted.
 - `corpus/scripts/v3_download.py` — fetches the 388 originals into `corpus/downloads/` (gitignored). **The Sept 1 package** (framework fetch script + 48-original downloader + earlier extractions) is delivered separately — Kyle drops its contents into `corpus/` before the first download run.
 - Known truth: public matched invoice↔timecard pairs barely exist; the synthetic factory (src/twm/synth) carries reconciliation training.
+- **Purpose (Kyle, Sept 18):** every corpus document is build data for the extraction engine, normalizer, reconciliation models and synthetic factory — draw on it deliberately at every milestone. `docs/corpus-sources-and-demo-set.md` has the source-by-source table, the **five demo documents** (push these through each new stage first so the follow-the-contract demo falls out of the build), and Kyle's manual-download to-do list. Always sniff downloaded content (`%PDF`), never trust extensions: Texas DIR's Widen CDN serves HTML viewer pages — `corpus/scripts/widen_recover.py` recovers the real PDFs.
 
 ## Build order
 
