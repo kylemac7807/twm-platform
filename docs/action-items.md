@@ -1,0 +1,74 @@
+# TWM action items — the one running list
+
+**Last updated:** September 20, 2026, by Claude Code with Kyle. This is the only action list. It merges Cowork's list of September 20 (pasted in by Kyle) with the items tracked in Claude Code sessions. Whoever finishes or adds an item edits it here. Decisions themselves are recorded in `requirements-and-rationale.md`; this file only tracks who does what.
+
+Status words: **Done**, **Open**, **Waiting** (on someone or something named), **Parked**.
+
+## A. Decisions for Kyle
+
+| # | Item | Status |
+|---|---|---|
+| A1 | Accept the two added job families (Technology Leadership; Change, Training and Communications) | **Done** Sept 19. Accepted. |
+| A2 | Accept Packaged Applications as five generic roles plus a platform tag | **Done** Sept 19. Accepted. |
+| A3 | No default seniority: a title with no evidence stays unbanded | **Done** Sept 19. Decided and built. |
+| A4 | SFIA: deep-dive before final commitment. The SFIA column stays empty until then | **Open.** Waiting on Cowork's decision memo (D1) and Kyle's time. |
+| A5 | Confirm or adjust the M2 "thin thread" scope. Kyle wants to discuss it further; the definition in CLAUDE.md is provisional | **Open.** Fold into the component walkthrough (E1). |
+| A6 | Review the five recommended demo documents and confirm or swap them (`corpus-sources-and-demo-set.md` section 2) | **Open.** Overlaps Cowork's C5. |
+
+## B. Claude Code — work in the project folder
+
+| # | Item | Status |
+|---|---|---|
+| B1 | Held-out test: run the normalizer on sources it was NOT built from (G-Cloud 14 cards, Job Bank titles, the Accenture titles in the Texas pricing exhibit, plus the Cognizant and Deloitte GSA cards Kyle collected). Report results; gate M2 on the number | **Open.** Next build task. Waiting on Kyle's go. |
+| B2 | Make "onshore" depend on the client | **Done** Sept 19, and taken further: the platform never classifies a place name. An analyst categorizes it once, then it is a lookup (requirements section 3.5). |
+| B3 | Build A3 | **Done** Sept 19. |
+| B4 | Reconcile the years-of-experience band table with NY HBITS and TBIPS, or document it as the fallback it is | **Open.** Small. |
+| B5 | Validate the consulting-pyramid seniority mapping against the Oklahoma Deloitte contract and Deloitte's G-Cloud grade card | **Open.** Small. |
+| B6 | Label the 126 authored title aliases separately from the 349 observed titles | **Open.** Small. The split is already stated in the requirements doc. |
+| B7 | Sync the 98 percent versus 99.3 percent mismatch | **Done** Sept 19. After A3 the report reads 96.7 percent to role and band, 99.3 percent to a role. |
+| B8 | Add `.gitattributes` and fix line endings | **Done** Sept 20. Cowork's report was correct: two manifest files differed on disk. |
+| B9 | Put section 3.5 in the right order and adopt Cowork's copy of the requirements doc | **Done** Sept 19. Merged into v0.4; Cowork's copy retired. The project folder's file is now the only real copy. |
+| B10 | Re-run the downloader for the rate-limited UK Contracts Finder files | **Running** Sept 20. Result to be recorded here. |
+| B11 | Content-sniffing rule (check what a file really is, never trust its extension) | **Partly done.** The rule is in CLAUDE.md and was used to catch 26 fake PDFs. Building it into the intake code happens with M2. |
+| B12 | Two gaps found in the business documents, not in any spec: (a) matching SOW titles to HR records implies an HR or vendor-management-system export as an input, and a step that recognizes the same person across SOW, timesheet, invoice and HR data; (b) the Pitch Deck's three savings tranches (Contractual, Operational, Market Alignment) need a savings classification | **Logged** Sept 20 in the requirements doc, section 6. To be designed during the component walkthrough (E1). |
+| B13 | Flag decisions for Kyle to carry to Cowork's canonical copy | **No longer needed.** There is no second copy. |
+| B14 | Carry the plain-language descriptions of each document set into the requirements doc, using the wording Kyle approved (`corpus-sources-and-demo-set.md` section 1a) | **Open.** Small. |
+| B15 | Extract the rate tables from the Cognizant and Deloitte GSA documents Kyle collected, into the same form as the other rate cards | **Open.** Feeds B1. |
+
+## C. Kyle
+
+| # | Item | Status |
+|---|---|---|
+| C1 | Download the script-blocked originals by hand. Priority: Michigan Deloitte MiIntegrate (needed for M2), then Michigan Knowledge Services rate card. Exact filenames in `corpus-missing-originals.md`, priority order in `corpus-sources-and-demo-set.md` section 3 | **Open.** Count to be refreshed after B10. Cowork says it re-found the three dead links; those paths are in a Cowork document not yet in this folder (see F2). |
+| C2 | Unpack the ESCO zip into the library | **Done** Sept 20 by Claude Code. Note: it is the **English** edition only. The spec wants French titles for Canadian bilingual documents, so the French edition still needs downloading from the ESCO site (same email registration). |
+| C3 | Register at sfia-online.org for the internal-use SFIA 9 files and verify the Partner Licence terms from the primary source | **Open.** |
+| C4 | Create the TWM Azure tenant and development subscription | **Open.** Not needed until M5. |
+| C5 | Read a sample of real documents: Michigan Deloitte, a bilingual TBIPS package, a G-Cloud 15 card, an EDGAR MSA, the Texas invoice and timesheet pair | **Open.** Combine with A6: the five demo documents cover four of these. |
+| C6 | Register as a supplier on Canada's CPSS portal when convenient; read the terms of use before reusing any rate data | **Open.** Low priority. |
+| C7 | Foundry data-handling terms in writing | **Parked.** |
+| C8 | Create a `.env` file with an Anthropic API key in the project folder, needed before M2's extraction step. Claude cannot enter credentials | **Open.** Needed for M2. |
+| C9 | Optional: a private GitHub repository as an offsite backup of the project folder | **Open.** Claude will walk Kyle through it. |
+
+## D. Cowork
+
+| # | Item | Status |
+|---|---|---|
+| D1 | SFIA decision memo, with licence terms verified from the primary source | **Open.** |
+| D2 | ATIP: build the list of 15 to 20 TBIPS contracts from open.canada.ca proactive disclosure; Kyle files the requests | **Open.** Draft request text is in Cowork's Sept 18 handoff (see F2). |
+| D3 | Draft revised Technical Approach and Pitch Deck (own-versus-rent and k-anonymity wording; remove GPT-4o; fix the six documented inconsistencies) | **Open.** |
+| D4 | Update the Design Decisions section 5 after the SFIA decision | **Waiting** on A4. |
+| D5 | Synthetic factory (M4) design spec when M3 nears | **Open**, later. |
+
+## E. Discussions Kyle has queued
+
+| # | Item | Status |
+|---|---|---|
+| E1 | Walk through the architecture components one by one (nine components plus four supporting ones). Findings and reporting, and the review workbench, have no spec yet. Bring in A5, B12 and the demo | **Open.** Next discussion. |
+
+## F. Keeping both sides in sync
+
+| # | Item | Status |
+|---|---|---|
+| F1 | One real copy of every document, in this project folder; Cowork leaves its work in `Claude outputs/` | **Done** Sept 19. |
+| F2 | Two documents Cowork refers to are **not in this folder**: `cowork-handoff-2026-09-18.md` (ATIP request text, discrepancy classes, six Pitch Deck inconsistencies) and the "Corpus Retrieval Status" document (re-found paths for the three dead links). Ask Cowork to save both into `Claude outputs/` | **Open.** Kyle to ask Cowork. |
+| F3 | Cowork's Sept 20 list still called its own copy "canonical v0.3". Confirm Cowork's project instructions now carry the single-source-of-truth text | **Open.** Kyle to confirm. |
