@@ -65,7 +65,7 @@ _EXPLICIT_LOCATION = {
 # nearshore, not onshore. Classification happens in resolve() against client_country.
 _PLACE_COUNTRY = {
     "uk": "GB", "united kingdom": "GB", "london": "GB", "usa": "US", "us": "US", "united states": "US",
-    "new york": "US", "canada": "CA", "toronto": "CA", "montreal": "CA", "india": "IN", "bangalore": "IN",
+    "new york": "US", "buffalo": "US", "charlotte": "US", "dallas": "US", "canada": "CA", "toronto": "CA", "montreal": "CA", "india": "IN", "bangalore": "IN",
     "bengaluru": "IN", "hyderabad": "IN", "pune": "IN", "chennai": "IN", "philippines": "PH", "manila": "PH",
     "poland": "PL", "mexico": "MX", "ireland": "IE", "romania": "RO", "portugal": "PT",
 }
@@ -73,18 +73,29 @@ _LOCATION_TOKENS = {**_EXPLICIT_LOCATION, **{k: None for k in _PLACE_COUNTRY}}
 # Which countries count as nearshore for a client in a given country. Per-deployment config in
 # production; this default table covers the first target markets.
 NEARSHORE: dict[str, set[str]] = {
-    "CA": {"US", "MX"},
-    "US": {"CA", "MX"},
+    "CA": {"MX"},
+    "US": {"CA", "MX"},          # Kyle, Sept 19: a US bank developing in Canada is almost always nearshore
     "GB": {"IE", "PL", "PT", "RO"},
 }
+# Pairs where geography alone cannot decide, because the label is really about cost (Kyle, Sept 19, 2026):
+# for a Canadian bank, New York is an expensive onshore-equivalent market while Buffalo might be nearshore.
+# These are never auto-classified. The city and country are kept, the observation is flagged, and the
+# rule is refined per client as real data arrives.
+LOCATION_REVIEW_PAIRS: set[tuple[str, str]] = {("CA", "US")}   # (client_country, resource_country)
+
+
+def location_needs_review(country: Optional[str], client_country: Optional[str]) -> bool:
+    return bool(country and client_country and (client_country, country) in LOCATION_REVIEW_PAIRS)
 
 
 def classify_location(country: Optional[str], client_country: Optional[str]) -> Optional[str]:
-    """onshore = same country as the client; nearshore per NEARSHORE; anything else offshore."""
+    """onshore = same country as the client; nearshore per NEARSHORE; review pairs stay unclassified."""
     if not country or not client_country:
         return None
     if country == client_country:
         return "onshore"
+    if location_needs_review(country, client_country):
+        return None
     if country in NEARSHORE.get(client_country, set()):
         return "nearshore"
     return "offshore"
@@ -224,6 +235,8 @@ class ResolutionResult(BaseModel):
     attr_location: Optional[str] = None
     attr_location_raw: Optional[str] = None      # the token as written ("toronto", "offshore")
     attr_location_country: Optional[str] = None  # ISO country when the token was a place name
+    location_source: Optional[str] = None        # explicit_word | derived_from_place
+    needs_location_review: bool = False          # geography alone cannot decide (e.g. Canadian client, US city)
     attr_level_code_raw: Optional[str] = None
     attr_years_raw: Optional[str] = None
     candidates: list[str] = []
@@ -327,6 +340,14 @@ def resolve(
                            attr_years_raw=(str(years) if years is not None else None))
     res.attr_location_raw, res.attr_location_country = nt.location_token, nt.location_country
     res.attr_location = nt.location or classify_location(nt.location_country, client_country)
+    if nt.location:
+        res.location_source = "explicit_word"
+    elif res.attr_location:
+        res.location_source = "derived_from_place"
+    if not nt.location and location_needs_review(nt.location_country, client_country):
+        res.needs_location_review = True
+        res.notes.append(f"'{nt.location_token}' for a {client_country} client: onshore or nearshore depends on the market's cost, "
+                         "not the border; left unclassified for review")
     if nt.location_country and not client_country:
         res.notes.append(f"place '{nt.location_token}' captured but not classified: client_country not set")
     res.attr_technology = nt.tech_tags[0] if nt.tech_tags else None

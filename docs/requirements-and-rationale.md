@@ -1,7 +1,7 @@
 # TWM Platform — Requirements & Rationale
 
-**A living document.** v0.1 — September 12, 2026 · Owner: Kyle McNamara
-**Canonical copy:** TWM project (this file). Word snapshots produced on request for offline editing.
+**A living document.** v0.4 — September 19, 2026 (v0.1 Sept 12; v0.2 Sept 18; v0.3 Sept 19 Cowork; v0.4 merged) · Owner: Kyle McNamara
+**The only real copy is this file**, `docs/requirements-and-rationale.md` in the twm-platform project folder (decided Sept 19, 2026). Cowork and Claude Code both read and edit it here; no other copy is kept. Every change is saved in the folder's version history. Word snapshots produced on request for offline reading.
 
 **Purpose.** This document records what TWM has decided, why, and in what order — so a future team member, a technical due-diligence reviewer, or a client architect can trace the platform's shape back to its reasons. It is the companion to *AI Architecture Design Decisions v0.1* (the architectural specification): that document says *what we build*; this one carries the requirements and the narrative of *why*.
 
@@ -84,18 +84,6 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 
 **Rationale.** Matches what clients will actually permit, aligns with the two-tier boundary and k-anonymity floor (publish only above minimum cohort), and prefers percentiles over min/max — extremes are noisy and can be identifying.
 
-### 3.5 Role Framework v0 built — **Decided** (Sept 13, 2026), with two **Proposed** items
-
-**What exists.** `taxonomy/` in the twm-platform repo: 18 families, 130 canonical roles, 137 band-crosswalk rows across 10 schemes, a 56-tag technology vocabulary, and 472 seeded title mappings drawn from Texas DIR, NY HBITS, TBIPS, all 12 G-Cloud 15 vendor cards, the DDaT framework and GSA labor categories. Deterministic rules (`src/twm/pipeline/normalize.py`) round-trip 99.3% of 1,355 observed title×level pairs to exactly one role and band with zero ambiguity, and the four-band crosswalk is rate-monotonic in all 29 public rate grids tested (`taxonomy/REPORT.md`).
-
-**Decided as built.** Band precedence when resolving an observation: the source's own level code → stated years → title modifier. With none of these the title is left **unbanded** (2.6% of cases; decided Sept 19, replacing v0's default of *intermediate*), so the share resolving to both role and band is 96.7% and the share resolving to a role is 99.3%. DDaT/G-Cloud role-specific level labels derive their band from wording rather than being enumerated. No GIS roles: geomatics titles are generic roles tagged `gis`.
-
-**Proposed — awaiting Kyle's call.**
-1. *Two families added to the spec's 16:* Technology Leadership (C-level roles G-Cloud prices separately) and Change, Training & Communications (OCM/trainer/comms titles present in TBIPS and Texas that are not delivery management).
-2. *Packaged Applications uses five generic roles* (functional consultant, developer, technical consultant, architect, administrator) with the platform as the tech tag, instead of platform-named roles such as "SAP Consultant". The normalizer routes generic cores into this family whenever a packaged-platform tag is present. Reverting to platform-named roles is a point release (add roles, re-point mappings).
-
-**Parked from M0.** 31 corpus originals could not be fetched by script (Michigan DTMB 403s, UK Contracts Finder rate limits, one dead GSA link); listed with URLs in `docs/corpus-missing-originals.md` and handed to the Cowork project. Needed for M2 (the Michigan Deloitte contract) and M3, not M1.
-
 ### 3.4 Source stack and licensing
 
 | Source | Contributes | Licence |
@@ -108,6 +96,23 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 | CEN CWA 16458 / ENISA ECSF | European ICT role profiles | Free CWAs |
 | SFIA 9 | Crosswalk only, pending licensing decision | Registration for internal use; Partner Licence for commercial |
 | Consortium client data | The long tail of vendor-specific titles (via the promotion gate) | Consortium agreement |
+
+### 3.5 Role Framework v0 built — **Decided** (Sept 13, 2026; reviewed by Cowork and settled with Kyle Sept 19)
+
+**What exists** (`taxonomy/` in the twm-platform project folder): 18 families, 130 canonical roles, 137 band-crosswalk rows across 10 schemes, a 56-tag technology vocabulary, and 475 seeded title mappings — 349 observed in Texas DIR, NY HBITS, TBIPS, the G-Cloud 15 cards, DDaT and GSA sources, plus 126 authored aliases. Deterministic rules (`src/twm/pipeline/normalize.py`) resolve 99.3% of 1,355 observed title×level pairs to exactly one role with zero ambiguity, and 96.7% to both role and band; the four-band crosswalk is rate-monotonic in all 29 public rate grids tested (`taxonomy/REPORT.md`). 73 tests enforce the design rules: technology never appears in a role name outside Packaged Applications; the SFIA column is empty; unknown titles are flagged, not guessed; mappings append or deprecate, never overwrite.
+
+**Decided as built.** Band precedence when resolving an observation: the source's own level code → stated years → title modifier. DDaT and G-Cloud role-specific level labels derive their band from wording rather than being enumerated. No GIS roles: geomatics titles are generic roles tagged `gis`.
+
+**Decided Sept 19, 2026 (Kyle).**
+1. *Two families added to the spec's 16 — accepted.* Technology Leadership (`exec`: C-level roles that G-Cloud and DDaT price separately, consistent with "management tiers are roles, not bands") and Change, Training & Communications (`chg`: change-management, trainer and communications titles present in TBIPS and Texas that are not delivery management).
+2. *Packaged Applications as five generic roles plus a platform tech tag — accepted.* Functional consultant, developer, technical consultant, architect, administrator; "SAP ABAP Developer" is a packaged application developer tagged `sap`. This is the technology-as-attribute decision applied.
+3. *No default band.* A title with no seniority evidence keeps its role and stays unbanded, is excluded from band-level benchmark cuts, and its band alone goes to the review queue. Raised by Cowork's review: a defaulted band is an invented data point.
+
+**Location: client-relative, and ultimately about cost — Directional** (Kyle, Sept 19, 2026). Onshore, nearshore and offshore are not fixed properties of a place; they depend on who the client is, and the label is really a proxy for cost. Kyle's examples: a Canadian bank with development in New York City is paying an expensive onshore-equivalent rate, not a nearshore one; the same bank with development in Buffalo might be nearshore, depending; a US bank developing in Canada is almost always nearshore. As built: the words onshore, nearshore and offshore in a title classify directly; a place name yields a city and country that are always stored; a Canadian client with a US place is deliberately **not classified** and is flagged for review; a US client with a Canadian place is nearshore. The rule is to be refined per client as real data arrives, most likely by classifying metropolitan markets by cost rather than countries by border.
+
+**Known limits (v0.1 targets).** The round-trip is a consistency check, not a generalization test: 1,197 of the hits are exact full-title matches against a table seeded from the same sources. A held-out run on the G-Cloud 14 cards, the Accenture titles in the Texas TSS-699 pricing exhibit, the Cognizant and Deloitte GSA cards Kyle collected, and Job Bank titles is the real check before M2 leans on the normalizer. Years-stated breakpoints and the NY HBITS month-bands disagree at 5 to 7 years (precedence hides it; reconcile in the crosswalk). The consulting-pyramid bands are unvalidated heuristics; the Oklahoma Deloitte contract and Deloitte's G-Cloud grade card can validate them. O*NET and ESCO synonyms and the TBIPS telecom stream are not yet folded in.
+
+**Parked from M0.** 31 document originals could not be fetched by script (Michigan DTMB blocks scripts, UK Contracts Finder rate limits, one dead GSA link). They are listed with URLs in `docs/corpus-missing-originals.md` and prioritized in `docs/corpus-sources-and-demo-set.md`; Kyle will retrieve them by hand. Needed for M2 (the Michigan Deloitte contract) and M3, not M1.
 
 ---
 
@@ -139,13 +144,13 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 | Sept 13, 2026 | Seniority bands: four (junior/intermediate/senior/lead-principal) + raw evidence stored per observation | Decided |
 | Sept 13, 2026 | Technology as observation attribute (controlled ~40–60 tag vocabulary), not a role multiplier | Decided |
 | Sept 13, 2026 | M0 complete: repo initialised, Sept 1 package + Python toolchain in place, 419 of 450 corpus originals fetched (31 parked → Cowork) | Decided |
-| Sept 13, 2026 | Role Framework v0 built: 18 families / 130 roles / 472 mappings; 99.3% round-trip, all rate grids band-monotonic (§3.5) | Decided |
-| Sept 13, 2026 | Two added families (Technology Leadership; Change, Training & Communications) | Proposed |
-| Sept 13, 2026 | Packaged Applications as generic roles + platform tech tag (not "SAP Consultant"-style roles) | Proposed |
+| Sept 13, 2026 | Role Framework v0 built: 18 families / 130 roles / 475 mappings (349 observed, 126 authored aliases); 99.3% resolve to a role, all 29 rate grids band-monotonic (§3.5) | Decided |
+| Sept 13, 2026 | Two added families (Technology Leadership; Change, Training & Communications) | **Decided Sept 19** — accepted by Kyle (Cowork also recommended accept) |
+| Sept 13, 2026 | Packaged Applications as generic roles + platform tech tag (not "SAP Consultant"-style roles) | **Decided Sept 19** — accepted by Kyle (Cowork also recommended accept) |
 | Sept 13, 2026 | Band precedence: source level > stated years > title modifier (the original "default intermediate" fallback was removed Sept 19) | Decided |
 | Sept 19, 2026 | **No default band.** A title with no seniority evidence keeps its role and stays unbanded; it is excluded from band-level benchmark cuts and its band goes to the review queue. Raised by Cowork's repo review; agreed by Kyle. Reason: a defaulted band is an invented data point, against "coarse-but-observable" and precision-first | Decided |
-| Sept 19, 2026 | **Location is client-relative.** Onshore means the same country as the client, configured per deployment; a place name in a title yields a country and is classified against the client's country (for a Canadian bank a US resource is nearshore). Only the words onshore/nearshore/offshore classify directly | Decided |
-| Sept 19, 2026 | **One source of truth.** The twm-platform project folder holds the only real copy of every working document. Cowork shares the folder and leaves its outputs in `Claude outputs/`; Claude Code reads anything new there at the start of each session and commits it. The separate "canonical" copy in the Cowork project is to be retired | Decided (retirement of the Cowork copy in progress) |
+| Sept 19, 2026 | **Location is client-relative and ultimately about cost.** Onshore/nearshore/offshore depend on the client; place names are stored as city and country. A Canadian client with a US place is left unclassified and flagged (New York is onshore-equivalent on cost, Buffalo might be nearshore); a US client with a Canadian place is nearshore. Refine per client as data arrives (§3.5) | Directional |
+| Sept 19, 2026 | **One source of truth.** The twm-platform project folder holds the only real copy of every working document. Cowork shares the folder and leaves its outputs in `Claude outputs/`; Claude Code reads anything new there at the start of each session and commits it. The separate "canonical" copy in the Cowork project is to be retired | Decided — Cowork's copy merged into this file and retired Sept 19 |
 | Sept 19, 2026 | Current business documents indexed in `docs/business-documents.md`; Word Business Plan v1.5 replaces the October 2025 slide deck | Decided |
 | Sept 19, 2026 | The acceptance score is a consistency check; a held-out test on unseen sources (G-Cloud 14 cards, Texas Accenture titles, Cognizant and Deloitte GSA cards) is needed before M2 relies on the normalizer | Proposed (Cowork review; Claude Code agrees) |
 
