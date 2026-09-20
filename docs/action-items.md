@@ -59,11 +59,14 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 | D4 | Update the Design Decisions section 5 after the SFIA decision | **Waiting** on A4. |
 | D5 | Synthetic factory (M4) design spec when M3 nears | **Open**, later. |
 
-## E. Discussions Kyle has queued
+## E. Discussions Kyle has queued (agenda set Sept 20, 2026, in this order)
 
 | # | Item | Status |
 |---|---|---|
-| E1 | Walk through the architecture components one by one (nine components plus four supporting ones). Findings and reporting, and the review workbench, have no spec yet. Bring in A5, B12 and the demo. Cowork's handoff lists the questions Kyle wanted to settle for M2: which document goes first, what the field-level scoring should show him, and what must be demonstrable for Early Adopter conversations. Its sections 3 and 4 (what the business documents promise; what real client documents and systems look like) are the reference for the walkthrough | **Open.** Next discussion. |
+| E1 | **Architecture: walk through the components one by one** (nine components plus four supporting ones), reorganized around Kyle's priority order: core SOW analysis, then invoices to timecards to SOWs, then the HR link. Findings and reporting, and the review workbench, have no spec yet. Bring in A5 (M2 scope), the savings-tranche edge cases, and the demo. Cowork's handoff lists the questions Kyle wanted settled for M2: which document goes first, what the field-level scoring should show him, and what must be demonstrable to Early Adopters. Reference: handoff sections 3 and 4 | **Open.** First. |
+| E2 | **Azure set-up:** how all of this is stood up on TWM's own Azure environment first, then in a client's. Starting point: handoff sections 1.1 to 1.4 (service map, deployment automation as a product feature, TWM's subscription first, portable pieces first). Feeds C4 | **Open.** Second. |
+| E3 | **An AI-native way of building software.** Kyle is reading Anthropic's "The AI-native SDLC playbook" (claude.com/blog/the-ai-native-sdlc-playbook, Aug 21, 2026) and wants TWM's build practice consistent with it: intent, spec and plan documents committed at each stage; a short project instruction file; skills and hooks; a self-checking test loop; evaluations that run automatically; AI review with a human approval gate; monitoring that feeds new work back in. Compare what we already do with what it recommends, and decide what to adopt at TWM's size | **Open.** Third. |
+| E4 | **Review all outstanding action items,** including Kyle's Word document `TWM Things to do - January 29 2026.docx`. Read Sept 20: it is mostly business items (Early Adopter deck and target list, consulting team options, legal structure, funding, contacts); its few technical lines are largely overtaken. Decide whether business items belong in this list or stay separate. It names individuals, so its contents are not copied into this folder | **Open.** Fourth. |
 
 ## F. Keeping both sides in sync
 
