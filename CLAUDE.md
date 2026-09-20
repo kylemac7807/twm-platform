@@ -38,7 +38,7 @@ Two axes only: **canonical role** (~120–180, in ~16 families) × **seniority b
 
 - **M0 (Kyle):** git init; drop Sept 1 package into corpus/; run all download scripts (Claude Code can run them — this machine has normal internet).
 - **M0 — DONE (Sept 13, 2026).** 419 of 450 originals fetched; the 31 that block scripted clients are listed in `docs/corpus-missing-originals.md` (handed to Cowork). Python 3.12 + `.venv` on Kyle's machine; run everything with `.venv/Scripts/python.exe`.
-- **M1: Role Framework v0 — DONE (Sept 13, 2026)** per specs/role-framework-v0-spec.md. `taxonomy/` holds the five CSVs (families, roles, band crosswalk, tech vocab, title mappings) and `REPORT.md` (98% round-trip, 0 ambiguous, all rate grids band-monotonic). Code: `src/twm/taxonomy/` (models, store, acceptance) and `src/twm/pipeline/normalize.py` (rules 1–6) + `mapping_table.py`. Regenerate the report with `python -m twm.taxonomy.acceptance`; the seed script `scripts/seed_taxonomy_v0.py` is provenance only — edit the CSVs directly from now on (append/deprecate). Open for Kyle: two added families and generic Packaged Applications roles (requirements doc §3.5).
+- **M1: Role Framework v0 — DONE (Sept 13, 2026)** per specs/role-framework-v0-spec.md. `taxonomy/` holds the five CSVs (families, roles, band crosswalk, tech vocab, title mappings) and `REPORT.md` (99.3% round-trip, 0 ambiguous, all rate grids band-monotonic). Code: `src/twm/taxonomy/` (models, store, acceptance) and `src/twm/pipeline/normalize.py` (rules 1–6) + `mapping_table.py`. Regenerate the report with `python -m twm.taxonomy.acceptance`; the seed script `scripts/seed_taxonomy_v0.py` is provenance only — edit the CSVs directly from now on (append/deprecate). Open for Kyle: two added families and generic Packaged Applications roles (requirements doc §3.5).
 - **M2: Thin thread.** One document (a G-Cloud card, then Michigan/Deloitte contract) through ingest → extract (task contract) → normalize (mapping table) → ledger rows, with field-level scoring. A skeleton of the whole system, not a stage demo.
 - **M3: Eval harness** per spec; gold-set tooling; baseline Claude-vs-GPT comparison on the public corpus.
 - **M4: Synthetic factory** (templates from real structures; planted leakage; labels by construction).
@@ -49,5 +49,9 @@ Two axes only: **canonical role** (~120–180, in ~16 families) × **seniority b
 Python 3.11+, pydantic models for every task contract and table row; pure functions where possible; every LLM call goes through one thin client wrapper (model name = config); no secrets in repo (.env); tests for normalization rules and eval math from day one. Currency/units: store rates as decimal + currency + unit (hr/day) + as-stated; never silently convert — conversions are derived columns with the rate-date FX noted.
 
 ## Working docs
+
+`docs/business-documents.md` names the **current** business documents (Business Plan v1.5, Pitch Deck v1.1, Consortium Approach v1.7, Technical Approach v1.2) in Kyle's separate `Desktop\Technology Workforce Management` folder — read only those; most of that folder is superseded drafts. Where they disagree with `docs/architecture-decisions.md`, the architecture decisions win.
+
+**Cowork shares this folder.** Kyle's Cowork sessions read and write this same project folder (first seen Sept 19, 2026: `Claude outputs/`). At the start of a session run `git status` and read anything new or changed before working; commit Cowork's files so nothing changes silently.
 
 `docs/requirements-and-rationale.md` is the decision log (status labels: Decided/Directional/Proposed/Parked) — update it when a decision lands here. The canonical copy lives in Kyle's Claude "TWM" project; keep them in sync via Kyle.

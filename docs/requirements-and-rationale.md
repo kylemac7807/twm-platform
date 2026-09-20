@@ -86,7 +86,7 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 
 ### 3.5 Role Framework v0 built — **Decided** (Sept 13, 2026), with two **Proposed** items
 
-**What exists.** `taxonomy/` in the twm-platform repo: 18 families, 130 canonical roles, 137 band-crosswalk rows across 10 schemes, a 56-tag technology vocabulary, and 472 seeded title mappings drawn from Texas DIR, NY HBITS, TBIPS, all 12 G-Cloud 15 vendor cards, the DDaT framework and GSA labor categories. Deterministic rules (`src/twm/pipeline/normalize.py`) round-trip 98% of 1,355 observed title×level pairs to exactly one role and band with zero ambiguity, and the four-band crosswalk is rate-monotonic in all 29 public rate grids tested (`taxonomy/REPORT.md`).
+**What exists.** `taxonomy/` in the twm-platform repo: 18 families, 130 canonical roles, 137 band-crosswalk rows across 10 schemes, a 56-tag technology vocabulary, and 472 seeded title mappings drawn from Texas DIR, NY HBITS, TBIPS, all 12 G-Cloud 15 vendor cards, the DDaT framework and GSA labor categories. Deterministic rules (`src/twm/pipeline/normalize.py`) round-trip 99.3% of 1,355 observed title×level pairs to exactly one role and band with zero ambiguity, and the four-band crosswalk is rate-monotonic in all 29 public rate grids tested (`taxonomy/REPORT.md`).
 
 **Decided as built.** Band precedence when resolving an observation: the source's own level code → stated years → title modifier → default *intermediate* (counted separately; 2.6% of cases). DDaT/G-Cloud role-specific level labels derive their band from wording rather than being enumerated. No GIS roles: geomatics titles are generic roles tagged `gis`.
 
@@ -139,7 +139,7 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 | Sept 13, 2026 | Seniority bands: four (junior/intermediate/senior/lead-principal) + raw evidence stored per observation | Decided |
 | Sept 13, 2026 | Technology as observation attribute (controlled ~40–60 tag vocabulary), not a role multiplier | Decided |
 | Sept 13, 2026 | M0 complete: repo initialised, Sept 1 package + Python toolchain in place, 419 of 450 corpus originals fetched (31 parked → Cowork) | Decided |
-| Sept 13, 2026 | Role Framework v0 built: 18 families / 130 roles / 472 mappings; 98% round-trip, all rate grids band-monotonic (§3.5) | Decided |
+| Sept 13, 2026 | Role Framework v0 built: 18 families / 130 roles / 472 mappings; 99.3% round-trip, all rate grids band-monotonic (§3.5) | Decided |
 | Sept 13, 2026 | Two added families (Technology Leadership; Change, Training & Communications) | Proposed |
 | Sept 13, 2026 | Packaged Applications as generic roles + platform tech tag (not "SAP Consultant"-style roles) | Proposed |
 | Sept 13, 2026 | Band precedence: source level > stated years > title modifier > default intermediate | Decided |

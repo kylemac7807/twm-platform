@@ -14,3 +14,6 @@ corpus/twm_corpus/01_skills_frameworks/*.zip
 corpus/twm_corpus/01_skills_frameworks/*.json
 corpus/twm_corpus/01_skills_frameworks/*.csv
 corpus/manifests/v3_downloads/
+# Documents Kyle/Cowork collected by hand (third-party originals; keep out of git)
+corpus/collected_by_kyle_2026-01/*
+!corpus/collected_by_kyle_2026-01/README.md
