@@ -88,17 +88,23 @@ def location_needs_review(country: Optional[str], client_country: Optional[str])
     return bool(country and client_country and (client_country, country) in LOCATION_REVIEW_PAIRS)
 
 
-def classify_location(country: Optional[str], client_country: Optional[str]) -> Optional[str]:
-    """onshore = same country as the client; nearshore per NEARSHORE; review pairs stay unclassified."""
-    if not country or not client_country:
+def suggest_location(country: Optional[str], client_country: Optional[str]) -> Optional[str]:
+    """A NON-BINDING hint for the analyst. Never written to attr_location.
+
+    Kyle, Sept 19, 2026: place names are examples for an analyst to categorize, not business rules.
+    Even a city in the client's own country is not always onshore, so same-country gets no hint at all.
+    """
+    if not country or not client_country or country == client_country:
         return None
-    if country == client_country:
-        return "onshore"
     if location_needs_review(country, client_country):
         return None
     if country in NEARSHORE.get(client_country, set()):
         return "nearshore"
     return "offshore"
+
+
+def location_rule_key(client_key: str, place: str) -> tuple[str, str]:
+    return (client_key.strip().lower(), title_key(place))
 
 
 @dataclass
@@ -235,8 +241,9 @@ class ResolutionResult(BaseModel):
     attr_location: Optional[str] = None
     attr_location_raw: Optional[str] = None      # the token as written ("toronto", "offshore")
     attr_location_country: Optional[str] = None  # ISO country when the token was a place name
-    location_source: Optional[str] = None        # explicit_word | derived_from_place
-    needs_location_review: bool = False          # geography alone cannot decide (e.g. Canadian client, US city)
+    location_source: Optional[str] = None        # explicit_word | analyst_rule
+    needs_location_review: bool = False          # a place name with no analyst decision yet
+    location_suggestion: Optional[str] = None    # non-binding hint shown to the analyst; never used as the answer
     attr_level_code_raw: Optional[str] = None
     attr_years_raw: Optional[str] = None
     candidates: list[str] = []
@@ -327,29 +334,37 @@ def resolve(
     source_level: Optional[str] = None,
     years: Optional[float] = None,
     client_country: Optional[str] = None,
+    client_key: Optional[str] = None,
+    location_rules: Optional[dict[tuple[str, str], str]] = None,
     embedder: Optional[EmbeddingResolver] = None,
 ) -> ResolutionResult:
     """Resolve one observed title (plus optional level evidence) to (role, band) deterministically.
 
-    client_country (ISO code, e.g. "CA") makes location client-relative: a place name in the title
-    is classified onshore/nearshore/offshore against it. Without it, place names are captured
-    (attr_location_raw, attr_location_country) but deliberately not classified.
+    Location (decided with Kyle, Sept 19, 2026) follows the same resolve-once pattern as titles:
+      1. the words onshore / nearshore / offshore in the title classify directly;
+      2. a place name is classified ONLY if an analyst has already decided it for this client
+         (location_rules, keyed by client_key + place; see pipeline/location_rules.py);
+      3. otherwise the city and country are kept, the observation is flagged for an analyst, and a
+         non-binding suggestion is attached. Once the analyst decides, the rule is recorded and every
+         later occurrence is a deterministic lookup.
+    client_key identifies whose rules apply (defaults to client_country).
     """
     nt = normalize_title(observed_title, store)
     res = ResolutionResult(observed_title=observed_title, source=source, attr_level_code_raw=nt.level_code_raw,
                            attr_years_raw=(str(years) if years is not None else None))
     res.attr_location_raw, res.attr_location_country = nt.location_token, nt.location_country
-    res.attr_location = nt.location or classify_location(nt.location_country, client_country)
+    ckey = client_key or client_country
     if nt.location:
-        res.location_source = "explicit_word"
-    elif res.attr_location:
-        res.location_source = "derived_from_place"
-    if not nt.location and location_needs_review(nt.location_country, client_country):
-        res.needs_location_review = True
-        res.notes.append(f"'{nt.location_token}' for a {client_country} client: onshore or nearshore depends on the market's cost, "
-                         "not the border; left unclassified for review")
-    if nt.location_country and not client_country:
-        res.notes.append(f"place '{nt.location_token}' captured but not classified: client_country not set")
+        res.attr_location, res.location_source = nt.location, "explicit_word"
+    elif nt.location_token and nt.location_token in _PLACE_COUNTRY:
+        decided = (location_rules or {}).get(location_rule_key(ckey, nt.location_token)) if ckey else None
+        if decided:
+            res.attr_location, res.location_source = decided, "analyst_rule"
+        else:
+            res.needs_location_review = True
+            res.location_suggestion = suggest_location(nt.location_country, client_country)
+            res.notes.append(f"place '{nt.location_token}' has no analyst decision for client '{ckey or 'unset'}': "
+                             "kept as city and country, flagged for review, not classified")
     res.attr_technology = nt.tech_tags[0] if nt.tech_tags else None
     if len(nt.tech_tags) > 1:
         res.notes.append("multiple tech tokens: " + ",".join(nt.tech_tags))

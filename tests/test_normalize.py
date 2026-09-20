@@ -53,36 +53,6 @@ def test_place_name_gives_country_not_classification(store):
     assert r.attr_location is None and r.attr_location_raw == "toronto" and r.attr_location_country == "CA"
 
 
-@pytest.mark.parametrize("title,client,expected", [
-    ("Java Developer, Toronto", "CA", "onshore"),
-    ("Java Developer, New York", "US", "onshore"),
-    ("Java Developer, Toronto", "US", "nearshore"),
-    ("Java Developer, Bangalore", "CA", "offshore"),
-    ("Java Developer, Poland", "GB", "nearshore"),
-    ("Java Developer, Poland", "CA", "offshore"),
-    ("Offshore Java Developer", "CA", "offshore"),     # an explicit word wins regardless of client
-])
-def test_location_is_client_relative(store, title, client, expected):
-    r = resolve(title, store, client_country=client)
-    assert r.attr_location == expected
-    assert r.needs_location_review is False
-
-
-@pytest.mark.parametrize("title", ["Java Developer, New York", "Java Developer, Buffalo"])
-def test_canadian_client_us_city_is_flagged_not_classified(store, title):
-    # Kyle, Sept 19 2026: New York is onshore-equivalent on cost, Buffalo might be nearshore. Geography cannot decide.
-    r = resolve(title, store, client_country="CA")
-    assert r.attr_location is None
-    assert r.needs_location_review is True
-    assert r.attr_location_country == "US" and r.attr_location_raw in ("new york", "buffalo")
-    assert r.canonical_role_id == "software_developer"   # the role still resolves
-
-
-def test_location_source_is_recorded(store):
-    assert resolve("Offshore Java Developer", store, client_country="CA").location_source == "explicit_word"
-    assert resolve("Java Developer, Bangalore", store, client_country="CA").location_source == "derived_from_place"
-
-
 # --- rule 3: technology ----------------------------------------------------------------------
 @pytest.mark.parametrize("title,tags", [
     ("Java Developer", ["java"]),
