@@ -28,7 +28,7 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 | B7 | Sync the 98 percent versus 99.3 percent mismatch | **Done** Sept 19. After A3 the report reads 96.7 percent to role and band, 99.3 percent to a role. |
 | B8 | Add `.gitattributes` and fix line endings | **Done** Sept 20. Cowork's report was correct: two manifest files differed on disk. |
 | B9 | Put section 3.5 in the right order and adopt Cowork's copy of the requirements doc | **Done** Sept 19. Merged into v0.4; Cowork's copy retired. The project folder's file is now the only real copy. |
-| B10 | Re-run the downloader for the rate-limited UK Contracts Finder files | **Running** Sept 20. Result to be recorded here. |
+| B10 | Re-run the downloader for the rate-limited UK Contracts Finder files | **Done** Sept 20. All 8 fetched and verified as real PDFs. 368 of 388 now on disk. |
 | B11 | Content-sniffing rule (check what a file really is, never trust its extension) | **Partly done.** The rule is in CLAUDE.md and was used to catch 26 fake PDFs. Building it into the intake code happens with M2. |
 | B12 | Two gaps found in the business documents, not in any spec: (a) matching SOW titles to HR records implies an HR or vendor-management-system export as an input, and a step that recognizes the same person across SOW, timesheet, invoice and HR data; (b) the Pitch Deck's three savings tranches (Contractual, Operational, Market Alignment) need a savings classification | **Logged** Sept 20 in the requirements doc, section 6. To be designed during the component walkthrough (E1). |
 | B13 | Flag decisions for Kyle to carry to Cowork's canonical copy | **No longer needed.** There is no second copy. |
@@ -39,7 +39,7 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 
 | # | Item | Status |
 |---|---|---|
-| C1 | Download the script-blocked originals by hand. Priority: Michigan Deloitte MiIntegrate (needed for M2), then Michigan Knowledge Services rate card. Exact filenames in `corpus-missing-originals.md`, priority order in `corpus-sources-and-demo-set.md` section 3 | **Open.** Count to be refreshed after B10. Cowork says it re-found the three dead links; those paths are in a Cowork document not yet in this folder (see F2). |
+| C1 | Download the script-blocked originals by hand. Priority: Michigan Deloitte MiIntegrate (needed for M2), then Michigan Knowledge Services rate card. Exact filenames in `corpus-missing-originals.md`, priority order in `corpus-sources-and-demo-set.md` section 3 | **Open.** 23 documents remain: 13 Michigan DTMB, 7 singles, 3 from the September 1 package. Cowork says it re-found the three dead links; those paths are in a Cowork document not yet in this folder (see F2). |
 | C2 | Unpack the ESCO zip into the library | **Done** Sept 20 by Claude Code. Note: it is the **English** edition only. The spec wants French titles for Canadian bilingual documents, so the French edition still needs downloading from the ESCO site (same email registration). |
 | C3 | Register at sfia-online.org for the internal-use SFIA 9 files and verify the Partner Licence terms from the primary source | **Open.** |
 | C4 | Create the TWM Azure tenant and development subscription | **Open.** Not needed until M5. |

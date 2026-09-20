@@ -11,7 +11,7 @@ On-disk counts are verified by content sniffing (a `.pdf` must start with `%PDF`
 | # | Source | What it is | On disk | Rates visible? | Vintage | What it builds |
 |---|---|---|---|---|---|---|
 | 1 | **SEC EDGAR exhibits** | MSAs, amendments and SOWs that public companies filed as material contracts (banks, insurers, healthcare, telecom, travel). HTML/text. | 222 of 223 (v3) + 17 from Sept 1 | Mostly redacted after April 2019; older ones often unredacted (ProQuest/IBM, SAIC, Omnicell/Aditi) | 2001–2026 | **Extraction training on the hard genus**: long MSAs, nested schedules, amendment chains (Broadridge/IBM 9-doc lineage), Resource-Unit pricing, redaction handling. Templates for the synthetic factory. Never the ledger (stale). |
-| 2 | **UK Contracts Finder** | Signed, redacted government IT contracts and schedules (incl. DWP "Synergy" £710.9M IBM/Oracle, 24 schedules). PDFs saved as `.bin`. | 40 of 48 | Usually redacted (FOIA s.43); structure intact | 2018–2025 | Extraction training on modern mega-deal anatomy: services descriptions, SLAs, charges schedules, exit, benchmarking clauses. |
+| 2 | **UK Contracts Finder** | Signed, redacted government IT contracts and schedules (incl. DWP "Synergy" £710.9M IBM/Oracle, 24 schedules). PDFs saved as `.bin`. | 48 of 48 (last 8 fetched Sept 20 once the rate limit cleared) | Usually redacted (FOIA s.43); structure intact | 2018–2025 | Extraction training on modern mega-deal anatomy: services descriptions, SLAs, charges schedules, exit, benchmarking clauses. |
 | 3 | **Texas DIR contracts** | Full public contract sets per vendor: contract, T&Cs, pricing index, SOW, service-agreement template, originating RFO (Accenture ×4 contracts, Deloitte). | 26 of 26 (recovered Sept 18 via `corpus/scripts/widen_recover.py`) | **Yes** — e.g. Accenture TSS-699 Att 2.1: role × onsite/offsite × 8 contract years | 2019–2025 | Extraction training on linked document *sets* (MSA → SOW → rate exhibit); true recent rates usable as public benchmark observations. |
 | 4 | **Michigan DTMB contracts** | Cumulative PDFs: master contract + every change notice + SOWs in one file; unredacted hourly rates (Knowledge Services $800M staff-aug MSP rate card, Deloitte MiIntegrate $109M 13-year chain). | **0 of 13 (+2 from Sept 1)** — site blocks scripts | **Yes**, richest public rates found | 2013–2027 | Amendment-chain extraction; rate-card extraction; **M2's named second thin-thread document**. Top of the manual list (§3). |
 | 5 | **Other US states + federal** | Florida ITSA executed vendor contracts (10), NY OGS HBITS award + next-gen solicitation (11), Washington work order, Oklahoma/Deloitte signed contract, GSA Alliant 2 / STARS III master contracts. | ~36 of 38 | Mixed; OK/Deloitte and WA yes | 2018–2025 | Staff-aug contract shapes, labor-category frameworks, max-rate mechanics. |
@@ -23,7 +23,7 @@ On-disk counts are verified by content sniffing (a `.pdf` must start with `%PDF`
 | 11 | **Canadian references** | TBIPS category/level definitions (~93), a TBIPS solicitation, Job Bank IT wages (employee wages, not bill rates). | On disk | Definitions + wage proxy | 2023–2025 | Canadian taxonomy crosswalk; interim rate proxy (×1.5–2.2 loading) — flagged, never presented as bill rates. |
 | 12 | **Skills frameworks** | O*NET 31.0 (title synonyms), UK DDaT (role × level ladders), NICE, ENISA ECSF, CEN CWA 16458, Singapore SFw-ICT; ESCO zip in Kyle's Downloads; SFIA pending licence decision. | 16 files | n/a | 2018–2026 | The taxonomy spine and crosswalks; O*NET/ESCO synonyms are the v0.1 title-mapping expansion. |
 
-**Totals:** 360 of 388 v3 originals, 46 of 48 Sept 1 originals, 16 framework files, 13 + ~50 structured extractions. 31 documents still to retrieve (§3).
+**Totals:** 368 of 388 v3 originals, 46 of 48 Sept 1 originals, 16 framework files plus ESCO, 13 + ~50 structured extractions. 23 documents still to retrieve (§3).
 
 ## 1a. What is inside each set
 
@@ -58,7 +58,7 @@ Selection rule: the raw document must be public, visually legible, show real mon
 
 Demo caveat to keep honest: documents 3–5 are older or non-IT-staffing vintages. They demonstrate the *pipeline*; only documents 1–2 are current enough to show as benchmark evidence.
 
-## 3. To do — Kyle's manual download list (31 documents)
+## 3. To do — Kyle's manual download list (23 documents)
 
 These refuse scripted clients but open in a normal browser. Save with the exact filename shown in `corpus-missing-originals.md` so the re-runnable downloaders recognise them. Ordered by value:
 
@@ -66,7 +66,7 @@ These refuse scripted clients but open in a normal browser. Save with the exact 
 2. **Michigan DTMB / Knowledge Services** (MA210000000322, manifest row 055) — $800M IT staff-aug MSP with the full hourly rate card by job classification: the closest public analogue to a bank's staff-aug rate card.
 3. **Michigan DTMB — six more named contracts with visible rates** (rows 049–054: Appriss, Datix CONTRAXX on/off-site rates, Accenture MiECC milestone pricing, Deloitte SAP tax portal, LexisNexis VERA $200/hr, IDEMIA) and the **Accenture IT-training contract** from the Sept 1 package.
 4. **Michigan DTMB — six search-indexed PDFs** (rows 056–061), contents unverified; open each and keep those with SOWs or rates.
-5. **UK Contracts Finder — 8 attachments.** Rate-limited rather than blocked: re-run `python ../scripts/v3_download.py` from `corpus/manifests` on another day first; only hand-fetch what still fails.
+5. ~~UK Contracts Finder — 8 attachments.~~ **Done Sept 20:** all eight fetched by script once the rate limit cleared.
 6. **Seven singles:** one SEC exhibit (Virtusa), mass.gov, GSA, DCAA Manual 7641.90 (invoice voucher samples — useful for reconciliation formats), CourtListener CS Technology v. Horizon River, NY OMH example invoice (dead link), CanadaBuys.
 7. **GSA Constellation West price list** — URL is dead; search GSA eLibrary for contract 47QTCA25D007E.
 
