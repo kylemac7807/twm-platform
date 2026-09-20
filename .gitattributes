@@ -1,0 +1,8 @@
+# Keep line endings stable across Windows tools (Cowork and Claude Code share this folder).
+* text=auto
+*.csv text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.pdf binary
+*.png binary
