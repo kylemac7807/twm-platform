@@ -134,6 +134,7 @@ def load_observations() -> list[Obs]:
 class SourceTally:
     n: int = 0
     resolved: int = 0
+    unbanded: int = 0
     ambiguous: int = 0
     flagged: int = 0
     band_sources: Counter = field(default_factory=Counter)
@@ -167,7 +168,10 @@ def build_report(store: TaxonomyStore, results) -> str:
         distinct[o.source].add(key)
         t = tallies[o.source]
         t.n += 1
-        if r.status == "resolved":
+        if r.status == "resolved" and r.twm_band is None:
+            t.unbanded += 1
+            t.matched_on[r.matched_on] += 1
+        elif r.status == "resolved":
             t.resolved += 1
             t.band_sources[r.band_source] += 1
             t.matched_on[r.matched_on] += 1
@@ -184,7 +188,7 @@ def build_report(store: TaxonomyStore, results) -> str:
 
     tot = SourceTally()
     for t in tallies.values():
-        tot.n += t.n; tot.resolved += t.resolved; tot.ambiguous += t.ambiguous; tot.flagged += t.flagged
+        tot.n += t.n; tot.resolved += t.resolved; tot.unbanded += t.unbanded; tot.ambiguous += t.ambiguous; tot.flagged += t.flagged
         tot.band_sources.update(t.band_sources); tot.matched_on.update(t.matched_on)
 
     L.append("# Role Framework v0 — Acceptance Report\n")
@@ -205,15 +209,23 @@ def build_report(store: TaxonomyStore, results) -> str:
 
     L.append("## Round-trip test (spec acceptance)\n")
     L.append("Every distinct (observed title, source level) from the seed sources resolved through rules 1–4 + the mapping table. "
-             "No model or embedding call is involved; anything the rules cannot place is *flagged* for the human queue.\n")
-    L.append("| Source | Distinct titles×levels | Resolved | Ambiguous | Flagged | % resolved |\n|---|---|---|---|---|---|")
+             "No model or embedding call is involved; anything the rules cannot place is *flagged* for the human queue. "
+             "A title whose role resolves but which carries no seniority evidence is left **unbanded** on purpose "
+             "(decided Sept 19, 2026: never invent seniority); it is excluded from band-level benchmark cuts.\n")
+    L.append("| Source | Distinct titles×levels | Role + band | Role only (unbanded) | Ambiguous | Flagged | % role + band |\n|---|---|---|---|---|---|---|")
     for src in sorted(tallies):
         t = tallies[src]
-        L.append(f"| {src} | {t.n} | {t.resolved} | {t.ambiguous} | {t.flagged} | {100 * t.resolved / t.n:.1f}% |")
+        L.append(f"| {src} | {t.n} | {t.resolved} | {t.unbanded} | {t.ambiguous} | {t.flagged} | {100 * t.resolved / t.n:.1f}% |")
     pct = 100 * tot.resolved / tot.n if tot.n else 0
-    L.append(f"| **All sources** | **{tot.n}** | **{tot.resolved}** | **{tot.ambiguous}** | **{tot.flagged}** | **{pct:.1f}%** |")
+    L.append(f"| **All sources** | **{tot.n}** | **{tot.resolved}** | **{tot.unbanded}** | **{tot.ambiguous}** | **{tot.flagged}** | **{pct:.1f}%** |")
     verdict = "PASS" if pct >= 90 else "FAIL"
-    L.append(f"\n**Target ≥ 90% resolved to exactly one (role, band): {pct:.1f}% → {verdict}.**\n")
+    role_pct = 100 * (tot.resolved + tot.unbanded) / tot.n if tot.n else 0
+    L.append(f"\n**Target ≥ 90% resolved to exactly one (role, band): {pct:.1f}% → {verdict}.** "
+             f"Role resolved, with or without a band: {role_pct:.1f}%.\n")
+    L.append("**Read this number correctly.** It is a *consistency* check, not a test of generalization: the mapping table "
+             "was seeded from these same sources, so most hits are exact look-ups of titles already in the table. Only the "
+             "matches listed as `core` below show the rules taking an unfamiliar title apart. How well the framework handles "
+             "documents it has never seen is measured by a separate held-out test, which has not yet been run.\n")
     L.append("How the band was determined for resolved titles:\n")
     L.append("| band source | count | share |\n|---|---|---|")
     for k, v in tot.band_sources.most_common():
@@ -296,7 +308,8 @@ def build_report(store: TaxonomyStore, results) -> str:
              "The normalizer routes generic cores (developer/consultant/analyst/architect/administrator) into this family whenever a packaged-platform tag is present. **Proposed — Kyle to confirm**; the alternative (platform-named roles such as 'SAP Consultant') is a point-release change: add roles, re-point mappings.")
     L.append("3. **No GIS roles.** TBIPS stream 2 (11 GIS categories) maps to generic roles with tech tag `gis`, per the technology-as-attribute rule.")
     L.append("4. **DDaT level labels derive bands by wording** when not listed in `band_crosswalk.csv` (band_source = `source_level_derived`), rather than enumerating ~150 role-specific labels. The rule: trainee/apprentice/junior/associate → junior; senior → senior; lead/principal/head/chief/manager → lead_principal; otherwise the working level → intermediate.")
-    L.append("5. **Default band.** A title with no level evidence and no modifier resolves to `intermediate` with confidence capped at 0.80 and band_source = `default`; the count above shows how often that happened. The ledger stores the raw evidence, so re-banding is always possible.\n")
+    L.append("5. **No default band (decided Sept 19, 2026).** A title with no level code, no stated years and no modifier keeps its role but is left unbanded (`needs_band_review`), is excluded from band-level cuts, and its band alone goes to the review queue. v0 first defaulted these to `intermediate`; Cowork's review and Kyle rejected that as inventing seniority from no evidence.")
+    L.append("6. **Location is client-relative (decided Sept 19, 2026).** Only the words onshore, nearshore and offshore classify directly. A place name yields a country; onshore means the same country as the client, set per deployment (`client_country`). Without it, places are captured but not classified.\n")
     L.append("## Not yet done / v0.1\n")
     L.append("- O*NET alternate/reported titles and ESCO multilingual synonyms are downloaded but not folded in (spec: v0.1).")
     L.append("- Embedding similarity (rule 5) is a protocol stub; no model is wired. Everything unresolved goes to the flag queue.")

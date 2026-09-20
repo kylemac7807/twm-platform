@@ -25,7 +25,7 @@ def test_round_trip_resolves_at_least_90_percent(results):
             continue
         seen.add(k)
         total += 1
-        resolved += r.status == "resolved"
+        resolved += r.status == "resolved" and r.twm_band is not None
     assert total > 1000
     assert resolved / total >= 0.90
 

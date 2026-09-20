@@ -88,7 +88,7 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 
 **What exists.** `taxonomy/` in the twm-platform repo: 18 families, 130 canonical roles, 137 band-crosswalk rows across 10 schemes, a 56-tag technology vocabulary, and 472 seeded title mappings drawn from Texas DIR, NY HBITS, TBIPS, all 12 G-Cloud 15 vendor cards, the DDaT framework and GSA labor categories. Deterministic rules (`src/twm/pipeline/normalize.py`) round-trip 99.3% of 1,355 observed title×level pairs to exactly one role and band with zero ambiguity, and the four-band crosswalk is rate-monotonic in all 29 public rate grids tested (`taxonomy/REPORT.md`).
 
-**Decided as built.** Band precedence when resolving an observation: the source's own level code → stated years → title modifier → default *intermediate* (counted separately; 2.6% of cases). DDaT/G-Cloud role-specific level labels derive their band from wording rather than being enumerated. No GIS roles: geomatics titles are generic roles tagged `gis`.
+**Decided as built.** Band precedence when resolving an observation: the source's own level code → stated years → title modifier. With none of these the title is left **unbanded** (2.6% of cases; decided Sept 19, replacing v0's default of *intermediate*), so the share resolving to both role and band is 96.7% and the share resolving to a role is 99.3%. DDaT/G-Cloud role-specific level labels derive their band from wording rather than being enumerated. No GIS roles: geomatics titles are generic roles tagged `gis`.
 
 **Proposed — awaiting Kyle's call.**
 1. *Two families added to the spec's 16:* Technology Leadership (C-level roles G-Cloud prices separately) and Change, Training & Communications (OCM/trainer/comms titles present in TBIPS and Texas that are not delivery management).
@@ -142,7 +142,12 @@ The synthetic factory covers the training need (critical path); Canadian awarded
 | Sept 13, 2026 | Role Framework v0 built: 18 families / 130 roles / 472 mappings; 99.3% round-trip, all rate grids band-monotonic (§3.5) | Decided |
 | Sept 13, 2026 | Two added families (Technology Leadership; Change, Training & Communications) | Proposed |
 | Sept 13, 2026 | Packaged Applications as generic roles + platform tech tag (not "SAP Consultant"-style roles) | Proposed |
-| Sept 13, 2026 | Band precedence: source level > stated years > title modifier > default intermediate | Decided |
+| Sept 13, 2026 | Band precedence: source level > stated years > title modifier (the original "default intermediate" fallback was removed Sept 19) | Decided |
+| Sept 19, 2026 | **No default band.** A title with no seniority evidence keeps its role and stays unbanded; it is excluded from band-level benchmark cuts and its band goes to the review queue. Raised by Cowork's repo review; agreed by Kyle. Reason: a defaulted band is an invented data point, against "coarse-but-observable" and precision-first | Decided |
+| Sept 19, 2026 | **Location is client-relative.** Onshore means the same country as the client, configured per deployment; a place name in a title yields a country and is classified against the client's country (for a Canadian bank a US resource is nearshore). Only the words onshore/nearshore/offshore classify directly | Decided |
+| Sept 19, 2026 | **One source of truth.** The twm-platform project folder holds the only real copy of every working document. Cowork shares the folder and leaves its outputs in `Claude outputs/`; Claude Code reads anything new there at the start of each session and commits it. The separate "canonical" copy in the Cowork project is to be retired | Decided (retirement of the Cowork copy in progress) |
+| Sept 19, 2026 | Current business documents indexed in `docs/business-documents.md`; Word Business Plan v1.5 replaces the October 2025 slide deck | Decided |
+| Sept 19, 2026 | The acceptance score is a consistency check; a held-out test on unseen sources (G-Cloud 14 cards, Texas Accenture titles, Cognizant and Deloitte GSA cards) is needed before M2 relies on the normalizer | Proposed (Cowork review; Claude Code agrees) |
 
 ## 6. Open questions
 

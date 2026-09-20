@@ -38,12 +38,33 @@ def test_seniority_capture(store, title, core, band, level):
     ("Offshore Java Developer", "offshore", "developer"),
     ("Java Developer (Onshore)", "onshore", "developer"),
     ("Nearshore Test Analyst", "nearshore", "test analyst"),
-    ("Senior Java Developer, Toronto", "onshore", "developer"),
 ])
-def test_location_capture(store, title, location, core):
+def test_explicit_location_words_classify_directly(store, title, location, core):
     nt = normalize_title(title, store)
     assert nt.location == location
     assert nt.core == core
+
+
+def test_place_name_gives_country_not_classification(store):
+    nt = normalize_title("Senior Java Developer, Toronto", store)
+    assert nt.core == "developer"
+    assert nt.location is None and nt.location_country == "CA"
+    r = resolve("Senior Java Developer, Toronto", store)
+    assert r.attr_location is None and r.attr_location_raw == "toronto" and r.attr_location_country == "CA"
+
+
+@pytest.mark.parametrize("title,client,expected", [
+    ("Java Developer, Toronto", "CA", "onshore"),
+    ("Java Developer, New York", "CA", "nearshore"),   # a US resource is nearshore for a Canadian bank
+    ("Java Developer, New York", "US", "onshore"),
+    ("Java Developer, Toronto", "US", "nearshore"),
+    ("Java Developer, Bangalore", "CA", "offshore"),
+    ("Java Developer, Poland", "GB", "nearshore"),
+    ("Java Developer, Poland", "CA", "offshore"),
+    ("Offshore Java Developer", "CA", "offshore"),     # an explicit word wins regardless of client
+])
+def test_location_is_client_relative(store, title, client, expected):
+    assert resolve(title, store, client_country=client).attr_location == expected
 
 
 # --- rule 3: technology ----------------------------------------------------------------------
@@ -121,7 +142,13 @@ def test_source_level_beats_title_modifier(store):
 def test_years_beat_modifier_and_default(store):
     assert resolve("Program Manager", store, years=9).twm_band == "senior"
     assert resolve("Program Manager", store, years=13).twm_band == "lead_principal"
-    assert resolve("Program Manager", store).band_source == "default"
+
+
+def test_no_evidence_means_unbanded_never_a_default(store):
+    r = resolve("Program Manager", store)
+    assert r.status == "resolved" and r.canonical_role_id == "program_manager"
+    assert r.twm_band is None and r.band_source is None
+    assert r.needs_band_review is True
 
 
 def test_derived_band_from_label(store):

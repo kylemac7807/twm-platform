@@ -55,14 +55,39 @@ _VENDOR_CODE_RE = re.compile(r"^(?P<core>.+?) (?P<code>[a-z]{2}\d{2})$")  # e.g.
 _NUMERIC_BAND = {1: "junior", 2: "intermediate", 3: "senior", 4: "lead_principal", 5: "lead_principal"}
 
 # --------------------------------------------------------------------------- rule 2: location
-_LOCATION_TOKENS = {
+# Explicit delivery-location words state the classification outright.
+_EXPLICIT_LOCATION = {
     "offshore": "offshore", "nearshore": "nearshore", "onshore": "onshore", "onsite": "onshore",
-    "on site": "onshore", "remote": None, "uk": "onshore", "usa": "onshore", "us": "onshore",
-    "canada": "onshore", "india": "offshore", "philippines": "offshore", "poland": "nearshore",
-    "mexico": "nearshore", "toronto": "onshore", "london": "onshore", "new york": "onshore",
-    "bangalore": "offshore", "bengaluru": "offshore", "hyderabad": "offshore", "pune": "offshore",
-    "chennai": "offshore", "manila": "offshore",
+    "on site": "onshore", "remote": None,
 }
+# Place names only tell us a COUNTRY. Whether that country is onshore, nearshore or offshore
+# depends on where the client is (decided Sept 19, 2026): for a Canadian bank a US resource is
+# nearshore, not onshore. Classification happens in resolve() against client_country.
+_PLACE_COUNTRY = {
+    "uk": "GB", "united kingdom": "GB", "london": "GB", "usa": "US", "us": "US", "united states": "US",
+    "new york": "US", "canada": "CA", "toronto": "CA", "montreal": "CA", "india": "IN", "bangalore": "IN",
+    "bengaluru": "IN", "hyderabad": "IN", "pune": "IN", "chennai": "IN", "philippines": "PH", "manila": "PH",
+    "poland": "PL", "mexico": "MX", "ireland": "IE", "romania": "RO", "portugal": "PT",
+}
+_LOCATION_TOKENS = {**_EXPLICIT_LOCATION, **{k: None for k in _PLACE_COUNTRY}}
+# Which countries count as nearshore for a client in a given country. Per-deployment config in
+# production; this default table covers the first target markets.
+NEARSHORE: dict[str, set[str]] = {
+    "CA": {"US", "MX"},
+    "US": {"CA", "MX"},
+    "GB": {"IE", "PL", "PT", "RO"},
+}
+
+
+def classify_location(country: Optional[str], client_country: Optional[str]) -> Optional[str]:
+    """onshore = same country as the client; nearshore per NEARSHORE; anything else offshore."""
+    if not country or not client_country:
+        return None
+    if country == client_country:
+        return "onshore"
+    if country in NEARSHORE.get(client_country, set()):
+        return "nearshore"
+    return "offshore"
 
 
 @dataclass
@@ -74,7 +99,8 @@ class NormalizedTitle:
     band_from_title: Optional[str] = None
     level_code_raw: Optional[str] = None   # roman numeral / "level 3" / vendor grade code, verbatim-ish
     location_token: Optional[str] = None
-    location: Optional[str] = None
+    location: Optional[str] = None          # only set when the title says onshore/nearshore/offshore outright
+    location_country: Optional[str] = None  # ISO country implied by a place name; classified later
     tech_tags: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
 
@@ -162,6 +188,7 @@ def normalize_title(raw: str, store: TaxonomyStore) -> NormalizedTitle:
     # location first so a leading "Offshore ..." does not mask a seniority word
     core, loc_tok, loc = _strip_location(key)
     nt.location_token, nt.location = loc_tok, loc
+    nt.location_country = _PLACE_COUNTRY.get(loc_tok) if loc_tok else None
     core, tok, band, level_code = _strip_seniority(core)
     nt.seniority_token, nt.band_from_title, nt.level_code_raw = tok, band, level_code
     core, tags = _strip_tech(core, store)
@@ -191,9 +218,12 @@ class ResolutionResult(BaseModel):
     canonical_role_id: Optional[str] = None
     family_id: Optional[str] = None
     twm_band: Optional[Band] = None
-    band_source: Optional[str] = None      # source_level | years | title_modifier | default
+    band_source: Optional[str] = None      # source_level | source_level_derived | years | title_modifier
+    needs_band_review: bool = False        # role resolved but no level evidence: left unbanded on purpose
     attr_technology: Optional[str] = None
     attr_location: Optional[str] = None
+    attr_location_raw: Optional[str] = None      # the token as written ("toronto", "offshore")
+    attr_location_country: Optional[str] = None  # ISO country when the token was a place name
     attr_level_code_raw: Optional[str] = None
     attr_years_raw: Optional[str] = None
     candidates: list[str] = []
@@ -283,13 +313,22 @@ def resolve(
     source_scheme: Optional[str] = None,
     source_level: Optional[str] = None,
     years: Optional[float] = None,
+    client_country: Optional[str] = None,
     embedder: Optional[EmbeddingResolver] = None,
 ) -> ResolutionResult:
-    """Resolve one observed title (plus optional level evidence) to (role, band) deterministically."""
+    """Resolve one observed title (plus optional level evidence) to (role, band) deterministically.
+
+    client_country (ISO code, e.g. "CA") makes location client-relative: a place name in the title
+    is classified onshore/nearshore/offshore against it. Without it, place names are captured
+    (attr_location_raw, attr_location_country) but deliberately not classified.
+    """
     nt = normalize_title(observed_title, store)
     res = ResolutionResult(observed_title=observed_title, source=source, attr_level_code_raw=nt.level_code_raw,
                            attr_years_raw=(str(years) if years is not None else None))
-    res.attr_location = nt.location
+    res.attr_location_raw, res.attr_location_country = nt.location_token, nt.location_country
+    res.attr_location = nt.location or classify_location(nt.location_country, client_country)
+    if nt.location_country and not client_country:
+        res.notes.append(f"place '{nt.location_token}' captured but not classified: client_country not set")
     res.attr_technology = nt.tech_tags[0] if nt.tech_tags else None
     if len(nt.tech_tags) > 1:
         res.notes.append("multiple tech tokens: " + ",".join(nt.tech_tags))
@@ -367,8 +406,11 @@ def resolve(
         chosen = row_band if (matched_on == "full_title" and row_band) else (nt.band_from_title or row_band)
         band, band_source = chosen, "title_modifier"
     if band is None:
-        band, band_source = "intermediate", "default"
-        res.confidence = min(res.confidence, 0.80)
+        # Decided Sept 19, 2026: never invent seniority. With no level code, no stated years and no
+        # modifier, the role stands and the band stays empty; the observation is excluded from
+        # band-level benchmark cuts and the band alone goes to the review queue.
+        res.needs_band_review = True
+        res.notes.append("no level evidence: left unbanded; band to review queue")
     res.twm_band, res.band_source = band, band_source
 
     res.status = "resolved" if res.confidence >= CONFIDENCE_FLOOR else "flagged"

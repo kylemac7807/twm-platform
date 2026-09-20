@@ -1,6 +1,6 @@
 # Role Framework v0 — Acceptance Report
 
-Generated 2026-09-13 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv` and the corpus seed sources.
+Generated 2026-09-19 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv` and the corpus seed sources.
 
 ## Framework size
 
@@ -33,30 +33,31 @@ Generated 2026-09-13 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv
 
 ## Round-trip test (spec acceptance)
 
-Every distinct (observed title, source level) from the seed sources resolved through rules 1–4 + the mapping table. No model or embedding call is involved; anything the rules cannot place is *flagged* for the human queue.
+Every distinct (observed title, source level) from the seed sources resolved through rules 1–4 + the mapping table. No model or embedding call is involved; anything the rules cannot place is *flagged* for the human queue. A title whose role resolves but which carries no seniority evidence is left **unbanded** on purpose (decided Sept 19, 2026: never invent seniority); it is excluded from band-level benchmark cuts.
 
-| Source | Distinct titles×levels | Resolved | Ambiguous | Flagged | % resolved |
-|---|---|---|---|---|---|
-| Canada TBIPS | 252 | 246 | 0 | 6 | 97.6% |
-| GSA pricelist CDO Technologies | 7 | 7 | 0 | 0 | 100.0% |
-| GSA pricelist Constellation West | 6 | 6 | 0 | 0 | 100.0% |
-| GSA pricelist tCognition | 11 | 11 | 0 | 0 | 100.0% |
-| NY OGS HBITS 23158 | 124 | 120 | 0 | 4 | 96.8% |
-| Texas DIR ITSAC 2024 | 360 | 360 | 0 | 0 | 100.0% |
-| UK DDaT ladders | 206 | 206 | 0 | 0 | 100.0% |
-| UK G-Cloud 15 | 367 | 367 | 0 | 0 | 100.0% |
-| US GSA CALC+ | 22 | 22 | 0 | 0 | 100.0% |
-| **All sources** | **1355** | **1345** | **0** | **10** | **99.3%** |
+| Source | Distinct titles×levels | Role + band | Role only (unbanded) | Ambiguous | Flagged | % role + band |
+|---|---|---|---|---|---|---|
+| Canada TBIPS | 252 | 246 | 0 | 0 | 6 | 97.6% |
+| GSA pricelist CDO Technologies | 7 | 2 | 5 | 0 | 0 | 28.6% |
+| GSA pricelist Constellation West | 6 | 5 | 1 | 0 | 0 | 83.3% |
+| GSA pricelist tCognition | 11 | 4 | 7 | 0 | 0 | 36.4% |
+| NY OGS HBITS 23158 | 124 | 120 | 0 | 0 | 4 | 96.8% |
+| Texas DIR ITSAC 2024 | 360 | 360 | 0 | 0 | 0 | 100.0% |
+| UK DDaT ladders | 206 | 206 | 0 | 0 | 0 | 100.0% |
+| UK G-Cloud 15 | 367 | 367 | 0 | 0 | 0 | 100.0% |
+| US GSA CALC+ | 22 | 0 | 22 | 0 | 0 | 0.0% |
+| **All sources** | **1355** | **1310** | **35** | **0** | **10** | **96.7%** |
 
-**Target ≥ 90% resolved to exactly one (role, band): 99.3% → PASS.**
+**Target ≥ 90% resolved to exactly one (role, band): 96.7% → PASS.** Role resolved, with or without a band: 99.3%.
+
+**Read this number correctly.** It is a *consistency* check, not a test of generalization: the mapping table was seeded from these same sources, so most hits are exact look-ups of titles already in the table. Only the matches listed as `core` below show the rules taking an unfamiliar title apart. How well the framework handles documents it has never seen is measured by a separate held-out test, which has not yet been run.
 
 How the band was determined for resolved titles:
 
 | band source | count | share |
 |---|---|---|
-| source_level | 973 | 72.3% |
-| source_level_derived | 326 | 24.2% |
-| default | 35 | 2.6% |
+| source_level | 973 | 74.3% |
+| source_level_derived | 326 | 24.9% |
 | title_modifier | 11 | 0.8% |
 
 How the role was matched:
@@ -133,7 +134,7 @@ Within each source's rate grid, the mean rate per TWM band must increase junior 
 | GC15 offshore rate: PwC (GBP/day) | 1,137 | 1,610 | 1,944 | 2,058 | 222 | yes |
 | GC15 offshore rate: TCS (GBP/day) | 400 | 543 | 634 | 882 | 222 | yes |
 | GC15 offshore rate: Version1 (GBP/day) | 185 | 211 | 252 | 383 | 222 | yes |
-| GSA pricelist tCognition (USD/hr, title-modifier bands) | — | 85 | 109 | — | 11 | yes |
+| GSA pricelist tCognition (USD/hr, title-modifier bands) | — | — | 109 | — | 4 | yes |
 | NY HBITS 2026 region 1 (USD/hr) | 44 | 56 | 71 | 82 | 120 | yes |
 | NY HBITS 2026 region 2 (USD/hr) | 47 | 61 | 77 | 89 | 120 | yes |
 | NY HBITS 2026 region 3 (provisional) (USD/hr) | 47 | 61 | 77 | 89 | 120 | yes |
@@ -147,7 +148,8 @@ All grids monotonic.
 2. **Packaged Applications uses five generic roles** (functional consultant, developer, technical consultant, architect, administrator) with the platform as the tech tag (`sap`, `salesforce`, `servicenow`…), rather than one role per platform × function. The normalizer routes generic cores (developer/consultant/analyst/architect/administrator) into this family whenever a packaged-platform tag is present. **Proposed — Kyle to confirm**; the alternative (platform-named roles such as 'SAP Consultant') is a point-release change: add roles, re-point mappings.
 3. **No GIS roles.** TBIPS stream 2 (11 GIS categories) maps to generic roles with tech tag `gis`, per the technology-as-attribute rule.
 4. **DDaT level labels derive bands by wording** when not listed in `band_crosswalk.csv` (band_source = `source_level_derived`), rather than enumerating ~150 role-specific labels. The rule: trainee/apprentice/junior/associate → junior; senior → senior; lead/principal/head/chief/manager → lead_principal; otherwise the working level → intermediate.
-5. **Default band.** A title with no level evidence and no modifier resolves to `intermediate` with confidence capped at 0.80 and band_source = `default`; the count above shows how often that happened. The ledger stores the raw evidence, so re-banding is always possible.
+5. **No default band (decided Sept 19, 2026).** A title with no level code, no stated years and no modifier keeps its role but is left unbanded (`needs_band_review`), is excluded from band-level cuts, and its band alone goes to the review queue. v0 first defaulted these to `intermediate`; Cowork's review and Kyle rejected that as inventing seniority from no evidence.
+6. **Location is client-relative (decided Sept 19, 2026).** Only the words onshore, nearshore and offshore classify directly. A place name yields a country; onshore means the same country as the client, set per deployment (`client_country`). Without it, places are captured but not classified.
 
 ## Not yet done / v0.1
 
