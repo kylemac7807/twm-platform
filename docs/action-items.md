@@ -39,7 +39,7 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 
 | # | Item | Status |
 |---|---|---|
-| C1 | Download the script-blocked originals by hand. Priority: Michigan Deloitte MiIntegrate (needed for M2), then Michigan Knowledge Services rate card. Exact filenames in `corpus-missing-originals.md`, priority order in `corpus-sources-and-demo-set.md` section 3 | **Open.** 23 documents remain: 13 Michigan DTMB, 7 singles, 3 from the September 1 package. Cowork says it re-found the three dead links; those paths are in a Cowork document not yet in this folder (see F2). |
+| C1 | Download the script-blocked originals by hand. Priority: Michigan Deloitte MiIntegrate (needed for M2), then Michigan Knowledge Services rate card. Exact filenames in `corpus-missing-originals.md`, priority order in `corpus-sources-and-demo-set.md` section 3 | **Open.** 23 documents remain: 13 Michigan DTMB, 7 singles, 3 from the September 1 package. Cowork's alternate links for four of them (`Claude outputs/corpus-retrieval-status-2026-09-13.md`) were tried by script on Sept 20 and all returned not-found, so use them in a browser: they are starting pages to click through from, not direct downloads. |
 | C2 | Unpack the ESCO zip into the library | **Done** Sept 20 by Claude Code. Note: it is the **English** edition only. The spec wants French titles for Canadian bilingual documents, so the French edition still needs downloading from the ESCO site (same email registration). |
 | C3 | Register at sfia-online.org for the internal-use SFIA 9 files and verify the Partner Licence terms from the primary source | **Open.** |
 | C4 | Create the TWM Azure tenant and development subscription | **Open.** Not needed until M5. |
@@ -63,12 +63,12 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 
 | # | Item | Status |
 |---|---|---|
-| E1 | Walk through the architecture components one by one (nine components plus four supporting ones). Findings and reporting, and the review workbench, have no spec yet. Bring in A5, B12 and the demo | **Open.** Next discussion. |
+| E1 | Walk through the architecture components one by one (nine components plus four supporting ones). Findings and reporting, and the review workbench, have no spec yet. Bring in A5, B12 and the demo. Cowork's handoff lists the questions Kyle wanted to settle for M2: which document goes first, what the field-level scoring should show him, and what must be demonstrable for Early Adopter conversations. Its sections 3 and 4 (what the business documents promise; what real client documents and systems look like) are the reference for the walkthrough | **Open.** Next discussion. |
 
 ## F. Keeping both sides in sync
 
 | # | Item | Status |
 |---|---|---|
 | F1 | One real copy of every document, in this project folder; Cowork leaves its work in `Claude outputs/` | **Done** Sept 19. |
-| F2 | Two documents Cowork refers to are **not in this folder**: `cowork-handoff-2026-09-18.md` (ATIP request text, discrepancy classes, six Pitch Deck inconsistencies) and the "Corpus Retrieval Status" document (re-found paths for the three dead links). Ask Cowork to save both into `Claude outputs/` | **Waiting** on Cowork. Kyle sent the request Sept 20. |
-| F3 | Cowork's Sept 20 list still called its own copy "canonical v0.3". Confirm Cowork's project instructions now carry the single-source-of-truth text | **Waiting** on Cowork. Asked in the same request Sept 20. |
+| F2 | Get Cowork's two missing documents into the shared folder | **Done** Sept 20. Both are in `Claude outputs/` and saved in the version history. Their unrecorded decisions were added to the decision log the same day. |
+| F3 | Confirm Cowork's instructions carry the single-source-of-truth rule | **Done** Sept 20. Cowork read them back: this folder holds the only real copy, `docs/action-items.md` is the single action list, outputs go to `Claude outputs/`, and Cowork does not edit code folders. It also deleted its own project-knowledge copies. |
