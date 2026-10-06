@@ -148,7 +148,22 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## 1.6 Benchmarking — to design
+## 1.6 Benchmarking — **Decided** (Oct 6, 2026)
+
+**What it does.** Answers "is this rate reasonable?" by comparing one observation against a population at the same cut (role, seniority, location, technology). Three comparisons, matching the Technical Approach's three analysis modes: *within the client* (same vendor, same role, across the client's own SOWs; the lateral audit, feeding the Operational tranche); *across vendors within the client* (the client's other vendors for the same role); *against the market* (the combined consortium-plus-public distribution from the central ledger, feeding the Market Alignment tranche).
+
+**What goes in.** Ledger rows above the confidence threshold. **What comes out.** Per cut: count, p25, median, p75, and where the observation sits; plus the published benchmark table TWM maintains centrally.
+
+**Decisions (Kyle, Oct 6, 2026).**
+1. **Roll up when thin.** A cut below the cohort floor rolls up to the next broader cut: drop technology first, then role to family. The output states which level it rolled to, so a family-level number is never mistaken for a role-level one. (Families exist mainly for this; Cowork handoff 1.7.)
+2. **Vintage window of 24 months** for market benchmarks, stated on the published table, adjustable per cut. Older rows stay in the ledger for trend analysis only.
+3. **Public first, labelled as such.** Until three clients contribute, the market comparison is labelled public-source only with the sources named; never presented as a consortium benchmark it is not.
+
+**Build or rent.** Build: statistics over the ledger. Power BI dashboards sit on top later.
+
+**What the demo shows.** Step 5: Accenture's senior developer rate on a bar showing where eleven other vendors sit for the same role and seniority.
+
+---
 
 ## 2. Reconciliation — to design
 
