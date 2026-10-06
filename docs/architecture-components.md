@@ -165,7 +165,27 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## 2. Reconciliation — to design
+## 2. Reconciliation (invoices to timecards to SOWs) — **Decided** (Oct 6, 2026)
+
+**What it does.** Checks that what was billed matches what was worked and what was contracted: did the invoice charge the agreed rate, for the agreed role, for the hours actually worked? Every mismatch is a candidate finding for the Contractual tranche.
+
+**What goes in.** Through the same intake, reading and extraction as contracts: *invoices* (usually a summary PDF per vendor per month with a resource-level backup, often a spreadsheet); *timesheets* (for large vendors usually not in a vendor management system but in the vendor's monthly usage report attached to the invoice, or a spreadsheet; Cowork handoff 4.3, confirmed by Kyle); and the *contract family* the invoice bills against, already in the ledger. Spreadsheets and email attachments become first-class intake inputs at this point (the extension deferred in 1.1).
+
+**What it does with them.** Matches each invoice line to a timesheet line and a contract rate, then tests the match against a fixed list of discrepancy types: rate above contract; role not on the rate card; wrong seniority billed; location premium charged for offshore work; invoice hours not matching the timesheet; duplicate billing; inconsistent billing periods or quantities; SOW rate exceeding the MSA rate without an amendment; escalation applied with no contractual basis (handoff 4.5; Fulton County audit).
+
+**What comes out.** One candidate finding per discrepancy with the three source documents pinned, the amount, and a confidence. Only confident findings become money claims; the rest go to the analyst. Precision matters most here: a wrong leakage claim in front of a vendor is the existential risk.
+
+**Decisions (Kyle, Oct 6, 2026).**
+1. **The SOW rate is the enforceable rate** for a finding; a SOW rate above the MSA rate is reported separately as its own discrepancy type, so both facts are visible.
+2. **People are matched without the HR link:** on vendor, person name as the documents give it, role and period. Ambiguous matches go to the analyst, never guessed. This is what lets priority two work without priority three.
+3. **The discrepancy list is fixed and versioned.** The nine types above are version one; new types are added by decision, not discovered ad hoc, so every finding has a type a consultant can explain and a vendor can be shown.
+4. **Synthetic first, real to prove.** Built and tested on synthetic contract-timesheet-invoice triplets with planted discrepancies (the synthetic factory, M4), then proven on the Texas PUC pair and the first Early Adopter's real data. Never claimed as validated on synthetic data alone.
+
+**Build or rent.** Build entirely: matching logic over the ledger. Nothing to rent.
+
+**What the demo shows.** The optional second chapter: the real Texas invoice beside its timesheets, lines matched, one mismatch lit up with the three documents behind it.
+
+---
 
 ## Cross-cutting: Findings and reporting — to design (stacked savings tranches decided Sept 20)
 
