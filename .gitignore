@@ -19,3 +19,6 @@ corpus/collected_by_kyle_2026-01/*
 !corpus/collected_by_kyle_2026-01/README.md
 corpus/twm_corpus/01_skills_frameworks/ESCO_v1.2.1/
 .cache/
+ledger.sqlite
+*.sqlite
+evals/gold/*.draft.jsonl
