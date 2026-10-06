@@ -126,7 +126,7 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## 1.5 Ledger — in discussion (Oct 6, 2026)
+## 1.5 Ledger — **Decided** (Oct 6, 2026)
 
 **What it does.** The Business Plan's "book of record": stores every rate observation permanently with full provenance, inside the client's environment. One row per rate seen: vendor, role and seniority, technology and location, rate in its own currency and unit, effective date, source document and position, how it was resolved and with what confidence. Every later analysis reads from it; it is the audit trail shown to a vendor who challenges a finding.
 
@@ -140,7 +140,7 @@ Kyle asked whether to run the whole library through first to build the skills ma
 1. **Append, never overwrite.** Re-runs and amendments add rows and mark old ones superseded; history stays; "what changed since last review" becomes a query. Decided.
 2. **Observations, not conclusions.** The ledger stores what documents say. Findings ("12 percent above market") are computed by later components and stored separately with the version of the rules that produced them. Decided.
 3. **One ledger for public and client data,** distinguished by source class and the vendor-naming rule. Decided.
-4. **Confidence gates money.** Every row keeps its extraction confidence and scan quality; benchmark distributions and savings totals count only rows above a threshold set by the evaluation harness; rows below it are kept and visible but excluded until an analyst confirms them. Proposed; Kyle deciding after the explanation above.
+4. **Confidence gates money.** Every row keeps its extraction confidence and scan quality; benchmark distributions and savings totals count only rows above a threshold set by the evaluation harness; rows below it are kept and visible but excluded until an analyst confirms them. Decided.
 
 **Build or rent.** Rent the database: PostgreSQL on Azure (open source, no per-client licence, portable into each bank's environment); a single-file database on Kyle's machine for the prototype, same schema. Build the schema, versioning and rules.
 
