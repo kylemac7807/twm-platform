@@ -3,4 +3,4 @@ name = "twm-platform"
 version = "0.0.1"
 description = "TWM Phase 1 pipeline: contract ingestion, normalization, benchmark ledger"
 requires-python = ">=3.11"
-dependencies = ["pydantic>=2", "pandas", "httpx", "anthropic", "openai", "pytest"]
+dependencies = ["pydantic>=2", "pandas", "httpx", "anthropic", "openai", "pytest", "pdfplumber", "python-dotenv", "openpyxl"]
