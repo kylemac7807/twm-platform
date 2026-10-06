@@ -108,7 +108,23 @@ Kyle asked whether to run the whole library through first to build the skills ma
 ---
 
 
-## 1.4 Normalization — built in M1; design to be written up from `specs/role-framework-v0-spec.md` and `taxonomy/REPORT.md`
+## 1.4 Normalization — **Decided** (Oct 6, 2026); largely built in M1
+
+**What it does.** Turns the words extraction captured into the standard categories the ledger needs: "Sr. Java Developer, onsite" becomes role Software Developer, seniority senior, technology Java, location left for an analyst. Rates stay exactly as stated (own currency, per hour or per day); any conversion is a separate derived column recording the exchange rate and date. Nothing is silently converted.
+
+**What goes in.** Typed extraction records. **What comes out.** The same records with standard fields filled, each carrying how it was resolved, the confidence, and the raw evidence.
+
+**Built and decided already (M1, Sept 13 to 19):** Role Framework (130 roles), seniority crosswalk across ten schemes, technology tags, resolve-once mapping table, unbanded when no seniority evidence, location flagged for an analyst. Spec: `specs/role-framework-v0-spec.md`; results: `taxonomy/REPORT.md`.
+
+**Not yet built.** (1) The model step: similarity search against resolved titles, then model confirmation with the document's context, then flag if still uncertain. (2) The analyst review queue, which belongs to the workbench.
+
+**Decision (Kyle, Oct 6, 2026).** Wire the model step into M2, since the credential exists for extraction anyway. The volume run will meet hundreds of titles the public sources never held; with the model step the mapping table grows during that run and the queue keeps only the hard cases. Precision rules unchanged: a model answer is accepted only above the confidence floor, and the analyst can overturn it.
+
+**Build or rent.** Build; similarity search rents Azure AI Search later; model confirmation uses the same model wrapper as extraction.
+
+**What the demo shows.** Step 4: one Accenture title resolved with its reasoning shown, one uncertain title in the queue.
+
+---
 
 ## 1.5 Ledger — to design
 
