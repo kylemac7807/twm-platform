@@ -7,8 +7,8 @@ Generated 2026-10-06 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv
 - Families: **18** (spec draft 16; two added — see Deviations)
 - Canonical roles: **130** (target 120–180)
 - Band crosswalk rows: **140** across schemes: Consulting pyramid, DDaT, Deloitte CS grade, NY HBITS, SFIA, TBIPS, Texas DIR, Title modifier, UK G-Cloud 15, Years stated
-- Tech vocabulary: **56** tags
-- Seeded title mappings: **475** (472 active, 3 flagged; **349 observed in a source, 126 authored aliases**; target 250–400 observed)
+- Tech vocabulary: **57** tags
+- Seeded title mappings: **526** (522 active, 4 flagged; **400 observed in a source, 126 authored aliases**; target 250–400 observed)
 
 | Family | Roles |
 |---|---|

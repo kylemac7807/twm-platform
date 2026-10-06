@@ -55,3 +55,4 @@ mobile,Mobile (iOS/Android),platform,ios|android|swift|kotlin|flutter
 gis,GIS / Geomatics,domain,esri|arcgis|geomatics
 genai,Generative AI / LLM,ai,llm|generative ai|openai
 rpa,RPA,automation,uipath|blue prism|automation anywhere
+low_code,Low-code / SaaS platforms,platform,low code|lowcode|power apps|powerapps|power platform|outsystems|mendix|appian
