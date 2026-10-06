@@ -23,7 +23,8 @@ from pydantic import BaseModel, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
 
-DEFAULT_MODEL = os.environ.get("TWM_MODEL", "claude-sonnet-5")
+DEFAULT_MODEL = os.environ.get("TWM_MODEL", "claude-opus-5-5")
+DEFAULT_EFFORT = os.environ.get("TWM_EFFORT", "low")   # extraction is copying, not reasoning; raise if evaluation says so
 MAX_RETRIES = 2
 
 
@@ -81,9 +82,16 @@ class AnthropicModel:
         return self._client
 
     def complete(self, system, user, max_tokens, temperature):
-        r = self._c().messages.create(model=self.name, max_tokens=max_tokens, temperature=temperature, system=system,
+        # Current models (Opus 5.5, Sonnet 5.5) take no sampling parameters: temperature is rejected. Determinism
+        # comes from the content-hash cache in call(); depth of reasoning is controlled with output_config.effort.
+        r = self._c().messages.create(model=self.name, max_tokens=max_tokens, system=system,
+                                      output_config={"effort": DEFAULT_EFFORT},
                                       messages=[{"role": "user", "content": user}])
-        text = "".join(getattr(b, "text", "") for b in r.content)
+        if r.stop_reason == "refusal":
+            raise RuntimeError(f"model declined the request ({getattr(getattr(r, 'stop_details', None), 'category', None)})")
+        if r.stop_reason == "max_tokens":
+            raise ValueError("answer truncated at max_tokens; section too large")
+        text = "".join(getattr(b, "text", "") for b in r.content if getattr(b, "type", "") == "text")
         return text, r.usage.input_tokens, r.usage.output_tokens
 
 

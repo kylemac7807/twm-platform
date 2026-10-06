@@ -8,6 +8,7 @@ Design: docs/architecture-components.md section 1.3. Decided rules:
 """
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass, field
 from decimal import Decimal
@@ -66,15 +67,29 @@ class ExtractionOutcome:
 
 
 # ---------------------------------------------------------------- sectioning
-def sections_for_rate_card(reading: Reading, min_rows: int = 3) -> list[Section]:
-    """Each substantive table becomes one section, rendered as pipe-separated rows with the page number."""
+_PLACEHOLDER = re.compile(r"^\s*[$£€]?\s*(-|0(\.00)?|n/?a)?\s*$", re.I)
+
+
+def _real_money_cells(rows: list[list[str]]) -> int:
+    """Cells that carry an actual amount, not '$ -', '$0.00' or blanks."""
+    n = 0
+    for r in rows:
+        for c in r:
+            if ("$" in c or "£" in c or "€" in c or re.search(r"\d+\.\d{2}", c)) and not _PLACEHOLDER.match(c):
+                n += 1
+    return n
+
+
+def sections_for_rate_card(reading: Reading, min_rows: int = 3, min_money_cells: int = 3) -> list[Section]:
+    """Each substantive table becomes one section, rendered as pipe-separated rows with the page number.
+    Tables whose money cells are all placeholders ('$ -', '$0.00') are skipped: nothing to extract, nothing to spend."""
     out = []
     for p in reading.pages:
         for t in p.tables:
             if t.n_rows < min_rows:
                 continue
             rows = t.rows()
-            if not any("$" in c or "£" in c or "€" in c or re.search(r"\d+\.\d{2}", c) for r in rows for c in r):
+            if _real_money_cells(rows) < min_money_cells:
                 continue
             body = chr(10).join(" | ".join(c for c in r) for r in rows)
             out.append(Section(p.page, p.page, "table", f"PAGE {p.page}, TABLE {t.index}:" + chr(10) + body, table=t))
@@ -130,8 +145,12 @@ def extract_rate_card(record: DocumentRecord, reading: Reading, model: Model, co
     if not secs:
         out.flags.append("no rate-bearing table found in the reading; nothing to extract")
         return out
+    schema = json.dumps(RateCardExtraction.model_json_schema(), separators=(",", ":"))
     for s in secs:
-        user = f"Document: {record.filename} (id {record.document_id}). Classified as {record.doc_class}. Section ({s.kind}, pages {s.page_start}-{s.page_end}):" + chr(10) + s.text
+        user = (f"Document: {record.filename}. Classified as {record.doc_class}. Section ({s.kind}, pages {s.page_start}-{s.page_end}):"
+                + chr(10) + s.text + chr(10) + chr(10)
+                + "Required JSON schema (answer must validate against it; source_ref.document_id may be omitted, the pipeline fills it):"
+                + chr(10) + schema)
         res = llm.call(RateCardExtraction, SYSTEM_RATE_CARD, user, model, config)
         if res.flagged or res.output is None:
             out.flags.append(f"pages {s.page_start}-{s.page_end}: {res.flag_reason}")
@@ -178,8 +197,10 @@ def extract_sow(record: DocumentRecord, reading: Reading, model: Model, config: 
         secs = secs[:max_sections]
     out.sections = len(secs)
     merged: Optional[SOWExtraction] = None
+    schema = json.dumps(SOWExtraction.model_json_schema(), separators=(",", ":"))
     for s in secs:
-        user = f"Document: {record.filename} (id {record.document_id}). Classified as {record.doc_class}. Pages {s.page_start}-{s.page_end}:" + chr(10) + s.text
+        user = (f"Document: {record.filename}. Classified as {record.doc_class}. Pages {s.page_start}-{s.page_end}:" + chr(10) + s.text
+                + chr(10) + chr(10) + "Required JSON schema (source_ref.document_id may be omitted):" + chr(10) + schema)
         res = llm.call(SOWExtraction, SYSTEM_SOW, user, model, config)
         if res.flagged or res.output is None:
             out.flags.append(f"pages {s.page_start}-{s.page_end}: {res.flag_reason}")

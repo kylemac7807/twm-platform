@@ -14,7 +14,7 @@ Readiness = Literal["text", "scan", "web", "spreadsheet", "unreadable"]
 class SourceRef(BaseModel):
     """Where a value came from: the audit coordinate every extracted number must carry."""
 
-    document_id: str
+    document_id: str = ""               # filled by the pipeline, not the model
     page: Optional[int] = None          # 1-based
     bbox: Optional[tuple[float, float, float, float]] = None  # x0, top, x1, bottom in PDF points
     section: Optional[str] = None
