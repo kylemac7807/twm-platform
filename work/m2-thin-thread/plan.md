@@ -6,7 +6,7 @@
 
 | # | Step | Files | Proves |
 |---|---|---|---|
-| 1 | **Document record and intake.** Register, fingerprint, sniff, classify by filename and first-page text, link families on contract numbers, readiness grade | `src/twm/pipeline/ingest.py`, `src/twm/pipeline/models.py` (DocumentRecord), `tests/test_ingest.py` | the seven Accenture files become one family; a fake-PDF viewer page is caught |
+| 1 (done Oct 6) | **Document record and intake.** Register, fingerprint, sniff, classify by filename and first-page text, link families on contract numbers, readiness grade | `src/twm/pipeline/ingest.py`, `src/twm/pipeline/models.py` (DocumentRecord), `tests/test_ingest.py` | the seven Accenture files become one family; a fake-PDF viewer page is caught |
 | 2 | **Reading interface and local reader.** Protocol plus a native-PDF reader that returns text blocks and tables with page and bounding box, quality grade | `src/twm/pipeline/read.py`, `tests/test_read.py` | a rate in the pricing exhibit can be located by page and position |
 | 3 | **Model wrapper.** One `call()` with model name from config, temperature 0, JSON validated against the task contract, retry at most twice, every call logged; reads the key from `.env`; a fake model for tests | `src/twm/llm.py`, `tests/test_llm.py` | swap-ability and the call log |
 | 4 | **Extraction.** Task contracts as pydantic models (from `specs/extraction-task-contracts.md`), prompts per contract, sectioning, page verification of every number, abstention | `src/twm/pipeline/extract.py`, `src/twm/pipeline/contracts.py`, `prompts/`, `tests/test_extract.py` | the pricing grid becomes verified rows; an invented number is rejected in a test |

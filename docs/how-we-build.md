@@ -27,7 +27,7 @@ A task is small enough that Kyle can read its plan in five minutes. Bigger work 
 
 Install once per machine: `cp scripts/git-hooks/pre-commit .git/hooks/pre-commit`. Claude Code does this; Kyle never needs to.
 
-## Skills (in `.claude/skills/`)
+## Skills (project: `.claude/skills/`; generic practice: Kyle's personal library in his user profile, created Oct 6, 2026)
 
 A skill is a written procedure that must be applied the same way in every session. Thirteen now, two later; list and status in `.claude/skills/README.md`. The rule: if doing it inconsistently would damage trust in the product or waste Kyle's time, it is a skill. One-line conventions stay in `CLAUDE.md`.
 
