@@ -30,10 +30,10 @@ DDaT,Lead,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data e
 DDaT,Principal,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
 DDaT,Head,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
 DDaT,Head of,lead_principal,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
-Years stated,<3,junior,years of experience stated in the source
-Years stated,3-7,intermediate,years of experience stated in the source
-Years stated,7-12,senior,years of experience stated in the source
-Years stated,12+,lead_principal,years of experience stated in the source
+Years stated,<3,junior,"FALLBACK ONLY (B4, Oct 6 2026): used when no source level code exists. Published schemes disagree on years: NY HBITS calls 5-7 yrs senior, TBIPS calls 10+ senior, this table calls 7-12 senior. Precedence (source level > years) means a published label always wins; this table only bands titles that state years and nothing else."
+Years stated,3-7,intermediate,"FALLBACK ONLY (B4, Oct 6 2026): used when no source level code exists. Published schemes disagree on years: NY HBITS calls 5-7 yrs senior, TBIPS calls 10+ senior, this table calls 7-12 senior. Precedence (source level > years) means a published label always wins; this table only bands titles that state years and nothing else."
+Years stated,7-12,senior,"FALLBACK ONLY (B4, Oct 6 2026): used when no source level code exists. Published schemes disagree on years: NY HBITS calls 5-7 yrs senior, TBIPS calls 10+ senior, this table calls 7-12 senior. Precedence (source level > years) means a published label always wins; this table only bands titles that state years and nothing else."
+Years stated,12+,lead_principal,"FALLBACK ONLY (B4, Oct 6 2026): used when no source level code exists. Published schemes disagree on years: NY HBITS calls 5-7 yrs senior, TBIPS calls 10+ senior, this table calls 7-12 senior. Precedence (source level > years) means a published label always wins; this table only bands titles that state years and nothing else."
 NY HBITS,Junior,junior,12-36 months
 NY HBITS,Mid-Level,intermediate,36-60 months
 NY HBITS,Senior,senior,60-84 months
@@ -136,3 +136,6 @@ Title modifier,Level 2,intermediate,modifier captured from the title string by n
 Title modifier,Level 3,senior,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
 Title modifier,Level 4,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
 Title modifier,Level 5,lead_principal,modifier captured from the title string by normalize rule 1; generic Level N (non-Texas)
+Consulting pyramid,Partner/Principal/Director,lead_principal,Oklahoma OMES Deloitte 2018 and Deloitte GSA price list use this combined label
+Consulting pyramid,Senior Analyst,intermediate,Deloitte GSA project-delivery ladder
+Consulting pyramid,Coordinator,junior,Deloitte GSA project-delivery ladder

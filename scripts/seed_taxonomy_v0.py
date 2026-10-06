@@ -1036,8 +1036,8 @@ def main():
     write("tech_vocab.csv", ["tag", "label", "category", "aliases"], TECH)
     write("title_mappings.csv",
           ["observed_title", "source", "source_url", "canonical_role_id", "twm_band", "attr_technology", "attr_location",
-           "attr_level_code_raw", "attr_years_raw", "confidence", "method", "reviewer", "status", "version_added"],
-          [(t, s, u, r, b, tech, "", lvl, yrs, f"{conf:.2f}", "rule", "", status, VERSION)
+           "attr_level_code_raw", "attr_years_raw", "confidence", "method", "reviewer", "status", "version_added", "source_class"],
+          [(t, s, u, r, b, tech, "", lvl, yrs, f"{conf:.2f}", "rule", "", status, VERSION, "authored" if s == AL else "observed")
            for (s, u, t, r, b, tech, lvl, yrs, conf, status) in M])
 
 

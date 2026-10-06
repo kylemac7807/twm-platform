@@ -89,6 +89,7 @@ class TitleMapping(BaseModel):
     reviewer: str = ""
     status: MappingStatus = "active"
     version_added: str = "0.0"
+    source_class: Literal["observed", "authored"] = "observed"  # observed in a source document vs written by TWM as an alias
 
     _norm = field_validator(
         "canonical_role_id", "twm_band", "attr_technology", "attr_location",

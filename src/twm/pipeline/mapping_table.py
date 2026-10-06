@@ -19,7 +19,7 @@ from twm.taxonomy.store import FILES, TaxonomyStore, title_key
 COLUMNS = [
     "observed_title", "source", "source_url", "canonical_role_id", "twm_band", "attr_technology",
     "attr_location", "attr_level_code_raw", "attr_years_raw", "confidence", "method", "reviewer",
-    "status", "version_added",
+    "status", "version_added", "source_class",
 ]
 
 

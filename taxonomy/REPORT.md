@@ -1,14 +1,14 @@
 # Role Framework v0 — Acceptance Report
 
-Generated 2026-09-19 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv` and the corpus seed sources.
+Generated 2026-10-06 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv` and the corpus seed sources.
 
 ## Framework size
 
 - Families: **18** (spec draft 16; two added — see Deviations)
 - Canonical roles: **130** (target 120–180)
-- Band crosswalk rows: **137** across schemes: Consulting pyramid, DDaT, Deloitte CS grade, NY HBITS, SFIA, TBIPS, Texas DIR, Title modifier, UK G-Cloud 15, Years stated
+- Band crosswalk rows: **140** across schemes: Consulting pyramid, DDaT, Deloitte CS grade, NY HBITS, SFIA, TBIPS, Texas DIR, Title modifier, UK G-Cloud 15, Years stated
 - Tech vocabulary: **56** tags
-- Seeded title mappings: **475** (472 active, 3 flagged; target 250–400)
+- Seeded title mappings: **475** (472 active, 3 flagged; **349 observed in a source, 126 authored aliases**; target 250–400 observed)
 
 | Family | Roles |
 |---|---|
@@ -110,6 +110,7 @@ Within each source's rate grid, the mean rate per TWM band must increase junior 
 
 | rate grid | junior | intermediate | senior | lead_principal | n | monotonic? |
 |---|---|---|---|---|---|---|
+| Deloitte GSA MAS cybersecurity block (USD/hr, consulting pyramid) | 152 | 203 | 259 | 312 | 5 | yes |
 | GC15 Deloitte standard UK card by CS grade (GBP/day) | 978 | 1,148 | 1,378 | 1,910 | 14 | yes |
 | GC15 UK rate: Accenture (GBP/day) | 795 | 1,061 | 1,215 | 1,862 | 221 | yes |
 | GC15 UK rate: Atos (GBP/day) | 738 | 867 | 1,192 | 1,364 | 205 | yes |
@@ -138,6 +139,7 @@ Within each source's rate grid, the mean rate per TWM band must increase junior 
 | NY HBITS 2026 region 1 (USD/hr) | 44 | 56 | 71 | 82 | 120 | yes |
 | NY HBITS 2026 region 2 (USD/hr) | 47 | 61 | 77 | 89 | 120 | yes |
 | NY HBITS 2026 region 3 (provisional) (USD/hr) | 47 | 61 | 77 | 89 | 120 | yes |
+| Oklahoma OMES Deloitte 2018 signed contract (USD/hr, consulting pyramid) | — | 150 | 202 | 325 | 5 | yes |
 | Texas DIR 2024 NTE (USD/hr) | 44 | 74 | 98 | 128 | 360 | yes |
 
 All grids monotonic.

@@ -33,6 +33,29 @@ def test_seniority_capture(store, title, core, band, level):
         assert nt.level_code_raw == level
 
 
+@pytest.mark.parametrize("title,core,band", [
+    ("IT Sr. Manager", "it manager", "senior"),
+    ("Cybersecurity Senior Consultant", "cybersecurity consultant", "senior"),
+    ("Health IT Jr Analyst", "health it analyst", "junior"),
+])
+def test_mid_title_seniority(store, title, core, band):
+    nt = normalize_title(title, store)
+    assert nt.core == core and nt.band_from_title == band
+
+
+def test_mid_title_rule_leaves_short_and_role_titles_alone(store):
+    # two-word titles are untouched by the mid-title rule; 'Project Lead' still resolves by its full-title alias
+    assert resolve("Project Lead", store).canonical_role_id == "project_manager"
+    assert normalize_title("Lead Developer", store).core == "developer"
+    assert resolve("Network Operations Center (NOC) Technician", store).canonical_role_id == "network_operations_technician"
+
+
+def test_bracketed_acronym_dropped(store):
+    nt = normalize_title("Senior Business Intelligence Analyst (BIA)", store)
+    assert nt.core == "business intelligence analyst" and nt.band_from_title == "senior"
+    assert resolve("Business Intelligence Analyst (BIA)", store).canonical_role_id == "business_intelligence_analyst"
+
+
 # --- rule 2: location ------------------------------------------------------------------------
 @pytest.mark.parametrize("title,location,core", [
     ("Offshore Java Developer", "offshore", "developer"),

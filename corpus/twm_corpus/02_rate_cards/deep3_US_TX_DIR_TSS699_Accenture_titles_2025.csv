@@ -1,0 +1,78 @@
+# Texas DIR contract DIR-STS-TSS-699 (Accenture LLP), Attachment 2.1 Pricing and Volumes: labor categories with the first-listed hourly rate (contract year 1).
+# Source: corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf (txdir.widen.net, recovered Sept 18, 2026). Extracted Oct 6, 2026 from the text layer; the exhibit lists 8 contract years of escalation, only year 1 is taken here.
+# location_block = where the row sat in the exhibit (Onsite at customer location vs US based remote). Issuer: Texas DIR. Currency USD/hour. Public procurement record.
+labor_category,hourly_rate_year1_usd,location_block
+API Architect Developer,122.00,onsite
+API Architect Developer,165.00,remote
+Advanced Systems Engineer,101.75,onsite
+Application Architect,158.00,onsite
+Business Consultant,156.75,onsite
+Business Consultant,164.00,remote
+Business Intelligence Analyst (BIA),101.75,onsite
+Business Process Engineer,158.50,onsite
+Business Process Engineer,133.25,remote
+Business Systems Analyst,110.00,onsite
+Cloud Application Architect,146.75,onsite
+Cloud Application Architect,170.50,remote
+Cloud ERP Developer,102.18,onsite
+Creative Director,120.00,onsite
+Creative Director,122.00,remote
+Customer Technical Advisor,102.73,onsite
+Customer Technical Advisor,83.00,remote
+Data Analyst,158.50,onsite
+Data Analyst,163.25,remote
+Data Engineer,130.00,onsite
+Data Scientist,133.00,onsite
+Data Scientist,124.00,remote
+Database Administrator,122.00,onsite
+Database Administrator,237.25,remote
+Database Analyst,156.40,onsite
+Implementation Manager,184.00,onsite
+Infrastructure Application Architect,106.00,onsite
+Infrastructure Application Architect,149.00,remote
+Programmer,193.00,onsite
+Programmer,106.00,remote
+Project Manager I / Test Leads,133.40,onsite
+Project Manager II / Test Manager,106.00,onsite
+Project Manager II / Test Manager,175.00,remote
+Project Manager III / Test Program Manager,151.00,onsite
+Project Manager IV / Product Owner,147.25,onsite
+Project Manager IV / Product Owner,99.75,remote
+Project Manager V / Program Manager,215.00,onsite
+SaaS / Low Code Developer,119.00,onsite
+SaaS / Low Code Developer,171.50,remote
+Senior Application Architect,196.00,onsite
+Senior Automation / Performance Tester,165.00,onsite
+Senior Automation / Performance Tester,139.75,remote
+Senior Business Consultant,180.00,onsite
+Senior Business Intelligence Analyst (BIA),190.50,onsite
+Senior Business Intelligence Analyst (BIA),83.00,remote
+Senior Business Process Engineer,112.00,onsite
+Senior Business Systems Analyst,197.75,onsite
+Senior Business Systems Analyst,122.00,remote
+Senior Data Analyst,101.75,onsite
+Senior Data Engineer,133.00,onsite
+Senior Data Engineer,98.50,remote
+Senior Data Scientist,112.00,onsite
+Senior Database Administrator,99.50,onsite
+Senior Database Administrator,189.00,remote
+Senior DevOps Engineer,130.00,onsite
+Senior Documentation Specialist,135.50,onsite
+Senior Documentation Specialist,106.00,remote
+Senior Manager,93.50,onsite
+Senior Manual tester,130.00,onsite
+Senior Manual tester,106.00,remote
+Senior Programmer,102.00,onsite
+Senior Systems Administrator,144.50,onsite
+Senior Systems Administrator,106.00,remote
+Senior Systems Engineer,130.00,onsite
+Senior Web Architect,187.00,onsite
+Senior Web Architect,83.00,remote
+Systems Engineer,79.75,onsite
+Technical Application Lead,183.25,onsite
+Technical Application Lead,123.50,remote
+Technical Specialist,102.00,onsite
+Test Analyst,255.00,onsite
+Training Specialist,102.18,onsite
+Web Security Administrator,189.00,onsite
+Web Software Developer,93.50,onsite

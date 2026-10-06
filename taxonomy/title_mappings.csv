@@ -1,476 +1,476 @@
-observed_title,source,source_url,canonical_role_id,twm_band,attr_technology,attr_location,attr_level_code_raw,attr_years_raw,confidence,method,reviewer,status,version_added
-AI/Machine Learning Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,machine_learning_engineer,,,,,,0.95,rule,,active,0.0
-Agile Coach,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,agile_coach,,,,,,0.95,rule,,active,0.0
-Agile Scrum Master,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,scrum_master,,,,,,0.95,rule,,active,0.0
-Applications Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,application_architect,,,,,,0.95,rule,,active,0.0
-Application Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,application_architect,,,,,,0.95,rule,,active,0.0
-Business Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_analyst,,,,,,0.95,rule,,active,0.0
-Business Continuity Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_continuity_specialist,,,,,,0.95,rule,,active,0.0
-Business Intelligence Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_intelligence_analyst,,,,,,0.95,rule,,active,0.0
-Change Management Manager/Organizational Change Management (OCM),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,change_management_consultant,,,,,,0.95,rule,,active,0.0
-Cloud Solutions Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,cloud_architect,,,,,,0.95,rule,,active,0.0
-Communication Coordinators,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,communications_specialist,,,,,,0.95,rule,,active,0.0
-Communications Coordinator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,communications_specialist,,,,,,0.95,rule,,active,0.0
-Customer Relationship Management (CRM),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_functional_consultant,,crm,,,,0.95,rule,,active,0.0
-Data Analyst/Report Writer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,data_analyst,,,,,,0.95,rule,,active,0.0
-Data Modeler,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,data_modeler,,,,,,0.95,rule,,active,0.0
-Data Scientist (Big Data Engineer),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,data_scientist,,,,,,0.95,rule,,active,0.0
-Data Security Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_analyst,,,,,,0.95,rule,,active,0.0
-Database Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,database_administrator,,,,,,0.95,rule,,active,0.0
-Database Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,database_architect,,,,,,0.95,rule,,active,0.0
-DevOps Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,devops_engineer,,,,,,0.95,rule,,active,0.0
-Developer/Programmer Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,programmer_analyst,,,,,,0.95,rule,,active,0.0
-Digital Marketing Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,performance_analyst,,,,,,0.95,rule,,active,0.0
-Digital Product Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,product_manager,,,,,,0.95,rule,,active,0.0
-ERP Business Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_functional_consultant,,erp,,,,0.95,rule,,active,0.0
-Enterprise Resource Planning (ERP) Business Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_functional_consultant,,erp,,,,0.95,rule,,active,0.0
-ERP Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_developer,,erp,,,,0.95,rule,,active,0.0
-Enterprise Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,enterprise_architect,,,,,,0.95,rule,,active,0.0
-Front-End Web Developer/Web Designer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,frontend_developer,,,,,,0.80,rule,,active,0.0
-Help Desk Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,service_desk_analyst,,,,,,0.95,rule,,active,0.0
-Help Desk (Technician),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,service_desk_analyst,,,,,,0.95,rule,,active,0.0
-IT Auditor,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_auditor,,,,,,0.95,rule,,active,0.0
-IT Contract Administrator/Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_vendor_contract_manager,junior,,,,,0.95,rule,,active,0.0
-IT Contract Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_vendor_contract_manager,,,,,,0.95,rule,,active,0.0
-IT Procurement Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_procurement_specialist,,,,,,0.95,rule,,active,0.0
-IT Procurement Specialist/Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_procurement_specialist,,,,,,0.95,rule,,active,0.0
-Information Security Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,information_security_manager,,,,,,0.95,rule,,active,0.0
-Instructor Trainer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_trainer,,,,,,0.95,rule,,active,0.0
-Mobile Applications Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,mobile_developer,,,,,,0.95,rule,,active,0.0
-Network Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_administrator,,,,,,0.95,rule,,active,0.0
-Network Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_engineer,,,,,,0.95,rule,,active,0.0
-Network Operations Center (NOC) Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_operations_technician,,,,,,0.95,rule,,active,0.0
-Network Security Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_analyst,,,,,,0.95,rule,,active,0.0
-Network Security Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_engineer,,,,,,0.95,rule,,active,0.0
-Process Improvement Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_process_analyst,,,,,,0.95,rule,,active,0.0
-Product Support Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,application_support_analyst,,,,,,0.95,rule,,active,0.0
-Program Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,program_manager,,,,,,0.95,rule,,active,0.0
-Project Lead,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,project_manager,,,,,,0.95,rule,,active,0.0
-Project Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,project_manager,,,,,,0.95,rule,,active,0.0
-QA Associate/Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_analyst,,,,,,0.95,rule,,active,0.0
-QA Engineer Automated,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_automation_engineer,,,,,,0.95,rule,,active,0.0
-QA Engineer - Automated,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_automation_engineer,,,,,,0.95,rule,,active,0.0
-QA/Test Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_manager,,,,,,0.95,rule,,active,0.0
-Security Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_administrator,,,,,,0.95,rule,,active,0.0
-Senior Web Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,web_developer,senior,,,,,0.95,rule,,active,0.0
-Site Reliability Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,site_reliability_engineer,,,,,,0.95,rule,,active,0.0
-Software Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,software_developer,,,,,,0.95,rule,,active,0.0
-Software Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,software_developer,,,,,,0.95,rule,,active,0.0
-Support Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,desktop_support_technician,,,,,,0.95,rule,,active,0.0
-Systems Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,systems_analyst,,,,,,0.95,rule,,active,0.0
-Technical Writer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,technical_writer,,,,,,0.95,rule,,active,0.0
-Telecommunications Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,telecommunications_manager,,,,,,0.95,rule,,active,0.0
-Telecommunications Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,telecommunications_engineer,,,,,,0.95,rule,,active,0.0
-Telecommunications Specialist/Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,telecommunications_engineer,,,,,,0.95,rule,,active,0.0
-Web Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,web_administrator,,,,,,0.95,rule,,active,0.0
-Web Content Technician/Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,content_designer,,,,,,0.95,rule,,active,0.0
-Web Content Specialist/Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,content_designer,,,,,,0.95,rule,,active,0.0
-Web Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,web_developer,,,,,,0.95,rule,,active,0.0
-Wireless Network Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_engineer,,wireless,,,,0.95,rule,,active,0.0
-Business Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,business_analyst,,,,,,0.95,rule,,active,0.0
-Cloud Engineer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,cloud_engineer,,,,,,0.95,rule,,active,0.0
-Database Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,database_administrator,,,,,,0.95,rule,,active,0.0
-Database Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,database_architect,,,,,,0.95,rule,,active,0.0
-Database Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,database_manager,,,,,,0.95,rule,,active,0.0
-Graphic Designer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,graphic_designer,,,,,,0.95,rule,,active,0.0
-Help Desk Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,service_desk_manager,,,,,,0.95,rule,,active,0.0
-IT Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,it_manager,,,,,,0.95,rule,,active,0.0
-Network Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,network_administrator,,,,,,0.95,rule,,active,0.0
-Network Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,network_architect,,,,,,0.95,rule,,active,0.0
-Operations Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,it_operations_manager,,,,,,0.95,rule,,active,0.0
-Programmer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,software_developer,,,,,,0.95,rule,,active,0.0
-Project Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,project_manager,,,,,,0.95,rule,,active,0.0
-Security Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,security_analyst,,,,,,0.95,rule,,active,0.0
-Security Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,information_security_manager,,,,,,0.95,rule,,active,0.0
-Software Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,programmer_analyst,,,,,,0.95,rule,,active,0.0
-Software Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,application_architect,,,,,,0.95,rule,,active,0.0
-Software Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,software_developer,,,,,,0.95,rule,,active,0.0
-Software Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,engineering_manager,,,,,,0.95,rule,,active,0.0
-Systems Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,systems_administrator,,,,,,0.95,rule,,active,0.0
-Systems Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,systems_analyst,,,,,,0.95,rule,,active,0.0
-Systems Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,technical_architect,,,,,,0.95,rule,,active,0.0
-Systems Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,software_developer,,,,,,0.95,rule,,active,0.0
-Technical Writer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,technical_writer,,,,,,0.95,rule,,active,0.0
-Tester,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,test_analyst,,,,,,0.95,rule,,active,0.0
-Training Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,learning_content_developer,,,,,,0.95,rule,,active,0.0
-Web Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_administrator,,,,,,0.95,rule,,active,0.0
-Web Designer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_designer,,,,,,0.95,rule,,active,0.0
-Web Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_developer,,,,,,0.95,rule,,active,0.0
-Web Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_administrator,,,,,,0.95,rule,,active,0.0
-IT Specialist,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,,,,,,,0.00,rule,,flagged,0.0
-Application/software architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,application_architect,,,,A.1,,0.95,rule,,active,0.0
-ERP functional analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_functional_consultant,,erp,,A.2,,0.95,rule,,active,0.0
-ERP programmer analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_developer,,erp,,A.3,,0.95,rule,,active,0.0
-ERP system analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_functional_consultant,,erp,,A.4,,0.95,rule,,active,0.0
-ERP technical analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_technical_consultant,,erp,,A.5,,0.95,rule,,active,0.0
-Programmer/software developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,software_developer,,,,A.6,,0.95,rule,,active,0.0
-Programmer/analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,programmer_analyst,,,,A.7,,0.95,rule,,active,0.0
-System analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,systems_analyst,,,,A.8,,0.95,rule,,active,0.0
-System auditor,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,it_auditor,,,,A.9,,0.95,rule,,active,0.0
-Test coordinator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,test_manager,,,,A.10,,0.95,rule,,active,0.0
-Tester,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,test_analyst,,,,A.11,,0.95,rule,,active,0.0
-Web architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,application_architect,,,,A.12,,0.95,rule,,active,0.0
-Web designer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_designer,,,,A.13,,0.95,rule,,active,0.0
-Web developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_developer,,,,A.14,,0.95,rule,,active,0.0
-Web graphics designer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,graphic_designer,,,,A.15,,0.95,rule,,active,0.0
-Web multi-media content consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,content_designer,,,,A.16,,0.95,rule,,active,0.0
-Webmaster,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_administrator,,,,A.17,,0.95,rule,,active,0.0
-Geomatics analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_analyst,,gis,,G.1,,0.95,rule,,active,0.0
-Geomatics specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_analyst,,gis,,G.2,,0.95,rule,,active,0.0
-GIS applications analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,systems_analyst,,gis,,G.3,,0.95,rule,,active,0.0
-GIS application architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,application_architect,,gis,,G.4,,0.95,rule,,active,0.0
-GIS data architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_architect,,gis,,G.5,,0.95,rule,,active,0.0
-GIS infrastructure architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,infrastructure_architect,,gis,,G.6,,0.95,rule,,active,0.0
-GIS programmer/analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,programmer_analyst,,gis,,G.7,,0.95,rule,,active,0.0
-GIS project manager,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_manager,,gis,,G.8,,0.95,rule,,active,0.0
-GIS system architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,solution_architect,,gis,,G.9,,0.95,rule,,active,0.0
-GIS web mapping developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_developer,,gis,,G.10,,0.95,rule,,active,0.0
-Mapping technician,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_analyst,junior,gis,,G.11,,0.95,rule,,active,0.0
-Data conversion specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_migration_specialist,,,,I.1,,0.95,rule,,active,0.0
-Database administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,database_administrator,,,,I.2,,0.95,rule,,active,0.0
-Database analyst/IM administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,database_analyst,,,,I.3,,0.95,rule,,active,0.0
-Database modeller/IM modeller,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_modeler,,,,I.4,,0.95,rule,,active,0.0
-Information management architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_architect,,,,I.5,,0.95,rule,,active,0.0
-Network analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,network_analyst,,,,I.6,,0.95,rule,,active,0.0
-Platform analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,platform_engineer,,,,I.7,,0.95,rule,,active,0.0
-Storage architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,infrastructure_architect,,,,I.8,,0.95,rule,,active,0.0
-System administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,systems_administrator,,,,I.9,,0.95,rule,,active,0.0
-Technical architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,technical_architect,,,,I.10,,0.95,rule,,active,0.0
-Technology architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,technical_architect,,,,I.11,,0.95,rule,,active,0.0
-Business analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_analyst,,,,B.1,,0.95,rule,,active,0.0
-Business architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_architect,,,,B.2,,0.95,rule,,active,0.0
-Business consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,B.3,,0.95,rule,,active,0.0
-Business continuity/disaster recovery specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_continuity_specialist,,,,B.4,,0.95,rule,,active,0.0
-Business process re-engineering consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_process_analyst,,,,B.5,,0.95,rule,,active,0.0
-Business system analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_analyst,,,,B.6,,0.95,rule,,active,0.0
-Business transformation architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_architect,,,,B.7,,0.95,rule,,active,0.0
-Call centre consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,B.8,,0.95,rule,,active,0.0
-Courseware developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,learning_content_developer,,,,B.9,,0.95,rule,,active,0.0
-Help desk specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,service_desk_analyst,,,,B.10,,0.95,rule,,active,0.0
-"Instructor, information technology",Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,it_trainer,,,,B.11,,0.95,rule,,active,0.0
-Network support specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,network_analyst,,,,B.12,,0.95,rule,,active,0.0
-Operations support specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,it_operations_analyst,,,,B.13,,0.95,rule,,active,0.0
-Technical writer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,technical_writer,,,,B.14,,0.95,rule,,active,0.0
-Change management consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,change_management_consultant,,,,P.1,,0.95,rule,,active,0.0
-Enterprise architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,enterprise_architect,,,,P.2,,0.95,rule,,active,0.0
-Human resources consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,P.3,,0.95,rule,,active,0.0
-Organizational development consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,P.4,,0.95,rule,,active,0.0
-Project executive,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,program_manager,lead_principal,,,P.5,,0.95,rule,,active,0.0
-Project administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_coordinator,,,,P.6,,0.95,rule,,active,0.0
-Project coordinator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_coordinator,,,,P.7,,0.95,rule,,active,0.0
-Project leader,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_manager,,,,P.8,,0.95,rule,,active,0.0
-Project manager,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_manager,,,,P.9,,0.95,rule,,active,0.0
-Project scheduler,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_coordinator,,,,P.10,,0.95,rule,,active,0.0
-Quality assurance specialist/analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,quality_assurance_analyst,,,,P.11,,0.95,rule,,active,0.0
-Risk management specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,risk_management_specialist,,,,P.12,,0.95,rule,,active,0.0
-Independent IT project review team leader,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_assurance_reviewer,lead_principal,,,P.13,,0.95,rule,,active,0.0
-Independent IT project reviewer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_assurance_reviewer,,,,P.14,,0.95,rule,,active,0.0
-Strategic IT security planning and protection consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_grc_analyst,,,,C.1,,0.95,rule,,active,0.0
-"IT security methodology, policy and procedures analyst",Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_grc_analyst,,,,C.2,,0.95,rule,,active,0.0
-IT security TRA and C&A analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_grc_analyst,,,,C.3,,0.95,rule,,active,0.0
-IT security product evaluation specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_engineer,,,,C.4,,0.95,rule,,active,0.0
-Public key infrastructure specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,identity_access_management_engineer,,,,C.5,,0.95,rule,,active,0.0
-IT security engineer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_engineer,,,,C.6,,0.95,rule,,active,0.0
-IT security design specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_architect,,,,C.7,,0.95,rule,,active,0.0
-Network security analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_analyst,,,,C.8,,0.95,rule,,active,0.0
-IT security systems operator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_administrator,,,,C.9,,0.95,rule,,active,0.0
-IT security installation specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_administrator,,,,C.10,,0.95,rule,,active,0.0
-IT security vulnerability analysis specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,vulnerability_analyst,,,,C.11,,0.95,rule,,active,0.0
-Incident management specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,incident_responder,,,,C.12,,0.95,rule,,active,0.0
-IT security research and development specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_engineer,,,,C.14,,0.95,rule,,active,0.0
-Computer forensics specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,digital_forensics_analyst,,,,C.15,,0.95,rule,,active,0.0
-Privacy impact assessment specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,privacy_specialist,,,,C.16,,0.95,rule,,active,0.0
-Physical IT security specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,,,,,C.13,,0.00,rule,,flagged,0.0
-Emanations security (TEMPEST) specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,,,,,C.17,,0.00,rule,,flagged,0.0
-Business architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,business_architect,,,,,,0.95,rule,,active,0.0
-Data architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_architect,,,,,,0.95,rule,,active,0.0
-Enterprise architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,enterprise_architect,,,,,,0.95,rule,,active,0.0
-Network architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,network_architect,,,,,,0.95,rule,,active,0.0
-Security architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_architect,,,,,,0.95,rule,,active,0.0
-Solution architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,solution_architect,,,,,,0.95,rule,,active,0.0
-Technical architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,technical_architect,,,,,,0.95,rule,,active,0.0
-Chief data officer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,chief_data_officer,,,,,,0.95,rule,,active,0.0
-Chief information security officer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,chief_information_security_officer,,,,,,0.95,rule,,active,0.0
-Chief technology officer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,chief_technology_officer,,,,,,0.95,rule,,active,0.0
-Cyber security audit and assurance,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_grc_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security digital forensics,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,digital_forensics_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security governance and risk management,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_grc_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security incident response,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,incident_responder,,,,,,0.95,rule,,active,0.0
-Cyber security monitoring,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security secure design,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_engineer,,,,,,0.95,rule,,active,0.0
-Cyber security testing,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,penetration_tester,,,,,,0.95,rule,,active,0.0
-Cyber security vulnerability management,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,vulnerability_analyst,,,,,,0.95,rule,,active,0.0
-Analytics engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,analytics_engineer,,,,,,0.95,rule,,active,0.0
-Data analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_analyst,,,,,,0.95,rule,,active,0.0
-Data engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_engineer,,,,,,0.95,rule,,active,0.0
-Data ethicist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_ai_ethicist,,,,,,0.95,rule,,active,0.0
-Data governance manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_governance_manager,,,,,,0.95,rule,,active,0.0
-Data scientist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_scientist,,,,,,0.95,rule,,active,0.0
-Machine learning engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,machine_learning_engineer,,,,,,0.95,rule,,active,0.0
-Performance analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,performance_analyst,,,,,,0.95,rule,,active,0.0
-Application operations engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,application_support_analyst,,,,,,0.95,rule,,active,0.0
-Business relationship manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,business_relationship_manager,,,,,,0.95,rule,,active,0.0
-Change and release manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,change_release_manager,,,,,,0.95,rule,,active,0.0
-Command and control centre manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,it_operations_analyst,,,,,,0.95,rule,,active,0.0
-End user computing engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,end_user_computing_engineer,,,,,,0.95,rule,,active,0.0
-IT service manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,it_service_manager,,,,,,0.95,rule,,active,0.0
-Incident manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,incident_manager,,,,,,0.95,rule,,active,0.0
-Infrastructure engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,infrastructure_engineer,,,,,,0.95,rule,,active,0.0
-Infrastructure operations engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,infrastructure_operations_engineer,,,,,,0.95,rule,,active,0.0
-Problem manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,problem_manager,,,,,,0.95,rule,,active,0.0
-Service desk manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_desk_manager,,,,,,0.95,rule,,active,0.0
-Service transition manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_transition_manager,,,,,,0.95,rule,,active,0.0
-Business analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,business_analyst,,,,,,0.95,rule,,active,0.0
-Delivery manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,delivery_manager,,,,,,0.95,rule,,active,0.0
-Digital portfolio manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,portfolio_manager,,,,,,0.95,rule,,active,0.0
-Product manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,product_manager,,,,,,0.95,rule,,active,0.0
-Programme delivery manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,program_manager,,,,,,0.95,rule,,active,0.0
-Service owner,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_owner,,,,,,0.95,rule,,active,0.0
-QAT analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,test_analyst,,,,,,0.95,rule,,active,0.0
-Test engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,test_automation_engineer,,,,,,0.95,rule,,active,0.0
-Test manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,test_manager,,,,,,0.95,rule,,active,0.0
-DevOps engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,devops_engineer,,,,,,0.95,rule,,active,0.0
-Frontend developer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,frontend_developer,,,,,,0.95,rule,,active,0.0
-Software developer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,software_developer,,,,,,0.95,rule,,active,0.0
-Accessibility specialist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,accessibility_specialist,,,,,,0.95,rule,,active,0.0
-Content designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,content_designer,,,,,,0.95,rule,,active,0.0
-Content strategist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,content_strategist,,,,,,0.95,rule,,active,0.0
-Graphic designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,graphic_designer,,,,,,0.95,rule,,active,0.0
-Interaction designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,interaction_designer,,,,,,0.95,rule,,active,0.0
-Service designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_designer,,,,,,0.95,rule,,active,0.0
-Technical writer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,technical_writer,,,,,,0.95,rule,,active,0.0
-User researcher,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,user_researcher,,,,,,0.95,rule,,active,0.0
-Business architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,business_architect,,,,,,0.95,rule,,active,0.0
-Data architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_architect,,,,,,0.95,rule,,active,0.0
-Enterprise architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,enterprise_architect,,,,,,0.95,rule,,active,0.0
-Network architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,network_architect,,,,,,0.95,rule,,active,0.0
-Security architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_architect,,,,,,0.95,rule,,active,0.0
-Solution architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,solution_architect,,,,,,0.95,rule,,active,0.0
-Technical architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,technical_architect,,,,,,0.95,rule,,active,0.0
-Chief data officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_data_officer,,,,,,0.95,rule,,active,0.0
-Chief information security officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_information_security_officer,,,,,,0.95,rule,,active,0.0
-Chief technology officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_technology_officer,,,,,,0.95,rule,,active,0.0
-Cyber security audit and assurance,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_grc_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security digital forensics,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,digital_forensics_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security governance and risk management,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_grc_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security incident response,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,incident_responder,,,,,,0.95,rule,,active,0.0
-Cyber security monitoring,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_analyst,,,,,,0.95,rule,,active,0.0
-Cyber security secure design,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_engineer,,,,,,0.95,rule,,active,0.0
-Cyber security testing,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,penetration_tester,,,,,,0.95,rule,,active,0.0
-Cyber security vulnerability management,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,vulnerability_analyst,,,,,,0.95,rule,,active,0.0
-Analytics engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,analytics_engineer,,,,,,0.95,rule,,active,0.0
-Data analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_analyst,,,,,,0.95,rule,,active,0.0
-Data engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_engineer,,,,,,0.95,rule,,active,0.0
-Data governance manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_governance_manager,,,,,,0.95,rule,,active,0.0
-Data scientist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_scientist,,,,,,0.95,rule,,active,0.0
-Machine learning engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,machine_learning_engineer,,,,,,0.95,rule,,active,0.0
-Performance analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,performance_analyst,,,,,,0.95,rule,,active,0.0
-Application operations engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,application_support_analyst,,,,,,0.95,rule,,active,0.0
-Business relationship manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,business_relationship_manager,,,,,,0.95,rule,,active,0.0
-Change and release manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,change_release_manager,,,,,,0.95,rule,,active,0.0
-Command and control centre manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,it_operations_analyst,,,,,,0.95,rule,,active,0.0
-End user computing engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,end_user_computing_engineer,,,,,,0.95,rule,,active,0.0
-IT service manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,it_service_manager,,,,,,0.95,rule,,active,0.0
-Incident manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,incident_manager,,,,,,0.95,rule,,active,0.0
-Infrastructure engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,infrastructure_engineer,,,,,,0.95,rule,,active,0.0
-Infrastructure operations engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,infrastructure_operations_engineer,,,,,,0.95,rule,,active,0.0
-Problem manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,problem_manager,,,,,,0.95,rule,,active,0.0
-Service desk manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_desk_manager,,,,,,0.95,rule,,active,0.0
-Service transition manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_transition_manager,,,,,,0.95,rule,,active,0.0
-Business analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,business_analyst,,,,,,0.95,rule,,active,0.0
-Delivery manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,delivery_manager,,,,,,0.95,rule,,active,0.0
-Digital portfolio manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,portfolio_manager,,,,,,0.95,rule,,active,0.0
-Product manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,product_manager,,,,,,0.95,rule,,active,0.0
-Programme delivery manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,program_manager,,,,,,0.95,rule,,active,0.0
-Service owner,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_owner,,,,,,0.95,rule,,active,0.0
-Test engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,test_automation_engineer,,,,,,0.95,rule,,active,0.0
-Test manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,test_manager,,,,,,0.95,rule,,active,0.0
-DevOps engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,devops_engineer,,,,,,0.95,rule,,active,0.0
-Frontend developer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,frontend_developer,,,,,,0.95,rule,,active,0.0
-Software developer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,software_developer,,,,,,0.95,rule,,active,0.0
-Accessibility specialist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,accessibility_specialist,,,,,,0.95,rule,,active,0.0
-Content designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,content_designer,,,,,,0.95,rule,,active,0.0
-Content strategist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,content_strategist,,,,,,0.95,rule,,active,0.0
-Graphic designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,graphic_designer,,,,,,0.95,rule,,active,0.0
-Interaction designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,interaction_designer,,,,,,0.95,rule,,active,0.0
-Service designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_designer,,,,,,0.95,rule,,active,0.0
-Technical writer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,technical_writer,,,,,,0.95,rule,,active,0.0
-User researcher,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,user_researcher,,,,,,0.95,rule,,active,0.0
-Chief digital and information officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_information_officer,,,,,,0.95,rule,,active,0.0
-Data and artificial intelligence ethicist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_ai_ethicist,,,,,,0.95,rule,,active,0.0
-Development operations (DevOps) engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,devops_engineer,,,,,,0.95,rule,,active,0.0
-Quality assurance test analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,test_analyst,,,,,,0.95,rule,,active,0.0
-Digital evaluator,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,performance_analyst,,,,,,0.95,rule,,active,0.0
-Agile coach,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,agile_coach,,,,,,0.95,rule,,active,0.0
-Business Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,business_analyst,,,,,,0.95,rule,,active,0.0
-Cloud Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,cloud_engineer,,,,,,0.95,rule,,active,0.0
-Cybersecurity Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,security_analyst,,,,,,0.95,rule,,active,0.0
-Data Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,data_engineer,,,,,,0.95,rule,,active,0.0
-Data Scientist,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,data_scientist,,,,,,0.95,rule,,active,0.0
-Database Administrator,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,database_administrator,,,,,,0.95,rule,,active,0.0
-DevOps Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,devops_engineer,,,,,,0.95,rule,,active,0.0
-Enterprise Architect,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,enterprise_architect,,,,,,0.95,rule,,active,0.0
-Help Desk Technician,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,service_desk_analyst,,,,,,0.95,rule,,active,0.0
-Information Security Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,security_analyst,,,,,,0.95,rule,,active,0.0
-Network Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,network_engineer,,,,,,0.95,rule,,active,0.0
-Program Manager,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,program_manager,,,,,,0.95,rule,,active,0.0
-Programmer Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,programmer_analyst,,,,,,0.95,rule,,active,0.0
-Project Manager,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,project_manager,,,,,,0.95,rule,,active,0.0
-Quality Assurance Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,test_analyst,,,,,,0.95,rule,,active,0.0
-Scrum Master,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,scrum_master,,,,,,0.95,rule,,active,0.0
-Software Developer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,software_developer,,,,,,0.95,rule,,active,0.0
-Software Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,software_developer,,,,,,0.95,rule,,active,0.0
-Solutions Architect,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,solution_architect,,,,,,0.95,rule,,active,0.0
-Systems Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,systems_analyst,,,,,,0.95,rule,,active,0.0
-Systems Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,systems_engineer,,,,,,0.95,rule,,active,0.0
-Technical Writer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,technical_writer,,,,,,0.95,rule,,active,0.0
-Program Manager PM02,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,program_manager,,,,PM02,10,0.95,rule,,active,0.0
-Task Manager PM01,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,project_manager,,,,PM01,,0.95,rule,,active,0.0
-Data Architect ER03,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,data_architect,,,,ER03,12,0.95,rule,,active,0.0
-Senior Systems Engineer SY05,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,systems_engineer,senior,,,SY05,,0.95,rule,,active,0.0
-Computer Programmer IV CP04,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,software_developer,lead_principal,,,CP04,,0.95,rule,,active,0.0
-Security Engineer IA03,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,security_engineer,,,,IA03,,0.95,rule,,active,0.0
-Help Desk Coordinator HD01,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,service_desk_analyst,,,,HD01,,0.95,rule,,active,0.0
-Computer Security Systems Engineer III,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,security_engineer,senior,,,,12,0.95,rule,,active,0.0
-IT Business SME (Subject Matter Expert),GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,subject_matter_expert,lead_principal,,,,,0.95,rule,,active,0.0
-IT Database Analyst III,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,database_analyst,senior,,,,,0.95,rule,,active,0.0
-IT Help Desk Support Services Specialist - Entry Level,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,service_desk_analyst,junior,,,,1,0.95,rule,,active,0.0
-IT Program Manager,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,program_manager,,,,,,0.95,rule,,active,0.0
-Software Developer - SME,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,software_developer,lead_principal,,,,10,0.95,rule,,active,0.0
-Program Manager,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,program_manager,,,,,9,0.95,rule,,active,0.0
-Project Manager,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,project_manager,,,,,,0.95,rule,,active,0.0
-Sr. Project Manager,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,project_manager,senior,,,,,0.95,rule,,active,0.0
-Business Analyst,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,business_analyst,,,,,1,0.95,rule,,active,0.0
-Sr. Business Analyst,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,business_analyst,senior,,,,,0.95,rule,,active,0.0
-Java Developer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,software_developer,,java,,,1,0.95,rule,,active,0.0
-Sr. Java Developer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,software_developer,senior,java,,,,0.95,rule,,active,0.0
-Cloud Engineer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,cloud_engineer,,,,,,0.95,rule,,active,0.0
-Sr. Cloud Engineer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,cloud_engineer,senior,,,,,0.95,rule,,active,0.0
-Manual Tester,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,test_analyst,,,,,,0.95,rule,,active,0.0
-Oracle DBA,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,database_administrator,,oracle,,,,0.95,rule,,active,0.0
-Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Programmer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Coder,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Software Engineer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Application Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Applications Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Full Stack Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Backend Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Back End Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0
-Technical Lead,TWM alias,,software_developer,lead_principal,,,,,0.90,rule,,active,0.0
-Tech Lead,TWM alias,,software_developer,lead_principal,,,,,0.90,rule,,active,0.0
-Front End Developer,TWM alias,,frontend_developer,,,,,,0.90,rule,,active,0.0
-UI Developer,TWM alias,,frontend_developer,,,,,,0.90,rule,,active,0.0
-DBA,TWM alias,,database_administrator,,,,,,0.90,rule,,active,0.0
-Database Admin,TWM alias,,database_administrator,,,,,,0.90,rule,,active,0.0
-Sysadmin,TWM alias,,systems_administrator,,,,,,0.90,rule,,active,0.0
-System Administrator,TWM alias,,systems_administrator,,,,,,0.90,rule,,active,0.0
-Systems Admin,TWM alias,,systems_administrator,,,,,,0.90,rule,,active,0.0
-Help Desk,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0
-Helpdesk,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0
-Service Desk Analyst,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0
-Help Desk Analyst,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0
-Support Analyst,TWM alias,,application_support_analyst,,,,,,0.90,rule,,active,0.0
-QA Analyst,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0
-QA Engineer,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0
-Test Analyst,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0
-Tester,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0
-Automation Engineer,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0
-SDET,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0
-Test Automation Engineer,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0
-Test,TWM alias,,test_manager,,,,,,0.90,rule,,active,0.0
-Test Lead,TWM alias,,test_manager,,,,,,0.90,rule,,active,0.0
-UX Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0
-UI Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0
-UX/UI Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0
-UX Researcher,TWM alias,,user_researcher,,,,,,0.90,rule,,active,0.0
-Interaction Design,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0
-Service Design,TWM alias,,service_designer,,,,,,0.90,rule,,active,0.0
-User Research,TWM alias,,user_researcher,,,,,,0.90,rule,,active,0.0
-Content Design,TWM alias,,content_designer,,,,,,0.90,rule,,active,0.0
-Graphic Design,TWM alias,,graphic_designer,,,,,,0.90,rule,,active,0.0
-Accessibility,TWM alias,,accessibility_specialist,,,,,,0.90,rule,,active,0.0
-Frontend Development,TWM alias,,frontend_developer,,,,,,0.90,rule,,active,0.0
-Data Science,TWM alias,,data_scientist,,,,,,0.90,rule,,active,0.0
-Data Engineering,TWM alias,,data_engineer,,,,,,0.90,rule,,active,0.0
-Data Governance,TWM alias,,data_governance_manager,,,,,,0.90,rule,,active,0.0
-Analytics Engineering,TWM alias,,analytics_engineer,,,,,,0.90,rule,,active,0.0
-Data Ethics,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0
-Data and AI Ethics,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0
-Data and AI Ethicist,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0
-AI Ethicist,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0
-Data Ethics Lead,TWM alias,,data_ai_ethicist,lead_principal,,,,,0.90,rule,,active,0.0
-Digital Evaluation,TWM alias,,performance_analyst,,,,,,0.90,rule,,active,0.0
-Performance Analysis,TWM alias,,performance_analyst,,,,,,0.90,rule,,active,0.0
-Business Analysis,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0
-Business Systems Analyst,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0
-Requirements Analyst,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0
-Functional Analyst,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0
-System Analyst,TWM alias,,systems_analyst,,,,,,0.90,rule,,active,0.0
-Delivery Management,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0
-Agile Delivery Management,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0
-Agile Delivery Manager,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0
-Agile Delivery,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0
-IT Service,TWM alias,,it_service_manager,,,,,,0.90,rule,,active,0.0
-Business Relationship,TWM alias,,business_relationship_manager,,,,,,0.90,rule,,active,0.0
-Portfolio,TWM alias,,portfolio_manager,,,,,,0.90,rule,,active,0.0
-Digital Portfolio Analyst,TWM alias,,portfolio_manager,intermediate,,,,,0.90,rule,,active,0.0
-Product,TWM alias,,product_manager,,,,,,0.90,rule,,active,0.0
-PMO Analyst,TWM alias,,project_coordinator,,,,,,0.90,rule,,active,0.0
-Project Management Office Analyst,TWM alias,,project_coordinator,,,,,,0.90,rule,,active,0.0
-Programme Manager,TWM alias,,program_manager,,,,,,0.90,rule,,active,0.0
-Program Director,TWM alias,,program_manager,lead_principal,,,,,0.90,rule,,active,0.0
-IT Service Management,TWM alias,,it_service_manager,,,,,,0.90,rule,,active,0.0
-IT Service Analyst,TWM alias,,it_service_manager,intermediate,,,,,0.90,rule,,active,0.0
-Service Desk,TWM alias,,service_desk_manager,,,,,,0.90,rule,,active,0.0
-Service Desk Manager,TWM alias,,service_desk_manager,,,,,,0.90,rule,,active,0.0
-Command and Control,TWM alias,,it_operations_analyst,,,,,,0.90,rule,,active,0.0
-Operations Analyst,TWM alias,,it_operations_analyst,,,,,,0.90,rule,,active,0.0
-Operational Control Manager,TWM alias,,it_operations_analyst,lead_principal,,,,,0.90,rule,,active,0.0
-Business Relationship Management,TWM alias,,business_relationship_manager,,,,,,0.90,rule,,active,0.0
-Change and Release Analyst,TWM alias,,change_release_manager,intermediate,,,,,0.90,rule,,active,0.0
-Configuration Analyst,TWM alias,,change_release_manager,intermediate,,,,,0.90,rule,,active,0.0
-Service Acceptance Analyst,TWM alias,,service_transition_manager,intermediate,,,,,0.90,rule,,active,0.0
-Service Readiness Analyst,TWM alias,,service_transition_manager,intermediate,,,,,0.90,rule,,active,0.0
-Problem Analyst,TWM alias,,problem_manager,intermediate,,,,,0.90,rule,,active,0.0
-Major Incident Manager,TWM alias,,incident_manager,senior,,,,,0.90,rule,,active,0.0
-Digital and Information Officer,TWM alias,,chief_information_officer,,,,,,0.90,rule,,active,0.0
-CIO,TWM alias,,chief_information_officer,,,,,,0.90,rule,,active,0.0
-CTO,TWM alias,,chief_technology_officer,,,,,,0.90,rule,,active,0.0
-CDO,TWM alias,,chief_data_officer,,,,,,0.90,rule,,active,0.0
-CISO,TWM alias,,chief_information_security_officer,,,,,,0.90,rule,,active,0.0
-Solutions Architect,TWM alias,,solution_architect,,,,,,0.90,rule,,active,0.0
-Software Architect,TWM alias,,application_architect,,,,,,0.90,rule,,active,0.0
-Systems Architect,TWM alias,,technical_architect,,,,,,0.90,rule,,active,0.0
-Architect,TWM alias,,solution_architect,,,,,,0.70,rule,,active,0.0
-Scrum Master,TWM alias,,scrum_master,,,,,,0.90,rule,,active,0.0
-SRE,TWM alias,,site_reliability_engineer,,,,,,0.90,rule,,active,0.0
-DevOps,TWM alias,,devops_engineer,,,,,,0.90,rule,,active,0.0
-ML Engineer,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0
-AI Engineer,TWM alias,,ai_engineer,,,,,,0.90,rule,,active,0.0
-AI ML Engineer,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0
-AI/ML Engineer,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0
-Machine Learning,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0
-Network Admin,TWM alias,,network_administrator,,,,,,0.90,rule,,active,0.0
-System Engineer,TWM alias,,systems_engineer,,,,,,0.90,rule,,active,0.0
-Systems Engineer,TWM alias,,systems_engineer,,,,,,0.90,rule,,active,0.0
-Infrastructure Analyst,TWM alias,,infrastructure_operations_engineer,,,,,,0.90,rule,,active,0.0
-Information Security Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0
-Cyber Security Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0
-Cybersecurity Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0
-SOC Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0
-Security Engineer,TWM alias,,security_engineer,,,,,,0.90,rule,,active,0.0
-Cyber Security Engineer,TWM alias,,security_engineer,,,,,,0.90,rule,,active,0.0
-Penetration Tester,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0
-Pen Tester,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0
-Ethical Hacker,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0
-Consultant,TWM alias,,management_consultant,intermediate,,,,,0.90,rule,,active,0.0
-Engagement Manager,TWM alias,,engagement_manager,,,,,,0.90,rule,,active,0.0
-Partner,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0
-Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0
-Associate Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0
-Managing Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0
-Subject Matter Expert,TWM alias,,subject_matter_expert,lead_principal,,,,,0.90,rule,,active,0.0
-SME,TWM alias,,subject_matter_expert,lead_principal,,,,,0.90,rule,,active,0.0
-Technical Writing,TWM alias,,technical_writer,,,,,,0.90,rule,,active,0.0
-Head of Test,TWM alias,,test_manager,lead_principal,,,,,0.90,rule,,active,0.0
+observed_title,source,source_url,canonical_role_id,twm_band,attr_technology,attr_location,attr_level_code_raw,attr_years_raw,confidence,method,reviewer,status,version_added,source_class
+AI/Machine Learning Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,machine_learning_engineer,,,,,,0.95,rule,,active,0.0,observed
+Agile Coach,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,agile_coach,,,,,,0.95,rule,,active,0.0,observed
+Agile Scrum Master,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,scrum_master,,,,,,0.95,rule,,active,0.0,observed
+Applications Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,application_architect,,,,,,0.95,rule,,active,0.0,observed
+Application Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,application_architect,,,,,,0.95,rule,,active,0.0,observed
+Business Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_analyst,,,,,,0.95,rule,,active,0.0,observed
+Business Continuity Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_continuity_specialist,,,,,,0.95,rule,,active,0.0,observed
+Business Intelligence Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_intelligence_analyst,,,,,,0.95,rule,,active,0.0,observed
+Change Management Manager/Organizational Change Management (OCM),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,change_management_consultant,,,,,,0.95,rule,,active,0.0,observed
+Cloud Solutions Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,cloud_architect,,,,,,0.95,rule,,active,0.0,observed
+Communication Coordinators,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,communications_specialist,,,,,,0.95,rule,,active,0.0,observed
+Communications Coordinator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,communications_specialist,,,,,,0.95,rule,,active,0.0,observed
+Customer Relationship Management (CRM),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_functional_consultant,,crm,,,,0.95,rule,,active,0.0,observed
+Data Analyst/Report Writer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,data_analyst,,,,,,0.95,rule,,active,0.0,observed
+Data Modeler,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,data_modeler,,,,,,0.95,rule,,active,0.0,observed
+Data Scientist (Big Data Engineer),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,data_scientist,,,,,,0.95,rule,,active,0.0,observed
+Data Security Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Database Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,database_administrator,,,,,,0.95,rule,,active,0.0,observed
+Database Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,database_architect,,,,,,0.95,rule,,active,0.0,observed
+DevOps Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,devops_engineer,,,,,,0.95,rule,,active,0.0,observed
+Developer/Programmer Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,programmer_analyst,,,,,,0.95,rule,,active,0.0,observed
+Digital Marketing Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,performance_analyst,,,,,,0.95,rule,,active,0.0,observed
+Digital Product Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,product_manager,,,,,,0.95,rule,,active,0.0,observed
+ERP Business Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_functional_consultant,,erp,,,,0.95,rule,,active,0.0,observed
+Enterprise Resource Planning (ERP) Business Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_functional_consultant,,erp,,,,0.95,rule,,active,0.0,observed
+ERP Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,packaged_application_developer,,erp,,,,0.95,rule,,active,0.0,observed
+Enterprise Architect,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,enterprise_architect,,,,,,0.95,rule,,active,0.0,observed
+Front-End Web Developer/Web Designer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,frontend_developer,,,,,,0.80,rule,,active,0.0,observed
+Help Desk Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,service_desk_analyst,,,,,,0.95,rule,,active,0.0,observed
+Help Desk (Technician),Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,service_desk_analyst,,,,,,0.95,rule,,active,0.0,observed
+IT Auditor,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_auditor,,,,,,0.95,rule,,active,0.0,observed
+IT Contract Administrator/Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_vendor_contract_manager,junior,,,,,0.95,rule,,active,0.0,observed
+IT Contract Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_vendor_contract_manager,,,,,,0.95,rule,,active,0.0,observed
+IT Procurement Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_procurement_specialist,,,,,,0.95,rule,,active,0.0,observed
+IT Procurement Specialist/Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_procurement_specialist,,,,,,0.95,rule,,active,0.0,observed
+Information Security Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,information_security_manager,,,,,,0.95,rule,,active,0.0,observed
+Instructor Trainer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,it_trainer,,,,,,0.95,rule,,active,0.0,observed
+Mobile Applications Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,mobile_developer,,,,,,0.95,rule,,active,0.0,observed
+Network Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_administrator,,,,,,0.95,rule,,active,0.0,observed
+Network Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_engineer,,,,,,0.95,rule,,active,0.0,observed
+Network Operations Center (NOC) Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_operations_technician,,,,,,0.95,rule,,active,0.0,observed
+Network Security Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Network Security Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_engineer,,,,,,0.95,rule,,active,0.0,observed
+Process Improvement Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,business_process_analyst,,,,,,0.95,rule,,active,0.0,observed
+Product Support Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,application_support_analyst,,,,,,0.95,rule,,active,0.0,observed
+Program Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,program_manager,,,,,,0.95,rule,,active,0.0,observed
+Project Lead,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,project_manager,,,,,,0.95,rule,,active,0.0,observed
+Project Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,project_manager,,,,,,0.95,rule,,active,0.0,observed
+QA Associate/Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_analyst,,,,,,0.95,rule,,active,0.0,observed
+QA Engineer Automated,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_automation_engineer,,,,,,0.95,rule,,active,0.0,observed
+QA Engineer - Automated,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_automation_engineer,,,,,,0.95,rule,,active,0.0,observed
+QA/Test Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,test_manager,,,,,,0.95,rule,,active,0.0,observed
+Security Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,security_administrator,,,,,,0.95,rule,,active,0.0,observed
+Senior Web Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,web_developer,senior,,,,,0.95,rule,,active,0.0,observed
+Site Reliability Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,site_reliability_engineer,,,,,,0.95,rule,,active,0.0,observed
+Software Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Software Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Support Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,desktop_support_technician,,,,,,0.95,rule,,active,0.0,observed
+Systems Analyst,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,systems_analyst,,,,,,0.95,rule,,active,0.0,observed
+Technical Writer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,technical_writer,,,,,,0.95,rule,,active,0.0,observed
+Telecommunications Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,telecommunications_manager,,,,,,0.95,rule,,active,0.0,observed
+Telecommunications Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,telecommunications_engineer,,,,,,0.95,rule,,active,0.0,observed
+Telecommunications Specialist/Technician,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,telecommunications_engineer,,,,,,0.95,rule,,active,0.0,observed
+Web Administrator,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,web_administrator,,,,,,0.95,rule,,active,0.0,observed
+Web Content Technician/Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,content_designer,,,,,,0.95,rule,,active,0.0,observed
+Web Content Specialist/Manager,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,content_designer,,,,,,0.95,rule,,active,0.0,observed
+Web Developer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,web_developer,,,,,,0.95,rule,,active,0.0,observed
+Wireless Network Engineer,Texas DIR ITSAC 2024,https://www.cgi.com/sites/default/files/2024-10/dir-cpo-5498-appendix-d-itsac-job-category-title-descriptions.docx.pdf,network_engineer,,wireless,,,,0.95,rule,,active,0.0,observed
+Business Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,business_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cloud Engineer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,cloud_engineer,,,,,,0.95,rule,,active,0.0,observed
+Database Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,database_administrator,,,,,,0.95,rule,,active,0.0,observed
+Database Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,database_architect,,,,,,0.95,rule,,active,0.0,observed
+Database Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,database_manager,,,,,,0.95,rule,,active,0.0,observed
+Graphic Designer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,graphic_designer,,,,,,0.95,rule,,active,0.0,observed
+Help Desk Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,service_desk_manager,,,,,,0.95,rule,,active,0.0,observed
+IT Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,it_manager,,,,,,0.95,rule,,active,0.0,observed
+Network Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,network_administrator,,,,,,0.95,rule,,active,0.0,observed
+Network Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,network_architect,,,,,,0.95,rule,,active,0.0,observed
+Operations Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,it_operations_manager,,,,,,0.95,rule,,active,0.0,observed
+Programmer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Project Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,project_manager,,,,,,0.95,rule,,active,0.0,observed
+Security Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Security Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,information_security_manager,,,,,,0.95,rule,,active,0.0,observed
+Software Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,programmer_analyst,,,,,,0.95,rule,,active,0.0,observed
+Software Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,application_architect,,,,,,0.95,rule,,active,0.0,observed
+Software Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Software Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,engineering_manager,,,,,,0.95,rule,,active,0.0,observed
+Systems Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,systems_administrator,,,,,,0.95,rule,,active,0.0,observed
+Systems Analyst,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,systems_analyst,,,,,,0.95,rule,,active,0.0,observed
+Systems Architect,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,technical_architect,,,,,,0.95,rule,,active,0.0,observed
+Systems Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Technical Writer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,technical_writer,,,,,,0.95,rule,,active,0.0,observed
+Tester,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,test_analyst,,,,,,0.95,rule,,active,0.0,observed
+Training Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,learning_content_developer,,,,,,0.95,rule,,active,0.0,observed
+Web Administrator,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_administrator,,,,,,0.95,rule,,active,0.0,observed
+Web Designer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_designer,,,,,,0.95,rule,,active,0.0,observed
+Web Developer,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_developer,,,,,,0.95,rule,,active,0.0,observed
+Web Manager,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,web_administrator,,,,,,0.95,rule,,active,0.0,observed
+IT Specialist,NY OGS HBITS 23158,https://ogs.ny.gov/procurement/23158-hbits-hourly-bill-rate-averages,,,,,,,0.00,rule,,flagged,0.0,observed
+Application/software architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,application_architect,,,,A.1,,0.95,rule,,active,0.0,observed
+ERP functional analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_functional_consultant,,erp,,A.2,,0.95,rule,,active,0.0,observed
+ERP programmer analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_developer,,erp,,A.3,,0.95,rule,,active,0.0,observed
+ERP system analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_functional_consultant,,erp,,A.4,,0.95,rule,,active,0.0,observed
+ERP technical analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,packaged_application_technical_consultant,,erp,,A.5,,0.95,rule,,active,0.0,observed
+Programmer/software developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,software_developer,,,,A.6,,0.95,rule,,active,0.0,observed
+Programmer/analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,programmer_analyst,,,,A.7,,0.95,rule,,active,0.0,observed
+System analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,systems_analyst,,,,A.8,,0.95,rule,,active,0.0,observed
+System auditor,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,it_auditor,,,,A.9,,0.95,rule,,active,0.0,observed
+Test coordinator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,test_manager,,,,A.10,,0.95,rule,,active,0.0,observed
+Tester,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,test_analyst,,,,A.11,,0.95,rule,,active,0.0,observed
+Web architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,application_architect,,,,A.12,,0.95,rule,,active,0.0,observed
+Web designer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_designer,,,,A.13,,0.95,rule,,active,0.0,observed
+Web developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_developer,,,,A.14,,0.95,rule,,active,0.0,observed
+Web graphics designer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,graphic_designer,,,,A.15,,0.95,rule,,active,0.0,observed
+Web multi-media content consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,content_designer,,,,A.16,,0.95,rule,,active,0.0,observed
+Webmaster,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_administrator,,,,A.17,,0.95,rule,,active,0.0,observed
+Geomatics analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_analyst,,gis,,G.1,,0.95,rule,,active,0.0,observed
+Geomatics specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_analyst,,gis,,G.2,,0.95,rule,,active,0.0,observed
+GIS applications analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,systems_analyst,,gis,,G.3,,0.95,rule,,active,0.0,observed
+GIS application architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,application_architect,,gis,,G.4,,0.95,rule,,active,0.0,observed
+GIS data architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_architect,,gis,,G.5,,0.95,rule,,active,0.0,observed
+GIS infrastructure architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,infrastructure_architect,,gis,,G.6,,0.95,rule,,active,0.0,observed
+GIS programmer/analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,programmer_analyst,,gis,,G.7,,0.95,rule,,active,0.0,observed
+GIS project manager,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_manager,,gis,,G.8,,0.95,rule,,active,0.0,observed
+GIS system architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,solution_architect,,gis,,G.9,,0.95,rule,,active,0.0,observed
+GIS web mapping developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,web_developer,,gis,,G.10,,0.95,rule,,active,0.0,observed
+Mapping technician,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_analyst,junior,gis,,G.11,,0.95,rule,,active,0.0,observed
+Data conversion specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_migration_specialist,,,,I.1,,0.95,rule,,active,0.0,observed
+Database administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,database_administrator,,,,I.2,,0.95,rule,,active,0.0,observed
+Database analyst/IM administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,database_analyst,,,,I.3,,0.95,rule,,active,0.0,observed
+Database modeller/IM modeller,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_modeler,,,,I.4,,0.95,rule,,active,0.0,observed
+Information management architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,data_architect,,,,I.5,,0.95,rule,,active,0.0,observed
+Network analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,network_analyst,,,,I.6,,0.95,rule,,active,0.0,observed
+Platform analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,platform_engineer,,,,I.7,,0.95,rule,,active,0.0,observed
+Storage architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,infrastructure_architect,,,,I.8,,0.95,rule,,active,0.0,observed
+System administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,systems_administrator,,,,I.9,,0.95,rule,,active,0.0,observed
+Technical architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,technical_architect,,,,I.10,,0.95,rule,,active,0.0,observed
+Technology architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,technical_architect,,,,I.11,,0.95,rule,,active,0.0,observed
+Business analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_analyst,,,,B.1,,0.95,rule,,active,0.0,observed
+Business architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_architect,,,,B.2,,0.95,rule,,active,0.0,observed
+Business consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,B.3,,0.95,rule,,active,0.0,observed
+Business continuity/disaster recovery specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_continuity_specialist,,,,B.4,,0.95,rule,,active,0.0,observed
+Business process re-engineering consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_process_analyst,,,,B.5,,0.95,rule,,active,0.0,observed
+Business system analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_analyst,,,,B.6,,0.95,rule,,active,0.0,observed
+Business transformation architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,business_architect,,,,B.7,,0.95,rule,,active,0.0,observed
+Call centre consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,B.8,,0.95,rule,,active,0.0,observed
+Courseware developer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,learning_content_developer,,,,B.9,,0.95,rule,,active,0.0,observed
+Help desk specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,service_desk_analyst,,,,B.10,,0.95,rule,,active,0.0,observed
+"Instructor, information technology",Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,it_trainer,,,,B.11,,0.95,rule,,active,0.0,observed
+Network support specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,network_analyst,,,,B.12,,0.95,rule,,active,0.0,observed
+Operations support specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,it_operations_analyst,,,,B.13,,0.95,rule,,active,0.0,observed
+Technical writer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,technical_writer,,,,B.14,,0.95,rule,,active,0.0,observed
+Change management consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,change_management_consultant,,,,P.1,,0.95,rule,,active,0.0,observed
+Enterprise architect,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,enterprise_architect,,,,P.2,,0.95,rule,,active,0.0,observed
+Human resources consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,P.3,,0.95,rule,,active,0.0,observed
+Organizational development consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,management_consultant,,,,P.4,,0.95,rule,,active,0.0,observed
+Project executive,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,program_manager,lead_principal,,,P.5,,0.95,rule,,active,0.0,observed
+Project administrator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_coordinator,,,,P.6,,0.95,rule,,active,0.0,observed
+Project coordinator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_coordinator,,,,P.7,,0.95,rule,,active,0.0,observed
+Project leader,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_manager,,,,P.8,,0.95,rule,,active,0.0,observed
+Project manager,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_manager,,,,P.9,,0.95,rule,,active,0.0,observed
+Project scheduler,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_coordinator,,,,P.10,,0.95,rule,,active,0.0,observed
+Quality assurance specialist/analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,quality_assurance_analyst,,,,P.11,,0.95,rule,,active,0.0,observed
+Risk management specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,risk_management_specialist,,,,P.12,,0.95,rule,,active,0.0,observed
+Independent IT project review team leader,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_assurance_reviewer,lead_principal,,,P.13,,0.95,rule,,active,0.0,observed
+Independent IT project reviewer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,project_assurance_reviewer,,,,P.14,,0.95,rule,,active,0.0,observed
+Strategic IT security planning and protection consultant,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_grc_analyst,,,,C.1,,0.95,rule,,active,0.0,observed
+"IT security methodology, policy and procedures analyst",Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_grc_analyst,,,,C.2,,0.95,rule,,active,0.0,observed
+IT security TRA and C&A analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_grc_analyst,,,,C.3,,0.95,rule,,active,0.0,observed
+IT security product evaluation specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_engineer,,,,C.4,,0.95,rule,,active,0.0,observed
+Public key infrastructure specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,identity_access_management_engineer,,,,C.5,,0.95,rule,,active,0.0,observed
+IT security engineer,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_engineer,,,,C.6,,0.95,rule,,active,0.0,observed
+IT security design specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_architect,,,,C.7,,0.95,rule,,active,0.0,observed
+Network security analyst,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_analyst,,,,C.8,,0.95,rule,,active,0.0,observed
+IT security systems operator,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_administrator,,,,C.9,,0.95,rule,,active,0.0,observed
+IT security installation specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_administrator,,,,C.10,,0.95,rule,,active,0.0,observed
+IT security vulnerability analysis specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,vulnerability_analyst,,,,C.11,,0.95,rule,,active,0.0,observed
+Incident management specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,incident_responder,,,,C.12,,0.95,rule,,active,0.0,observed
+IT security research and development specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,security_engineer,,,,C.14,,0.95,rule,,active,0.0,observed
+Computer forensics specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,digital_forensics_analyst,,,,C.15,,0.95,rule,,active,0.0,observed
+Privacy impact assessment specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,privacy_specialist,,,,C.16,,0.95,rule,,active,0.0,observed
+Physical IT security specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,,,,,C.13,,0.00,rule,,flagged,0.0,observed
+Emanations security (TEMPEST) specialist,Canada TBIPS,https://www.canada.ca/en/public-services-procurement/services/acquisitions/informatics-method-supply/task-based-streams-categories.html,,,,,C.17,,0.00,rule,,flagged,0.0,observed
+Business architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,business_architect,,,,,,0.95,rule,,active,0.0,observed
+Data architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_architect,,,,,,0.95,rule,,active,0.0,observed
+Enterprise architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,enterprise_architect,,,,,,0.95,rule,,active,0.0,observed
+Network architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,network_architect,,,,,,0.95,rule,,active,0.0,observed
+Security architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_architect,,,,,,0.95,rule,,active,0.0,observed
+Solution architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,solution_architect,,,,,,0.95,rule,,active,0.0,observed
+Technical architect,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,technical_architect,,,,,,0.95,rule,,active,0.0,observed
+Chief data officer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,chief_data_officer,,,,,,0.95,rule,,active,0.0,observed
+Chief information security officer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,chief_information_security_officer,,,,,,0.95,rule,,active,0.0,observed
+Chief technology officer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,chief_technology_officer,,,,,,0.95,rule,,active,0.0,observed
+Cyber security audit and assurance,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_grc_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security digital forensics,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,digital_forensics_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security governance and risk management,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_grc_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security incident response,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,incident_responder,,,,,,0.95,rule,,active,0.0,observed
+Cyber security monitoring,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security secure design,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,security_engineer,,,,,,0.95,rule,,active,0.0,observed
+Cyber security testing,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,penetration_tester,,,,,,0.95,rule,,active,0.0,observed
+Cyber security vulnerability management,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,vulnerability_analyst,,,,,,0.95,rule,,active,0.0,observed
+Analytics engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,analytics_engineer,,,,,,0.95,rule,,active,0.0,observed
+Data analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_analyst,,,,,,0.95,rule,,active,0.0,observed
+Data engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_engineer,,,,,,0.95,rule,,active,0.0,observed
+Data ethicist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_ai_ethicist,,,,,,0.95,rule,,active,0.0,observed
+Data governance manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_governance_manager,,,,,,0.95,rule,,active,0.0,observed
+Data scientist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,data_scientist,,,,,,0.95,rule,,active,0.0,observed
+Machine learning engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,machine_learning_engineer,,,,,,0.95,rule,,active,0.0,observed
+Performance analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,performance_analyst,,,,,,0.95,rule,,active,0.0,observed
+Application operations engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,application_support_analyst,,,,,,0.95,rule,,active,0.0,observed
+Business relationship manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,business_relationship_manager,,,,,,0.95,rule,,active,0.0,observed
+Change and release manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,change_release_manager,,,,,,0.95,rule,,active,0.0,observed
+Command and control centre manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,it_operations_analyst,,,,,,0.95,rule,,active,0.0,observed
+End user computing engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,end_user_computing_engineer,,,,,,0.95,rule,,active,0.0,observed
+IT service manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,it_service_manager,,,,,,0.95,rule,,active,0.0,observed
+Incident manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,incident_manager,,,,,,0.95,rule,,active,0.0,observed
+Infrastructure engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,infrastructure_engineer,,,,,,0.95,rule,,active,0.0,observed
+Infrastructure operations engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,infrastructure_operations_engineer,,,,,,0.95,rule,,active,0.0,observed
+Problem manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,problem_manager,,,,,,0.95,rule,,active,0.0,observed
+Service desk manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_desk_manager,,,,,,0.95,rule,,active,0.0,observed
+Service transition manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_transition_manager,,,,,,0.95,rule,,active,0.0,observed
+Business analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,business_analyst,,,,,,0.95,rule,,active,0.0,observed
+Delivery manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,delivery_manager,,,,,,0.95,rule,,active,0.0,observed
+Digital portfolio manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,portfolio_manager,,,,,,0.95,rule,,active,0.0,observed
+Product manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,product_manager,,,,,,0.95,rule,,active,0.0,observed
+Programme delivery manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,program_manager,,,,,,0.95,rule,,active,0.0,observed
+Service owner,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_owner,,,,,,0.95,rule,,active,0.0,observed
+QAT analyst,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,test_analyst,,,,,,0.95,rule,,active,0.0,observed
+Test engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,test_automation_engineer,,,,,,0.95,rule,,active,0.0,observed
+Test manager,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,test_manager,,,,,,0.95,rule,,active,0.0,observed
+DevOps engineer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,devops_engineer,,,,,,0.95,rule,,active,0.0,observed
+Frontend developer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,frontend_developer,,,,,,0.95,rule,,active,0.0,observed
+Software developer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Accessibility specialist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,accessibility_specialist,,,,,,0.95,rule,,active,0.0,observed
+Content designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,content_designer,,,,,,0.95,rule,,active,0.0,observed
+Content strategist,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,content_strategist,,,,,,0.95,rule,,active,0.0,observed
+Graphic designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,graphic_designer,,,,,,0.95,rule,,active,0.0,observed
+Interaction designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,interaction_designer,,,,,,0.95,rule,,active,0.0,observed
+Service designer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,service_designer,,,,,,0.95,rule,,active,0.0,observed
+Technical writer,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,technical_writer,,,,,,0.95,rule,,active,0.0,observed
+User researcher,UK G-Cloud 15,https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15,user_researcher,,,,,,0.95,rule,,active,0.0,observed
+Business architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,business_architect,,,,,,0.95,rule,,active,0.0,observed
+Data architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_architect,,,,,,0.95,rule,,active,0.0,observed
+Enterprise architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,enterprise_architect,,,,,,0.95,rule,,active,0.0,observed
+Network architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,network_architect,,,,,,0.95,rule,,active,0.0,observed
+Security architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_architect,,,,,,0.95,rule,,active,0.0,observed
+Solution architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,solution_architect,,,,,,0.95,rule,,active,0.0,observed
+Technical architect,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,technical_architect,,,,,,0.95,rule,,active,0.0,observed
+Chief data officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_data_officer,,,,,,0.95,rule,,active,0.0,observed
+Chief information security officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_information_security_officer,,,,,,0.95,rule,,active,0.0,observed
+Chief technology officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_technology_officer,,,,,,0.95,rule,,active,0.0,observed
+Cyber security audit and assurance,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_grc_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security digital forensics,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,digital_forensics_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security governance and risk management,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_grc_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security incident response,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,incident_responder,,,,,,0.95,rule,,active,0.0,observed
+Cyber security monitoring,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cyber security secure design,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,security_engineer,,,,,,0.95,rule,,active,0.0,observed
+Cyber security testing,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,penetration_tester,,,,,,0.95,rule,,active,0.0,observed
+Cyber security vulnerability management,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,vulnerability_analyst,,,,,,0.95,rule,,active,0.0,observed
+Analytics engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,analytics_engineer,,,,,,0.95,rule,,active,0.0,observed
+Data analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_analyst,,,,,,0.95,rule,,active,0.0,observed
+Data engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_engineer,,,,,,0.95,rule,,active,0.0,observed
+Data governance manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_governance_manager,,,,,,0.95,rule,,active,0.0,observed
+Data scientist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_scientist,,,,,,0.95,rule,,active,0.0,observed
+Machine learning engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,machine_learning_engineer,,,,,,0.95,rule,,active,0.0,observed
+Performance analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,performance_analyst,,,,,,0.95,rule,,active,0.0,observed
+Application operations engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,application_support_analyst,,,,,,0.95,rule,,active,0.0,observed
+Business relationship manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,business_relationship_manager,,,,,,0.95,rule,,active,0.0,observed
+Change and release manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,change_release_manager,,,,,,0.95,rule,,active,0.0,observed
+Command and control centre manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,it_operations_analyst,,,,,,0.95,rule,,active,0.0,observed
+End user computing engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,end_user_computing_engineer,,,,,,0.95,rule,,active,0.0,observed
+IT service manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,it_service_manager,,,,,,0.95,rule,,active,0.0,observed
+Incident manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,incident_manager,,,,,,0.95,rule,,active,0.0,observed
+Infrastructure engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,infrastructure_engineer,,,,,,0.95,rule,,active,0.0,observed
+Infrastructure operations engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,infrastructure_operations_engineer,,,,,,0.95,rule,,active,0.0,observed
+Problem manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,problem_manager,,,,,,0.95,rule,,active,0.0,observed
+Service desk manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_desk_manager,,,,,,0.95,rule,,active,0.0,observed
+Service transition manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_transition_manager,,,,,,0.95,rule,,active,0.0,observed
+Business analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,business_analyst,,,,,,0.95,rule,,active,0.0,observed
+Delivery manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,delivery_manager,,,,,,0.95,rule,,active,0.0,observed
+Digital portfolio manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,portfolio_manager,,,,,,0.95,rule,,active,0.0,observed
+Product manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,product_manager,,,,,,0.95,rule,,active,0.0,observed
+Programme delivery manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,program_manager,,,,,,0.95,rule,,active,0.0,observed
+Service owner,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_owner,,,,,,0.95,rule,,active,0.0,observed
+Test engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,test_automation_engineer,,,,,,0.95,rule,,active,0.0,observed
+Test manager,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,test_manager,,,,,,0.95,rule,,active,0.0,observed
+DevOps engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,devops_engineer,,,,,,0.95,rule,,active,0.0,observed
+Frontend developer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,frontend_developer,,,,,,0.95,rule,,active,0.0,observed
+Software developer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Accessibility specialist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,accessibility_specialist,,,,,,0.95,rule,,active,0.0,observed
+Content designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,content_designer,,,,,,0.95,rule,,active,0.0,observed
+Content strategist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,content_strategist,,,,,,0.95,rule,,active,0.0,observed
+Graphic designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,graphic_designer,,,,,,0.95,rule,,active,0.0,observed
+Interaction designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,interaction_designer,,,,,,0.95,rule,,active,0.0,observed
+Service designer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,service_designer,,,,,,0.95,rule,,active,0.0,observed
+Technical writer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,technical_writer,,,,,,0.95,rule,,active,0.0,observed
+User researcher,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,user_researcher,,,,,,0.95,rule,,active,0.0,observed
+Chief digital and information officer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,chief_information_officer,,,,,,0.95,rule,,active,0.0,observed
+Data and artificial intelligence ethicist,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,data_ai_ethicist,,,,,,0.95,rule,,active,0.0,observed
+Development operations (DevOps) engineer,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,devops_engineer,,,,,,0.95,rule,,active,0.0,observed
+Quality assurance test analyst,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,test_analyst,,,,,,0.95,rule,,active,0.0,observed
+Digital evaluator,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,performance_analyst,,,,,,0.95,rule,,active,0.0,observed
+Agile coach,UK DDaT framework,https://ddat-capability-framework.service.gov.uk/,agile_coach,,,,,,0.95,rule,,active,0.0,observed
+Business Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,business_analyst,,,,,,0.95,rule,,active,0.0,observed
+Cloud Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,cloud_engineer,,,,,,0.95,rule,,active,0.0,observed
+Cybersecurity Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Data Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,data_engineer,,,,,,0.95,rule,,active,0.0,observed
+Data Scientist,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,data_scientist,,,,,,0.95,rule,,active,0.0,observed
+Database Administrator,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,database_administrator,,,,,,0.95,rule,,active,0.0,observed
+DevOps Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,devops_engineer,,,,,,0.95,rule,,active,0.0,observed
+Enterprise Architect,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,enterprise_architect,,,,,,0.95,rule,,active,0.0,observed
+Help Desk Technician,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,service_desk_analyst,,,,,,0.95,rule,,active,0.0,observed
+Information Security Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,security_analyst,,,,,,0.95,rule,,active,0.0,observed
+Network Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,network_engineer,,,,,,0.95,rule,,active,0.0,observed
+Program Manager,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,program_manager,,,,,,0.95,rule,,active,0.0,observed
+Programmer Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,programmer_analyst,,,,,,0.95,rule,,active,0.0,observed
+Project Manager,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,project_manager,,,,,,0.95,rule,,active,0.0,observed
+Quality Assurance Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,test_analyst,,,,,,0.95,rule,,active,0.0,observed
+Scrum Master,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,scrum_master,,,,,,0.95,rule,,active,0.0,observed
+Software Developer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Software Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,software_developer,,,,,,0.95,rule,,active,0.0,observed
+Solutions Architect,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,solution_architect,,,,,,0.95,rule,,active,0.0,observed
+Systems Analyst,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,systems_analyst,,,,,,0.95,rule,,active,0.0,observed
+Systems Engineer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,systems_engineer,,,,,,0.95,rule,,active,0.0,observed
+Technical Writer,US GSA CALC+,https://api.gsa.gov/acquisition/calc/v3/api/ceilingrates/,technical_writer,,,,,,0.95,rule,,active,0.0,observed
+Program Manager PM02,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,program_manager,,,,PM02,10,0.95,rule,,active,0.0,observed
+Task Manager PM01,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,project_manager,,,,PM01,,0.95,rule,,active,0.0,observed
+Data Architect ER03,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,data_architect,,,,ER03,12,0.95,rule,,active,0.0,observed
+Senior Systems Engineer SY05,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,systems_engineer,senior,,,SY05,,0.95,rule,,active,0.0,observed
+Computer Programmer IV CP04,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,software_developer,lead_principal,,,CP04,,0.95,rule,,active,0.0,observed
+Security Engineer IA03,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,security_engineer,,,,IA03,,0.95,rule,,active,0.0,observed
+Help Desk Coordinator HD01,GSA pricelist CDO Technologies,https://www.gsaadvantage.gov/ref_text/GS35F5457H/0OJBQO.36MJO2_GS-35F-5457H_GS35F5457HGPLOY.PDF,service_desk_analyst,,,,HD01,,0.95,rule,,active,0.0,observed
+Computer Security Systems Engineer III,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,security_engineer,senior,,,,12,0.95,rule,,active,0.0,observed
+IT Business SME (Subject Matter Expert),GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,subject_matter_expert,lead_principal,,,,,0.95,rule,,active,0.0,observed
+IT Database Analyst III,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,database_analyst,senior,,,,,0.95,rule,,active,0.0,observed
+IT Help Desk Support Services Specialist - Entry Level,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,service_desk_analyst,junior,,,,1,0.95,rule,,active,0.0,observed
+IT Program Manager,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,program_manager,,,,,,0.95,rule,,active,0.0,observed
+Software Developer - SME,GSA pricelist Constellation West,https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF,software_developer,lead_principal,,,,10,0.95,rule,,active,0.0,observed
+Program Manager,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,program_manager,,,,,9,0.95,rule,,active,0.0,observed
+Project Manager,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,project_manager,,,,,,0.95,rule,,active,0.0,observed
+Sr. Project Manager,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,project_manager,senior,,,,,0.95,rule,,active,0.0,observed
+Business Analyst,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,business_analyst,,,,,1,0.95,rule,,active,0.0,observed
+Sr. Business Analyst,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,business_analyst,senior,,,,,0.95,rule,,active,0.0,observed
+Java Developer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,software_developer,,java,,,1,0.95,rule,,active,0.0,observed
+Sr. Java Developer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,software_developer,senior,java,,,,0.95,rule,,active,0.0,observed
+Cloud Engineer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,cloud_engineer,,,,,,0.95,rule,,active,0.0,observed
+Sr. Cloud Engineer,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,cloud_engineer,senior,,,,,0.95,rule,,active,0.0,observed
+Manual Tester,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,test_analyst,,,,,,0.95,rule,,active,0.0,observed
+Oracle DBA,GSA pricelist tCognition,https://www.gsaadvantage.gov/ref_text/47QTCA23D003W/0XZCAC.3TPP53_47QTCA23D003W_TCOGNITIONGSAPRICECATALOG.PDF,database_administrator,,oracle,,,,0.95,rule,,active,0.0,observed
+Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Programmer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Coder,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Software Engineer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Application Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Applications Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Full Stack Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Backend Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Back End Developer,TWM alias,,software_developer,,,,,,0.90,rule,,active,0.0,authored
+Technical Lead,TWM alias,,software_developer,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Tech Lead,TWM alias,,software_developer,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Front End Developer,TWM alias,,frontend_developer,,,,,,0.90,rule,,active,0.0,authored
+UI Developer,TWM alias,,frontend_developer,,,,,,0.90,rule,,active,0.0,authored
+DBA,TWM alias,,database_administrator,,,,,,0.90,rule,,active,0.0,authored
+Database Admin,TWM alias,,database_administrator,,,,,,0.90,rule,,active,0.0,authored
+Sysadmin,TWM alias,,systems_administrator,,,,,,0.90,rule,,active,0.0,authored
+System Administrator,TWM alias,,systems_administrator,,,,,,0.90,rule,,active,0.0,authored
+Systems Admin,TWM alias,,systems_administrator,,,,,,0.90,rule,,active,0.0,authored
+Help Desk,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0,authored
+Helpdesk,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0,authored
+Service Desk Analyst,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0,authored
+Help Desk Analyst,TWM alias,,service_desk_analyst,,,,,,0.90,rule,,active,0.0,authored
+Support Analyst,TWM alias,,application_support_analyst,,,,,,0.90,rule,,active,0.0,authored
+QA Analyst,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0,authored
+QA Engineer,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0,authored
+Test Analyst,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0,authored
+Tester,TWM alias,,test_analyst,,,,,,0.90,rule,,active,0.0,authored
+Automation Engineer,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0,authored
+SDET,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0,authored
+Test Automation Engineer,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0,authored
+Test,TWM alias,,test_manager,,,,,,0.90,rule,,active,0.0,authored
+Test Lead,TWM alias,,test_manager,,,,,,0.90,rule,,active,0.0,authored
+UX Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
+UI Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
+UX/UI Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
+UX Researcher,TWM alias,,user_researcher,,,,,,0.90,rule,,active,0.0,authored
+Interaction Design,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
+Service Design,TWM alias,,service_designer,,,,,,0.90,rule,,active,0.0,authored
+User Research,TWM alias,,user_researcher,,,,,,0.90,rule,,active,0.0,authored
+Content Design,TWM alias,,content_designer,,,,,,0.90,rule,,active,0.0,authored
+Graphic Design,TWM alias,,graphic_designer,,,,,,0.90,rule,,active,0.0,authored
+Accessibility,TWM alias,,accessibility_specialist,,,,,,0.90,rule,,active,0.0,authored
+Frontend Development,TWM alias,,frontend_developer,,,,,,0.90,rule,,active,0.0,authored
+Data Science,TWM alias,,data_scientist,,,,,,0.90,rule,,active,0.0,authored
+Data Engineering,TWM alias,,data_engineer,,,,,,0.90,rule,,active,0.0,authored
+Data Governance,TWM alias,,data_governance_manager,,,,,,0.90,rule,,active,0.0,authored
+Analytics Engineering,TWM alias,,analytics_engineer,,,,,,0.90,rule,,active,0.0,authored
+Data Ethics,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0,authored
+Data and AI Ethics,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0,authored
+Data and AI Ethicist,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0,authored
+AI Ethicist,TWM alias,,data_ai_ethicist,,,,,,0.90,rule,,active,0.0,authored
+Data Ethics Lead,TWM alias,,data_ai_ethicist,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Digital Evaluation,TWM alias,,performance_analyst,,,,,,0.90,rule,,active,0.0,authored
+Performance Analysis,TWM alias,,performance_analyst,,,,,,0.90,rule,,active,0.0,authored
+Business Analysis,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0,authored
+Business Systems Analyst,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0,authored
+Requirements Analyst,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0,authored
+Functional Analyst,TWM alias,,business_analyst,,,,,,0.90,rule,,active,0.0,authored
+System Analyst,TWM alias,,systems_analyst,,,,,,0.90,rule,,active,0.0,authored
+Delivery Management,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0,authored
+Agile Delivery Management,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0,authored
+Agile Delivery Manager,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0,authored
+Agile Delivery,TWM alias,,delivery_manager,,,,,,0.90,rule,,active,0.0,authored
+IT Service,TWM alias,,it_service_manager,,,,,,0.90,rule,,active,0.0,authored
+Business Relationship,TWM alias,,business_relationship_manager,,,,,,0.90,rule,,active,0.0,authored
+Portfolio,TWM alias,,portfolio_manager,,,,,,0.90,rule,,active,0.0,authored
+Digital Portfolio Analyst,TWM alias,,portfolio_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Product,TWM alias,,product_manager,,,,,,0.90,rule,,active,0.0,authored
+PMO Analyst,TWM alias,,project_coordinator,,,,,,0.90,rule,,active,0.0,authored
+Project Management Office Analyst,TWM alias,,project_coordinator,,,,,,0.90,rule,,active,0.0,authored
+Programme Manager,TWM alias,,program_manager,,,,,,0.90,rule,,active,0.0,authored
+Program Director,TWM alias,,program_manager,lead_principal,,,,,0.90,rule,,active,0.0,authored
+IT Service Management,TWM alias,,it_service_manager,,,,,,0.90,rule,,active,0.0,authored
+IT Service Analyst,TWM alias,,it_service_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Service Desk,TWM alias,,service_desk_manager,,,,,,0.90,rule,,active,0.0,authored
+Service Desk Manager,TWM alias,,service_desk_manager,,,,,,0.90,rule,,active,0.0,authored
+Command and Control,TWM alias,,it_operations_analyst,,,,,,0.90,rule,,active,0.0,authored
+Operations Analyst,TWM alias,,it_operations_analyst,,,,,,0.90,rule,,active,0.0,authored
+Operational Control Manager,TWM alias,,it_operations_analyst,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Business Relationship Management,TWM alias,,business_relationship_manager,,,,,,0.90,rule,,active,0.0,authored
+Change and Release Analyst,TWM alias,,change_release_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Configuration Analyst,TWM alias,,change_release_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Service Acceptance Analyst,TWM alias,,service_transition_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Service Readiness Analyst,TWM alias,,service_transition_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Problem Analyst,TWM alias,,problem_manager,intermediate,,,,,0.90,rule,,active,0.0,authored
+Major Incident Manager,TWM alias,,incident_manager,senior,,,,,0.90,rule,,active,0.0,authored
+Digital and Information Officer,TWM alias,,chief_information_officer,,,,,,0.90,rule,,active,0.0,authored
+CIO,TWM alias,,chief_information_officer,,,,,,0.90,rule,,active,0.0,authored
+CTO,TWM alias,,chief_technology_officer,,,,,,0.90,rule,,active,0.0,authored
+CDO,TWM alias,,chief_data_officer,,,,,,0.90,rule,,active,0.0,authored
+CISO,TWM alias,,chief_information_security_officer,,,,,,0.90,rule,,active,0.0,authored
+Solutions Architect,TWM alias,,solution_architect,,,,,,0.90,rule,,active,0.0,authored
+Software Architect,TWM alias,,application_architect,,,,,,0.90,rule,,active,0.0,authored
+Systems Architect,TWM alias,,technical_architect,,,,,,0.90,rule,,active,0.0,authored
+Architect,TWM alias,,solution_architect,,,,,,0.70,rule,,active,0.0,authored
+Scrum Master,TWM alias,,scrum_master,,,,,,0.90,rule,,active,0.0,authored
+SRE,TWM alias,,site_reliability_engineer,,,,,,0.90,rule,,active,0.0,authored
+DevOps,TWM alias,,devops_engineer,,,,,,0.90,rule,,active,0.0,authored
+ML Engineer,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0,authored
+AI Engineer,TWM alias,,ai_engineer,,,,,,0.90,rule,,active,0.0,authored
+AI ML Engineer,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0,authored
+AI/ML Engineer,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0,authored
+Machine Learning,TWM alias,,machine_learning_engineer,,,,,,0.90,rule,,active,0.0,authored
+Network Admin,TWM alias,,network_administrator,,,,,,0.90,rule,,active,0.0,authored
+System Engineer,TWM alias,,systems_engineer,,,,,,0.90,rule,,active,0.0,authored
+Systems Engineer,TWM alias,,systems_engineer,,,,,,0.90,rule,,active,0.0,authored
+Infrastructure Analyst,TWM alias,,infrastructure_operations_engineer,,,,,,0.90,rule,,active,0.0,authored
+Information Security Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0,authored
+Cyber Security Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0,authored
+Cybersecurity Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0,authored
+SOC Analyst,TWM alias,,security_analyst,,,,,,0.90,rule,,active,0.0,authored
+Security Engineer,TWM alias,,security_engineer,,,,,,0.90,rule,,active,0.0,authored
+Cyber Security Engineer,TWM alias,,security_engineer,,,,,,0.90,rule,,active,0.0,authored
+Penetration Tester,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0,authored
+Pen Tester,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0,authored
+Ethical Hacker,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0,authored
+Consultant,TWM alias,,management_consultant,intermediate,,,,,0.90,rule,,active,0.0,authored
+Engagement Manager,TWM alias,,engagement_manager,,,,,,0.90,rule,,active,0.0,authored
+Partner,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Associate Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Managing Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Subject Matter Expert,TWM alias,,subject_matter_expert,lead_principal,,,,,0.90,rule,,active,0.0,authored
+SME,TWM alias,,subject_matter_expert,lead_principal,,,,,0.90,rule,,active,0.0,authored
+Technical Writing,TWM alias,,technical_writer,,,,,,0.90,rule,,active,0.0,authored
+Head of Test,TWM alias,,test_manager,lead_principal,,,,,0.90,rule,,active,0.0,authored

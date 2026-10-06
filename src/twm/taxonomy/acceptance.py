@@ -99,6 +99,13 @@ def load_observations() -> list[Obs]:
         if m and m.group(1).strip() != "Civil Service grade band" and not m.group(1).startswith("-"):
             obs.append(Obs("Deloitte GC15 grades", "(grade band)", "Deloitte CS grade", m.group(1).strip(), rate=parse_rate(m.group(2)),
                            grid="GC15 Deloitte standard UK card by CS grade (GBP/day)"))
+    # Consulting-pyramid validation grids (B5, Oct 6 2026): Oklahoma OMES Deloitte 2018 and Deloitte GSA cyber block
+    for lvl, rate in [("Partner/Principal/Director", 350), ("Senior Manager", 300), ("Manager", 220), ("Senior Consultant", 185), ("Consultant", 150)]:
+        obs.append(Obs("Oklahoma OMES Deloitte 2018", "(consulting grade)", "Consulting pyramid", lvl, rate=float(rate),
+                       grid="Oklahoma OMES Deloitte 2018 signed contract (USD/hr, consulting pyramid)"))
+    for lvl, rate in [("Senior Manager", 312), ("Manager", 278), ("Senior Consultant", 240), ("Consultant", 203), ("Analyst", 152)]:
+        obs.append(Obs("Deloitte GSA price list", "(consulting grade)", "Consulting pyramid", lvl, rate=float(rate),
+                       grid="Deloitte GSA MAS cybersecurity block (USD/hr, consulting pyramid)"))
     # DDaT ladders: every role-level label as an observed title
     dd = FW / "DDaT_Role_and_skill_content_2026-08-28.csv"
     if dd.exists():
@@ -160,7 +167,7 @@ def build_report(store: TaxonomyStore, results) -> str:
     ambiguous: dict[str, set] = defaultdict(set)
     ddat_mismatch: list[tuple[str, str, str, str]] = []
     for o, r in results:
-        if o.source == "Deloitte GC15 grades":
+        if o.source in ("Deloitte GC15 grades", "Oklahoma OMES Deloitte 2018", "Deloitte GSA price list"):
             continue  # grade bands carry no titles; they only feed the band sanity check
         key = (o.title, o.level)
         if key in distinct[o.source]:
@@ -200,7 +207,9 @@ def build_report(store: TaxonomyStore, results) -> str:
     L.append(f"- Tech vocabulary: **{len(store.tech)}** tags")
     act = sum(1 for m in store.mappings if m.status == "active")
     fl = sum(1 for m in store.mappings if m.status == "flagged")
-    L.append(f"- Seeded title mappings: **{len(store.mappings)}** ({act} active, {fl} flagged; target 250–400)\n")
+    obs_n = sum(1 for m in store.mappings if m.source_class == "observed")
+    auth_n = sum(1 for m in store.mappings if m.source_class == "authored")
+    L.append(f"- Seeded title mappings: **{len(store.mappings)}** ({act} active, {fl} flagged; **{obs_n} observed in a source, {auth_n} authored aliases**; target 250–400 observed)\n")
     fam_counts = Counter(r.family_id for r in store.roles)
     L.append("| Family | Roles |\n|---|---|")
     for f in store.families:
@@ -277,8 +286,8 @@ def build_report(store: TaxonomyStore, results) -> str:
     for o, r in results:
         if o.grid and o.rate is not None:
             band = r.twm_band
-            if o.source == "Deloitte GC15 grades":
-                b = store.band_for("Deloitte CS grade", o.level)
+            if o.source in ("Deloitte GC15 grades", "Oklahoma OMES Deloitte 2018", "Deloitte GSA price list"):
+                b = store.band_for(o.scheme, o.level)
                 band = b.twm_band if b else None
             if band:
                 grids[o.grid][band].append(o.rate)

@@ -112,6 +112,7 @@ class NormalizedTitle:
     raw: str
     key: str                       # title_key(raw)
     core: str                      # key with seniority/location/tech tokens stripped
+    key_alt: Optional[str] = None  # key with a bracketed acronym removed, when there was one
     seniority_token: Optional[str] = None
     band_from_title: Optional[str] = None
     level_code_raw: Optional[str] = None   # roman numeral / "level 3" / vendor grade code, verbatim-ish
@@ -120,6 +121,25 @@ class NormalizedTitle:
     location_country: Optional[str] = None  # ISO country implied by a place name; classified later
     tech_tags: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
+
+
+_MID_MODIFIERS = {"sr": "senior", "senior": "senior", "jr": "junior", "junior": "junior", "principal": "lead_principal", "lead": "lead_principal"}
+_ACRONYM_RE = re.compile(r"\s*\((?:[A-Z]{2,6})\)")  # "(BIA)", "(PPD)" — an all-caps bracketed acronym repeats the title; "(Agile)" is kept
+
+
+def _strip_mid_seniority(key: str) -> tuple[str, Optional[str], Optional[str]]:
+    """Seniority words inside a title ('it sr manager', 'cybersecurity senior consultant') -> (core, token, band).
+
+    Only when the word is neither first nor last (those cases are handled by the lead/trail rules) and the
+    title has at least three words, so 'project lead' or 'lead developer' are untouched.
+    """
+    words = key.split()
+    if len(words) < 3:
+        return key, None, None
+    for i in range(1, len(words) - 1):
+        if words[i] in _MID_MODIFIERS:
+            return " ".join(words[:i] + words[i + 1:]), words[i], _MID_MODIFIERS[words[i]]
+    return key, None, None
 
 
 def _strip_seniority(key: str) -> tuple[str, Optional[str], Optional[str], Optional[str]]:
@@ -159,6 +179,11 @@ def _strip_seniority(key: str) -> tuple[str, Optional[str], Optional[str], Optio
             if token is None:
                 token, band = tok, b
             break
+    # a modifier in the middle of the title ("it sr manager"), only if none was found at either end
+    if token is None:
+        core, tok2, b2 = _strip_mid_seniority(core)
+        if tok2:
+            token, band = tok2, b2
     return core, token, band, level_code
 
 
@@ -202,6 +227,13 @@ def normalize_title(raw: str, store: TaxonomyStore) -> NormalizedTitle:
     """Apply rules 1-3 and return the stripped core plus everything captured."""
     key = title_key(raw)
     nt = NormalizedTitle(raw=raw, key=key, core=key)
+    raw_clean = _ACRONYM_RE.sub("", raw) if "(" in raw else raw
+    if raw_clean != raw:
+        # the full-title lookup still uses the original key (seed aliases like "Help Desk (Technician)" keep working);
+        # the stripped form only feeds the core-matching path
+        nt.key_alt = title_key(raw_clean)
+        key = nt.key_alt
+        nt.notes.append("bracketed acronym dropped for core matching")
     # location first so a leading "Offshore ..." does not mask a seniority word
     core, loc_tok, loc = _strip_location(key)
     nt.location_token, nt.location = loc_tok, loc
@@ -369,8 +401,10 @@ def resolve(
     if len(nt.tech_tags) > 1:
         res.notes.append("multiple tech tokens: " + ",".join(nt.tech_tags))
 
-    # rule 4: exact/alias match — full title first, then the stripped core
+    # rule 4: exact/alias match — full title first (original, then acronym-stripped), then the stripped core
     ids, rows = _lookup(store, nt.key)
+    if not ids and nt.key_alt:
+        ids, rows = _lookup(store, nt.key_alt)
     matched_on = "full_title" if ids else None
     row_band = None
     if ids and rows:
