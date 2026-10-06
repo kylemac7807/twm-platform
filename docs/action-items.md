@@ -15,6 +15,7 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 | A5 | Confirm or adjust the M2 "thin thread" scope. Kyle wants to discuss it further; the definition in CLAUDE.md is provisional | **Done** Oct 6. Settled in the walkthrough: first document is the Texas DIR Accenture set; scoring is field-level against a hand-verified answer sheet; audience is an Early Adopter CIO; build order one contract, volume run, evaluation, demo. |
 | A6 | Review the five recommended demo documents and confirm or swap them (`corpus-sources-and-demo-set.md` section 2) | **Open.** Overlaps Cowork's C5. |
 | A7 | Review `taxonomy/review-queue-heldout.md`: 61 titles the rules could not place, each with Claude's suggested role and band, plus three proposed generic rules and two tag questions (domain tags for cyber/health; a low-code tag). Confirm, change or reject rows; Claude codifies the confirmed ones | **Open.** The first real use of the flag-then-codify process. |
+| A8 | Read and accept (or change) the M2 intent and plan in `work/m2-thin-thread/` (intent.md, spec.md, plan.md). No code is written until the plan is accepted and the API key (C8) exists | **Open.** Drafted Oct 6; waiting on Kyle. |
 
 ## B. Claude Code — work in the project folder
 
