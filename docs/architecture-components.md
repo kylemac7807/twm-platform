@@ -58,9 +58,35 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 
 ---
 
-## 1.2 Document reading — to design next
+## 1.2 Document reading — **Decided** (Oct 5, 2026)
 
-## 1.3 Extraction — to design
+**What it does.** Turns a registered file into something software can work with: text, tables and layout, with the page and position of every element. Intake decides what a document is; document reading makes its contents usable. Native PDF and Word files read directly; scanned contracts (common for signed copies) need optical character recognition, and quality varies with the scan.
+
+**What goes in.** A registered document from intake, with its readiness grade.
+
+**What comes out.** A structured reading: every paragraph, heading and table cell tagged with page number and position, with a confidence score per element, and with document structure preserved (a rate table inside an appendix is still known to be a table inside that appendix). The position tagging is what lets an extracted number highlight its source on the page (`source_ref`).
+
+**Decisions (Kyle, Oct 5, 2026).**
+- **Behind an interface, local first.** Document reading sits behind a simple interface. A basic local reader for native PDFs serves M2 and the Accenture documents; Azure Document Intelligence replaces it when TWM's subscription exists. Scanned documents (e.g. the Oklahoma Deloitte contract) wait for Azure.
+- **Scan quality is a tracked attribute.** Every reading carries a quality grade that follows the data to the ledger, so a rate from a poor scan is never trusted as much as one from a native file.
+
+**Build or rent.** Rent: Azure Document Intelligence (Cowork's service map). TWM owns only the training on top: vendor-specific document models (the Technical Approach's "Expert Models"), added only where evaluation shows a vendor's documents reading badly, never up front.
+
+**What the demo shows.** Little, by design; it is plumbing whose value appears at extraction. One worthwhile view: a scanned page beside its reading with uncertain characters marked, to show the system knows what it does not know.
+
+---
+
+## Build sequence — **Decided** (Kyle, Oct 5, 2026)
+
+Kyle asked whether to run the whole library through first to build the skills matrix, then build the demo on one contract. Agreed order:
+1. **M2, one contract end to end:** the Texas DIR Accenture set through every stage. The pipeline has to exist before volume is possible.
+2. **The volume run:** the whole document library through the same pipeline. Fills the ledger (so benchmarking has eleven vendors to compare against), grows the mapping table (the Business Plan's "skills matrix" is the Role Framework plus the mapping table), and produces per-document extraction scores that show where reading and extraction are weak.
+3. **M3, the evaluation harness:** a hand-verified sample becomes the measuring stick. Volume alone does not make the system smarter; volume plus verified answers does. Only the mapping table grows automatically; evaluation and any vendor-specific document models need verified examples.
+4. **The demo**, on the Accenture contract, with a populated ledger behind it.
+
+---
+
+## 1.3 Extraction — to design next
 
 ## 1.4 Normalization — built in M1; design to be written up from `specs/role-framework-v0-spec.md` and `taxonomy/REPORT.md`
 
