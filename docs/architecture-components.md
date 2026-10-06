@@ -18,6 +18,18 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 
 **Purpose (Kyle, Sept 18):** a viewer sees a raw contract and follows it through the pipeline to see the benefit. The five demo documents are listed in `corpus-sources-and-demo-set.md` section 2. Each component section below says what the demo shows at that step; the review workbench section will say how the viewer sees it.
 
+**Audience (Kyle, Oct 5, 2026): an Early Adopter CIO.** Design every step for a senior technology executive deciding whether to join the consortium: plain language, real documents, one continuous story, the money at the end.
+
+**The story (proposed Oct 5, 2026; Kyle agreed the audience, story to confirm as components are designed):** one contract followed end to end, the Texas DIR Accenture agreement with its pricing exhibit.
+1. *The raw contract* on screen: about forty roles, eight years of rates, a dense grid.
+2. *Intake:* the seven files appear as one linked family under the master agreement, each labelled.
+3. *Extraction:* the rate grid becomes a clean table; clicking any number highlights the exact spot on the original page.
+4. *Normalization:* "API Architect Developer" becomes Software Developer, senior, technology tagged, reasoning shown; one uncertain title sits in a review queue to show the system does not guess.
+5. *Benchmarking:* that role's rate placed inside the distribution of what eleven other vendors charge for the same role and seniority.
+6. *Findings:* savings for that one role stacked into the three tranches, with the contract cap, the vendor's best rate and the market mid-point each shown.
+7. *The total:* the same calculation rolled up across the whole contract.
+*Open:* whether to add an invoice-to-timesheet reconciliation step (the Texas PUC invoice pair) as a second chapter once group 2 is designed.
+
 ---
 
 ## 1.1 Intake — **Decided** (Oct 5, 2026)
