@@ -207,4 +207,23 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## Cross-cutting: Review workbench — to design (home of the demo)
+## Cross-cutting: Review workbench — **Decided** (Oct 6, 2026)
+
+**What it does.** The only place a human touches the system. In the first phase TWM's consultants use the platform, not the client's staff (Business Plan), and the workbench is their tool. Four jobs: feed documents in and watch intake sort them into families; work the queues (every place the system abstained: unresolved titles, unconfirmed document links, unclassified locations, low-confidence extractions, ambiguous person matches); inspect anything, clicking a rate, finding or benchmark point through to the source page with the spot highlighted; present the executive views to a CIO, where the demo lives.
+
+**What goes in.** Everything the other components produce. **What comes out.** Analyst decisions written back as rules, plus the audit record of who decided what and when.
+
+**Decisions (Kyle, Oct 6, 2026).**
+1. **Every queue decision becomes a rule.** A resolved title, confirmed link or classified location is stored with its reason and reused automatically; the system never asks the same question twice for the same client. Resolve-once applied to humans.
+2. **One role for now.** A single analyst role who works the queues and approves findings. A separate reviewer role (second person on every finding before it reaches an executive view) was proposed and declined for now; revisit when the team or a vendor challenge warrants it. Design the audit record so adding the second role later needs no data change.
+3. **Prototype as a built web application,** on Kyle's machine and later in TWM's Azure environment; Power BI only when real dashboards are needed. Keeps the demo under our control and independent of Azure timing.
+
+**Build or rent.** Build the workbench; rent executive dashboards from Power BI later.
+
+**What the demo shows.** All seven steps run inside it, on the same screens the consultant uses, with real documents.
+
+---
+
+## Status of the walkthrough
+
+All components in groups 1 and 2 and both cross-cutting components are decided as of Oct 6, 2026. Group 3 (HR link) is parked by Kyle's priority decision. Supporting components (model gateway, evaluation harness, synthetic factory, deployment shell) are covered by `specs/` and the Azure set-up discussion (action item E2).
