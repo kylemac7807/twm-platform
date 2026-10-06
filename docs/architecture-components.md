@@ -1,0 +1,63 @@
+# TWM platform — components, requirements and design
+
+**A living document, started October 5, 2026.** This is the running record of the architecture walkthrough Kyle and Claude Code are doing one component at a time. Each component gets the same five headings: what it does, what goes in, what comes out, build or rent, and what the demo shows. Decisions made here are also logged in `requirements-and-rationale.md` (the decision log); this document carries the design detail the log does not. Status words follow the decision log: **Decided**, **Directional**, **Proposed**, **Parked**.
+
+## How the components are grouped
+
+Grouped by Kyle's priority order of analyses (decision log, section 1.1):
+
+| Group | Components | Status |
+|---|---|---|
+| **1. Core SOW analysis** (first) | Intake · Document reading · Extraction · Normalization · Ledger · Benchmarking | Intake designed Oct 5; normalization built (M1); others to design |
+| **2. Invoices to timecards to SOWs** (second) | Reconciliation (reuses intake and extraction) | To design |
+| **3. HR-system link** (third, parked) | Identity matching across SOW, timesheet, invoice and HR record | Parked |
+| **Cross-cutting** | Findings and reporting (where the stacked savings tranches live) · Review workbench (the consultant's screen, and the home of the demo) | No spec yet |
+| **Supporting** | Model gateway · Evaluation harness · Synthetic document factory · Deployment shell | Partly specified in `specs/` |
+
+## The demo
+
+**Purpose (Kyle, Sept 18):** a viewer sees a raw contract and follows it through the pipeline to see the benefit. The five demo documents are listed in `corpus-sources-and-demo-set.md` section 2. Each component section below says what the demo shows at that step; the review workbench section will say how the viewer sees it.
+
+---
+
+## 1.1 Intake — **Decided** (Oct 5, 2026)
+
+**What it does.** The front door. Every document a consultant feeds in passes through intake before anything else sees it. Intake establishes what the document is and how it relates to other documents, so everything downstream can trust it.
+
+**What goes in.** Files as they really arrive: native PDFs, scanned PDFs, Word documents, Excel exports, emails with attachments. Large-vendor invoices often arrive as a summary PDF with the detail in a spreadsheet, and timesheets as spreadsheet exports (Cowork handoff, section 4.2), so spreadsheets are first-class inputs.
+
+**What comes out.** One registered record per document with five things settled:
+
+1. **Identity.** A permanent document ID and a content fingerprint, so the same file fed in twice is recognized, and every extracted value can be traced back to its source document, page and location forever (the `source_ref` rule in the task contracts).
+2. **True type.** What the file actually is, found by inspecting its contents, never by its name or extension. Rule already in CLAUDE.md after two real cases in the library.
+3. **Classification.** Master agreement, statement of work, amendment or change notice, rate card, invoice, timesheet, or unknown. Unknown goes to a person.
+4. **Family links.** Which master agreement a SOW sits under, which contract an amendment changes, which SOW an invoice bills against. One contract is often many files (the Texas Accenture set is seven).
+5. **Readiness.** Whether the text layer is usable or the file is image-only and needs the document reading stage, with a scan-quality grade.
+
+**Decisions (Kyle, Oct 5, 2026).**
+- **Linking follows the flag-then-codify pattern.** Intake links documents on its own only when the evidence is strong, such as a contract number printed on the page. Otherwise it suggests a link and flags it for the consultant to confirm. Confirmed links are recorded and reused. Same pattern as title resolution and location.
+- **M2 accepts PDFs and Word documents only.** Spreadsheets and emails are added when the reconciliation work (group 2) begins, but the document record is designed from the start so that adding them changes nothing upstream.
+
+**Build or rent.** Build. Azure supplies storage and the document reading service; nothing off the shelf knows what a SOW is or how it links to a master agreement. The classification and linking logic are TWM's.
+
+**What the demo shows.** The consultant drops in the Texas DIR Accenture files. Intake recognizes seven documents, labels each (master agreement, SOW, pricing exhibit, service-level definitions, key personnel, template, solicitation), links them into one family under the master agreement, and flags that one needs confirmation. First visible value, before any extraction.
+
+**Open for later.** Re-runs on a cadence: the Business Plan promises quarterly or semi-annual refreshes, so intake must recognize a re-submitted family and show what changed since last time.
+
+---
+
+## 1.2 Document reading — to design next
+
+## 1.3 Extraction — to design
+
+## 1.4 Normalization — built in M1; design to be written up from `specs/role-framework-v0-spec.md` and `taxonomy/REPORT.md`
+
+## 1.5 Ledger — to design
+
+## 1.6 Benchmarking — to design
+
+## 2. Reconciliation — to design
+
+## Cross-cutting: Findings and reporting — to design (stacked savings tranches decided Sept 20)
+
+## Cross-cutting: Review workbench — to design (home of the demo)
