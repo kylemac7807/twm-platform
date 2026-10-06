@@ -86,7 +86,27 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## 1.3 Extraction — to design next
+## 1.3 Extraction — in discussion (Oct 5, 2026)
+
+**What it does.** Reads the structured document and pulls out the commercially important facts: parties, dates, pricing model, every row of every rate table, and commercial terms (discounts, minimum commitments, escalation, invoicing rules). Records each fact exactly as written, with a pointer to its source position. Does not interpret: "Sr. Java Developer, $140/hr, onsite" is captured as those words; normalization decides what they mean. Keeping the two jobs separate is what makes every number auditable.
+
+**What goes in.** The structured reading, plus intake's classification (a rate card and an invoice need different questions).
+
+**What comes out.** Typed records already specified in `specs/extraction-task-contracts.md`: RateCardExtraction, SOWExtraction, and later an invoice and timesheet record for reconciliation. Every field carries a confidence score and its source position.
+
+**Build or rent.** Both. Rent the reasoning: a frontier model (Claude first, GPT benchmarked) reads the document and fills the record. Own everything around it: record definitions, prompts, confidence rules, retries, and validation that rejects an answer that does not fit the record. One model wrapper so the model can be swapped. This is where the API credential is needed.
+
+**Decisions (Kyle, Oct 5, 2026).**
+- **Verify every number against the page.** After the model answers, the software checks that each extracted rate and date literally appears in the source text at the claimed position; anything that does not match is rejected. Catches the most dangerous model failure, a plausible invented number. Decided.
+- **Big documents in pieces.** Long agreements are split by section using the reading stage's structure, extracted per section, and reassembled. Cross-references between sections may be missed; the evaluation harness will show whether that matters. Decided for M2, revisit with evidence.
+- **Abstain rather than guess** when the model is unsure of a field: leave it blank and flag it. Recommended; Kyle deciding. Note: abstaining makes verification cheaper (only flags plus a sample need a human), whereas guessing makes every field suspect.
+
+**Hand verification effort for the prototype (estimate, Oct 5).** The evaluation spec samples about 20 documents, not the whole library. Rate card 30 to 60 minutes; contract pricing exhibit 1 to 2 hours; agreement terms 1 to 2 hours. Roughly 20 to 30 hours in total, spread over weeks, with Claude drafting every answer sheet so the human checks rather than transcribes. Volume beyond the sample is scored against the sample.
+
+**What the demo shows.** Step 3: the dense pricing grid becomes a clean table and clicking any number lights up the exact cell on the original page.
+
+---
+
 
 ## 1.4 Normalization — built in M1; design to be written up from `specs/role-framework-v0-spec.md` and `taxonomy/REPORT.md`
 
