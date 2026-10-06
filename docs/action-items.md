@@ -48,7 +48,7 @@ Status words: **Done**, **Open**, **Waiting** (on someone or something named), *
 | C5 | Read a sample of real documents: Michigan Deloitte, a bilingual TBIPS package, a G-Cloud 15 card, an EDGAR MSA, the Texas invoice and timesheet pair | **Open.** Combine with A6: the five demo documents cover four of these. |
 | C6 | Register as a supplier on Canada's CPSS portal when convenient; read the terms of use before reusing any rate data | **Open.** Low priority. |
 | C7 | Foundry data-handling terms in writing | **Parked.** |
-| C8 | Create a `.env` file with an Anthropic API key in the project folder, needed before M2's extraction step. Claude cannot enter credentials | **Open.** Needed for M2. |
+| C8 | Create a `.env` file with an Anthropic API key in the project folder, needed before M2's extraction step. Claude cannot enter credentials | **Done** Oct 6. Key in `.env`, $100 monthly spend limit set in the console, verified with one 18-token test call. M2 build is unblocked. |
 | C9 | Optional: a private GitHub repository as an offsite backup of the project folder | **Open.** Claude will walk Kyle through it. |
 | C10 | Validate the technical approach with an outside party (Kyle's January list named RAVL or similar) once M2 runs end to end, so there is something concrete to review | **Open.** After M2. |
 | C11 | Build a personal skills library from the generic TWM practices (build task chain, session start, guardrails, writing rules, Cowork handoff) so every project inherits them, plus a new-project skill that sets up a folder the same way. About an hour; Kyle parked it Oct 6 to keep the session on TWM | **Parked.** Kyle to pick the time. |
