@@ -227,3 +227,19 @@ Kyle asked whether to run the whole library through first to build the skills ma
 ## Status of the walkthrough
 
 All components in groups 1 and 2 and both cross-cutting components are decided as of Oct 6, 2026. Group 3 (HR link) is parked by Kyle's priority decision. Supporting components (model gateway, evaluation harness, synthetic factory, deployment shell) are covered by `specs/` and the Azure set-up discussion (action item E2).
+
+---
+
+## Azure set-up — **Decided** (Oct 6, 2026)
+
+**Principle.** TWM is a stack installed into each client's own Azure environment, not a site clients log into. TWM's own environment is therefore a build, test and demonstration copy of the same installable stack; everything done in it must be repeatable in a client's environment by running the installation, never by hand. (Cowork handoff 1.1 to 1.4, confirmed.)
+
+**Service map** (what TWM rents and what it owns on top): Blob Storage for documents (TWM owns the library structure); Document Intelligence for reading (vendor-specific training only where evaluation demands it); Foundry for extraction and normalization models, Claude first with GPT benchmarked (TWM owns prompts, task contracts, confidence rules, the model wrapper); Azure Database for PostgreSQL for ledger, mapping table, rules and findings (TWM owns schema and logic); AI Search for similar-title search; Container Apps or Functions for the pipeline; a hosted web app for the workbench, Power BI later; Key Vault for secrets, nothing in code; Bicep scripts for installation.
+
+**Order of work.** (1) Nothing on Azure until the pipeline works locally: M2 and the volume run on Kyle's machine with the local reader and single-file database; the only cloud dependency is the model call. (2) TWM's environment: Kyle creates tenant and subscription (action item C4); Claude writes and runs the installation scripts. (3) Harden: tear down and reinstall until a clean subscription becomes a working environment in under an hour with no manual steps. (4) A client's environment: same scripts, their subscription and region, their identity provider, plus private networking, no public endpoints, audit logging, data residency.
+
+**Decisions (Kyle, Oct 6, 2026).**
+1. **Region: Canada Central** from the start, so what is rehearsed is what a Canadian bank gets.
+2. **Installation tool: Bicep** for speed now; reversible to Terraform before client one if bank platform teams prefer it.
+3. **Keys: Kyle owns** the subscription, billing and admin account; Claude deploys with a scoped non-admin identity and never holds admin credentials.
+4. **Timing: wait.** Kyle will create the subscription in a few days to a week; no deployment work starts until M2 runs end to end locally.
