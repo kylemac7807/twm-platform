@@ -187,7 +187,7 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## Cross-cutting: Findings and reporting — in discussion (Oct 6, 2026)
+## Cross-cutting: Findings and reporting — **Decided** (Oct 6, 2026)
 
 **What it does.** Turns benchmark gaps and reconciliation discrepancies into savings findings, assigns each dollar to a tranche by the stacking rule (decided Sept 20), and rolls them up into the two executive views the Pitch Deck promises: the Role Composition Heatmap (rate variance against spend, so procurement sees where to negotiate first) and the Total Potential Dashboard (enterprise total by tranche). Also produces the raw material for the Consortium Approach deliverables (Opportunity Assessment, Quick Wins).
 
@@ -196,7 +196,7 @@ Kyle asked whether to run the whole library through first to build the skills ma
 **What comes out.** Findings, each with type, tranche, dollar amount per hour and per year, the volume it applies to, confidence, and an evidence pack (source documents and the benchmark compared against). Stored separately from the ledger with the version of the rules that produced them.
 
 **Decisions.**
-1. *Stacking edge cases* (proposed, Kyle deciding). Terminology: the **contracted rate** is the price the SOW or MSA says the vendor may charge for a role (contracts phrase it as a not-to-exceed maximum; "cap" is avoided from here on). No contracted rate, because the billed role is not on the SOW rate card (off-rate-card billing) or the SOW has no rate table for that work, means Contractual is $0 with the reason stated and a separate finding "role billed without a contracted rate"; no second rate from the same vendor at this client means Operational is $0 and says so; a rate already below the market mid-point means Market Alignment is $0, never negative, and the rate is reported as "below market", a fact not a saving. A missing reference always produces zero plus an explanation, never a guess.
+1. **Stacking edge cases** (Decided, Kyle, Oct 6). Terminology: the **contracted rate** is the price the SOW or MSA says the vendor may charge for a role (contracts phrase it as a not-to-exceed maximum; "cap" is avoided from here on). No contracted rate, because the billed role is not on the SOW rate card (off-rate-card billing) or the SOW has no rate table for that work, means Contractual is $0 with the reason stated and a separate finding "role billed without a contracted rate"; no second rate from the same vendor at this client means Operational is $0 and says so; a rate already below the market mid-point means Market Alignment is $0, never negative, and the rate is reported as "below market", a fact not a saving. A missing reference always produces zero plus an explanation, never a guess.
 2. **Observed and projected, both shown, never blended** (Decided, Kyle, Oct 6): e.g. $4M observed from 60 of 400 SOWs, every dollar traceable; $25M projected, labelled, with sample size and method beside it. Never a single blended total.
 3. **Volume gates significance** (Decided, Kyle, Oct 6): a minimum annual dollar value per engagement, adjustable, below which a finding is recorded and available to the analyst but not surfaced in executive views. A display filter, nothing discarded. ($15/hr on one contractor is ~$30K/yr; on 80 contractors, $2.4M.)
 4. **Recompute, never patch** (Decided, Kyle, Oct 6): when a rule or benchmark changes, all findings are recomputed under the new version and the old set is kept; no finding is ever hand-edited.
