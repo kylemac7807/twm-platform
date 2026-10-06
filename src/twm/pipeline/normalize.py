@@ -347,10 +347,19 @@ def band_from_level_label(label: str) -> Optional[str]:
     return "intermediate"
 
 
-def _lookup(store: TaxonomyStore, key: str) -> tuple[list[str], list]:
-    """Return (distinct role ids, matching mapping rows) for a title key."""
+def _lookup(store: TaxonomyStore, key: str, source: Optional[str] = None) -> tuple[list[str], list]:
+    """Return (distinct role ids, matching mapping rows) for a title key.
+
+    The same words can mean different jobs in different sources ("IT Manager": a line manager in NY HBITS, a
+    consulting grade in Deloitte's price list). If rows exist for the observation's own source, those win;
+    otherwise all active rows are considered and disagreement makes the title ambiguous.
+    """
     rows = store.mapping_index.get(key, [])
     active = [r for r in rows if r.status == "active" and r.canonical_role_id]
+    if source:
+        own = [r for r in active if r.source == source]
+        if own:
+            active = own
     ids = sorted({r.canonical_role_id for r in active})
     if not ids and key in store.role_by_name_key:
         return [store.role_by_name_key[key]], []
@@ -402,9 +411,9 @@ def resolve(
         res.notes.append("multiple tech tokens: " + ",".join(nt.tech_tags))
 
     # rule 4: exact/alias match — full title first (original, then acronym-stripped), then the stripped core
-    ids, rows = _lookup(store, nt.key)
+    ids, rows = _lookup(store, nt.key, source)
     if not ids and nt.key_alt:
-        ids, rows = _lookup(store, nt.key_alt)
+        ids, rows = _lookup(store, nt.key_alt, source)
     matched_on = "full_title" if ids else None
     row_band = None
     if ids and rows:
@@ -422,7 +431,7 @@ def resolve(
         ids, matched_on = [PACKAGED_CORE_ROLES[nt.core]], "core"
         res.notes.append("packaged-platform tag routed generic core to Packaged Applications family")
     if not ids and nt.core and nt.core != nt.key:
-        ids, rows = _lookup(store, nt.core)
+        ids, rows = _lookup(store, nt.core, source)
         matched_on = "core" if ids else None
         if ids and rows:
             row_band = rows[0].twm_band
@@ -443,6 +452,24 @@ def resolve(
         res.status, res.candidates = "ambiguous", ids
         res.notes.append("multiple mapping rows disagree on role")
         return res
+    if not ids and " / " in observed_title:
+        # Dual-grade label such as "Project Manager II / Test Manager" (decided with Kyle, Oct 6, 2026): a vendor bills one
+        # grade for two jobs. Resolve each half; if they land on different roles the title is ambiguous BY DESIGN and the
+        # analyst picks from the SOW context. The band comes from whichever half carries a level.
+        halves = [h.strip() for h in observed_title.split(" / ") if h.strip()]
+        parts = [resolve(h, store, source=source, source_scheme=source_scheme, source_level=source_level, years=years) for h in halves]
+        roles = [p.canonical_role_id for p in parts if p.canonical_role_id]
+        if len(set(roles)) > 1:
+            res.status, res.candidates = "ambiguous", sorted(set(roles))
+            res.twm_band = next((p.twm_band for p in parts if p.twm_band), None)
+            res.band_source = next((p.band_source for p in parts if p.twm_band), None)
+            res.notes.append("dual-grade label: " + " vs ".join(f"'{h}' -> {p.canonical_role_id}" for h, p in zip(halves, parts) if p.canonical_role_id) + "; the SOW context decides")
+            return res
+        if len(set(roles)) == 1:
+            ids, matched_on = [roles[0]], "core"
+            res.notes.append("dual label, both halves agree on the role")
+            if not row_band:
+                row_band = next((p.twm_band for p in parts if p.twm_band), None)
     if not ids:
         res.status = "flagged"
         res.notes.append("no rule match; needs model/human resolution")

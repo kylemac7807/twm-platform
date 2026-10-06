@@ -1,5 +1,8 @@
 """Seed the TWM Role Framework v0 CSVs under taxonomy/.
 
+PROVENANCE ONLY. Re-running this regenerates v0 as of Sept 13, 2026 and would DISCARD later CSV edits
+(v0.1: Kyle-reviewed mappings, source_class column, engagement_manager retired, low_code tag). Do not run it.
+
 This script is the authored source for v0 (Sept 13, 2026). It writes the five CSVs once;
 after that the CSVs are the versioned artifacts and are edited directly (append/deprecate,
 never silent edits). Re-running it regenerates v0 exactly, so it doubles as provenance.

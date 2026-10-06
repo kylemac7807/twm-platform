@@ -71,18 +71,23 @@ def test_spec_draft_band_mappings_present(store):
 
 def test_mapping_rows_reference_valid_roles_and_tech(store):
     for m in store.mappings:
+        if m.status == "deprecated":
+            continue  # history may reference a retired role
         if m.canonical_role_id:
             assert m.canonical_role_id in store.role_by_id, m.observed_title
         if m.attr_technology:
             assert m.attr_technology in store.tech_by_tag, m.observed_title
 
 
-def test_no_same_title_mapped_to_two_roles(store):
+def test_no_same_title_mapped_to_two_roles_within_one_source(store):
+    # The same words may mean different jobs in different sources ("IT Manager" is a line manager in NY HBITS and a
+    # consulting grade in Deloitte's price list); that is allowed and the resolver uses the observation's source to
+    # choose. Within ONE source a title must map to one role.
     by_key = {}
     for m in store.mappings:
         if m.status != "active":
             continue
-        k = title_key(m.observed_title)
+        k = (m.source, title_key(m.observed_title))
         by_key.setdefault(k, set()).add(m.canonical_role_id)
     conflicts = {k: v for k, v in by_key.items() if len(v) > 1}
     assert not conflicts, conflicts

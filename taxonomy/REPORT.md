@@ -5,10 +5,10 @@ Generated 2026-10-06 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv
 ## Framework size
 
 - Families: **18** (spec draft 16; two added — see Deviations)
-- Canonical roles: **130** (target 120–180)
+- Canonical roles: **129** (target 120–180)
 - Band crosswalk rows: **140** across schemes: Consulting pyramid, DDaT, Deloitte CS grade, NY HBITS, SFIA, TBIPS, Texas DIR, Title modifier, UK G-Cloud 15, Years stated
 - Tech vocabulary: **57** tags
-- Seeded title mappings: **526** (522 active, 4 flagged; **400 observed in a source, 126 authored aliases**; target 250–400 observed)
+- Seeded title mappings: **547** (541 active, 4 flagged; **417 observed in a source, 130 authored aliases**; target 250–400 observed)
 
 | Family | Roles |
 |---|---|
@@ -27,7 +27,7 @@ Generated 2026-10-06 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv
 | Database & Middleware Administration (`dba`) | 6 |
 | Networking & Telecom Engineering (`net`) | 6 |
 | Packaged Applications (`pkg`) | 5 |
-| Consulting & Advisory (`adv`) | 4 |
+| Consulting & Advisory (`adv`) | 3 |
 | Change, Training & Communications (`chg`) | 4 |
 | Technology Leadership (`exec`) | 4 |
 

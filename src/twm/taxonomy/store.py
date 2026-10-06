@@ -109,6 +109,8 @@ class TaxonomyStore:
             if r.family_id not in self.family_by_id:
                 problems.append(f"role {r.role_id} references unknown family {r.family_id}")
         for m in self.mappings:
+            if m.status == "deprecated":
+                continue  # history may point at a retired role (engagement_manager, retired Oct 6, 2026); only live rows must resolve
             if m.canonical_role_id and m.canonical_role_id not in self.role_by_id:
                 problems.append(f"mapping '{m.observed_title}' ({m.source}) -> unknown role {m.canonical_role_id}")
             if m.attr_technology and m.attr_technology not in self.tech_by_tag:

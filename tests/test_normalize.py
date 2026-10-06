@@ -56,6 +56,28 @@ def test_bracketed_acronym_dropped(store):
     assert resolve("Business Intelligence Analyst (BIA)", store).canonical_role_id == "business_intelligence_analyst"
 
 
+def test_dual_grade_title_is_ambiguous_by_design(store):
+    r = resolve("Project Manager II / Test Manager", store)
+    assert r.status == "ambiguous"
+    assert set(r.candidates) == {"project_manager", "test_manager"}
+    assert r.twm_band == "intermediate"          # from the 'II'
+    assert "SOW context decides" in " ".join(r.notes)
+
+
+def test_dual_label_agreeing_halves_resolve(store):
+    r = resolve("Programmer / Developer", store)
+    assert r.status == "resolved" and r.canonical_role_id == "software_developer"
+
+
+def test_consulting_grades_are_bands_of_the_consultant_role(store):
+    # Kyle, Oct 6 2026: Manager and Senior Manager are bands, not a separate role; engagement_manager is retired
+    assert "engagement_manager" not in store.role_by_id
+    assert resolve("IT Sr. Manager", store).canonical_role_id == "technology_consultant"
+    assert resolve("IT Sr. Manager", store).twm_band == "lead_principal"
+    assert resolve("IT Analyst", store).twm_band == "junior"
+    assert resolve("Engagement Manager", store).canonical_role_id == "technology_consultant"
+
+
 # --- rule 2: location ------------------------------------------------------------------------
 @pytest.mark.parametrize("title,location,core", [
     ("Offshore Java Developer", "offshore", "developer"),
@@ -180,3 +202,11 @@ def test_band_from_level_label(label, band):
                                         (7, "senior"), (11.9, "senior"), (12, "lead_principal"), (25, "lead_principal")])
 def test_band_from_years(store, years, band):
     assert band_from_years(years, store) == band
+
+
+def test_same_words_different_source_resolve_by_source(store):
+    # "IT Manager": a line-management role in NY HBITS, a consulting grade in Deloitte's price list
+    assert resolve("IT Manager", store, source="NY OGS HBITS 23158").canonical_role_id == "it_manager"
+    assert resolve("IT Manager", store, source="Deloitte GSA MAS price list").canonical_role_id == "technology_consultant"
+    r = resolve("IT Manager", store)  # no source: the disagreement is surfaced, never guessed
+    assert r.status == "ambiguous" and set(r.candidates) == {"it_manager", "technology_consultant"}

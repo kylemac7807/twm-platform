@@ -379,7 +379,7 @@ Automation Engineer,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0
 SDET,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0,authored
 Test Automation Engineer,TWM alias,,test_automation_engineer,,,,,,0.90,rule,,active,0.0,authored
 Test,TWM alias,,test_manager,,,,,,0.90,rule,,active,0.0,authored
-Test Lead,TWM alias,,test_manager,,,,,,0.90,rule,,active,0.0,authored
+Test Lead,TWM alias,,test_manager,,,,,,0.90,rule,Kyle McNamara,deprecated,0.0,authored
 UX Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
 UI Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
 UX/UI Designer,TWM alias,,interaction_designer,,,,,,0.90,rule,,active,0.0,authored
@@ -465,7 +465,7 @@ Penetration Tester,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0,auth
 Pen Tester,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0,authored
 Ethical Hacker,TWM alias,,penetration_tester,,,,,,0.90,rule,,active,0.0,authored
 Consultant,TWM alias,,management_consultant,intermediate,,,,,0.90,rule,,active,0.0,authored
-Engagement Manager,TWM alias,,engagement_manager,,,,,,0.90,rule,,active,0.0,authored
+Engagement Manager,TWM alias,,engagement_manager,,,,,,0.90,rule,Kyle McNamara,deprecated,0.0,authored
 Partner,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
 Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
 Associate Director,TWM alias,,consulting_director_partner,lead_principal,,,,,0.90,rule,,active,0.0,authored
@@ -525,3 +525,24 @@ Software developers and programmers,Canada Job Bank NOC,https://www.jobbank.gc.c
 Cybersecurity specialists,Canada Job Bank NOC,https://www.jobbank.gc.ca/wagereport/occupation/5485,security_analyst,,,,,,1.00,human,Kyle McNamara,active,0.1,observed
 IT Project Manager (Information systems specialists),Canada Job Bank NOC,https://www.jobbank.gc.ca/wagereport/occupation/5485,project_manager,,,,,,1.00,human,Kyle McNamara,active,0.1,observed
 Technical Specialist,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,,,,,,,0.00,human,Kyle McNamara,flagged,0.1,observed
+Engagement Manager,TWM alias,,technology_consultant,senior,,,,,1.00,human,Kyle McNamara,active,0.1,authored
+Senior Manager,TWM alias,,technology_consultant,lead_principal,,,,,1.00,human,Kyle McNamara,active,0.1,authored
+Manager,TWM alias,,technology_consultant,senior,,,,,1.00,human,Kyle McNamara,active,0.1,authored
+IT Sr. Manager,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,lead_principal,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+IT Manager,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,senior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+IT Analyst,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,junior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Cybersecurity IT Sr. Manager,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,lead_principal,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Cybersecurity IT Manager,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,senior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Cybersecurity IT Analyst,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,junior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Health IT Senior Manager,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,lead_principal,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Health IT Manager,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,senior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Health IT Analyst,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,technology_consultant,junior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+IT Center Associate Lead,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,software_developer,senior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Health IT Center Associate Lead,Deloitte GSA MAS price list,corpus/collected_by_kyle_2026-01/Deloitte/Deloitte - GSA Schedule.pdf,software_developer,senior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Senior Manager,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,technology_consultant,lead_principal,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Test Leads,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,test_manager,junior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Test Lead,TWM alias,,test_manager,junior,,,,,1.00,human,Kyle McNamara,active,0.1,authored
+Test Program Manager,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,test_manager,lead_principal,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Project Manager I,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,project_manager,junior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Project Manager II,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,project_manager,intermediate,,,,,1.00,human,Kyle McNamara,active,0.1,observed
+Project Manager III,Texas DIR TSS-699 Accenture exhibit,corpus/manifests/v3_downloads/v3_gov/085_Texas_DIR_Accenture_LLP_rate_exhibit.pdf,project_manager,senior,,,,,1.00,human,Kyle McNamara,active,0.1,observed
