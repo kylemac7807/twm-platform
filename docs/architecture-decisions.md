@@ -48,7 +48,7 @@ Cross-client comparability requires that something travel; the design goal is th
 
 **Global tier (TWM's taxonomy):** title-pattern string, role/band mapping, disambiguation rules, confidence. No rate, no vendor-client linkage, no client identifier, no document reference.
 
-**Promotion gate:** (1) k-anonymity by origin — promote only after independent observation at 3+ clients; (2) sanitization — reject project/programme names, cost-centre codes, numerals, vendor-proprietary grade nomenclature; (3) human review. Bootstrap: global tier seeded from public sources (SFIA framework, government rate cards, published MSAs, job postings).
+**Promotion gate:** (1) k-anonymity by origin — promote only after independent observation at 3+ clients; (2) sanitization — reject project/programme names, cost-centre codes, numerals, vendor-proprietary grade nomenclature; (3) human review. Bootstrap: global tier seeded from public sources (O*NET, DDaT, TBIPS, government rate cards, published MSAs, job postings). *(Amended Oct 6, 2026: SFIA removed — excluded from the product, see requirements §3.1.)*
 
 ## 6. Evaluation harness — federated, and a first-class deliverable
 

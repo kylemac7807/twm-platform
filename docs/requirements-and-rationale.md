@@ -1,6 +1,6 @@
 # TWM Platform — Requirements & Rationale
 
-**A living document.** v0.4 — September 19, 2026 (v0.1 Sept 12; v0.2 Sept 18; v0.3 Sept 19 Cowork; v0.4 merged) · Owner: Kyle McNamara
+**A living document.** v0.5 — October 6, 2026 (v0.1 Sept 12; v0.2 Sept 18; v0.3 Sept 19 Cowork; v0.4 merged; v0.5 SFIA decision, Cowork) · Owner: Kyle McNamara
 **The only real copy is this file**, `docs/requirements-and-rationale.md` in the twm-platform project folder (decided Sept 19, 2026). Cowork and Claude Code both read and edit it here; no other copy is kept. Every change is saved in the folder's version history. Word snapshots produced on request for offline reading.
 
 **Purpose.** This document records what TWM has decided, why, and in what order — so a future team member, a technical due-diligence reviewer, or a client architect can trace the platform's shape back to its reasons. It is the companion to *AI Architecture Design Decisions v0.1* (the architectural specification): that document says *what we build*; this one carries the requirements and the narrative of *why*.
@@ -84,11 +84,17 @@ Kyle approved this plain-language description and asked for it to be carried her
 
 ## 3. The TWM Role Framework (taxonomy)
 
-### 3.1 Owned spine, licensed crosswalks — **Directional** (pending the SFIA deep-dive)
+### 3.1 Owned spine; SFIA excluded — **Decided** (Kyle, Oct 6, 2026; supersedes the Sept 12 "crosswalk" direction)
 
-**Direction.** TWM builds and owns its canonical taxonomy (the "TWM Role Framework"), constructed from commercially-free sources (O*NET, DDaT, TBIPS, ESCO) and consortium learning. SFIA becomes an optional *crosswalk* — a mapping offered to clients who use SFIA internally — rather than the spine.
+**Decision.** TWM builds and owns its canonical taxonomy (the "TWM Role Framework") from commercially-free sources (O*NET, DDaT, TBIPS, ESCO, public vendor rate cards) and consortium learning. **SFIA is excluded from the spine and from the product by default** — not only for the prototype. The `crosswalk_sfia` column and the "SFIA crosswalk" idea are retired; no SFIA framework documents are held in the repo or shown to anyone building the framework (clean-room provenance). An SFIA view may only ever be offered as a client-scoped, separately licensed add-on, negotiated with that client's consent to the Foundation's reporting terms — never as a platform feature. No legal read or SFIA Foundation conversation is required to *exclude* SFIA; both would be needed only if it were ever used.
 
-**Rationale & history.** SFIA's Partner Licence carries £2–4k/yr plus a **5% royalty on products "dependent on SFIA data"** — ambiguous scope that, read broadly, would tax TWM's whole revenue line. Kyle agreed with the crosswalk direction (Sept 12) with a fuller discussion to come before final commitment. Cautions on record: the owned framework must be genuinely built from the free sources (copying SFIA definitions is a derivative work), and counsel should also check whether consulting deliverables referencing SFIA need a licence. A conversation with the SFIA Foundation is planned — negotiating from a position of not needing them.
+**Verified licence terms** (Cowork, Oct 6, 2026, from sfia-online.org "Choosing a licence" and *SFIA General Terms 2024*): Partner Licence £2,000/yr single country, Global Partner £4,000/yr, Accredited Consultant £300/yr per named individual. Royalty: *"normally … 5% of the standard price for the product"*, applying to *"a specifically-priced product or service that is dependent on SFIA. Examples: a product that assesses people's SFIA skills, **a skills database containing SFIA information**, a publication containing significant amounts of information from SFIA."* Reporting: *"Licensees shall send to The Foundation a quarterly report of sales, showing customers' names, prices and royalties due."* Derivative works: *"Licensees shall not use SFIA content, structure, or methodology to create, publish, or promote derivative frameworks, without explicit authorisation."* The free Corporate licence *"does not permit commercial exploitation of SFIA in relation to the sale or provision of services."*
+
+**Rationale, in order of weight.** (1) The quarterly report of customer names and prices to a UK foundation is incompatible with the consortium promise that nothing about a member leaves — a conflict no fee level fixes. (2) The royalty's own example list captures a benchmark ledger carrying SFIA codes ("a skills database containing SFIA information"), so a "crosswalk only" column does not escape it. (3) The derivative-works clause names structure and methodology, not just content, so the safest protection for the TWM Role Framework is the provenance it already has: built from O*NET, DDaT, TBIPS, Texas DIR and G-Cloud, with tests that fail if SFIA appears. (4) SFIA penetration among Canadian and US banks is low; the loss is a UK/Australian convenience, not a core capability.
+
+**Boundary that stays.** Public vendor rate cards (G-Cloud 14) label their levels "SFIA 1–7". Handling those *labels* as a source level scheme in `band_crosswalk.csv` is reading public vendor documents, not using SFIA content, and continues — the rows should say exactly that. Public documents that mention SFIA remain in the corpus as source data.
+
+**History.** Sept 12: crosswalk-not-spine agreed in principle, deep-dive deferred. Oct 6: terms verified from primary source; Kyle, having already leaned to excluding SFIA from the prototype, confirmed exclusion from the product by default.
 
 ### 3.2 Axes design: what × level, with where and how-much as observation attributes — **Decided** (Sept 12, 2026)
 
@@ -124,7 +130,7 @@ Kyle approved this plain-language description and asked for it to be carried her
 | ESCO v1.2.1 | Multilingual synonyms (offshore/global-delivery titles, French) | EUPL 1.2 — commercial OK; registration to download |
 | NICE (NIST SP 800-181r1) | Cyber role decomposition | US public domain |
 | CEN CWA 16458 / ENISA ECSF | European ICT role profiles | Free CWAs |
-| SFIA 9 | Crosswalk only, pending licensing decision | Registration for internal use; Partner Licence for commercial |
+| SFIA 9 | **Excluded** (Oct 6, 2026, §3.1). Not a source; no SFIA documents held. Public vendor cards that use SFIA level labels are read as vendor documents | Partner Licence £2k/£4k + 5% royalty + quarterly customer/price reporting — not taken |
 | Consortium client data | The long tail of vendor-specific titles (via the promotion gate) | Consortium agreement |
 
 ### 3.5 Role Framework v0 built — **Decided** (Sept 13, 2026; reviewed by Cowork and settled with Kyle Sept 19)
@@ -166,6 +172,8 @@ Kyle approved this plain-language description and asked for it to be carried her
 |---|---|---|
 | Sept 1, 2026 | Azure + Foundry; model-agnostic; resolve-once; two-tier boundary; federated eval; own-vs-rent; k-anonymity | Decided (Design Decisions v0.1) |
 | Sept 1, 2026 | Public bootstrap corpus built (two passes) | Decided |
+| Oct 6, 2026 | **SFIA excluded from the spine and from the product by default** (§3.1). Terms verified from primary source: £2k/£4k + 5% royalty on "a skills database containing SFIA information" + quarterly report of customer names and prices + derivative-framework prohibition. Reporting term is incompatible with consortium confidentiality. `crosswalk_sfia` retired; no SFIA documents in the repo; SFIA view only ever a client-scoped, separately licensed add-on. Supersedes the Sept 12 "crosswalk, not spine" direction. No legal read or Foundation conversation needed | Decided (Kyle) |
+| Oct 6, 2026 | **Scrub SFIA from TWM's own artifacts** (code field, tests, specs, CLAUDE.md data rule, band-crosswalk row notes, extraction file names that call G-Cloud 15 cards "SFIA"); keep public vendor documents and their SFIA level labels as source data. Work items in `docs/action-items.md` (B16–B19, C3 amended) | Decided (Kyle) |
 | Sept 12, 2026 | G-Cloud 15 refresh; vintage policy articulated | Decided |
 | Sept 12, 2026 | Training vs benchmark data distinction | Decided |
 | Sept 12, 2026 | O*NET as title-synonym backbone | Decided |
@@ -219,7 +227,7 @@ Kyle approved this plain-language description and asked for it to be carried her
 
 ## 6. Open questions
 
-1. SFIA — the dedicated discussion, then legal read (royalty scope; consulting-use question), then Foundation conversation.
+1. ~~SFIA — the dedicated discussion, then legal read, then Foundation conversation.~~ **Closed Oct 6, 2026: SFIA excluded (§3.1).** Remaining work is the scrub (action items B16–B19).
 2. Extraction prototype scope (approved in principle; discussion pending).
 3. CPSS data-use rights: registering and *reading* is one thing; republishing or embedding portal-sourced rates in a commercial product needs a legal read of the ePortal terms of use and Crown-copyright position. ATIP-released records are the cleaner-reuse path. See §2.5.
 4. Minimum cohort size k (working assumption 3) and confidence thresholds (needs real documents).

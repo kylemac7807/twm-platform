@@ -13,7 +13,7 @@
 | 5 (done Oct 6) | **Normalization model step.** Similarity over resolved titles (local embeddings or simple token similarity for the prototype), model confirmation with disambiguation notes, confidence floor, write-back to the mapping table as `method=model` | `src/twm/pipeline/normalize.py` (extend), `tests/test_normalize_model.py` | an unseen Accenture title is resolved with reasoning, or flagged |
 | 6 (done Oct 6) | **Ledger.** SQLite schema (observations, documents, runs, mapping decisions), append and supersede, derived reporting-currency column with reference rate | `src/twm/pipeline/ledger.py`, `tests/test_ledger.py` | re-running a family supersedes rather than duplicates |
 | 7 (done Oct 6; first run: 53 rows, 48 resolved, 48 counted) | **End-to-end run and report.** `run_family()`, run report in plain language, one traced row, field-level agreement against the answer sheet | `src/twm/pipeline/run.py`, `evals/gold/tx_tss699_att21.jsonl` (drafted), `tests/test_run.py` | both families run with no code change |
-| 8 | **Review.** Independent pass for bugs, rule violations, data-boundary leaks; fix; record | `work/m2-thin-thread/review.md` | |
+| 8 (done Oct 6) | **Review.** Independent pass for bugs, rule violations, data-boundary leaks; fix; record | `work/m2-thin-thread/review.md` | |
 
 ## Risks and how they are handled
 

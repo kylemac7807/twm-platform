@@ -14,6 +14,8 @@
 | Ledger | Append and supersede; confidence and scan quality gate what counts; currency conversion is a derived column with the reference rate and date |
 | End-to-end | `python -m twm.pipeline.run` on the family: 53 rows, 48 resolved (23 unbanded on purpose), 2 titles to the queue, 3 dual-grade titles ambiguous by design, 48 counted; one row traced to page 8, box (65, 128, 554, 133) |
 
+**Second family, same code, no changes (acceptance criterion 1).** The Accenture UK G-Cloud 15 service page (a web page, not a PDF): 430 rate rows extracted and verified, 0 rejected; 416 resolved to a role (90 unbanded on purpose), 6 of them by the model step; 14 titles to the analyst queue (Accenture's long cyber-security labels such as "Lead cyber security secure systems architecture and design", and "Associate analyst"); 410 ledger rows count toward benchmarks. 72 model calls, all validated. Positions on a web page are table row and column, not boxes.
+
 Tests: 118 at the end of the run (the step 5 to 7 commit message said 127; 118 is the measured count).
 
 ## Fixed during build and review
