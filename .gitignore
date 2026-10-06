@@ -22,3 +22,5 @@ corpus/twm_corpus/01_skills_frameworks/ESCO_v1.2.1/
 ledger.sqlite
 *.sqlite
 evals/gold/*.draft.jsonl
+corpus/inbox/*
+!corpus/inbox/README.md

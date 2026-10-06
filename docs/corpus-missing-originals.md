@@ -1,6 +1,6 @@
 # Corpus originals still to retrieve
 
-**Status as of:** September 20, 2026 · **Owner:** Kyle (manual browser download) · **Requested by:** Kyle McNamara
+**Status as of:** October 6, 2026 (browser batch run; see results section) · **Owner:** Kyle (manual browser download) · **Requested by:** Kyle McNamara
 
 The first full corpus fetch ran on Kyle's machine on September 13 (Python `urllib` and `curl`, retried with a browser user agent). Everything below still refused scripted clients after three passes: HTTP 403 and 404 rows need a real browser session; the HTTP 429 rows (Contracts Finder) are rate-limited, not blocked, and a retry after a day should collect them. Kyle decided to proceed with M1 (Role Framework v0) without these; they become useful at **M2** (the Michigan Deloitte contract is the named second thin-thread document) and **M3** (contract volume for gold sets).
 
@@ -15,6 +15,19 @@ The first full corpus fetch ran on Kyle's machine on September 13 (Python `urlli
 **Missing v3 by site:** www.michigan.gov (13), www.sec.gov (1), www.mass.gov (1), www.gsa.gov (1), canadabuys.canada.ca (1), www.courtlistener.com (1), www.dcaa.mil (1), omh.ny.gov (1)  
 **Missing v3 by doc type:** signed contract (13), template (4), MSA (1), solicitation package (1), SOW-exhibit (1)  
 **Missing v3 by error:** HTTP 403 (16), HTTP 404 (3), error page (1)
+
+## Oct 6, 2026 browser batch — results
+
+Cowork fetched the list through the Claude desktop app's browser pane (Kyle's browser identity; each file verified by magic bytes before saving). **Everything landed in Kyle's Downloads folder under the destination filename below.** Claude Code: move them into the destination folders listed in this document, then re-run `v3_download.py` and `download_originals.sh` so the manifests record them as present.
+
+| Outcome | Files |
+|---|---|
+| **Retrieved (19)** | Sept 1 package: `MI_DTMB_Deloitte_MiIntegrate_Contract_SOW_Rates_2013-2026_ORIGINAL.pdf` (5.57 MB), `deep2_MI_DTMB_Accenture_ITTraining_Contract_2025_MA250000000723_ORIGINAL.pdf`. v3_gov: all 13 Michigan DTMB contracts `049`–`061` (0.76–16 MB each, all `%PDF-`); `110_Massachusetts_OSD_multiple_ITS75_vendors_template.bin` (**it is a .docx**, 237 KB — content sniffing will catch it); `129_PSPC_Indigenous_Services_Canada_n_a_pre_award_solicitation_package.pdf` (amendment 001 FR, 181 KB; the manifest URL had a corrupted hash, correct link taken from the notice page). v3_invoices: `007_CourtListener_opinion_..._v_Ho.bin` (the opinion page HTML, 100 KB). |
+| **Bonus (2)** | `007_CourtListener_opinion_..._v_Ho_RECAP_opinion.pdf` (159 KB) — the court's own PDF of the opinion linked from the page; better source than the HTML. `129_PSPC_ISC_A0416-183262_TBIPS_solicitation_attachments_2020-04-06.zip` (145 KB) — the full bilingual solicitation package for the same tender. Both go beside their numbered file; catalog as Kyle decides. |
+| **Failed (4) — need a new source** | `024_DCAA_Manual_7641_90...pdf`: dcaa.mil returns a 404 page; the manual has moved. `025_NY_State_OMH...pdf`: omh.ny.gov `/omhweb/vendorinfo/` no longer exists (404 on the file and the directory). `115_GSA_n_a_template.pdf` (Alliant 2 ordering guide): gsa.gov served its "We apologize for the inconvenience" error page for both the file and the Alliant 2 program page. `013_Virtusa_Corp_client_MSA.htm`: the filing index lists the exhibit, but sec.gov returns `NoSuchKey` for every file in accession 0001047469-15-004926, including the complete submission `.txt` — try again later or use another Virtusa filing. |
+| **Failed (1) — URL gone, as expected** | `US_GSA_MAS_ConstellationWest_pricelist_54151S_2025_ORIGINAL.PDF`: 404; search GSA eLibrary for contract 47QTCA25D007E. |
+
+Remaining after this batch: **5** (DCAA, NY OMH, GSA Alliant 2, SEC Virtusa, GSA Constellation West).
 
 ## How to deliver retrieved files
 
