@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# TWM guardrails, run by git before every commit (docs/how-we-build.md).
+# Install: cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
+set -u
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT" || exit 1
+PY="$ROOT/.venv/Scripts/python.exe"
+[ -x "$PY" ] || PY="python"
+
+STAGED="$(git diff --cached --name-only --diff-filter=ACM)"
+
+# 1. No secrets in version history.
+if [ -n "$STAGED" ]; then
+  if echo "$STAGED" | grep -q -E '(^|/)\.env($|\.)'; then
+    echo "pre-commit: refusing to commit a .env file (secrets never enter version history)." >&2; exit 1
+  fi
+  for f in $STAGED; do
+    [ -f "$f" ] || continue
+    case "$f" in *.pdf|*.png|*.zip|*.xlsx|*.bin|*.PDF) continue;; esac
+    if git show ":$f" | grep -q -E 'sk-ant-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|(api[_-]?key|secret|password|token)[[:space:]]*[:=][[:space:]]*["'"'"']?[A-Za-z0-9_/+=-]{16,}'; then
+      echo "pre-commit: $f looks like it contains a credential. Remove it and commit again." >&2; exit 1
+    fi
+  done
+fi
+
+# 3. Taxonomy changes regenerate the acceptance report.
+if echo "$STAGED" | grep -q -E '^taxonomy/.*\.csv$'; then
+  echo "pre-commit: taxonomy changed; regenerating taxonomy/REPORT.md" >&2
+  "$PY" -m twm.taxonomy.acceptance > /dev/null || { echo "pre-commit: acceptance report failed." >&2; exit 1; }
+  git add taxonomy/REPORT.md
+fi
+
+# 2. Tests before commit (only when code, tests or taxonomy are staged; docs-only commits skip it).
+if echo "$STAGED" | grep -q -E '^(src|tests|taxonomy|scripts)/'; then
+  "$PY" -m pytest -q -x 2>&1 | tail -3 >&2
+  if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+    echo "pre-commit: tests failed; commit refused." >&2; exit 1
+  fi
+fi
+exit 0
