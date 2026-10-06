@@ -126,7 +126,27 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 ---
 
-## 1.5 Ledger — to design
+## 1.5 Ledger — in discussion (Oct 6, 2026)
+
+**What it does.** The Business Plan's "book of record": stores every rate observation permanently with full provenance, inside the client's environment. One row per rate seen: vendor, role and seniority, technology and location, rate in its own currency and unit, effective date, source document and position, how it was resolved and with what confidence. Every later analysis reads from it; it is the audit trail shown to a vendor who challenges a finding.
+
+**Rules already decided:** raw evidence on every row; rates as stated, never converted in place; source class on every row (public, consortium, synthetic) and synthetic never enters; effective date on every row and benchmarks only from recent vintages.
+
+**What leaves the client environment — clarified (Kyle, Oct 6, 2026).** Two things travel: *vocabulary* (framework, mappings, prompts) and *cohort summaries* (for each cut of role, seniority, location and technology: count, p25, median, p75). Individual rows never leave, and nothing linking a named vendor to a client ever leaves. Each client's ledger computes its own cuts; summaries go to TWM's central ledger; TWM combines them with other clients and public data and publishes the combined distribution back. Publish only when a cut has at least three observations and at least two contributing clients; public data pads cohorts while the consortium is small. Vendor identity in the combined view is the class only (Big-4, global SI, boutique, staff-aug); public sources stay named. The CLAUDE.md slogan "vocabulary travels; commerce never does" is corrected to "rows and vendor-client links never leave; vocabulary and cohort summaries do."
+
+**Currency.** Rates stay as stated. A derived column holds the value in the client's reporting currency (CAD for a Canadian bank, per the Technical Approach), converted at a published reference rate on the observation's effective date, with that rate and its source stored beside it. Cuts are by location so most comparisons are within one currency; cross-currency comparison is market context and is labelled as such. Whether a converted foreign rate is truly comparable is an analyst judgment, not a formula.
+
+**Decisions (Kyle, Oct 6, 2026).**
+1. **Append, never overwrite.** Re-runs and amendments add rows and mark old ones superseded; history stays; "what changed since last review" becomes a query. Decided.
+2. **Observations, not conclusions.** The ledger stores what documents say. Findings ("12 percent above market") are computed by later components and stored separately with the version of the rules that produced them. Decided.
+3. **One ledger for public and client data,** distinguished by source class and the vendor-naming rule. Decided.
+4. **Confidence gates money.** Every row keeps its extraction confidence and scan quality; benchmark distributions and savings totals count only rows above a threshold set by the evaluation harness; rows below it are kept and visible but excluded until an analyst confirms them. Proposed; Kyle deciding after the explanation above.
+
+**Build or rent.** Rent the database: PostgreSQL on Azure (open source, no per-client licence, portable into each bank's environment); a single-file database on Kyle's machine for the prototype, same schema. Build the schema, versioning and rules.
+
+**What the demo shows.** The Accenture contract as rows, each clickable back to its page: "nothing in here is an estimate."
+
+---
 
 ## 1.6 Benchmarking — to design
 
