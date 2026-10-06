@@ -1,6 +1,6 @@
 # Plan: M2, the thin thread
 
-**Drafted** October 6, 2026. Status: **draft. Kyle reads this before any code is written** (docs/how-we-build.md). Five minutes.
+**Drafted** October 6, 2026. Status: **accepted by Kyle, October 6, 2026.** No code before the API key exists (action item C8).
 
 ## Order of work, each step a commit with tests
 

@@ -1,6 +1,6 @@
 # Spec: M2, the thin thread
 
-**Drafted** October 6, 2026 from `docs/architecture-components.md` and the decision log. Status: **draft.**
+**Drafted** October 6, 2026 from `docs/architecture-components.md` and the decision log. Status: **accepted with the plan, October 6, 2026.**
 
 ## Inputs
 

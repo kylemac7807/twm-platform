@@ -1,6 +1,6 @@
 # Intent: M2, the thin thread
 
-**Drafted** October 6, 2026 by Claude Code for Kyle to accept or change. Status: **draft, not yet accepted.**
+**Drafted** October 6, 2026 by Claude Code for Kyle to accept or change. Status: **accepted by Kyle, October 6, 2026** (with the plan).
 
 ## The problem
 
