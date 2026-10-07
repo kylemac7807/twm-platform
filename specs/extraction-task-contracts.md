@@ -14,7 +14,7 @@ RateCardExtraction:
   rows: list[RateRow]
 RateRow:
   observed_title: str
-  level_raw: str|null            # "Level 2", "SFIA 4", "Senior" — verbatim
+  level_raw: str|null            # "Level 2", "SFIA 4" (a vendor's level label), "Senior" — verbatim
   rate_value: Decimal
   rate_qualifier: str|null       # "NTE", "ceiling", "offshore", "not to exceed"
   location_raw: str|null         # verbatim location/tier column label

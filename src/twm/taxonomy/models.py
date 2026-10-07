@@ -44,7 +44,6 @@ class CanonicalRole(BaseModel):
     crosswalk_ddat: str = ""
     crosswalk_tbips: str = ""
     crosswalk_onet_soc: str = ""
-    crosswalk_sfia: str = ""  # intentionally empty in v0 — licensing pending
 
 
 class BandCrosswalkRow(BaseModel):

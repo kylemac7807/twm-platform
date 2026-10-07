@@ -11,13 +11,13 @@ Texas DIR,Intern Level 3,junior,spec draft mapping; validated by NTE rate monoto
 Texas DIR,Level 1,intermediate,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
 Texas DIR,Level 2,senior,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
 Texas DIR,Level 3,lead_principal,spec draft mapping; validated by NTE rate monotonicity in REPORT.md
-SFIA,1,junior,crosswalk only; SFIA is not the spine (licensing pending)
-SFIA,2,junior,crosswalk only; SFIA is not the spine (licensing pending)
-SFIA,3,intermediate,crosswalk only; SFIA is not the spine (licensing pending)
-SFIA,4,senior,crosswalk only; SFIA is not the spine (licensing pending)
-SFIA,5,senior,crosswalk only; SFIA is not the spine (licensing pending)
-SFIA,6,lead_principal,crosswalk only; SFIA is not the spine (licensing pending)
-SFIA,7,lead_principal,crosswalk only; SFIA is not the spine (licensing pending)
+"G-Cloud 14 vendor level label (SFIA-numbered)",1,junior,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
+"G-Cloud 14 vendor level label (SFIA-numbered)",2,junior,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
+"G-Cloud 14 vendor level label (SFIA-numbered)",3,intermediate,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
+"G-Cloud 14 vendor level label (SFIA-numbered)",4,senior,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
+"G-Cloud 14 vendor level label (SFIA-numbered)",5,senior,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
+"G-Cloud 14 vendor level label (SFIA-numbered)",6,lead_principal,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
+"G-Cloud 14 vendor level label (SFIA-numbered)",7,lead_principal,"public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)"
 DDaT,Trainee,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
 DDaT,Apprentice,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules
 DDaT,Junior,junior,DDaT ladders; role-specific labels (e.g. 'Senior data engineer') derive via title-modifier rules

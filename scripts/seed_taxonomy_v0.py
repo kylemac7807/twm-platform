@@ -645,7 +645,7 @@ for lv, b in [("Intern Level 1", "junior"), ("Intern Level 2", "junior"), ("Inte
               ("Level 1", "intermediate"), ("Level 2", "senior"), ("Level 3", "lead_principal")]:
     band("Texas DIR", lv, b, "spec draft mapping; validated by NTE rate monotonicity in REPORT.md")
 for lv, b in [("1", "junior"), ("2", "junior"), ("3", "intermediate"), ("4", "senior"), ("5", "senior"), ("6", "lead_principal"), ("7", "lead_principal")]:
-    band("SFIA", lv, b, "crosswalk only; SFIA is not the spine (licensing pending)")
+    band("G-Cloud 14 vendor level label (SFIA-numbered)", lv, b, "public vendor rate-card level label; read as a vendor document, not SFIA content (requirements 3.1)")
 for lv, b in [("Trainee", "junior"), ("Apprentice", "junior"), ("Junior", "junior"), ("Associate", "junior"),
               ("Mid", "intermediate"), ("Standard", "intermediate"), ("Practitioner", "intermediate"),
               ("Senior", "senior"), ("Lead", "lead_principal"), ("Principal", "lead_principal"), ("Head", "lead_principal"), ("Head of", "lead_principal")]:
@@ -1033,7 +1033,7 @@ def main():
     print(f"families={len(FAMILIES)} roles={len(R)} bands={len(B)} tech={len(TECH)} mappings={len(M)}")
     write("role_families.csv", ["family_id", "name", "definition", "scope_notes"], FAMILIES)
     write("canonical_roles.csv",
-          ["role_id", "family_id", "name", "definition", "disambiguation_notes", "crosswalk_ddat", "crosswalk_tbips", "crosswalk_onet_soc", "crosswalk_sfia"],
+          ["role_id", "family_id", "name", "definition", "disambiguation_notes", "crosswalk_ddat", "crosswalk_tbips", "crosswalk_onet_soc"],  # crosswalk_sfia column removed Oct 6, 2026 (SFIA excluded)
           [(*r, "") for r in R])
     write("band_crosswalk.csv", ["source_scheme", "source_level", "twm_band", "notes"], B)
     write("tech_vocab.csv", ["tag", "label", "category", "aliases"], TECH)

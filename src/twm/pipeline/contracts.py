@@ -12,7 +12,7 @@ from .models import SourceRef
 
 class RateRow(BaseModel):
     observed_title: str
-    level_raw: Optional[str] = None            # "Level 2", "SFIA 4", "Senior" — verbatim
+    level_raw: Optional[str] = None            # "Level 2", "SFIA 4" (a vendor's level label), "Senior" — verbatim
     rate_value: Optional[Decimal] = None       # null when the model is not certain (abstain)
     rate_as_stated: Optional[str] = None       # the exact string on the page, e.g. "$122.00"
     currency: Optional[str] = None             # ISO code as stated or implied by the symbol

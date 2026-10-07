@@ -92,7 +92,7 @@ def load_observations() -> list[Obs]:
             if off is not None:
                 obs.append(Obs("UK G-Cloud 15", role_t, "UK G-Cloud 15", level, rate=off, grid=f"GC15 offshore rate: {vendor} (GBP/day)"))
     # Deloitte grade card (band -> rate only; no titles)
-    deloitte = (GC / "UK_GCloud15_Deloitte_SFIA_ratecard.md").read_text(encoding="utf-8")
+    deloitte = (GC / "UK_GCloud15_Deloitte_GC15_ratecard.md").read_text(encoding="utf-8")
     sect = deloitte.split("## Standard Rate Card (UK)")[1].split("## Specialist")[0]
     for line in sect.splitlines():
         m = re.match(r"^\| ([^|]+) \| ([\d,]+) \|$", line)
@@ -322,7 +322,8 @@ def build_report(store: TaxonomyStore, results) -> str:
     L.append("## Not yet done / v0.1\n")
     L.append("- O*NET alternate/reported titles and ESCO multilingual synonyms are downloaded but not folded in (spec: v0.1).")
     L.append("- Embedding similarity (rule 5) is a protocol stub; no model is wired. Everything unresolved goes to the flag queue.")
-    L.append("- SFIA crosswalk column is intentionally empty (licensing decision pending).")
+    L.append("- SFIA is excluded from the product (requirements 3.1, Oct 6, 2026); no taxonomy table carries SFIA content. "
+             "G-Cloud 14 cards' level labels are read as vendor labels.")
     L.append("- TBIPS stream 7 (Telecommunications T.1–T.9) titles were not captured in the corpus extraction; they are absent from the seed.")
     L.append("- G-Cloud 14 cards, Job Bank wages and the contract corpus are not used for the round-trip (spec lists the five seed sources); they are the natural next stress test.")
     return "\n".join(L) + "\n"

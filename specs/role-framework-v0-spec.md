@@ -29,7 +29,7 @@ Structure so future non-IT families (Operations, Contact Centre) bolt on without
 
 ## Table 2 — `canonical_roles.csv`
 
-Columns: `role_id, family_id, name, definition, disambiguation_notes, crosswalk_ddat, crosswalk_tbips, crosswalk_onet_soc, crosswalk_sfia` (leave `crosswalk_sfia` empty — licensing pending)
+Columns: `role_id, family_id, name, definition, disambiguation_notes, crosswalk_ddat, crosswalk_tbips, crosswalk_onet_soc` (the `crosswalk_sfia` column was removed Oct 6, 2026: SFIA is excluded from the product, requirements 3.1)
 
 Target ~120–180 roles. Build by reconciling: DDaT role list (fetch from ddat-capability-framework.service.gov.uk), TBIPS resource categories (canada.ca TBIPS categories page), Texas DIR job titles (Appendix D), G-Cloud 15 card taxonomies (`corpus/gc15_ratecards/`), GSA labor categories. `disambiguation_notes` is what the resolve-once model reads — write it for a model deciding between neighbours ("Systems Analyst vs Business Analyst: systems analyst specifies technical solutions…").
 
@@ -50,10 +50,10 @@ TWM bands: `junior | intermediate | senior | lead_principal`. Draft mappings to 
 | Texas DIR | Level 1 | intermediate |
 | Texas DIR | Level 2 | senior |
 | Texas DIR | Level 3 | lead_principal |
-| SFIA | 1–2 | junior |
-| SFIA | 3 | intermediate |
-| SFIA | 4–5 | senior |
-| SFIA | 6–7 | lead_principal |
+| G-Cloud 14 vendor level label (SFIA-numbered) | 1–2 | junior |
+| G-Cloud 14 vendor level label (SFIA-numbered) | 3 | intermediate |
+| G-Cloud 14 vendor level label (SFIA-numbered) | 4–5 | senior |
+| G-Cloud 14 vendor level label (SFIA-numbered) | 6–7 | lead_principal |
 | DDaT | junior/associate | junior |
 | DDaT | mid | intermediate |
 | DDaT | senior | senior |

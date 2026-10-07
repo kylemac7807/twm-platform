@@ -1,4 +1,6 @@
-# G-Cloud 15 SFIA Rate Card Extraction — Manifest
+# G-Cloud 15 Rate Card Extraction — Manifest
+
+*Files renamed `_SFIA_` to `_GC15_` on Oct 6, 2026: G-Cloud 15 cards are a standard role × level grid, not SFIA-based.*
 
 **Extraction date:** 12 September 2026
 **Framework:** UK G-Cloud 15 (RM1557.15), Crown Commercial Service / GCA Digital Marketplace (applytosupply.digitalmarketplace.service.gov.uk). Awards 6 August 2026; catalogue live mid-August 2026. Supplier pricing documents dated January 2026 (submission window).
@@ -10,18 +12,18 @@
 
 | File | Vendor | Source URL (service) | Vintage | Offshore tiers? |
 |---|---|---|---|---|
-| UK_GCloud15_Accenture_SFIA_ratecard.md | Accenture (UK) Ltd | /g-cloud/services/509180438095337 | GC15, docs 2026-01-27 | YES — all categories, ~70-75% below UK (£150-£650) |
-| UK_GCloud15_Atos_SFIA_ratecard.md | Atos IT Services UK Ltd (Eviden) | /g-cloud/services/369277872364400 | GC15, docs 2026-01-28 | YES — most categories (£206-£1,034); cyber UK-only |
-| UK_GCloud15_Capgemini_SFIA_ratecard.md | Capgemini UK PLC | /g-cloud/services/161137653449191 | GC15, docs 2026-01-02/26 | YES — all categories incl. cyber (£110-£874) |
-| UK_GCloud15_CGI_SFIA_ratecard.md | CGI IT UK Ltd | /g-cloud/services/348660027537594 | GC15, docs 2026-01-16 | NO — offshore column empty (onshore-only) |
-| UK_GCloud15_Deloitte_SFIA_ratecard.md | Deloitte LLP | PDF 92485/955980530648874-pricing-document-2026-01-21 | GC15, Jan 2026 | YES — separate 9-band offshore card £355-£840 |
-| UK_GCloud15_IBM_SFIA_ratecard.md | IBM United Kingdom Ltd | /g-cloud/services/581735173557880 | GC15, docs 2026-01-06/13 | YES — uniform ladder £350-£1,065 |
-| UK_GCloud15_Infosys_SFIA_ratecard.md | Infosys Ltd | /g-cloud/services/148821255751177 | GC15, docs 2026-01-27/28 | YES — flat ~60-70% of UK (offshore priced high relative to UK) |
-| UK_GCloud15_Kainos_SFIA_ratecard.md | Kainos Software Ltd | /g-cloud/services/875574385541164 | GC15, docs 2026-01-20/26 | YES but shallow (~15-25% off; EU nearshore posture) |
-| UK_GCloud15_KPMG_SFIA_ratecard.md | KPMG LLP | /g-cloud/services/598757140562990 | GC15, docs 2026-01-29 | YES — steepest spread: £195-£780 vs UK £840-£2,808 (72-77% off) |
-| UK_GCloud15_Kyndryl_SFIA_ratecard.md | Kyndryl UK Ltd | /g-cloud/services/818008502756382 | GC15, docs 2026-01-13/29 | PARTIAL — IT ops + product/delivery only (£180-£609); rest UK-only |
-| UK_GCloud15_PwC_SFIA_ratecard.md | PricewaterhouseCoopers LLP | /g-cloud/services/177376838415896 | GC15, docs 2026-01-27/30 | YES — £960-£2,075 (offshore alone above many peers' UK rates) |
-| UK_GCloud15_TCS_SFIA_ratecard.md | Tata Consultancy Services Ltd | /g-cloud/services/815269997919354 | GC15, docs 2026-01-27/29 | YES — flat ~35% discount (offshore = 0.65 x UK) |
+| UK_GCloud15_Accenture_GC15_ratecard.md | Accenture (UK) Ltd | /g-cloud/services/509180438095337 | GC15, docs 2026-01-27 | YES — all categories, ~70-75% below UK (£150-£650) |
+| UK_GCloud15_Atos_GC15_ratecard.md | Atos IT Services UK Ltd (Eviden) | /g-cloud/services/369277872364400 | GC15, docs 2026-01-28 | YES — most categories (£206-£1,034); cyber UK-only |
+| UK_GCloud15_Capgemini_GC15_ratecard.md | Capgemini UK PLC | /g-cloud/services/161137653449191 | GC15, docs 2026-01-02/26 | YES — all categories incl. cyber (£110-£874) |
+| UK_GCloud15_CGI_GC15_ratecard.md | CGI IT UK Ltd | /g-cloud/services/348660027537594 | GC15, docs 2026-01-16 | NO — offshore column empty (onshore-only) |
+| UK_GCloud15_Deloitte_GC15_ratecard.md | Deloitte LLP | PDF 92485/955980530648874-pricing-document-2026-01-21 | GC15, Jan 2026 | YES — separate 9-band offshore card £355-£840 |
+| UK_GCloud15_IBM_GC15_ratecard.md | IBM United Kingdom Ltd | /g-cloud/services/581735173557880 | GC15, docs 2026-01-06/13 | YES — uniform ladder £350-£1,065 |
+| UK_GCloud15_Infosys_GC15_ratecard.md | Infosys Ltd | /g-cloud/services/148821255751177 | GC15, docs 2026-01-27/28 | YES — flat ~60-70% of UK (offshore priced high relative to UK) |
+| UK_GCloud15_Kainos_GC15_ratecard.md | Kainos Software Ltd | /g-cloud/services/875574385541164 | GC15, docs 2026-01-20/26 | YES but shallow (~15-25% off; EU nearshore posture) |
+| UK_GCloud15_KPMG_GC15_ratecard.md | KPMG LLP | /g-cloud/services/598757140562990 | GC15, docs 2026-01-29 | YES — steepest spread: £195-£780 vs UK £840-£2,808 (72-77% off) |
+| UK_GCloud15_Kyndryl_GC15_ratecard.md | Kyndryl UK Ltd | /g-cloud/services/818008502756382 | GC15, docs 2026-01-13/29 | PARTIAL — IT ops + product/delivery only (£180-£609); rest UK-only |
+| UK_GCloud15_PwC_GC15_ratecard.md | PricewaterhouseCoopers LLP | /g-cloud/services/177376838415896 | GC15, docs 2026-01-27/30 | YES — £960-£2,075 (offshore alone above many peers' UK rates) |
+| UK_GCloud15_TCS_GC15_ratecard.md | Tata Consultancy Services Ltd | /g-cloud/services/815269997919354 | GC15, docs 2026-01-27/29 | YES — flat ~35% discount (offshore = 0.65 x UK) |
 
 All service URLs relative to https://www.applytosupply.digitalmarketplace.service.gov.uk; asset PDFs under https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15/documents/<supplierId>/.
 

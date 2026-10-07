@@ -46,7 +46,7 @@ def load_heldout() -> list[tuple[str, str, str | None, str | None]]:
     for r in read_csv_skip_comments(RC / "US_TX_DIR_ITSAC_NTE_rates_2020_DIR-CPO-4653.csv"):
         if r["job_title"] not in t24:
             obs.append(("Texas DIR ITSAC 2020 (titles not in 2024)", r["job_title"], "Texas DIR", r["level"]))
-    # 5. G-Cloud 14 Deloitte and Version 1 cards: role-named rows if any (most GC14 cards are SFIA category x level, no titles)
+    # 5. G-Cloud 14 Deloitte and Version 1 cards: role-named rows if any (most GC14 cards are vendor level label x category, no titles)
     for name, src in (("UK_GCloud14_Deloitte_SFIA_ratecard.md", "UK G-Cloud 14 Deloitte card"),
                       ("deep2_UK_GCloud14_Version1_SFIA_ratecard.md", "UK G-Cloud 14 Version 1 card"),
                       ("deep2_UK_GCloud14_specialists_SFIA_ratecards.md", "UK G-Cloud 14 specialists")):

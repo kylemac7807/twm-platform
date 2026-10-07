@@ -33,13 +33,9 @@ Full detail in `01_skills_frameworks/manifest.md`. Verified sources, queued for 
 | **CEN CWA 16458 + ENISA ECSF** | 30 European ICT role profiles; free entry into the e-CF ecosystem | Free CWAs; EN 16234 itself is a paid standard (~€100–200, optional) |
 | **Singapore SFw-ICT** | Career maps with levels | Clear IMDA permission before any redistribution |
 
-### ⚠ SFIA 9 — the flag that needs your decision
+### SFIA 9 — excluded (decided Oct 6, 2026)
 
-SFIA is the intended backbone of the taxonomy, and it is the one framework with real licensing consequences:
-
-- The SFIA 9 documents (PDF, Excel, RDF) require **free registration** at sfia-online.org — but that grants **personal/internal use only**.
-- Embedding SFIA in a commercial product requires the **SFIA Partner Licence: £2,000/yr (single country) or £4,000/yr (global), plus a 5% royalty on products "dependent on SFIA data,"** with obligations to keep mappings current (accredited-consultant costs are small).
-- **The 5% royalty scope is the material question.** Whether a taxonomy *seeded from* SFIA makes the TWM platform "dependent on SFIA data" needs a legal read and likely a direct conversation with the SFIA Foundation — before SFIA is hard-wired into the product. The fallback if terms are unattractive: build the internal taxonomy on O*NET + DDaT (both commercially free) with an SFIA crosswalk kept internal.
+SFIA is not a source for the taxonomy and is excluded from the product by default (requirements §3.1; the Partner Licence's 5% royalty and quarterly customer-and-price reporting settled it). No SFIA documents are held; nothing is registered for or downloaded. The spine is built from O*NET, DDaT and TBIPS. Public vendor rate cards that print "SFIA 1–7" as level labels (the G-Cloud 14 cards) stay in the library as vendor documents.
 
 ---
 
@@ -97,7 +93,7 @@ Full detail in `03_contracts_sows/manifest.md`. Nine SEC EDGAR material-contract
 
 ## Why this corpus fits the architecture
 
-- **Taxonomy seeding (§5 bootstrap):** O*NET titles + DDaT levels + TBIPS categories + SFIA (pending licensing) give the global tier its pre-client-one vocabulary.
+- **Taxonomy seeding (§5 bootstrap):** O*NET titles + DDaT levels + TBIPS categories (SFIA excluded, Oct 6, 2026) give the global tier its pre-client-one vocabulary.
 - **Benchmark ledger seeding:** Texas/NY/GSA/G-Cloud rates provide market reference distributions before any consortium data exists.
 - **Extraction training & eval (§6 development corpus):** the EDGAR MSAs and state SOWs are exactly the document genus the pipeline must parse — including amendment chains, redactions, offshore splits, and Resource-Unit charging, the hard cases.
 - **Synthetic document generation:** the contract structures give templates for generating synthetic SOWs that mimic real construction without any client data.
@@ -105,8 +101,8 @@ Full detail in `03_contracts_sows/manifest.md`. Nine SEC EDGAR material-contract
 ## Your action list
 
 1. Run the two download scripts from your own machine (they verify each file as it lands).
-2. Register (free) at sfia-online.org and pull the SFIA 9 PDF/Excel/RDF for internal use.
-3. Get a legal read on the SFIA Partner Licence 5%-royalty scope before SFIA is embedded in the product; open a conversation with the SFIA Foundation.
+2. ~~Register at sfia-online.org~~ and ~~legal read on the SFIA licence~~: closed Oct 6, 2026, SFIA excluded (requirements §3.1).
+3. (merged into 2)
 4. Complete the short ESCO registration for the v1.2.1 CSV bundle.
 5. The main remaining gap: **Canadian vendor billing rates** (TBIPS awarded per-diems sit behind the CPSS supplier portal; the Job Bank wage proxy with a loading factor is now in the corpus as an interim). Options: CPSS registration, or an ATIP request.
 6. Each manifest's "Leads not downloaded" section lists what remains — G-Cloud 15 when it goes live, current SFIA cards for Cognizant/HCL/TechM/Capgemini/IBM (not published on G-Cloud 14), NY per-title ceiling schedules (only averages are public), the CoreLogic/Dell MSA (URL recorded, needs direct download), and the tails of the EDGAR query veins.

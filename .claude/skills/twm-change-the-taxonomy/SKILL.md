@@ -4,7 +4,7 @@ description: Adding or changing a canonical role, family, title mapping, band cr
 ---
 # Change the taxonomy
 
-Rules: mappings and rules are **appended or deprecated, never silently edited**. The seed script is provenance only; edit the CSVs directly. SFIA column stays empty until the licence decision. Technology never appears in a role name outside Packaged Applications. Management tiers are roles, not bands.
+Rules: mappings and rules are **appended or deprecated, never silently edited**. The seed script is provenance only; edit the CSVs directly. SFIA is excluded from the product (requirements §3.1); no taxonomy content may come from it. Technology never appears in a role name outside Packaged Applications. Management tiers are roles, not bands.
 
 Steps:
 1. Make the change in the CSV. For a new role: id in snake_case, family must exist, definition and disambiguation notes written **for the resolve-once model** (how to tell it from its neighbours), crosswalks where known.

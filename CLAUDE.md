@@ -20,11 +20,11 @@ Technology Workforce Management: an AI platform + consulting practice that helps
 
 - **Training data ≠ benchmark data.** Training needs realistic documents with known labels (synthetic is ideal). Benchmarks need TRUE, sourced, **vintage-tagged** observations. Synthetic or stale data never enters the ledger. Every rate observation carries: effective date, source, source class (public / consortium / synthetic-never-ledger).
 - **Store raw seniority evidence** (stated years, source level codes) on every observation — bands are a view over evidence and can be re-derived.
-- SFIA: **crosswalk only, not the spine** (licensing: 5% royalty risk — see docs/requirements-and-rationale.md §3.1). Do not copy SFIA definitions into the taxonomy; build genuinely from O*NET/DDaT/TBIPS.
+- SFIA: **excluded from the product** (requirements §3.1, decided Oct 6, 2026). No SFIA documents in the repo; never build taxonomy content from SFIA; build genuinely from O*NET/DDaT/TBIPS. G-Cloud 14 cards' "SFIA n" level labels are vendor labels, read as such.
 
 ## The taxonomy (TWM Role Framework — spec: specs/role-framework-v0-spec.md)
 
-Two axes only: **canonical role** (~120–180, in ~16 families) × **seniority band** (4: junior / intermediate / senior / lead-principal). Location (onshore/nearshore/offshore) and technology (controlled ~40–60 tag vocabulary) are **observation attributes, never role multipliers**. Management/executive tiers are roles, not bands. Crosswalks (DDaT, TBIPS, O*NET, SFIA-pending) are views out of one spine — never a second spine. Versioned like software: mappings append/deprecate, never silently edit.
+Two axes only: **canonical role** (~120–180, in ~16 families) × **seniority band** (4: junior / intermediate / senior / lead-principal). Location (onshore/nearshore/offshore) and technology (controlled ~40–60 tag vocabulary) are **observation attributes, never role multipliers**. Management/executive tiers are roles, not bands. Crosswalks (DDaT, TBIPS, O*NET) are views out of one spine — never a second spine. Versioned like software: mappings append/deprecate, never silently edit.
 
 ## Corpus (catalog: docs/corpus-catalog.md)
 

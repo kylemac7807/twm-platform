@@ -69,10 +69,10 @@ machine to pull the whole queue in one pass, then verify per the checklist at th
 
 ## B. Leads NOT downloadable without registration/licensing (Kyle action needed)
 
-### SFIA 9 — Skills Framework for the Information Age (THE intended backbone)
+### SFIA 9 — Skills Framework for the Information Age — EXCLUDED (Kyle, Oct 6, 2026; requirements §3.1). Not downloaded, not registered for; the notes below are the original lead, kept for the record.
 - Docs page: https://sfia-online.org/en/sfia-9/documentation — SFIA 9 framework reference (PDF), About SFIA (PDF), visual chart (PDF), **full Excel spreadsheet** (all 147 skills × 7 levels + generic attributes), RDF/Turtle file, cyber & cloud views.
 - All downloads require **free registration + login** ("All the documents are free to get if you are registered on this site"). Browsable without login: skills A–Z (https://sfia-online.org/en/sfia-9/skills/all-skills-a-z), levels of responsibility (https://sfia-online.org/en/sfia-9/responsibilities).
-- **ACTION: Kyle registers (free) at sfia-online.org and downloads the PDF + Excel + RDF.** Registration grants a personal-use licence.
+- ~~ACTION: Kyle registers (free) at sfia-online.org and downloads the PDF + Excel + RDF.~~ Closed Oct 6, 2026: do not register or download.
 - **LICENSING — CRITICAL FOR TWM (commercial use):**
   - Free: personal career development; most *internal* corporate HR/workforce use.
   - **Fee-bearing (per https://sfia-online.org/en/about-sfia/licensing-sfia):** "using SFIA to support the sale or marketing of any product or service", rate cards, recruitment-as-a-service, redistribution of SFIA material to other organisations, large-organisation internal use, translations.
@@ -106,5 +106,5 @@ For each file: `file <f>`; PDFs: `pdftotext <f> - | head -30`; xlsx/csv: open wi
 - ENISA_ECSF_Role_Profiles.pdf; ENISA_ECSF_User_Manual.pdf
 - CEN_CWA16458-1_2018_ICT_Role_Profiles.pdf (+ parts 2/4)
 - SG_SFw_ICT_Consolidated_Career_Maps.pdf
-- SFIA9_Framework_Reference.pdf; SFIA9_Skills_Levels.xlsx (post-registration)
+- ~~SFIA9_Framework_Reference.pdf; SFIA9_Skills_Levels.xlsx~~ (excluded Oct 6, 2026)
 - ESCO_v1.2.1_classification_en_csv.zip (post-email-flow)

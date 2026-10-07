@@ -31,9 +31,13 @@ Install once per machine: `cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
 
 A skill is a written procedure that must be applied the same way in every session. Thirteen now, two later; list and status in `.claude/skills/README.md`. The rule: if doing it inconsistently would damage trust in the product or waste Kyle's time, it is a skill. One-line conventions stay in `CLAUDE.md`.
 
+## Parallel sessions (decided by Kyle, October 6, 2026)
+
+Two or three Claude Code sessions can work at once, each in its own git worktree (a second folder sharing the same version history) on its own branch, outside OneDrive at `C:\Users\kylem\twm-worktrees\<task>`. The main session in the project folder coordinates: it alone edits the action list, the decision log, the design record, `CLAUDE.md`, the taxonomy and `pyproject.toml`; it merges each branch after tests pass, on Kyle's say-so. A worker follows the artifact chain above in `work/<task>/`, adds to shared modules but never edits them, keeps `work/<task>/status.md` current, and stops to ask when blocked. Each worker's brief states which documents it may spend model calls on. The full rules and the kickoff briefs: `Claude outputs/parallel-agent-plan.md`. The pre-commit hook finds the shared environment from any worktree.
+
 ## Deferred until a client environment exists
 
-Automated deployment through the pipeline (adopted with Azure, as the reinstall-from-scratch rehearsal); monitoring that creates new work from production metrics; scheduled security scans; parallel AI sessions; AI on call in chat channels. Revisit at client one.
+Automated deployment through the pipeline (adopted with Azure, as the reinstall-from-scratch rehearsal); monitoring that creates new work from production metrics; scheduled security scans; AI on call in chat channels. Revisit at client one.
 
 ## What we already did before naming it
 

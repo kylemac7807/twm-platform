@@ -1,3 +1,4 @@
+from pathlib import Path
 """Structural integrity of taxonomy/*.csv and the mapping table contract."""
 from collections import Counter
 
@@ -38,8 +39,16 @@ def test_every_role_has_definition_and_disambiguation(store):
         assert len(r.disambiguation_notes) > 10, r.role_id
 
 
-def test_sfia_crosswalk_empty_pending_licence(store):
-    assert all(r.crosswalk_sfia == "" for r in store.roles)
+def test_no_sfia_content_in_taxonomy_tables():
+    """SFIA is excluded from the product (requirements 3.1, decided Oct 6, 2026). The only permitted occurrence is the
+    G-Cloud 14 vendor level-label scheme in band_crosswalk, which reads a public vendor document, not SFIA content."""
+    tax = Path(__file__).resolve().parents[1] / "taxonomy"
+    allowed = {"band_crosswalk.csv": ["G-Cloud 14 vendor level label (SFIA-numbered)", "not SFIA content"]}
+    for csv_file in sorted(tax.glob("*.csv")):
+        text = csv_file.read_text(encoding="utf-8")
+        for phrase in allowed.get(csv_file.name, []):
+            text = text.replace(phrase, "")
+        assert "sfia" not in text.lower(), csv_file.name
 
 
 def test_technology_not_in_role_names_outside_packaged(store):
@@ -59,7 +68,7 @@ def test_spec_draft_band_mappings_present(store):
     expect = {
         ("TBIPS", "Level 1"): "junior", ("TBIPS", "Level 2"): "intermediate", ("TBIPS", "Level 3"): "senior",
         ("Texas DIR", "Intern Level 1"): "junior", ("Texas DIR", "Level 1"): "intermediate", ("Texas DIR", "Level 2"): "senior", ("Texas DIR", "Level 3"): "lead_principal",
-        ("SFIA", "1"): "junior", ("SFIA", "3"): "intermediate", ("SFIA", "5"): "senior", ("SFIA", "7"): "lead_principal",
+        ("G-Cloud 14 vendor level label (SFIA-numbered)", "1"): "junior", ("G-Cloud 14 vendor level label (SFIA-numbered)", "3"): "intermediate", ("G-Cloud 14 vendor level label (SFIA-numbered)", "5"): "senior", ("G-Cloud 14 vendor level label (SFIA-numbered)", "7"): "lead_principal",
         ("DDaT", "Junior"): "junior", ("DDaT", "Senior"): "senior", ("DDaT", "Principal"): "lead_principal",
         ("NY HBITS", "Junior"): "junior", ("NY HBITS", "Mid-Level"): "intermediate", ("NY HBITS", "Senior"): "senior", ("NY HBITS", "Expert"): "lead_principal",
     }

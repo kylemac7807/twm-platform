@@ -4,8 +4,13 @@
 set -u
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT" || exit 1
-PY="$ROOT/.venv/Scripts/python.exe"
+# The shared Python environment lives beside the main repository's .git, so a worktree finds it too (Oct 6, 2026);
+# PYTHONPATH makes THIS checkout's src/ win over the editable install, which points at the main folder.
+COMMON="$(git rev-parse --git-common-dir)"
+MAIN="$(cd "$COMMON/.." && pwd)"
+PY="$MAIN/.venv/Scripts/python.exe"
 [ -x "$PY" ] || PY="python"
+export PYTHONPATH="$ROOT/src"
 
 STAGED="$(git diff --cached --name-only --diff-filter=ACM)"
 

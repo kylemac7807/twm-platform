@@ -41,7 +41,7 @@ get CEN_CWA16458-4_Case_Studies.pdf           "$C/16458-4.pdf"
 get SG_SFw_ICT_Consolidated_Career_Maps.pdf "https://www.imda.gov.sg/-/media/imda/images/programmes/skills-framework-for-ict/consolidated-career-maps.pdf"
 
 # --- Manual steps (login/email-gated; see manifest.md section B) ---
-echo "MANUAL: SFIA 9 PDF/Excel/RDF — free registration at https://sfia-online.org/en/sfia-9/documentation"
+echo "SFIA 9: excluded from the product (Oct 6, 2026); do not register or download."
 echo "MANUAL: ESCO v1.2.1 CSV — email flow at https://esco.ec.europa.eu/en/use-esco/download"
 
 # --- Verify ---

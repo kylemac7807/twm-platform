@@ -6,7 +6,7 @@ Generated 2026-10-06 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv
 
 - Families: **18** (spec draft 16; two added — see Deviations)
 - Canonical roles: **129** (target 120–180)
-- Band crosswalk rows: **140** across schemes: Consulting pyramid, DDaT, Deloitte CS grade, NY HBITS, SFIA, TBIPS, Texas DIR, Title modifier, UK G-Cloud 15, Years stated
+- Band crosswalk rows: **140** across schemes: Consulting pyramid, DDaT, Deloitte CS grade, G-Cloud 14 vendor level label (SFIA-numbered), NY HBITS, TBIPS, Texas DIR, Title modifier, UK G-Cloud 15, Years stated
 - Tech vocabulary: **57** tags
 - Seeded title mappings: **547** (541 active, 4 flagged; **417 observed in a source, 130 authored aliases**; target 250–400 observed)
 
@@ -157,6 +157,6 @@ All grids monotonic.
 
 - O*NET alternate/reported titles and ESCO multilingual synonyms are downloaded but not folded in (spec: v0.1).
 - Embedding similarity (rule 5) is a protocol stub; no model is wired. Everything unresolved goes to the flag queue.
-- SFIA crosswalk column is intentionally empty (licensing decision pending).
+- SFIA is excluded from the product (requirements 3.1, Oct 6, 2026); no taxonomy table carries SFIA content. G-Cloud 14 cards' level labels are read as vendor labels.
 - TBIPS stream 7 (Telecommunications T.1–T.9) titles were not captured in the corpus extraction; they are absent from the seed.
 - G-Cloud 14 cards, Job Bank wages and the contract corpus are not used for the round-trip (spec lists the five seed sources); they are the natural next stress test.

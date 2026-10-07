@@ -12,6 +12,6 @@ Copied on September 19, 2026 from `Desktop\Technology Workforce Management\Model
 | `Wipro/Wipro - Cloud Hosting Services.pdf` | Wipro's UK G-Cloud 14 pricing document with SFIA rate card. | No. Same document as `corpus/twm_corpus/deep2_UK_GCloud14_Wipro_SFIA_ratecard_ORIGINAL.pdf`. |
 | `*/Screenshot *.png`, `unsorted_screenshots/` | Screenshots taken January 29, 2026, filed beside each vendor. Contents not yet reviewed; likely rate tables captured from the PDFs or vendor pages. | To review. Useful as image-only extraction test cases if they show rate tables. |
 
-Not copied: two SFIA framework images. SFIA content stays out of the library and the taxonomy until the licensing decision (CLAUDE.md data rules).
+Not copied: two SFIA framework images. SFIA is excluded from the product (requirements §3.1, Oct 6, 2026); no SFIA content enters the library or the taxonomy.
 
 To do: extract the Cognizant and Deloitte GSA rate tables into the same structured form as the other rate cards, and add their titles to the Role Framework round-trip test.

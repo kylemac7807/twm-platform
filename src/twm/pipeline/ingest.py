@@ -86,7 +86,7 @@ CLASS_RULES: list[tuple[str, float, list[str]]] = [
     ("timesheet", 0.90, [r"\btime\s*sheet\b", r"\btimecard\b", r"\bweek ending\b.*\bhours\b"]),
     ("invoice", 0.85, [r"\binvoice\s*(no|number|#)", r"\bremit to\b", r"\bamount due\b"]),
     ("amendment", 0.85, [r"\bamendment\s+(no\.?|number|#)?\s*\d", r"\bchange notice\b", r"\bchange order\b", r"\bfirst amendment\b|\bsecond amendment\b"]),
-    ("rate_card", 0.85, [r"\brate card\b", r"\bpricing (index|and volumes|exhibit)\b", r"\bnot[- ]to[- ]exceed\b.*\brate", r"\bhourly rate\b.*\bhourly rate\b", r"\bsfia\b.*\brate",
+    ("rate_card", 0.85, [r"\brate card\b", r"\bpricing (index|and volumes|exhibit)\b", r"\bnot[- ]to[- ]exceed\b.*\brate", r"\bhourly rate\b.*\bhourly rate\b", r"\bsfia\b.*\brate",   # G-Cloud 14 cards label levels "SFIA n": a vendor label, read as a classification signal only
                          r"\buk rate\b.*\boffshore rate\b", r"\bday rate\b.*\bday rate\b", r"\brole level\b.*\brate\b"]),
     ("sla", 0.80, [r"\bservice level (definitions?|agreement)\b", r"\bservice levels\b.*\bcredits?\b"]),
     ("sow", 0.85, [r"\bstatement of work\b", r"\bexhibit\s*1\b.*\bstatement of work\b", r"\btask (authorization|order)\b"]),
