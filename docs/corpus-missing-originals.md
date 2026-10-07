@@ -9,7 +9,7 @@ The first full corpus fetch ran on Kyle's machine on September 13 (Python `urlli
 | Set | Fetched | Missing | Notes |
 |---|---|---|---|
 | Corpus v3 (388 URLs) | 368 | 20 | listed in section 2; errors also in `corpus/manifests/v3_downloads/failures.csv` |
-| Sept 1 package (48 URLs) | 45 | 3 | listed in section 1 |
+| Sept 1 package (48 URLs) | 47 | 1 | listed in section 1 |
 | Skills frameworks (14 URLs) | 14 | 0 | SFIA 9 and ESCO remain manual (registration / email); ESCO zip is already in Kyle's Downloads |
 
 **Missing v3 by site:** www.michigan.gov (13), www.sec.gov (1), www.mass.gov (1), www.gsa.gov (1), canadabuys.canada.ca (1), www.courtlistener.com (1), www.dcaa.mil (1), omh.ny.gov (1)  
@@ -41,8 +41,8 @@ Remaining after this batch: **5** (DCAA, NY OMH, GSA Alliant 2, SEC Virtusa, GSA
 | # | Save as | URL | Error | Notes |
 |---|---|---|---|---|
 | 1 | `US_GSA_MAS_ConstellationWest_pricelist_54151S_2025_ORIGINAL.PDF` | https://www.gsaadvantage.gov/ref_text/47QTCA25D007E/109Z4I.3W0BZ6_47QTCA25D007E_47QTCA25D007E-3-28-2025-377665.PDF | 404 | GSA MAS price list, Constellation West, SIN 54151S, 2025. URL gone; search GSA Advantage / GSA eLibrary for contract 47QTCA25D007E. |
-| 2 | `MI_DTMB_Deloitte_MiIntegrate_Contract_SOW_Rates_2013-2026_ORIGINAL.pdf` | https://www.michigan.gov/dtmb/-/media/Project/Websites/dtmb/Procurement/Contracts/006/180000000078.pdf | 403 | Michigan DTMB contract 180000000078 (Deloitte, MiIntegrate). Named in CLAUDE.md as the second M2 thin-thread document. |
-| 3 | `deep2_MI_DTMB_Accenture_ITTraining_Contract_2025_MA250000000723_ORIGINAL.pdf` | https://www.michigan.gov/dtmb/-/media/Project/Websites/dtmb/Procurement/Contracts/MiDEAL/002/250000000723.pdf | 403 | Michigan DTMB MiDEAL contract 250000000723 (Accenture, IT training, 2025). |
+| ~~2~~ (retrieved Oct 6) | `MI_DTMB_Deloitte_MiIntegrate_Contract_SOW_Rates_2013-2026_ORIGINAL.pdf` | https://www.michigan.gov/dtmb/-/media/Project/Websites/dtmb/Procurement/Contracts/006/180000000078.pdf | 403 | Michigan DTMB contract 180000000078 (Deloitte, MiIntegrate). Named in CLAUDE.md as the second M2 thin-thread document. |
+| ~~3~~ (retrieved Oct 6) | `deep2_MI_DTMB_Accenture_ITTraining_Contract_2025_MA250000000723_ORIGINAL.pdf` | https://www.michigan.gov/dtmb/-/media/Project/Websites/dtmb/Procurement/Contracts/MiDEAL/002/250000000723.pdf | 403 | Michigan DTMB MiDEAL contract 250000000723 (Accenture, IT training, 2025). |
 
 ## 2. Corpus v3 (20 files)
 
