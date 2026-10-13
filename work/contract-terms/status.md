@@ -2,7 +2,7 @@
 
 Updated at every commit by the worker session in the `contract-terms` worktree. The main session reads this; Kyle decides.
 
-**Last updated:** October 13, 2026. Spec and plan written; waiting for Kyle's go.
+**Last updated:** October 13, 2026. Spec and plan written, then revised after Kyle's challenge on overfitting (vendor resolved once through a table, a no-spend rehearsal over the whole library, general table rules, Azure replacement points stated). Waiting for Kyle's go.
 
 ## Done
 
@@ -27,8 +27,8 @@ Two, in `plan.md` under "Two things to confirm". Both have a stated default; sil
 | Module | Addition | Status |
 |---|---|---|
 | `contracts.py` | `ContractFact` record (fact type, verbatim value, source position, confidence); `facts` list and `subtype` on the existing term record; `confidence` on `NamedResource` | planned |
-| `models.py` | `counterparty_guess`, `client_guess`, `party_evidence` at the end of `DocumentRecord` | planned |
-| `ledger.py` | tables `contract_terms` and `named_resources` at the end of `SCHEMA`; methods `supersede_terms`, `add_term`, `add_named_resource`, `live_terms`, `live_named_resources`, `term_counts` at the end of the class | planned |
+| `models.py` | `party_candidates` (names found on the first pages, each with its evidence) at the end of `DocumentRecord` | planned |
+| `ledger.py` | tables `contract_terms`, `named_resources` and `vendor_names` at the end of `SCHEMA`; methods `supersede_terms`, `add_term`, `add_named_resource`, `live_terms`, `live_named_resources`, `term_counts`, `lookup_vendor`, `record_vendor_name` at the end of the class | planned |
 
 ## Packages needed
 
