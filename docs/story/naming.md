@@ -88,13 +88,48 @@ Two public checks were run on each name: a web search for an existing company or
 | Ratebook | a common feature name in leasing and rental software | registered 2002 | not checked | not checked |
 | Pageline | PageLines, WordPress tools | registered 2015 | not checked | not checked |
 
-## A shortlist to talk about
+## Round one shortlist (plain words)
 
 1. **Ratetrail.** Clean on every check run; says what the product does in a phrase finance people already use; .ai and .ca are free, and the .com is a purchase conversation with its holder.
 2. **Ratewright.** The most distinctive and the easiest to trademark; the price is the spelling on the phone and a recently registered .com.
 3. **Quorate.** The best story for the consortium and a real word; the price is proximity to two Quorum software companies and a taken .ai.
 
 For the application in any of the three: "the Ratetrail Ledger", "the Ratewright Ledger", "the Quorate Ledger", with Master Benchmark Ledger kept as the deck's name for the consortium-wide table.
+
+## Round two: names that carry an argument (added October 13, 2026, after Kyle's question)
+
+Kyle's prompt: Typesafe named its product Jev after Jevons, whose paradox (efficiency raises consumption) is the argument for their product. The name is an argument. The equivalent for TWM is a person or idea that carries the argument a CIO hears in the first five minutes. The business plan makes four such arguments: the buyer cannot see what is being sold (information); the vendor's price is set where buyers cannot compare (competition); AI gains stay trapped until the workforce is restructured (productivity); and a book of record is the cure (measurement).
+
+**What the registries say about surnames.** Every economist's or statistician's surname .com was registered in the 1990s or early 2000s, Jevons included. The routes left are the .ai (natural for an AI product) and the .ca (natural for a Canadian company), a purchase of the parked .com, or a derivative. For these names the short derivatives that are free (quet.ai, benf.ai, ostr.ai) are not words anyone would say, so the derivative route is weaker than it was for Jev. What does work is "labs" and "hq": akerlofhq, getakerlof, bowleylabs, dantziglabs, tukeylabs, solowlabs and juranlabs are free on .com, .ai and .ca.
+
+**Caution on living people.** Akerlof (born 1940) and Kraljic (born 1939) are alive; naming a company after a living person needs their blessing or counsel's view. The others below are dead, as Jevons is.
+
+| Name | The argument it carries | Web presence | .com | .ai | .ca |
+|---|---|---|---|---|---|
+| **Akerlof** (market for lemons, 1970) | When the buyer cannot see quality, the seller sets the price: "vendors benefit from the lack of transparency" | none | 2006 | free | free |
+| **Quetelet** (Belgian, 1796 to 1874, "the average man") | The norm is a measurement, not an opinion; the inventor of the statistical baseline; French-speaking | none | Nov 2025 | free | free |
+| **Shewhart** (control charts, 1924) | A rate outside the limits is a finding, inside them it is noise | none (an R package) | 2017 | free | free |
+| **Tukey** (box plot; coined "bit" and "software") | The box plot is our benchmark picture: p25, median, p75; easy to say | none | 2000 | Apr 2026 | free |
+| **Bowley** (sampling; quartile spread) | Publish the spread, not the average | none | 1999 | free | taken |
+| **Dantzig** (linear programming, 1947) | The optimal mix; Phase 2's workforce-mix argument | none | 1995 | Jul 2025 | free |
+| **Baumol** (cost disease) | Labour costs in low-productivity services rise anyway: the escalation clause | none | 2013 | Jun 2025 | free |
+| **Vickrey** (the auction where truth wins) | Make the vendor reveal the true price | none | 1999 | Feb 2026 | free |
+| **Gilbreth** (motion study) | Measure the work itself | none today | 1999 | Jan 2026 | free |
+| **Schelling** (focal point) | The benchmark becomes the number both sides land on | IMA Schelling, Austrian machinery | 1997 | Jul 2026 | free |
+| **Stigler** (economics of information, 1961) | Prices stay dispersed because search is costly; the exact description of rate variance across SOWs | none | 1998 | Feb 2025 | free |
+| **Coase** (the nature of the firm, 1937) | Make or buy is a transaction-cost decision; the employee-versus-third-party mix | Coase Pte Ltd, Singapore, 2018 | 2000 | 2022 | free |
+| **Solow** (productivity paradox) | The gains do not show until the organisation restructures; closest in spirit to Jevons | none in software; a New York real-estate family | 1997 | Sept 2025 | 2021 |
+| **Kraljic** (the procurement matrix) | Buy labour strategically; every CPO knows it; hard to say | none | 2004 | free | free |
+| **Bertrand** (price competition) | When buyers can compare, price falls to cost | generic French name | 2002 | Dec 2025 | free |
+| Bastiat ("what is seen and what is not seen") | Make the unseen cost visible; politically coded in the US | not searched | 2000 | free | free |
+| Argyris (double-loop learning) | Every queue decision becomes a rule | not searched | 1999 | free | free |
+| Laspeyres, Paasche (price indexes) | A rate index; hard to say | not searched | 2001, 1996 | free | free |
+| Tinbergen, Leontief, Theil, Quesnay, Fayol | Weaker arguments; listed because .ai and .ca are free | not searched | taken | free | free |
+| Hollerith, Datini, Cournot | Counting, record-keeping, competition; obscure | none | taken | taken | free |
+
+**Dropped after checking:** Ostrom (a Berlin energy company raised $23M under the name; all domains taken), Benford (a London and Oslo audit startup raised €5M under it in September 2026), Juran (the institute), Pacioli (LucaNet and Paciolan are both named after him), Linnaeus (a thirty-year-old taxonomy software family), Shapley, Hawthorne, Tappan (the appliance brand), Playfair (a London venture fund), Walras, Tycho, Lerner, Markowitz, Gantt, Veblen, Follett, Minard, Carli: every domain taken or a brand in the way.
+
+**Round two shortlist to talk about:** Akerlof carries the problem, Tukey carries the picture, Quetelet carries the benchmark. Shewhart and Dantzig are the runners-up. If the test is "the sentence a CFO repeats", Akerlof wins, with the living-person caution above.
 
 ## Checks still to do before choosing
 

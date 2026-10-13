@@ -14,9 +14,11 @@ Worker session in worktree `story`, branch `story`. Updated at every commit. Kyl
 - **Oct 13, 2026 — the pitch narrative, first draft.** `docs/story/pitch-narrative.md`: one page written from the flow, grounded in the Business Plan v1.5, the Early Adopter Presentation (Nov 10, v2), the Consortium Approach v1.7 and the Pitch Deck v1.1, all four read in full. Ends with the wording the deck revision (D3) should retire. A draft to react to, not a delivery.
 - **Oct 13, 2026 — naming options, first draft.** `docs/story/naming.md`: 23 candidate names checked two ways (web search for an existing company or product; the .com registry's own lookup), the five strongest also checked at the .ai and .ca registries; reasoning per name; a shortlist of three (Ratetrail, Ratewright, Quorate); the checks that still need a registrar, a trademark database or counsel. A conversation, not a delivery.
 
+- **Oct 13, 2026, later — naming round two.** Kyle asked for names that carry an argument, the way Typesafe's Jev carries Jevons. 48 more names checked at the .com, .ai and .ca registries by script and the plausible ones searched for collisions; added to `docs/story/naming.md` as "Round two". Shortlist: Akerlof, Tukey, Quetelet; Shewhart and Dantzig as runners-up; the .ai and .ca are free for most, every .com is held since the 1990s.
+
 ## In progress
 
-- Nothing until Kyle reacts to the three drafts.
+- The naming conversation with Kyle (round two is on the table).
 
 ## Questions for Kyle
 
