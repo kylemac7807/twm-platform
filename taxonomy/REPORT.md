@@ -1,6 +1,6 @@
 # Role Framework v0 — Acceptance Report
 
-Generated 2026-10-06 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv` and the corpus seed sources.
+Generated 2026-10-13 by `python -m twm.taxonomy.acceptance` from `taxonomy/*.csv` and the corpus seed sources.
 
 ## Framework size
 

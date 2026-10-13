@@ -66,7 +66,13 @@ const progress = (done, total, label) => `<div class="prog"><div class="bar"><sp
 async function loadSets() { S.sets = await api('/api/sets'); if (S.setId && !S.sets.some(s => s.root_id === S.setId)) S.setId = null; }
 async function loadSet() { S.set = S.setId ? await api(`/api/sets/${S.setId}`) : null; }
 async function loadTax() { if (!S.tax) S.tax = await api('/api/taxonomy'); }
+function showWho() {
+  const have = !!S.analyst.trim() && !S.editingWho;
+  $('#analyst').hidden = have; $('#who-label').hidden = have; $('#who-set').hidden = !have;
+  $('#who-name').textContent = S.analyst.trim();
+}
 function refreshChrome() {
+  showWho();
   const open = S.set ? S.set.open : 0;
   $('#nav-open').textContent = open; $('#nav-open').style.display = open ? '' : 'none';
   $('#foot-saved').textContent = S.saved;
@@ -94,7 +100,7 @@ async function renderSets() {
     ${!S.analyst.trim() ? '<div class="alert"><span class="dot"></span><div>Enter your name at the top right. It is saved with every answer you give.</div></div>' : ''}
     <div class="chips" style="margin-bottom:12px"><span class="pill status ready">${n(counts.ready)} ready for review</span><span class="pill status in_review">${n(counts.in_review)} in review</span><span class="pill status complete">${n(counts.complete)} complete</span></div>
     <div class="card setlist"><div class="bd flush"><table><thead><tr><th>Contract set</th><th>Status</th><th class="num">Documents</th><th class="num">Rates</th><th class="num">In benchmarks</th></tr></thead><tbody>
-      ${list.map(s => `<tr class="row" data-open="${esc(s.root_id)}"><td><span class="setname">${esc(s.name)}${s.confirmed ? '' : ' <span class="pill wait">suggested name</span>'}<span class="file">${esc(s.root_filename)}</span></span></td>
+      ${list.map(s => `<tr class="row" data-open="${esc(s.root_id)}"><td><span class="setname">${esc(s.name)}<span class="file">${esc(s.root_filename)}</span></span></td>
         <td><span class="pill status ${s.status}">${esc(statusLine(s))}</span></td><td class="num">${n(s.documents.length)}</td><td class="num">${n(s.rows)}</td><td class="num">${n(s.counted)}</td></tr>`).join('')
         || '<tr><td colspan="5" class="muted">No contract sets match.</td></tr>'}
     </tbody></table></div></div>
@@ -105,13 +111,16 @@ async function renderSets() {
 async function renderSet() {
   if (!S.setId) { S.screen = 'sets'; return renderSets(); }
   await loadSet(); await loadTax(); refreshChrome();
+  $('#page').innerHTML = `<div id="sethead-wrap">${setHeaderHtml()}</div><div id="setbody"></div>`;
+  if (S.setTab === 'review') await renderReview(); else await renderDocuments();
+}
+function setHeaderHtml() {
   const s = S.set;
   const nameBlock = S.editingName
     ? `<div class="namebox"><input id="setname" value="${esc(s.name)}"><button class="btn primary sm" data-savename="1">Save name</button><button class="btn ghost sm" data-cancelname="1">Cancel</button></div>`
-    : (s.confirmed ? `<div class="file">${esc(s.root_filename)} <a href="#" data-editname="1">· rename</a></div>`
-      : `<div class="file">${esc(s.root_filename)}</div><div class="suggest">Suggested name, built from the documents. <button class="btn sm" data-confirmname="1">Use it</button><button class="btn ghost sm" data-editname="1">Edit</button></div>`);
+    : `<div class="file">${esc(s.root_filename)} <a href="#" data-editname="1">· rename</a></div>`;
   const heldBack = s.rows - s.counted;
-  $('#page').innerHTML = `
+  return `
     <p class="crumb"><a href="#" data-screen="sets">Contract sets</a> › ${esc(s.name)}</p>
     <div class="sethead"><div><h1>${esc(s.name)}</h1>${nameBlock}</div><span class="pill status ${s.status}" style="font-size:12px;padding:6px 12px">${esc(statusLine(s))}</span></div>
     <div class="tiles">
@@ -120,9 +129,17 @@ async function renderSet() {
       <div class="tile wait"><div class="k">Held back</div><div class="v">${n(heldBack)}</div><div class="s">${n(s.rows_unlocked)} wait on a title you can decide</div></div>
       <div class="tile"><div class="k">To answer</div><div class="v">${n(s.open)}</div><div class="s">${n(s.answered)} answered · ${n(s.parked)} parked</div></div>
     </div>
-    <div class="subtabs"><button data-settab="review" class="${S.setTab === 'review' ? 'active' : ''}">Review<span class="n">${s.open}</span></button><button data-settab="documents" class="${S.setTab === 'documents' ? 'active' : ''}">Documents<span class="n">${s.documents}</span></button></div>
-    <div id="setbody"></div>`;
-  if (S.setTab === 'review') await renderReview(); else await renderDocuments();
+    <div class="subtabs"><button data-settab="review" class="${S.setTab === 'review' ? 'active' : ''}">Review<span class="n">${s.open}</span></button><button data-settab="documents" class="${S.setTab === 'documents' ? 'active' : ''}">Documents<span class="n">${s.documents}</span></button></div>`;
+}
+/* after a save or park: refresh the numbers in place, re-list, keep the scroll position, show what just happened */
+async function afterChange(message) {
+  const y = window.scrollY;
+  await loadSet(); refreshChrome();
+  const w = $('#sethead-wrap'); if (w) w.innerHTML = setHeaderHtml();
+  S.review.lastSaved = message;
+  await renderReview();
+  window.scrollTo(0, y);
+  const row = $('#qlist tr.sel'); if (row) row.scrollIntoView({ block: 'nearest' });
 }
 
 /* ── review (scoped to the set) ── */
@@ -148,8 +165,9 @@ async function renderReview() {
         <div class="tabs">${TABS.map(([k, l]) => `<button data-tab="${k}" class="${R.tab === k ? 'active' : ''}">${l}<span class="n">${counts[k]}</span></button>`).join('')}</div>
         <div class="bd flush" id="qlist">${(R.tab === 'titles' || R.tab === 'parked') ? titleTable(R.groups, R.tab === 'parked') : itemTable(R.items, R.tab)}</div>
       </div>
-      <div class="card panel" id="qpanel">${(R.tab === 'titles' || R.tab === 'parked') ? titlePanel() : itemPanel()}</div>
+      <div class="card panel" id="qpanel">${R.lastSaved ? `<div class="saved-note" style="margin:12px 18px 0">${esc(R.lastSaved)}</div>` : ''}${(R.tab === 'titles' || R.tab === 'parked') ? titlePanel() : itemPanel()}</div>
     </div>`;
+  R.lastSaved = null;
 }
 async function loadSuggestion(g) {
   const R = S.review, F = R.form;
@@ -287,9 +305,9 @@ async function saveTitle() {
     await post('/api/decisions/title', { queue_ids: sel.flatMap(g => g.queue_ids), role_id: F.role, band: F.band, technology: F.tags.join(',') || null, scope: F.scope,
                                          suggested: F.fromSuggestion, reason: F.reason, decided_by: S.analyst });
     S.saved += 1;
-    toast(`Saved: ${sel.map(x => x.title).join(', ')} → ${roleName(F.role)}${F.band ? ', ' + F.band.replace('_', ' / ') : ''} (${F.scope === 'client' ? 'this client' : F.scope === 'set' ? 'this contract set' : 'everyone'}).`);
+    const msg = `Saved: ${sel.map(x => x.title).join(', ')} → ${roleName(F.role)}${F.band ? ', ' + F.band.replace('_', ' / ') : ''} (${F.scope === 'client' ? 'this client' : F.scope === 'set' ? 'this contract set' : 'everyone'}). Next one is below.`;
     nextAfterChange(sel.length);
-    await renderSet();
+    await afterChange(msg);
   } catch (e) { err.textContent = e.message; btn.disabled = false; btn.textContent = 'Save and go to next'; }
 }
 async function saveItem() {
@@ -308,9 +326,9 @@ async function saveItem() {
       if (!decision.doc_class && !decision.link) { err.textContent = 'Choose an answer first.'; return; }
       await post('/api/decisions/intake', { queue_id: it.id, decision, reason: F.reason, decided_by: S.analyst });
     }
-    S.saved += 1; toast('Saved.');
+    S.saved += 1;
     nextAfterChange(sel.length);
-    await renderSet();
+    await afterChange('Saved. Next one is below.');
   } catch (e) { err.textContent = e.message; }
 }
 async function parkSelected() {
@@ -321,9 +339,8 @@ async function parkSelected() {
   const ids = isTitles ? sel.flatMap(g => g.queue_ids) : sel.map(i => i.id);
   try {
     await post('/api/queue/park', { queue_ids: ids, note: F.note, decided_by: S.analyst });
-    toast(`Parked${F.note ? ': ' + F.note : ''}. Find it under the Parked tab.`);
     nextAfterChange(sel.length);
-    await renderSet();
+    await afterChange(`Parked${F.note ? ': ' + F.note : ''}. Find it under the Parked tab.`);
   } catch (e) { $('#f-err').textContent = e.message; }
 }
 async function unparkSelected() {
@@ -332,9 +349,8 @@ async function unparkSelected() {
   const sel = R.selected.map(i => R.groups[i]).filter(Boolean);
   try {
     await post('/api/queue/unpark', { queue_ids: sel.flatMap(g => g.queue_ids), decided_by: S.analyst });
-    toast('Back on the list.');
     nextAfterChange(sel.length);
-    await renderSet();
+    await afterChange('Back on the list of job titles.');
   } catch (e) { $('#f-err').textContent = e.message; }
 }
 
@@ -412,8 +428,9 @@ async function go(screen) {
 async function openSet(id) { S.setId = id; localStorage.setItem('twm.set', id); S.screen = 'set'; S.setTab = 'review'; S.review.selected = []; S.review.form = freshForm(); S.review.suggest = null; S.docs.rowId = null; S.docs.docId = null; await renderSet(); window.scrollTo(0, 0); }
 
 document.addEventListener('click', async e => {
-  const t = e.target.closest('[data-screen],[data-open],[data-settab],[data-tab],[data-i],[data-check],[data-band],[data-cls],[data-tag],[data-alt],[data-scope],[data-doc],[data-row],[data-filter],[data-pick],[data-applied],[data-detail],[data-editname],[data-cancelname],[data-savename],[data-confirmname],#f-record,#f-park,#f-park-go,#f-park-cancel,#f-unpark');
+  const t = e.target.closest('#who-change,[data-screen],[data-open],[data-settab],[data-tab],[data-i],[data-check],[data-band],[data-cls],[data-tag],[data-alt],[data-scope],[data-doc],[data-row],[data-filter],[data-pick],[data-applied],[data-detail],[data-editname],[data-cancelname],[data-savename],[data-confirmname],#f-record,#f-park,#f-park-go,#f-park-cancel,#f-unpark');
   if (!t) return;
+  if (t.id === 'who-change') { e.preventDefault(); S.editingWho = true; showWho(); $('#analyst').focus(); return; }
   if (t.dataset.screen) { e.preventDefault(); return go(t.dataset.screen); }
   if (t.dataset.open) return openSet(t.dataset.open);
   if (t.dataset.settab) { if (S.setTab === 'review' && !leaveItem()) return; S.setTab = t.dataset.settab; return renderSet(); }
@@ -450,12 +467,14 @@ document.addEventListener('click', async e => {
 });
 document.addEventListener('input', e => {
   if (e.target.id === 'analyst') { S.analyst = e.target.value; localStorage.setItem('twm.analyst', S.analyst); }
+  if (e.target.id === 'f-note' || e.target.id === 'f-reason') readForm();
   if (e.target.id === 'rsearch') { S.docs.search = e.target.value; clearTimeout(S._st); S._st = setTimeout(renderDocuments, 250); }
   if (e.target.id === 'setsearch') { S._setSearch = e.target.value; clearTimeout(S._ss); S._ss = setTimeout(renderSets, 200); }
   if (e.target.id === 'f-tagq') { readForm(); $('#f-tags').outerHTML = tagPicker().split('<div class="hint">')[0]; const q = $('#f-tagq'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
   if (e.target.id === 'f-role') { const F = S.review.form; F.role = e.target.value; const sg = S.review.suggest; F.fromSuggestion = !!(sg && sg.suggestions.some(x => x.id === F.role)); }
 });
 document.addEventListener('keydown', e => {
+  if (e.target.id === 'analyst' && (e.key === 'Enter' || e.key === 'Tab')) { S.editingWho = false; showWho(); if (S.screen === 'sets') renderSets(); return; }
   if (S.screen !== 'set' || S.setTab !== 'review') return;
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); const b = $('#f-record'); if (b) b.click(); return; }
   if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
@@ -472,4 +491,5 @@ document.addEventListener('keydown', e => {
 });
 
 $('#analyst').value = S.analyst;
+$('#analyst').addEventListener('blur', () => { if (S.analyst.trim()) { S.editingWho = false; showWho(); } });
 (S.setId ? openSet(S.setId) : go('sets')).catch(err => { $('#page').innerHTML = `<div class="alert"><span class="dot"></span><div>Could not open the ledger: ${esc(err.message)}</div></div>`; });

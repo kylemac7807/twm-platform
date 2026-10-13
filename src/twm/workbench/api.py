@@ -20,10 +20,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from twm.pipeline.ledger import BANDS, DEFAULT_SCOPE, LOCATION_RULE_COLUMNS, SCOPES, TITLE_MAPPING_COLUMNS, Ledger
-from twm.pipeline.normalize import normalize_title, resolve
-from twm.pipeline.resolve_model import similar_roles
 from twm.taxonomy.store import TaxonomyStore
 from twm.workbench.render import render_row
+from twm.workbench.suggest import suggest as suggest_for
 
 STATIC = Path(__file__).parent / "static"
 app = FastAPI(title="TWM review workbench", docs_url=None, redoc_url=None)
@@ -168,23 +167,12 @@ def suggest(title: str, set_id: Optional[str] = None, client: Optional[str] = No
     names (no model call), the technology tags found in the title, the halves of a dual title, and the tags common in this
     contract set so the pick-list can show them first. The analyst confirms or changes; nothing here is saved."""
     s = store()
-    base = resolve(title, s)
-    nt = normalize_title(title, s)
-    cands = []
-    seen = set()
-    if base.status == "resolved" and base.canonical_role_id:
-        cands.append(dict(id=base.canonical_role_id, name=s.role_by_id[base.canonical_role_id].name, why="the rules place it here", score=1.0)); seen.add(base.canonical_role_id)
-    for rid in base.candidates:
-        if rid in s.role_by_id and rid not in seen:
-            cands.append(dict(id=rid, name=s.role_by_id[rid].name, why="one half of the title", score=0.9)); seen.add(rid)
-    for rid, score, matched in similar_roles(s, title, k=5):
-        if rid in s.role_by_id and rid not in seen:
-            cands.append(dict(id=rid, name=s.role_by_id[rid].name, why=f"similar to '{matched}'", score=round(score, 2))); seen.add(rid)
     common: list[str] = []
     saved = None
-    if set_id or client:
-        led = Ledger(ledger_path())
-        try:
+    answers: list[dict] = []
+    led = Ledger(ledger_path())
+    try:
+        if set_id or client:
             f, fa = led._set_filter(set_id)
             rows = led._rows("SELECT o.attr_technology AS t, COUNT(*) AS n FROM observations o JOIN documents d USING(document_id) "
                              "WHERE o.superseded_by IS NULL AND o.attr_technology IS NOT NULL" + f + " GROUP BY o.attr_technology ORDER BY n DESC LIMIT 8", fa)
@@ -193,11 +181,12 @@ def suggest(title: str, set_id: Optional[str] = None, client: Optional[str] = No
                     if tag and tag not in common:
                         common.append(tag)
             saved = led.saved_answer(title, client, set_id)
-        finally:
-            led.close()
-    return dict(title=title, suggestions=cands[:4], band=base.twm_band, band_source=base.band_source, tech_found=nt.tech_tags,
-                tech_common=common, location=base.attr_location, saved=saved,
-                note="suggestions come from similarity to known titles, not from the model; confirm or change")
+        answers = led.analyst_answers(client)
+    finally:
+        led.close()
+    out = suggest_for(title, s, saved=answers)
+    out.update(tech_common=common, saved=saved)
+    return out
 
 
 @app.get("/api/taxonomy")

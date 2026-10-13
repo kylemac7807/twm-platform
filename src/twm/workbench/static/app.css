@@ -213,3 +213,5 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 .parknote input { width: 100%; height: 32px; border: 1px solid var(--border-2); border-radius: var(--r-sm); padding: 0 10px; font-size: 13px; }
 .need-set { padding: 30px; text-align: center; color: var(--ink-2); }
 .need-set .btn { margin-top: 12px; }
+
+#who-set { font-size: 13px; color: var(--ink-2); } #who-set b { font-weight: 600; color: var(--ink); } #who-set a { margin-left: 4px; font-size: 12px; }

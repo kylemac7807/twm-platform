@@ -114,7 +114,7 @@ def test_sets_names_scope_park_and_suggestions(tmp_path, monkeypatch):
     sug = c.get("/api/suggest", params=dict(title="Project Manager I / Test Leads")).json()
     assert {x["id"] for x in sug["suggestions"][:2]} == {"project_manager", "test_manager"}      # both halves offered
     sug = c.get("/api/suggest", params=dict(title="Operations")).json()
-    assert sug["suggestions"] and sug["saved"] is None and "not from the model" in sug["note"]
+    assert sug["suggestions"] and sug["saved"] is None and "never from the model" in sug["note"]
     # park and bring back
     g = c.get("/api/queue/titles", params=dict(set_id=s["root_id"])).json()[0]
     r = c.post("/api/queue/park", json=dict(queue_ids=g["queue_ids"], note="need the SOW", decided_by="Kyle McNamara"))

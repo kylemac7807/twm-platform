@@ -323,6 +323,21 @@ class Ledger:
         self.conn.commit()
         return ids
 
+    def analyst_answers(self, client: Optional[str] = None) -> list[dict]:
+        """Every live title answer with a role, newest first, for the suggestion engine to learn from: this client's (and
+        everyone-scoped) answers when a client is given, otherwise all of them."""
+        out = []
+        for d in self._rows("SELECT * FROM queue_decisions WHERE kind='title' AND superseded_by IS NULL ORDER BY id DESC"):
+            dec = json.loads(d["decision_json"])
+            if not dec.get("canonical_role_id"):
+                continue
+            sc = dec.get("scope") or d.get("scope") or DEFAULT_SCOPE
+            if client and d["client"] != client and sc != "everyone":
+                continue
+            out.append(dict(observed_title=d["item"], canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band"),
+                            attr_technology=dec.get("attr_technology"), scope=sc, client=d["client"], decided_by=d["decided_by"]))
+        return out
+
     def saved_answer(self, title: str, client: Optional[str], set_id: Optional[str]) -> Optional[dict]:
         """The analyst's live answer for a title, if any: a set-scoped answer for this contract set first, then a client- or
         everyone-scoped answer for this client. The engine consults this before asking the model or a person on a re-run
