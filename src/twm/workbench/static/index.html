@@ -13,18 +13,18 @@
 <header class="topbar">
   <div class="mark"><div class="sq" aria-hidden="true"></div><span class="name">Review workbench</span><span class="tag">prototype</span></div>
   <nav class="nav" id="nav">
-    <button data-screen="overview">Overview</button>
-    <button data-screen="queue">Queue <span class="n" id="nav-open">–</span></button>
+    <button data-screen="home">Home</button>
+    <button data-screen="queue">To review <span class="n" id="nav-open">–</span></button>
     <button data-screen="documents">Documents</button>
-    <button data-screen="rules">Rules</button>
+    <button data-screen="rules">Apply decisions</button>
   </nav>
-  <div class="who"><label for="analyst">Your name</label><input id="analyst" type="text" placeholder="recorded on every decision" autocomplete="off"></div>
+  <div class="who"><label for="analyst">Your name</label><input id="analyst" type="text" placeholder="saved with each decision" autocomplete="off"></div>
 </header>
-<main class="page" id="page"><p class="muted">Loading the ledger…</p></main>
+<main class="page" id="page"><p class="muted">Loading…</p></main>
 <footer class="foot">
-  <span>This session: <b id="foot-decisions">0</b> decisions recorded</span>
-  <span><b id="foot-left">–</b> titles waiting</span>
-  <span class="right" id="foot-ledger"></span>
+  <span>Saved this session: <b id="foot-saved">0</b></span>
+  <span>To review: <b id="foot-left">–</b></span>
+  <span class="right">Answers take effect as soon as you save them.</span>
 </footer>
 <div class="toast" id="toast"></div>
 <script src="/static/app.js"></script>

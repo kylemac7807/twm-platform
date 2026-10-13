@@ -146,4 +146,31 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 .foot .right { margin-left: auto; color: var(--ink-3); }
 .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: var(--r-sm); font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 60; }
 .toast.show { opacity: 1; }
-@media (max-width: 1100px) { .cols, .cols.even { grid-template-columns: 1fr; } .panel { position: static; max-height: none; } .nav button { padding: 8px 10px; } }
+@media (max-width: 1100px) { .cols, .cols.even { grid-template-columns: 1fr; } .panel { position: static; max-height: none; } .nav button { padding: 8px 10px; } #qlist { max-height: 42vh; overflow: auto; } .titlebar { flex-direction: column; align-items: flex-start; } }
+
+/* ── usability pass (Oct 13): workflow pieces ── */
+.hero { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--wait-mid); border-radius: var(--r-md); padding: 18px 22px; margin-bottom: 20px; }
+.hero.done { border-left-color: var(--accent-bright); }
+.hero-t { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.hero-s { color: var(--ink-2); margin-top: 4px; max-width: 640px; }
+.btn.big { padding: 12px 20px; font-size: 15px; white-space: nowrap; }
+.btn.ghost { border-color: transparent; color: var(--ink-3); }
+.btn.ghost:hover { background: var(--canvas); color: var(--ink-2); }
+.titlebar { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 18px; }
+.titlebar .lede { margin-bottom: 0; }
+.prog { min-width: 260px; }
+.prog .bar { height: 8px; background: var(--neutral-bg); border-radius: 999px; overflow: hidden; }
+.prog .bar span { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s; }
+.prog .lbl { font-size: 12px; color: var(--ink-3); margin-top: 6px; text-align: right; }
+.step { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.form .step { margin-top: 2px; }
+.form .step + label { margin-top: 4px; }
+.form .step:not(:first-child) { margin-top: 16px; }
+.empty { padding: 40px 20px; text-align: center; color: var(--ink-3); }
+.more { margin-top: 10px; font-size: 13px; }
+.more summary { cursor: pointer; color: var(--ink-3); }
+.more summary:hover { color: var(--ink-2); }
+.h4 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 4px; }
+.crumb { font-size: 13px; color: var(--ink-3); margin-bottom: 6px; }
+.toast.bad { background: var(--no-mid); }
+.card .hd .btn { margin-left: auto; }
