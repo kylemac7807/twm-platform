@@ -8,7 +8,7 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 
 | Group | Components | Status |
 |---|---|---|
-| **1. Core SOW analysis** (first) | Intake · Document reading · Extraction · Normalization · Ledger · Benchmarking | Intake designed Oct 5; normalization built (M1); others to design |
+| **1. Core SOW analysis** (first) | Intake · Document reading · Extraction · Normalization · Ledger · Benchmarking | Intake designed Oct 5; normalization built (the Role Framework); others to design |
 | **2. Invoices to timecards to SOWs** (second) | Reconciliation (reuses intake and extraction) | To design |
 | **3. HR-system link** (third, parked) | Identity matching across SOW, timesheet, invoice and HR record | Parked |
 | **Cross-cutting** | Findings and reporting (where the stacked savings tranches live) · Review workbench (the consultant's screen, and the home of the demo) | No spec yet |
@@ -48,7 +48,7 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 
 **Decisions (Kyle, Oct 5, 2026).**
 - **Linking follows the flag-then-codify pattern.** Intake links documents on its own only when the evidence is strong, such as a contract number printed on the page. Otherwise it suggests a link and flags it for the consultant to confirm. Confirmed links are recorded and reused. Same pattern as title resolution and location.
-- **M2 accepts PDFs and Word documents only.** Spreadsheets and emails are added when the reconciliation work (group 2) begins, but the document record is designed from the start so that adding them changes nothing upstream.
+- **The Thin Thread accepts PDFs and Word documents only.** Spreadsheets and emails are added when the reconciliation work (group 2) begins, but the document record is designed from the start so that adding them changes nothing upstream.
 
 **Build or rent.** Build. Azure supplies storage and the document reading service; nothing off the shelf knows what a SOW is or how it links to a master agreement. The classification and linking logic are TWM's.
 
@@ -67,7 +67,7 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 **What comes out.** A structured reading: every paragraph, heading and table cell tagged with page number and position, with a confidence score per element, and with document structure preserved (a rate table inside an appendix is still known to be a table inside that appendix). The position tagging is what lets an extracted number highlight its source on the page (`source_ref`).
 
 **Decisions (Kyle, Oct 5, 2026).**
-- **Behind an interface, local first.** Document reading sits behind a simple interface. A basic local reader for native PDFs serves M2 and the Accenture documents; Azure Document Intelligence replaces it when TWM's subscription exists. Scanned documents (e.g. the Oklahoma Deloitte contract) wait for Azure.
+- **Behind an interface, local first.** Document reading sits behind a simple interface. A basic local reader for native PDFs serves the Thin Thread and the Accenture documents; Azure Document Intelligence replaces it when TWM's subscription exists. Scanned documents (e.g. the Oklahoma Deloitte contract) wait for Azure.
 - **Scan quality is a tracked attribute.** Every reading carries a quality grade that follows the data to the ledger, so a rate from a poor scan is never trusted as much as one from a native file.
 
 **Build or rent.** Rent: Azure Document Intelligence (Cowork's service map). TWM owns only the training on top: vendor-specific document models (the Technical Approach's "Expert Models"), added only where evaluation shows a vendor's documents reading badly, never up front.
@@ -79,9 +79,9 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 ## Build sequence — **Decided** (Kyle, Oct 5, 2026)
 
 Kyle asked whether to run the whole library through first to build the skills matrix, then build the demo on one contract. Agreed order:
-1. **M2, one contract end to end:** the Texas DIR Accenture set through every stage. The pipeline has to exist before volume is possible.
+1. **the Thin Thread, one contract end to end:** the Texas DIR Accenture set through every stage. The pipeline has to exist before volume is possible.
 2. **The volume run:** the whole document library through the same pipeline. Fills the ledger (so benchmarking has eleven vendors to compare against), grows the mapping table (the Business Plan's "skills matrix" is the Role Framework plus the mapping table), and produces per-document extraction scores that show where reading and extraction are weak.
-3. **M3, the evaluation harness:** a hand-verified sample becomes the measuring stick. Volume alone does not make the system smarter; volume plus verified answers does. Only the mapping table grows automatically; evaluation and any vendor-specific document models need verified examples.
+3. **the Evaluation, the evaluation harness:** a hand-verified sample becomes the measuring stick. Volume alone does not make the system smarter; volume plus verified answers does. Only the mapping table grows automatically; evaluation and any vendor-specific document models need verified examples.
 4. **The demo**, on the Accenture contract, with a populated ledger behind it.
 
 ---
@@ -98,7 +98,7 @@ Kyle asked whether to run the whole library through first to build the skills ma
 
 **Decisions (Kyle, Oct 5, 2026).**
 - **Verify every number against the page.** After the model answers, the software checks that each extracted rate and date literally appears in the source text at the claimed position; anything that does not match is rejected. Catches the most dangerous model failure, a plausible invented number. Decided.
-- **Big documents in pieces.** Long agreements are split by section using the reading stage's structure, extracted per section, and reassembled. Cross-references between sections may be missed; the evaluation harness will show whether that matters. Decided for M2, revisit with evidence.
+- **Big documents in pieces.** Long agreements are split by section using the reading stage's structure, extracted per section, and reassembled. Cross-references between sections may be missed; the evaluation harness will show whether that matters. Decided for the Thin Thread, revisit with evidence.
 - **Abstain rather than guess** when the model is unsure of a field: leave it blank and flag it. **Decided (Kyle, Oct 6).** Note: abstaining makes verification cheaper (only flags plus a sample need a human), whereas guessing makes every field suspect.
 
 **Hand verification effort for the prototype (estimate, Oct 5).** The evaluation spec samples about 20 documents, not the whole library. Rate card 30 to 60 minutes; contract pricing exhibit 1 to 2 hours; agreement terms 1 to 2 hours. Roughly 20 to 30 hours in total, spread over weeks, with Claude drafting every answer sheet so the human checks rather than transcribes. Volume beyond the sample is scored against the sample.
@@ -108,17 +108,17 @@ Kyle asked whether to run the whole library through first to build the skills ma
 ---
 
 
-## 1.4 Normalization — **Decided** (Oct 6, 2026); largely built in M1
+## 1.4 Normalization — **Decided** (Oct 6, 2026); largely built in the Role Framework
 
 **What it does.** Turns the words extraction captured into the standard categories the ledger needs: "Sr. Java Developer, onsite" becomes role Software Developer, seniority senior, technology Java, location left for an analyst. Rates stay exactly as stated (own currency, per hour or per day); any conversion is a separate derived column recording the exchange rate and date. Nothing is silently converted.
 
 **What goes in.** Typed extraction records. **What comes out.** The same records with standard fields filled, each carrying how it was resolved, the confidence, and the raw evidence.
 
-**Built and decided already (M1, Sept 13 to 19):** Role Framework (130 roles), seniority crosswalk across ten schemes, technology tags, resolve-once mapping table, unbanded when no seniority evidence, location flagged for an analyst. Spec: `specs/role-framework-v0-spec.md`; results: `taxonomy/REPORT.md`.
+**Built and decided already (the Role Framework, Sept 13 to 19):** Role Framework (130 roles), seniority crosswalk across ten schemes, technology tags, resolve-once mapping table, unbanded when no seniority evidence, location flagged for an analyst. Spec: `specs/role-framework-v0-spec.md`; results: `taxonomy/REPORT.md`.
 
 **Not yet built.** (1) The model step: similarity search against resolved titles, then model confirmation with the document's context, then flag if still uncertain. (2) The analyst review queue, which belongs to the workbench.
 
-**Decision (Kyle, Oct 6, 2026).** Wire the model step into M2, since the credential exists for extraction anyway. The volume run will meet hundreds of titles the public sources never held; with the model step the mapping table grows during that run and the queue keeps only the hard cases. Precision rules unchanged: a model answer is accepted only above the confidence floor, and the analyst can overturn it.
+**Decision (Kyle, Oct 6, 2026).** Wire the model step into the Thin Thread, since the credential exists for extraction anyway. The volume run will meet hundreds of titles the public sources never held; with the model step the mapping table grows during that run and the queue keeps only the hard cases. Precision rules unchanged: a model answer is accepted only above the confidence floor, and the analyst can overturn it.
 
 **Build or rent.** Build; similarity search rents Azure AI Search later; model confirmation uses the same model wrapper as extraction.
 
@@ -179,7 +179,7 @@ Kyle asked whether to run the whole library through first to build the skills ma
 1. **The SOW rate is the enforceable rate** for a finding; a SOW rate above the MSA rate is reported separately as its own discrepancy type, so both facts are visible.
 2. **People are matched without the HR link:** on vendor, person name as the documents give it, role and period. Ambiguous matches go to the analyst, never guessed. This is what lets priority two work without priority three.
 3. **The discrepancy list is fixed and versioned.** The nine types above are version one; new types are added by decision, not discovered ad hoc, so every finding has a type a consultant can explain and a vendor can be shown.
-4. **Synthetic first, real to prove.** Built and tested on synthetic contract-timesheet-invoice triplets with planted discrepancies (the synthetic factory, M4), then proven on the Texas PUC pair and the first Early Adopter's real data. Never claimed as validated on synthetic data alone.
+4. **Synthetic first, real to prove.** Built and tested on synthetic contract-timesheet-invoice triplets with planted discrepancies (the synthetic factory, the Synthetic Documents), then proven on the Texas PUC pair and the first Early Adopter's real data. Never claimed as validated on synthetic data alone.
 
 **Build or rent.** Build entirely: matching logic over the ledger. Nothing to rent.
 
@@ -236,10 +236,10 @@ All components in groups 1 and 2 and both cross-cutting components are decided a
 
 **Service map** (what TWM rents and what it owns on top): Blob Storage for documents (TWM owns the library structure); Document Intelligence for reading (vendor-specific training only where evaluation demands it); Foundry for extraction and normalization models, Claude first with GPT benchmarked (TWM owns prompts, task contracts, confidence rules, the model wrapper); Azure Database for PostgreSQL for ledger, mapping table, rules and findings (TWM owns schema and logic); AI Search for similar-title search; Container Apps or Functions for the pipeline; a hosted web app for the workbench, Power BI later; Key Vault for secrets, nothing in code; Bicep scripts for installation.
 
-**Order of work.** (1) Nothing on Azure until the pipeline works locally: M2 and the volume run on Kyle's machine with the local reader and single-file database; the only cloud dependency is the model call. (2) TWM's environment: Kyle creates tenant and subscription (action item C4); Claude writes and runs the installation scripts. (3) Harden: tear down and reinstall until a clean subscription becomes a working environment in under an hour with no manual steps. (4) A client's environment: same scripts, their subscription and region, their identity provider, plus private networking, no public endpoints, audit logging, data residency.
+**Order of work.** (1) Nothing on Azure until the pipeline works locally: the Thin Thread and the volume run on Kyle's machine with the local reader and single-file database; the only cloud dependency is the model call. (2) TWM's environment: Kyle creates tenant and subscription (action item C4); Claude writes and runs the installation scripts. (3) Harden: tear down and reinstall until a clean subscription becomes a working environment in under an hour with no manual steps. (4) A client's environment: same scripts, their subscription and region, their identity provider, plus private networking, no public endpoints, audit logging, data residency.
 
 **Decisions (Kyle, Oct 6, 2026).**
 1. **Region: Canada Central** from the start, so what is rehearsed is what a Canadian bank gets.
 2. **Installation tool: Bicep** for speed now; reversible to Terraform before client one if bank platform teams prefer it.
 3. **Keys: Kyle owns** the subscription, billing and admin account; Claude deploys with a scoped non-admin identity and never holds admin credentials.
-4. **Timing: wait.** Kyle will create the subscription in a few days to a week; no deployment work starts until M2 runs end to end locally.
+4. **Timing: wait.** Kyle will create the subscription in a few days to a week; no deployment work starts until the Thin Thread runs end to end locally.

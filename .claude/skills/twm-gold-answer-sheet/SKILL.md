@@ -1,6 +1,6 @@
 ---
 name: twm-gold-answer-sheet
-description: Building a hand-verified answer sheet (gold record) for one document in the evaluation sample. Use when preparing or checking evaluation data for M3.
+description: Building a hand-verified answer sheet (gold record) for one document in the evaluation sample. Use when preparing or checking evaluation data for the Evaluation.
 ---
 # Build a hand-verified answer sheet
 

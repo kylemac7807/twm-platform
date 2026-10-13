@@ -55,7 +55,7 @@ TitleResolution:
   abstain: bool                  # true → human queue; abstaining beats guessing
 ```
 
-## Contract 4 (M4+): `ReconciliationFinding` — timecard↔invoice↔SOW discrepancies. Define when the synthetic factory exists; discrepancy classes to plant and detect: rate-above-contract, off-rate-card role, unapproved location premium, hours mismatch, duplicate billing, wrong level billed. (The Fulton County audit in the invoice manifest documents these classes from a real audit.)
+## Contract 4 (the Synthetic Documents+): `ReconciliationFinding` — timecard↔invoice↔SOW discrepancies. Define when the synthetic factory exists; discrepancy classes to plant and detect: rate-above-contract, off-rate-card role, unapproved location premium, hours mismatch, duplicate billing, wrong level billed. (The Fulton County audit in the invoice manifest documents these classes from a real audit.)
 
 ## Model client rule
 

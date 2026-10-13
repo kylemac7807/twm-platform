@@ -1,6 +1,6 @@
 ---
 name: twm-build-task
-description: The artifact chain for any build task: intent, spec, plan, build, review, done. Use whenever starting new code or a new component, including M2.
+description: The artifact chain for any build task: intent, spec, plan, build, review, done. Use whenever starting new code or a new component, including the Thin Thread.
 ---
 # Build task chain (docs/how-we-build.md)
 

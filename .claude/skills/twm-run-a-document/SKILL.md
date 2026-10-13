@@ -1,6 +1,6 @@
 ---
 name: twm-run-a-document
-description: Running one document (contract, rate card, invoice, timesheet) through the TWM pipeline and reading the result. Use whenever a document is to be processed, for M2, the volume run, the demo or a client engagement.
+description: Running one document (contract, rate card, invoice, timesheet) through the TWM pipeline and reading the result. Use whenever a document is to be processed, for the Thin Thread, the volume run, the demo or a client engagement.
 ---
 # Run a document through the pipeline
 

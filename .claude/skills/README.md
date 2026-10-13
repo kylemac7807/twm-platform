@@ -21,4 +21,4 @@ Written procedures that must be applied the same way in every session (decided w
 ## Later
 
 - `twm-deploy-azure`: Installing or tearing down a TWM environment in an Azure subscription with the Bicep scripts. To be written when TWM's subscription exists (action item C4).
-- `twm-synthetic-documents`: Generating synthetic contract, timesheet and invoice triplets with planted discrepancies for reconciliation training. To be written with M4.
+- `twm-synthetic-documents`: Generating synthetic contract, timesheet and invoice triplets with planted discrepancies for reconciliation training. To be written with the Synthetic Documents.

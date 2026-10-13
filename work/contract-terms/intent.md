@@ -4,7 +4,7 @@
 
 ## The problem
 
-A vendor challenge is argued from the contract's words, not only its rate table: the discount schedule, the escalation clause, the invoicing terms, who the parties are and which master agreement governs. The pipeline reads rate tables well (M2: 53 verified rates from the Texas DIR Accenture exhibit, 430 from the Accenture G-Cloud page) and reads none of this. The code that would (`extract_sow`) has never been run against the real model.
+A vendor challenge is argued from the contract's words, not only its rate table: the discount schedule, the escalation clause, the invoicing terms, who the parties are and which master agreement governs. The pipeline reads rate tables well (the Thin Thread: 53 verified rates from the Texas DIR Accenture exhibit, 430 from the Accenture G-Cloud page) and reads none of this. The code that would (`extract_sow`) has never been run against the real model.
 
 Two smaller gaps sit beside it. The operator types the vendor and client on the command line although the document states them on page one. And the Texas exhibit prices eight contract years while the ledger keeps year 1 only.
 
