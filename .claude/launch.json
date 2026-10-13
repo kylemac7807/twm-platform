@@ -4,7 +4,7 @@
     {
       "name": "workbench",
       "runtimeExecutable": ".venv/Scripts/python.exe",
-      "runtimeArgs": ["-m", "streamlit", "run", "src/twm/workbench/app.py", "--server.headless", "true", "--server.port", "8501", "--browser.gatherUsageStats", "false", "--", "--ledger", "ledger.sqlite"],
+      "runtimeArgs": ["-m", "uvicorn", "twm.workbench.api:app", "--host", "127.0.0.1", "--port", "8501"],
       "port": 8501
     },
     {
