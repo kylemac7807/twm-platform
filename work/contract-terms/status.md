@@ -67,9 +67,14 @@ Updated at every commit by the worker session in the `contract-terms` worktree. 
 | **Contract-year rows on by default** | Done: `run_family(all_periods=True)`; `--first-period-only` keeps year 1 for the demo |
 | **The traced condition (clause, page, box) is enough evidence for a vendor challenge** | Recorded; the box is drawn by the workbench |
 
+## Parked for a later conversation with Kyle (his request, Oct 13, 2026)
+
+- The biased sample: the library is public contracts, which are public and benchmarkable by law; what a bank's private contracts allow is unmeasured until the first engagement's gate check.
+- Confidentiality and disclosure: the advisor carve-out, benchmarking rights, data-use limits, the consortium participation agreement, and what the business plan should promise.
+
 ## Questions for Kyle
 
-- None open. Kyle has a benchmarking question to raise.
+- None open.
 
 ## Additions to shared modules (planned; this list becomes the record as each lands)
 
