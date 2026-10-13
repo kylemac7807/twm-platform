@@ -98,6 +98,13 @@ class Section:
     text: str
     table: Optional[TableBlock] = None
     pages: list[int] = field(default_factory=list)   # the pages in the section (term sections need not be contiguous)
+    # a split table (contract years, Oct 13, 2026): one part per block x column group, first period column only
+    block: Optional[str] = None                      # the block label (a row with only its first cell filled, such as a location)
+    group: Optional[str] = None                      # the column-group label from a heading row above the period headings (a service type)
+    period_cols: list[int] = field(default_factory=list)     # original column indexes of the period columns; the first is what the model sees
+    period_labels: list[str] = field(default_factory=list)
+    id_cols: list[int] = field(default_factory=list)         # the identity columns (title, unit) sent with the first period column
+    row_map: list[int] = field(default_factory=list)         # original row indexes of the data rows in this part
 
 
 @dataclass
@@ -119,6 +126,9 @@ class ExtractionOutcome:
     corrections: list[str] = field(default_factory=list)                        # page corrections made by verification
     pages_selected: list[int] = field(default_factory=list)
     pages_unread: int = 0                                                       # signal pages left out by the section cap
+    # contract years (Oct 13, 2026)
+    base_rows: int = 0                                                          # rows the model read (first period of each part)
+    expanded_rows: int = 0                                                      # rows the software copied from the other period columns
 
 
 # ---------------------------------------------------------------- sectioning
@@ -135,9 +145,87 @@ def _real_money_cells(rows: list[list[str]]) -> int:
     return n
 
 
+# ---------------------------------------------------------------- a large grid split by its own structure (contract years, Oct 13, 2026)
+# Two general table rules, tested to do nothing on a table without them (G-Cloud cards, Michigan payment tables):
+# 1. a heading row that names periods (Year 1 (FY27), FY2028, 2027, Q1) marks the period columns; the model reads only the
+#    first period column and the software copies the others from the same printed row (expand_periods);
+# 2. a row with only its first cell filled is a block label (a location); a heading row above the period headings with a few
+#    labels is a column-group heading (a service type); one part per block x group, so no single call is too large.
+_PERIOD = re.compile(r"\b(year|yr|fy|period|option)\s*\d|\bfy\s*20?\d\d\b|\b(19|20)\d\d\b|\bq[1-4]\b", re.I)
+
+
+def _is_money(c: str) -> bool:
+    return bool(c and ("$" in c or "£" in c or "€" in c or re.search(r"\d+\.\d{2}", c)) and not _PLACEHOLDER.match(c))
+
+
+def split_table(t: TableBlock) -> list[dict]:
+    """Parts of a grid: [{block, group, period_cols, period_labels, id_cols, rows, header}] or [] when the table has no
+    period heading (then it is sent whole, exactly as before)."""
+    rows = t.rows()
+    header_idx, period_cols = None, []
+    for i, r in enumerate(rows[:6]):
+        cols = [j for j, c in enumerate(r) if c and _PERIOD.search(c)]
+        if len(cols) >= 2:
+            header_idx, period_cols = i, cols
+            break
+    if header_idx is None:
+        return []
+    # column groups from a heading row above the period headings
+    group_of: dict[int, Optional[str]] = {j: None for j in range(t.n_cols)}
+    for i in range(header_idx):
+        labels = [(j, c.strip()) for j, c in enumerate(rows[i]) if c.strip() and re.search(r"[A-Za-z]", c)]
+        if labels and len(labels) <= max(1, len(period_cols) // 2):
+            label = None
+            for j in range(t.n_cols):
+                if rows[i][j].strip():
+                    label = rows[i][j].strip()
+                group_of[j] = label
+            break
+    id_cols = [j for j in range(min(period_cols)) if j not in period_cols and any(rows[k][j].strip() for k in range(header_idx + 1, t.n_rows))]
+    # blocks from label rows below the heading
+    parts: dict[tuple, dict] = {}
+    block: Optional[str] = None
+    groups_ordered: list[Optional[str]] = []
+    for g in (group_of[j] for j in period_cols):
+        if g not in groups_ordered:
+            groups_ordered.append(g)
+    for i in range(header_idx + 1, t.n_rows):
+        r = rows[i]
+        filled = [j for j, c in enumerate(r) if c.strip()]
+        if filled == [0] and re.search(r"[A-Za-z]", r[0]) and not _is_money(r[0]):
+            block = r[0].strip()
+            continue
+        for g in groups_ordered:
+            cols = [j for j in period_cols if group_of[j] == g]
+            if not cols or not any(_is_money(r[j]) for j in cols):
+                continue
+            part = parts.setdefault((block, g), dict(block=block, group=g, period_cols=cols, period_labels=[rows[header_idx][j].strip() for j in cols],
+                                                   id_cols=id_cols, rows=[], header=header_idx))
+            part["rows"].append(i)
+    return [p for p in parts.values() if p["rows"]]
+
+
+def _render_part(page: int, t: TableBlock, part: dict) -> str:
+    rows = t.rows()
+    head = f"PAGE {page}, TABLE {t.index}"
+    if part["block"]:
+        head += f", block '{part['block']}'"
+    if part["group"]:
+        head += f", columns '{part['group']}'"
+    head += ", first period column only (the software copies the other period columns from the same printed row):"
+    first = part["period_cols"][0]
+    lines = [head, " | ".join([rows[part["header"]][j] for j in part["id_cols"]] + [rows[part["header"]][first]])]
+    for i in part["rows"]:
+        if _is_money(rows[i][first]):
+            lines.append(" | ".join([rows[i][j] for j in part["id_cols"]] + [rows[i][first]]))
+    return chr(10).join(lines)
+
+
 def sections_for_rate_card(reading: Reading, min_rows: int = 3, min_money_cells: int = 3) -> list[Section]:
     """Each substantive table becomes one section, rendered as pipe-separated rows with the page number.
-    Tables whose money cells are all placeholders ('$ -', '$0.00') are skipped: nothing to extract, nothing to spend."""
+    Tables whose money cells are all placeholders ('$ -', '$0.00') are skipped: nothing to extract, nothing to spend.
+    A grid with period columns is split into one section per block x column group (split_table); any other table is
+    rendered whole, exactly as the thin thread did."""
     out = []
     for p in reading.pages:
         for t in p.tables:
@@ -146,9 +234,70 @@ def sections_for_rate_card(reading: Reading, min_rows: int = 3, min_money_cells:
             rows = t.rows()
             if _real_money_cells(rows) < min_money_cells:
                 continue
-            body = chr(10).join(" | ".join(c for c in r) for r in rows)
-            out.append(Section(p.page, p.page, "table", f"PAGE {p.page}, TABLE {t.index}:" + chr(10) + body, table=t))
+            parts = split_table(t)
+            if not parts:
+                body = chr(10).join(" | ".join(c for c in r) for r in rows)
+                out.append(Section(p.page, p.page, "table", f"PAGE {p.page}, TABLE {t.index}:" + chr(10) + body, table=t))
+                continue
+            for part in parts:
+                out.append(Section(p.page, p.page, "table", _render_part(p.page, t, part), table=t, block=part["block"], group=part["group"],
+                                   period_cols=part["period_cols"], period_labels=part["period_labels"], id_cols=part["id_cols"], row_map=part["rows"]))
     return out
+
+
+_MONEY_NUM = re.compile(r"[-+]?\d[\d,]*(?:\.\d+)?")
+
+
+def _cell_bbox(t: TableBlock, row: int, col: int):
+    for c in t.cells:
+        if c.row == row and c.col == col:
+            return c.bbox
+    return None
+
+
+def expand_periods(reading: Reading, section: Section, base_rows: list[RateRow], document_id: str) -> tuple[list[RateRow], list[str]]:
+    """For each verified base row of a split section, copy the other period columns from the same printed table row: one
+    new row per period, value and label as printed, the cell's own box, verified on the page. Nothing is computed."""
+    out, notes = [], []
+    if not section.table or len(section.period_cols) < 2:
+        return out, notes
+    t = section.table
+    rows = t.rows()
+    first = section.period_cols[0]
+    title_col = section.id_cols[0] if section.id_cols else 0
+
+    def norm(s: Optional[str]) -> str:
+        return " ".join((s or "").lower().split())
+
+    for base in base_rows:
+        matches = [i for i in section.row_map if norm(rows[i][title_col]) == norm(base.observed_title)
+                   and (norm(base.rate_as_stated) in norm(rows[i][first]) or norm(rows[i][first]) in norm(base.rate_as_stated))]
+        if len(matches) != 1:
+            notes.append(f"no single printed row for '{base.observed_title}' at {base.rate_as_stated}: {len(matches)} matched; periods not copied")
+            continue
+        i = matches[0]
+        for col, label in zip(section.period_cols[1:], section.period_labels[1:]):
+            cell = rows[i][col].strip()
+            if not _is_money(cell):
+                continue
+            m = _MONEY_NUM.search(cell)
+            if not m:
+                continue
+            try:
+                value = Decimal(m.group(0).replace(",", ""))
+            except Exception:
+                continue
+            ok, _ = value_on_page(reading, section.page_start, cell, value)
+            if not ok:
+                notes.append(f"period cell '{cell}' for '{base.observed_title}' ({label}) not found on page {section.page_start}; not copied")
+                continue
+            quote = " | ".join([rows[i][j] for j in section.id_cols] + [cell])
+            new = base.model_copy(update=dict(
+                rate_as_stated=cell, rate_value=value, period_raw=label,
+                conditions=base.conditions or "period column copied from the printed row by the software",
+                source_ref=SourceRef(document_id=document_id, page=section.page_start, bbox=_cell_bbox(t, i, col), table=f"TABLE {t.index}", quote=quote)))
+            out.append(new)
+    return out, notes
 
 
 def sections_for_text(reading: Reading, pages_per_section: int = 6, max_chars: int = 24000) -> list[Section]:
@@ -331,7 +480,9 @@ def locate_quote(reading: Reading, page: Optional[int], quote: Optional[str], ca
 
 # ---------------------------------------------------------------- extraction
 def extract_rate_card(record: DocumentRecord, reading: Reading, model: Model, config: Optional[ModelConfig] = None,
-                      min_confidence: float = 0.0) -> ExtractionOutcome:
+                      min_confidence: float = 0.0, expand: bool = False) -> ExtractionOutcome:
+    """expand=True copies every period column of a split grid into its own row (contract years); off, only the first period
+    is kept, as the thin thread did, so the report stays short."""
     out = ExtractionOutcome(record.document_id, "RateCardExtraction", 0)
     secs = sections_for_rate_card(reading)
     out.sections = len(secs)
@@ -340,6 +491,7 @@ def extract_rate_card(record: DocumentRecord, reading: Reading, model: Model, co
         return out
     schema = json.dumps(RateCardExtraction.model_json_schema(), separators=(",", ":"))
     for s in secs:
+        kept_before = len(out.rows)
         user = (f"Document: {record.filename}. Classified as {record.doc_class}. Section ({s.kind}, pages {s.page_start}-{s.page_end}):"
                 + chr(10) + s.text + chr(10) + chr(10)
                 + "Required JSON schema (answer must validate against it; source_ref.document_id may be omitted, the pipeline fills it):"
@@ -376,7 +528,19 @@ def extract_rate_card(record: DocumentRecord, reading: Reading, model: Model, co
                 row.source_ref.bbox = best.bbox
                 if not row.source_ref.quote:
                     row.source_ref.quote = best.text[:200]
+            # a split part carries its own printed labels: the block (a location) and the column group (a service type)
+            if s.block and not row.location_raw:
+                row.location_raw = s.block
+            if s.group and not row.rate_qualifier:
+                row.rate_qualifier = s.group
             out.rows.append(row)
+        base = out.rows[kept_before:]
+        out.base_rows += len(base)
+        if expand and s.period_cols:
+            more, notes = expand_periods(reading, s, base, record.document_id)
+            out.rows.extend(more)
+            out.expanded_rows += len(more)
+            out.flags.extend(notes)
     if out.rejected:
         out.flags.append(f"{len(out.rejected)} row(s) rejected by page verification or abstention; see rejected")
     return out
@@ -507,6 +671,22 @@ def extract_sow(record: DocumentRecord, reading: Reading, model: Model, config: 
             merged.redactions_present = merged.redactions_present or part.redactions_present
             merged.amendment_number = merged.amendment_number or part.amendment_number
             merged.amendment_chain_amends = merged.amendment_chain_amends or part.amendment_chain_amends
+    # tidy: quotes as one line; a fact the sections repeated (the contract number in every running header) kept once, earliest page
+    for f in out.facts:
+        f.value = " ".join(f.value.split())
+        if f.source_ref.quote:
+            f.source_ref.quote = " ".join(f.source_ref.quote.split())
+    for t in out.terms:
+        t.verbatim_short = " ".join(t.verbatim_short.split())
+        t.source_ref.quote = " ".join((t.source_ref.quote or t.verbatim_short).split())
+    seen: dict[tuple, ContractFact] = {}
+    for f in sorted(out.facts, key=lambda f: (f.source_ref.page or 0)):
+        key = (f.fact_type, " ".join(f.value.lower().split()))
+        if key not in seen:
+            seen[key] = f
+        elif f.confidence > seen[key].confidence:
+            seen[key].confidence = f.confidence
+    out.facts = list(seen.values())
     if merged:
         merged.facts, merged.commercial_terms, merged.named_resources, merged.rate_table = out.facts, out.terms, out.resources, out.rows
         out.sow = merged

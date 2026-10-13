@@ -16,7 +16,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Iterable, Optional
 
-from .models import DocumentRecord, FamilyLink
+from .models import DocumentRecord, FamilyLink, PartyCandidate
 
 # ---------------------------------------------------------------- true type by magic bytes
 def sniff_type(head: bytes) -> str:
@@ -135,6 +135,52 @@ def readiness_of(true_type: str, text: str, page_count: Optional[int]) -> str:
     return "unreadable"
 
 
+# ---------------------------------------------------------------- parties on the first pages (contract-terms stream, Oct 13, 2026)
+# Intake only finds candidates: a name printed with a legal-entity suffix, and the label beside it when the page gives one
+# ("CONTRACTOR", "Successful Respondent"). Which vendor a name stands for is decided once, by a person or the operator's
+# --vendor, in the ledger's vendor-name table; an unknown name goes to the review queue. The client is never derived: on a
+# bank's site it is the deployment.
+_ENTITY_SUFFIX = r"(?:LLP|L\.L\.P\.|LLC|L\.L\.C\.|Inc\.?|Incorporated|Ltd\.?|Limited|Corporation|Corp\.?|plc|PLC|GmbH|S\.A\.|N\.A\.|Pty\.? Ltd\.?)"
+PARTY_NAME_RE = re.compile(r"(?<![A-Za-z0-9])((?:(?:[A-Z][A-Za-z0-9'\-\.]*|&)\s+){1,6}" + _ENTITY_SUFFIX + r")(?=[\s,;:\)\(\"']|$)")
+_VENDOR_LABEL = re.compile(r"\b(contractor|vendor|supplier|successful respondent|service provider|consultant|seller|provider)\b", re.I)
+_CLIENT_LABEL = re.compile(r"\b(customer|client|buyer|purchaser)\b", re.I)
+_NOT_A_PARTY = re.compile(r"^(and|the|by|between|of|for|with|to)\s", re.I)
+
+
+def find_party_candidates(text: str, max_candidates: int = 8) -> list[PartyCandidate]:
+    """Party names with a legal-entity suffix on the first pages, each with the line it was read from, its page (pages are
+    separated by form feeds in the reader's text) and a role hint only when a label sits on the same or the next two lines."""
+    out: list[PartyCandidate] = []
+    seen: dict[str, PartyCandidate] = {}
+    lines = text.split(chr(10))          # not splitlines(): a form feed must stay inside its line to count pages
+    page = 1
+    for i, line in enumerate(lines):
+        page += line.count(chr(12))
+        for m in PARTY_NAME_RE.finditer(line):
+            name = " ".join(m.group(1).split())
+            while _NOT_A_PARTY.match(name):
+                name = name.split(" ", 1)[1]
+            key = re.sub(r"[^a-z0-9]+", " ", name.lower()).strip()
+            if len(key) < 5:
+                continue
+            window = " ".join(lines[i:i + 3])
+            hint = None
+            if _VENDOR_LABEL.search(window) and not _CLIENT_LABEL.search(line):
+                hint = "vendor"
+            elif _CLIENT_LABEL.search(line):
+                hint = "client"
+            if key in seen:
+                if hint and not seen[key].role_hint:
+                    seen[key].role_hint = hint
+                continue
+            cand = PartyCandidate(name=name, evidence=" ".join(line.split())[:200], page=page, role_hint=hint)
+            seen[key] = cand
+            out.append(cand)
+            if len(out) >= max_candidates:
+                return out
+    return out
+
+
 # ---------------------------------------------------------------- registration
 def register(path: Path | str, source_class: str = "public") -> DocumentRecord:
     p = Path(path)
@@ -155,6 +201,7 @@ def register(path: Path | str, source_class: str = "public") -> DocumentRecord:
         contract_numbers=sorted(set(CONTRACT_NO_RE.findall(text))),
         title_guess=title_guess(text), page_count=pages, readiness=readiness_of(true_type, text, pages),
         text_chars_first_pages=len(text.strip()), source_class=source_class,
+        party_candidates=find_party_candidates(text),
     )
     if mismatch:
         rec.flags.append(f"extension says .{ext} but content is {true_type}")

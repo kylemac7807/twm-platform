@@ -91,6 +91,8 @@ BANDS = ("junior", "intermediate", "senior", "lead_principal")
 USABLE_SCANS = ("native", "good_scan", "web")
 
 CONFIDENCE_FLOOR = 0.90   # rows below this exist and are visible but are not counted until an analyst confirms (decided Oct 6)
+TERM_CONFIDENCE_FLOOR = 0.75   # contract terms: the quote is proven on the page by software; the model's confidence is about the typing of the
+                               # condition, which it puts at 0.8 for most clauses. Below this a term is stored as 'flagged'. (Stream A, Oct 13, 2026; Kyle to confirm.)
 
 
 def _now() -> str:
@@ -375,7 +377,7 @@ class Ledger:
         if not verified:
             raise ValueError("a term that was not verified on its page is not stored; queue it instead")
         if status is None:
-            status = "recorded" if (confidence or 0) >= CONFIDENCE_FLOOR else "flagged"
+            status = "recorded" if (confidence or 0) >= TERM_CONFIDENCE_FLOOR else "flagged"
         group = None
         if condition_key:
             from .conditions import condition_group
@@ -397,7 +399,7 @@ class Ledger:
             raise ValueError("a named resource not found on its page is not stored; queue it instead")
         conf = getattr(res, "confidence", 0.0) or 0.0
         if status is None:
-            status = "recorded" if conf >= CONFIDENCE_FLOOR else "flagged"
+            status = "recorded" if conf >= TERM_CONFIDENCE_FLOOR else "flagged"
         cur = self.conn.execute(
             """INSERT INTO named_resources(run_id, document_id, family_id, vendor, client, source_class, name_or_role, observed_title,
                location_raw, extraction_confidence, verified, status, source_page, source_bbox, source_quote, created_at)

@@ -33,6 +33,9 @@ def _run(path, vendor, client, tmp_path):
 
 
 @pytest.mark.skipif(not (TEXAS.exists() and CACHE.exists()), reason="Texas pricing exhibit or the model cache not on disk")
+@pytest.mark.xfail(strict=True, reason="Oct 13, 2026 (contract-terms stream): the grid is now split by block and service type (4 calls, not 1) and the exhibit's "
+                   "term pages are read too, so the replay needs a real run to refill the cache; that run is waiting on API credit. Re-base the "
+                   "counts and remove this mark when it has run.")
 def test_texas_dir_accenture_pricing_exhibit_gives_the_same_answer_as_on_oct_6(tmp_path):
     """Texas DIR Accenture pricing exhibit (085): 53 verified rates, 0 rejected, 48 resolved (23 unbanded), 2 flagged, 3 ambiguous, 48 counted."""
     rep = _run(TEXAS, "Accenture LLP", "Texas DIR", tmp_path)
