@@ -105,10 +105,147 @@ def inspect(led: Ledger) -> None:
             st.code(shown["quote"] or "(no quote stored)")
 
 
-# ---------------------------------------------------------------- 2. Queues (step 4) and 4. Decisions to codify (step 5)
+# ---------------------------------------------------------------- 2. Queues
+def _role_choices(store: TaxonomyStore) -> dict[str, str | None]:
+    """Label -> role id, grouped by family in the label so the pick-list reads 'Software Engineering: Software Developer'."""
+    fam = {f.family_id: f.name for f in store.families}
+    out: dict[str, str | None] = {"no role: leave flagged (recorded)": None}
+    for r in sorted(store.roles, key=lambda r: (fam.get(r.family_id, ""), r.name)):
+        out[f"{fam.get(r.family_id, r.family_id)}: {r.name}  [{r.role_id}]"] = r.role_id
+    return out
+
+
+def _need_name(analyst: str) -> bool:
+    if not (analyst or "").strip():
+        st.warning("Type your name in the sidebar first: every decision is recorded with the analyst's name.")
+        return True
+    return False
+
+
+def _title_queue(led: Ledger, store: TaxonomyStore, analyst: str) -> None:
+    groups = led.title_queue_groups()
+    if not groups:
+        st.success("No titles waiting.")
+        return
+    st.caption(f"{len(groups)} titles waiting, {sum(g['rows_unlocked'] for g in groups)} rows not counted until they are decided. "
+               "One decision resolves every row with that title for that client; largest first.")
+    summary = pd.DataFrame([dict(title=g["title"], client=g["client"], rows_unlocked=g["rows_unlocked"], rows_affected=g["rows_affected"],
+                                 documents=", ".join(g["documents"]), why=" | ".join(g["details"])) for g in groups])
+    st.dataframe(summary, width="stretch", hide_index=True, height=min(360, 40 + 35 * len(groups)))
+    labels = [f"{g['title']}  ({g['client'] or 'no client'}; {g['rows_unlocked']} rows)" for g in groups]
+    chosen = st.multiselect("Titles to decide together (pick several only when they are the same role)", labels, key="title_pick")
+    picked = [g for g, lab in zip(groups, labels) if lab in chosen]
+    if not picked:
+        return
+    for g in picked:
+        with st.expander(f"Evidence for '{g['title']}'", expanded=len(picked) == 1):
+            st.markdown("**Why the system abstained:** " + " | ".join(g["details"]))
+            st.dataframe(pd.DataFrame([dict(row=e["obs_id"], rate=e["rate_as_stated"], currency=e["currency"], unit=e["rate_unit"], period=e["period_raw"],
+                                            location=e["location_raw"], level=e["level_raw"], page=e["source_page"], quote=e["source_quote"]) for e in g["examples"]]),
+                         width="stretch", hide_index=True)
+            hist = led.decision_history(g["title"])
+            if hist:
+                st.markdown("Earlier decisions: " + "; ".join(f"{h['decided_at'][:10]} {h['decided_by']}: {h['decision_json']} ({h['reason']})" for h in hist))
+    roles = _role_choices(store)
+    with st.form("title_decision", clear_on_submit=True):
+        role_label = st.selectbox("Role", list(roles), key="role_label")
+        band_label = st.selectbox("Band", BAND_CHOICES, index=0, key="band_label", help="Unbanded unless the document gives seniority evidence (Kyle's rule).")
+        tech = st.selectbox("Technology tag (optional)", ["none"] + sorted(t.tag for t in store.tech), key="tech_label")
+        reason = st.text_area("Reason (required; it becomes part of the rule)", key="reason")
+        n_items = sum(len(g["queue_ids"]) for g in picked); n_rows = sum(g["rows_affected"] for g in picked)
+        confirm = st.checkbox(f"Apply this one decision to {len(picked)} title(s), {n_items} queue item(s), {n_rows} ledger row(s)", key="confirm_bulk") if len(picked) > 1 else True
+        go = st.form_submit_button("Record decision")
+    if go:
+        if _need_name(analyst):
+            return
+        if not reason.strip():
+            st.error("A decision needs a reason.")
+            return
+        if not confirm:
+            st.error("Tick the confirmation to apply one decision to several titles.")
+            return
+        band = None if band_label == BAND_CHOICES[0] else band_label
+        ids = led.decide_title([q for g in picked for q in g["queue_ids"]], role_id=roles[role_label], band=band, reason=reason,
+                               decided_by=analyst, technology=None if tech == "none" else tech)
+        st.success(f"Recorded {len(ids)} decision(s) by {analyst.strip()}; the affected rows are updated and the titles leave the queue. "
+                   "Mapping rules are appended to the taxonomy from the 'Decisions to codify' screen.")
+        st.rerun()
+
+
+def _location_queue(led: Ledger, analyst: str) -> None:
+    items = led.queue_items("location")
+    if not items:
+        st.success("No place names waiting.")
+        return
+    st.caption("The platform never classifies a place name. You decide once, for this client, with a reason; later occurrences are lookups once the rule is codified.")
+    df = pd.DataFrame([dict(id=i["id"], title=i["item"], document=i["filename"], why=i["detail"], client=led._client_of(i["document_id"])) for i in items])
+    st.dataframe(df, width="stretch", hide_index=True)
+    labels = {f"{i['id']}: {i['item']} ({i['detail']})": i["id"] for i in items}
+    chosen = st.multiselect("Items to decide together (same place, same client)", list(labels), key="loc_pick")
+    if not chosen:
+        return
+    with st.form("location_decision", clear_on_submit=True):
+        cls = st.radio("Classification for this client", ["onshore", "nearshore", "offshore"], horizontal=True, key="loc_cls")
+        reason = st.text_area("Reason (required)", key="loc_reason")
+        go = st.form_submit_button("Record decision")
+    if go:
+        if _need_name(analyst):
+            return
+        if not reason.strip():
+            st.error("A decision needs a reason.")
+            return
+        led.decide_location([labels[c] for c in chosen], classification=cls, reason=reason, decided_by=analyst)
+        st.success("Recorded; the flagged rows now carry the location. The rule goes to the taxonomy from 'Decisions to codify'.")
+        st.rerun()
+
+
+def _other_queue(led: Ledger, kind: str, analyst: str) -> None:
+    items = led.queue_items(kind)
+    if not items:
+        st.success(f"No {kind} items waiting.")
+        return
+    st.dataframe(pd.DataFrame([dict(id=i["id"], document=i["filename"], item=i["item"], detail=i["detail"]) for i in items]), width="stretch", hide_index=True)
+    if kind != "intake":
+        st.caption("Extraction and reading notes are information for the analyst; the pipeline re-run is the action. Nothing to decide here yet.")
+        return
+    labels = {f"{i['id']}: {i['item']}: {i['detail']}": i for i in items}
+    pick = st.selectbox("Item", list(labels), key="intake_pick")
+    item = labels[pick]
+    with st.form("intake_decision", clear_on_submit=True):
+        if "classification" in (item["detail"] or ""):
+            cls = st.selectbox("Document type", ["msa", "sow", "amendment", "rate_card", "sla", "solicitation", "template", "invoice", "timesheet", "other"], key="intake_cls")
+            decision = {"doc_class": cls}
+        else:
+            link = st.radio("Suggested contract-set link", ["confirm", "reject"], horizontal=True, key="intake_link")
+            decision = {"link": link}
+        reason = st.text_area("Reason (required)", key="intake_reason")
+        go = st.form_submit_button("Record decision")
+    if go:
+        if _need_name(analyst):
+            return
+        if not reason.strip():
+            st.error("A decision needs a reason.")
+            return
+        led.decide_intake(item["id"], decision=decision, reason=reason, decided_by=analyst)
+        st.success("Recorded.")
+        st.rerun()
+
+
 def queues(led: Ledger, store: TaxonomyStore, analyst: str) -> None:
     st.header("Queues: every place the system abstained")
-    st.info("Built in step 4 of the plan.")
+    summary = led.queue_summary()
+    tabs = st.tabs([f"Titles ({summary.get('title', 0)})", f"Places ({summary.get('location', 0)})", f"Intake ({summary.get('intake', 0)})",
+                    f"Extraction ({summary.get('extraction', 0)})", f"Reading ({summary.get('reading', 0)})"])
+    with tabs[0]:
+        _title_queue(led, store, analyst)
+    with tabs[1]:
+        _location_queue(led, analyst)
+    with tabs[2]:
+        _other_queue(led, "intake", analyst)
+    with tabs[3]:
+        _other_queue(led, "extraction", analyst)
+    with tabs[4]:
+        _other_queue(led, "reading", analyst)
 
 
 def codify(led: Ledger) -> None:
