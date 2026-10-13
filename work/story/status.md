@@ -16,9 +16,15 @@ Worker session in worktree `story`, branch `story`. Updated at every commit. Kyl
 
 - **Oct 13, 2026, later — naming round two.** Kyle asked for names that carry an argument, the way Typesafe's Jev carries Jevons. 48 more names checked at the .com, .ai and .ca registries by script and the plausible ones searched for collisions; added to `docs/story/naming.md` as "Round two". Shortlist: Akerlof, Tukey, Quetelet; Shewhart and Dantzig as runners-up; the .ai and .ca are free for most, every .com is held since the 1990s.
 
+- **Oct 13, 2026, later — naming round three and Kyle's shortlist.** Kyle ruled out contacting anyone (no note to Akerlof, no enquiry to a domain holder) and did not take to Tukey, Akerlov, Akerloft or Akerledger. Checked Akerlo-shaped coinages at four registries (.com, .ai, .ca, .io; the .io lookup validated against known domains). Shortlist recorded at the top of `docs/story/naming.md`: Akerlo (free on .ai, .ca, .io), Akerlow, Akerlio, Akerla, Akerlon, Kerlof (free on all four), and Bowley as the alternative. **Kyle will decide later.**
+
+## Proposed for the action list (main session to apply)
+
+- **A11, update.** "Name the business and the application. Shortlist (Oct 13): Akerlof derivatives, in Kyle's order of interest Akerlo, Akerlow, Akerlio, Akerla, Akerlon, Kerlof, with Bowley as the alternative; every candidate checked at the .com, .ai, .ca and .io registries and searched for collisions (`docs/story/naming.md`). Constraints: no outreach to anyone. Next, once Kyle chooses: register the four domains the same day; trademark database searches (USPTO, CIPO) on the choice and the runner-up; corporate-name search. **Waiting on Kyle.**"
+
 ## In progress
 
-- The naming conversation with Kyle (round two is on the table).
+- Nothing on naming until Kyle decides. Next conversation: the page, then the narrative.
 
 ## Questions for Kyle
 

@@ -2,6 +2,21 @@
 
 **Draft for conversation, October 13, 2026.** Options for Kyle to choose from, with the reasoning and the public checks already done. Nothing here is legal clearance; the last section lists the checks that still need a registrar, a trademark database or counsel.
 
+## Where this stands (October 13, 2026, end of day)
+
+**Kyle will decide later.** The shortlist is Akerlof and its derivatives, with Bowley as the alternative. Constraints Kyle set: no outreach to anyone, not to George Akerlof and not to the holder of a parked domain, so the name must be free outright or usable on the free .ai, .ca and .io. Round three below has the candidates and the registry results. The decision is action item A11 on the main list; the status file carries the proposed wording.
+
+| Shortlist | Status at the registries | Note |
+|---|---|---|
+| **Akerlo** | .ai, .ca and .io free; .com registered July 2026 | the nearest derivative; usable today on .ai |
+| **Akerlow** | free on .com, .ai, .ca and .io | reads as English; nothing found on the web |
+| **Akerlio** | free on all four | the Twilio pattern; a Norwegian actress named Akerlie is a near miss |
+| **Akerla** | free on all four | soft, reads as a place |
+| **Akerlon**, **Kerlof** | free on all four | runners-up |
+| **Bowley** | .ai free; .com held since 1999; .ca taken; bowleylabs free on all | the alternative, carrying the sampling and quartile argument |
+
+Rejected on the way: Aker (Aker ASA, the Norwegian group that built Cognite and runs Nscale), Akerlabs and Akerlab (read as an Aker ASA unit), Akero (a biotech), Akerlov, Akerloft, Akerledger (Kyle's taste), Tukey (Kyle's taste), and the full surname Akerlof (requires a note to a living person, which Kyle declined).
+
 ## Where we start
 
 The Business Plan v1.5 says it plainly: "On an interim basis, this organization will be called Technology Workforce Management (TWM). The business will be renamed when further established." The Pitch Deck v1.1 already names the product's parts: the Master Benchmark Ledger, the Role Composition Heatmap, the Total Potential Dashboard. Those are good feature names and can stay whatever the company is called.
@@ -130,6 +145,32 @@ Kyle's prompt: Typesafe named its product Jev after Jevons, whose paradox (effic
 **Dropped after checking:** Ostrom (a Berlin energy company raised $23M under the name; all domains taken), Benford (a London and Oslo audit startup raised €5M under it in September 2026), Juran (the institute), Pacioli (LucaNet and Paciolan are both named after him), Linnaeus (a thirty-year-old taxonomy software family), Shapley, Hawthorne, Tappan (the appliance brand), Playfair (a London venture fund), Walras, Tycho, Lerner, Markowitz, Gantt, Veblen, Follett, Minard, Carli: every domain taken or a brand in the way.
 
 **Round two shortlist to talk about:** Akerlof carries the problem, Tukey carries the picture, Quetelet carries the benchmark. Shewhart and Dantzig are the runners-up. If the test is "the sentence a CFO repeats", Akerlof wins, with the living-person caution above.
+
+## Round three: Akerlof without the surname (added October 13, 2026, later)
+
+Kyle liked the Akerlof argument and the Jev-style derivative but ruled out contacting anyone. Two facts shaped this round. First, any name that is just "Aker" plus a word belongs in practice to Aker ASA: the Oslo-listed group built and sold Cognite (industrial software, USD 3.1B to Schneider), owns Aize, runs the Nscale AI-infrastructure venture, and planned a software holding called Aixis; there is also a San Francisco retail-AI startup called Aker. So Akerlabs reads as their unit, and the homage is invisible. Second, the trademark offices in the United States and Canada refuse a mark that is primarily a surname until it has earned recognition; a coined word has no such problem. That favours a derivative over the surnames Akerlof, Tukey and Bowley.
+
+The .io column was validated by querying three domains known to be registered (github, socket, notion), all of which the registry reported as taken.
+
+| Form | Web presence | .com | .ai | .ca | .io |
+|---|---|---|---|---|---|
+| Akerlo | none | July 2026 | free | free | free |
+| Akerlow | none | free | free | free | free |
+| Akerlio | none (Akerlie, an actress, nearby) | free | free | free | free |
+| Akerla | none | free | free | free | free |
+| Akerlon | none | free | free | free | free |
+| Kerlof | none | free | free | free | free |
+| Akerlos, Akerlox, Akerlu, Akerloh, Akerline, Akerlane, Akerlode, Akerlot, Ackerlo, Akkerlo | not searched | free | free | free | free |
+| Akerlov, Akerloft, Akerledger, Lofledger, Akerlofledger | none | free | free | free | not checked |
+| Akerlabs | none (but see Aker ASA) | Nov 2025 | free | free | free |
+| Akerlab, Akerlolabs | none | free | free | free | not checked |
+| Akerlogic | not searched | 2023 | free | free | free |
+| Aker | Aker ASA; a retail-AI startup | 1997 | 2021 | 2018 | not checked |
+| Akero | Akero Therapeutics (Novo Nordisk) | 2000 | free | free | not checked |
+
+**Order suggested to Kyle:** Akerlow, then Akerlio, then Akerla, with Akerlo itself usable at once on .ai if the .com is let go.
+
+**Once a name is chosen, with no contact needed:** register it on .com, .ai, .ca and .io the same day (Kyle, at a registrar; under $200 a year for the four); then the USPTO and Canadian trademark database searches on the chosen name and the runner-up (public lookups, not enquiries); then the corporate-name search before incorporating under it.
 
 ## Checks still to do before choosing
 
