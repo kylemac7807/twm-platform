@@ -79,8 +79,8 @@ def render_row(observation: dict, resolution: int = RESOLUTION, cache_dir: Path 
     if observation.get("true_type") == "html":
         return {"kind": "web", "quote": quote, "page": page, "note": "a web page has no coordinates; the quoted table cells are the position"}
     bbox = _bbox_of(observation)
-    if not bbox or not page:
-        return {"kind": "nobox", "quote": quote, "page": page, "note": "no position stored for this row"}
+    if observation.get("true_type") != "pdf" or not bbox or not page:
+        return {"kind": "nobox", "quote": quote, "page": page, "note": "no page position for this row (only PDF rows carry one)"}
     if not path.exists():
         return {"kind": "missing", "quote": quote, "page": page, "note": f"document not on disk: {path}"}
     w, h = page_size(path, page)
