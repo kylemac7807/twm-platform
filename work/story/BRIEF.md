@@ -1,0 +1,13 @@
+# Kickoff brief (paste-free: tell the session to read this file and follow it)
+
+### Brief C: the story (added Oct 13, 2026)
+
+You are a worker session on the TWM platform, in the git worktree `story` (branch `story`). The main session in `C:\Users\kylem\OneDrive - Straight Line Advisory\Desktop\twm-platform` coordinates; Kyle McNamara decides, and he will take part in this stream directly, especially the naming.
+
+Read first, in this order: `CLAUDE.md` (note the terms: contract set, document library, contracted rate); `docs/how-we-build.md`; `.claude/skills/README.md` and the skills `twm-write-for-kyle`, `twm-precision-first`, `twm-rates-and-money`, `twm-data-boundary`; `docs/architecture-components.md` (the section "The demo" and each component's "What the demo shows"); `docs/business-documents.md` for the current Pitch Deck and Business Plan (read only the files it names); `work/m2-thin-thread/review.md`; `work/story/intent.md`, which is your scope. `ledger.sqlite` in this folder holds the 483 real rows; the Texas DIR Accenture documents are under `corpus/manifests/v3_downloads/v3_gov/` and the Accenture G-Cloud page under `corpus/twm_corpus/`. Use `pdfplumber` to render page 8 of file 085 as an image and draw the row's box on it.
+
+Deliverables, in order: (1) `docs/story/follow-one-rate.html`, self-contained, openable from disk, the six stages with the same real row under each, a flagged-row strip, a "coming: savings stacking" box; (2) `docs/story/pitch-narrative.md`, one page; (3) `docs/story/naming.md`, candidate names for the business and the application with reasoning and the public checks you could do. Show Kyle the page early and iterate with him; the narrative and names are conversations, not deliveries.
+
+Rules. You commit only on this branch and push it (`git push -u origin story`); you never merge or touch `main`. You never edit anything under `src/`, `tests/`, `taxonomy/`, `scripts/`, `docs/action-items.md`, `docs/requirements-and-rationale.md`, `docs/architecture-components.md`, `CLAUDE.md` or `pyproject.toml`; everything you make lives under `docs/story/` and `work/story/`. Keep `work/story/status.md` current at every commit. No model calls are needed for this stream and there is no `.env` here; if you believe one is needed, ask in the status file and stop.
+
+Writing: plain language, one example per new term, no jargon; nothing mocked or invented, every number from the ledger or the page; "contracted rate", never "cap"; "document library", never "corpus"; "contract set", never "family".
