@@ -114,14 +114,14 @@ def test_a_second_decision_supersedes_the_first_and_both_remain(tmp_path):
     led, rec, _ = _ledger_with_queue(tmp_path)
     qids = led.title_queue_groups()[0]["queue_ids"]
     first = led.decide_title(qids, role_id="systems_engineer", band=None, reason="first look", decided_by="Kyle McNamara")
-    second = led.decide_title(qids, role_id="systems_engineer", band="senior", reason="the SOW says 8+ years", decided_by="Kyle McNamara")
+    second = led.decide_title(qids, role_id="systems_engineer", band="senior", reason="the SOW says 8+ years", decided_by="Kyle McNamara", scope="everyone")
     hist = led.decision_history("Operations")
     assert [h["id"] for h in hist] == first + second
     assert all(h["superseded_by"] in second for h in hist if h["id"] in first)
     assert all(h["superseded_by"] is None for h in hist if h["id"] in second)
     rows = [r for r in led.live_rows(rec.document_id) if r["observed_title"] == "Operations"]
     assert all(r["twm_band"] == "senior" and r["needs_band_review"] == 0 for r in rows)
-    assert len(led.pending_codification()["title_mappings"]) == 1   # only the live decision is exported
+    assert len(led.pending_codification()["title_mappings"]) == 1   # only the live decision is exported, and only because it is for everyone
     led.close()
 
 
@@ -151,7 +151,7 @@ def test_codification_export_matches_the_taxonomy_columns_and_writes_nothing_to_
     tax = Path(__file__).resolve().parents[1] / "taxonomy"
     before = {f.name: hashlib.sha256(f.read_bytes()).hexdigest() for f in tax.glob("*.csv")}
     led, rec, _ = _ledger_with_queue(tmp_path)
-    led.decide_title(led.title_queue_groups()[0]["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara")
+    led.decide_title(led.title_queue_groups()[0]["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara", scope="everyone")
     led.decide_location([q["id"] for q in led.queue_items("location")], classification="onshore", reason="r", decided_by="Kyle McNamara")
     exp = led.pending_codification()
     t = exp["title_mappings"][0]; l = exp["location_rules"][0]
@@ -173,4 +173,83 @@ def test_documents_by_contract_set_and_intake_decision(tmp_path):
     sets = led.documents_by_set()
     assert len(sets) == 1 and sets[0]["documents"][0]["doc_class"] == "msa" and sets[0]["documents"][0]["class_confidence"] == 1.0
     assert led.queue_summary() == {"location": 1, "title": 2}
+    led.close()
+
+
+# ---------------------------------------------------------------- plan v3 (Oct 13): scope, park, saved answers, contract sets
+def test_scope_decides_which_rows_an_answer_reaches(tmp_path):
+    """A set-scoped answer touches only that contract set; a client-scoped one every set of the client; neither is exported."""
+    led, rec, store = _ledger_with_queue(tmp_path)
+    p2 = tmp_path / "other-set.txt"; p2.write_text("rate card other set", encoding="utf-8")
+    rec2 = register(p2); led.upsert_document(rec2)
+    flagged = resolve("Operations", store)
+    led.add_observation("run1", rec2, _row("Operations", "77.00"), flagged, vendor="Acme", client="bank-a", effective_date=None, scan_quality="native")
+    led.queue("run1", rec2.document_id, "title", "Operations", "no rule match")
+    g = [x for x in led.title_queue_groups(set_id=rec.document_id)][0]
+    assert g["rows_in_set"] == 2 and g["rows_affected"] == 3                          # two in this set, three for the client
+    led.decide_title(g["queue_ids"], role_id="systems_engineer", band=None, reason="this exhibit only", decided_by="Kyle McNamara", scope="set")
+    a = [r for r in led.live_rows(rec.document_id) if r["observed_title"] == "Operations"]
+    b = [r for r in led.live_rows(rec2.document_id) if r["observed_title"] == "Operations"]
+    assert all(r["canonical_role_id"] == "systems_engineer" for r in a) and all(r["canonical_role_id"] is None for r in b)
+    assert led.pending_codification()["title_mappings"] == []
+    g2 = led.title_queue_groups(set_id=rec2.document_id)[0]
+    led.decide_title(g2["queue_ids"], role_id="systems_engineer", band="senior", reason="whole client", decided_by="Kyle McNamara")   # default: client
+    b = [r for r in led.live_rows(rec2.document_id) if r["observed_title"] == "Operations"]
+    assert all(r["canonical_role_id"] == "systems_engineer" and r["twm_band"] == "senior" for r in b)
+    assert led.pending_codification()["title_mappings"] == []
+    with pytest.raises(ValueError):
+        led.decide_title(g2["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara", scope="galaxy")
+    led.close()
+
+
+def test_saved_answers_are_found_set_first_then_client(tmp_path):
+    """A re-run must find the analyst's answer: the set-scoped one for that set, else the client-scoped one, else nothing."""
+    led, rec, _ = _ledger_with_queue(tmp_path)
+    assert led.saved_answer("Operations", "bank-a", rec.document_id) is None
+    qids = led.title_queue_groups()[0]["queue_ids"]
+    led.decide_title(qids, role_id="systems_engineer", band=None, reason="client-wide", decided_by="Kyle McNamara", technology="java, azure")
+    ans = led.saved_answer("Operations", "bank-a", "some-other-set")
+    assert ans["canonical_role_id"] == "systems_engineer" and ans["scope"] == "client" and ans["attr_technology"] == "java,azure"
+    assert led.saved_answer("Operations", "bank-b", None) is None                      # another client: not theirs
+    led.decide_title(qids, role_id="support_engineer" if "support_engineer" in TaxonomyStore.load().role_by_id else "systems_engineer",
+                     band="junior", reason="this set is different", decided_by="Kyle McNamara", scope="set")
+    assert led.saved_answer("Operations", "bank-a", rec.document_id)["scope"] == "set"
+    assert led.saved_answer("Operations", "bank-a", "some-other-set") is None               # re-answering the same item replaced the client-wide answer
+    led.close()
+
+
+def test_park_sets_an_item_aside_and_brings_it_back(tmp_path):
+    led, rec, _ = _ledger_with_queue(tmp_path)
+    qids = led.title_queue_groups()[0]["queue_ids"]
+    led.park(qids, decided_by="Kyle McNamara", note="need the SOW")
+    assert led.title_queue_groups() == [] and len(led.title_queue_groups(status="parked")) == 1
+    assert led.queue_summary() == {"location": 1}
+    hist = led.decision_history("Operations")
+    assert hist[-1]["decision_json"].startswith('{"parked": true') and hist[-1]["reason"] == "need the SOW"
+    rows = [r for r in led.live_rows(rec.document_id) if r["observed_title"] == "Operations"]
+    assert all(r["counted"] == 0 for r in rows)                                        # parked rates stay held back
+    led.unpark(qids, decided_by="Kyle McNamara")
+    assert len(led.title_queue_groups()) == 1
+    with pytest.raises(ValueError):
+        led.unpark(qids, decided_by="Kyle McNamara")                                   # not parked any more
+    led.close()
+
+
+def test_contract_sets_have_a_proposed_name_and_a_review_status(tmp_path):
+    led, rec, _ = _ledger_with_queue(tmp_path)
+    sets = led.contract_sets()
+    assert len(sets) == 1
+    s = sets[0]
+    assert s["name"] == "bank-a – Acme · rate card" and not s["confirmed"]            # client – vendor · kind (no year known)
+    assert s["status"] == "ready" and s["questions"] == 2 and s["answered"] == 0     # one title group + one place
+    led.decide_title(led.title_queue_groups()[0]["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara")
+    s = led.contract_sets()[0]
+    assert s["status"] == "in_review" and s["answered"] == 1 and s["open"] == 1
+    led.set_name(s["set_id"], "Acme at bank-a, 2027 rate card", "Kyle McNamara")
+    s = led.contract_sets()[0]
+    assert s["name"] == "Acme at bank-a, 2027 rate card" and s["confirmed"] and s["name_confirmed_by"] == "Kyle McNamara"
+    led.decide_location([q["id"] for q in led.queue_items("location")], classification="onshore", reason="r", decided_by="Kyle McNamara")
+    assert led.contract_sets()[0]["status"] == "complete"
+    ov = led.set_overview(s["set_id"])
+    assert ov["rows"] == 4 and ov["title_groups"] == 0
     led.close()

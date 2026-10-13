@@ -84,8 +84,8 @@ def test_mapping_rows_reference_valid_roles_and_tech(store):
             continue  # history may reference a retired role
         if m.canonical_role_id:
             assert m.canonical_role_id in store.role_by_id, m.observed_title
-        if m.attr_technology:
-            assert m.attr_technology in store.tech_by_tag, m.observed_title
+        for tag in (t.strip() for t in (m.attr_technology or "").split(",") if t.strip()):   # several tags per title are allowed
+            assert tag in store.tech_by_tag, m.observed_title
 
 
 def test_no_same_title_mapped_to_two_roles_within_one_source(store):

@@ -23,10 +23,34 @@ from .extract import extract_rate_card
 from .ingest import family_summary, register_family
 from .ledger import Ledger
 from .models import DocumentRecord
+from .normalize import resolve
 from .read import reader_for
-from .resolve_model import resolve_with_model
+from .resolve_model import ModelStepOutcome, resolve_with_model
 
 RULE_VERSION = "0.1"
+
+
+def resolve_title(led: Ledger, store: TaxonomyStore, model: Optional[Model], cfg: ModelConfig, title: str, *, context: str,
+                  source: Optional[str], client: Optional[str], set_id: Optional[str]) -> ModelStepOutcome:
+    """Rules first; then the analyst's saved answer for this contract set or this client; only then the model.
+    Resolve once, applied to people (decided with Kyle, Oct 13, 2026): a title answered in the workbench is never asked again
+    on a re-run. The answer's provenance goes in the notes."""
+    base = resolve(title, store, source=source)
+    if base.status == "resolved":
+        return ModelStepOutcome(base, False, [])
+    ans = led.saved_answer(title, client, set_id)
+    if ans:
+        role = store.role_by_id.get(ans["canonical_role_id"])
+        base.canonical_role_id = ans["canonical_role_id"]
+        base.family_id = role.family_id if role else None
+        base.twm_band = ans["twm_band"]
+        base.band_source = "analyst" if ans["twm_band"] else None
+        base.needs_band_review = ans["twm_band"] is None
+        base.attr_technology = ans["attr_technology"] or base.attr_technology
+        base.status, base.method, base.confidence, base.candidates = "resolved", "analyst", 1.0, []
+        base.notes.append(f"from the analyst's saved answer ({ans['scope']} scope; {ans['decided_by']}, {ans['decided_at'][:10]})")
+        return ModelStepOutcome(base, False, [])
+    return resolve_with_model(title, store, model, context=context, source=source, config=cfg)
 
 
 @dataclass
@@ -41,6 +65,7 @@ class RunReport:
     ambiguous_titles: list[str] = field(default_factory=list)
     location_review: list[str] = field(default_factory=list)
     model_resolutions: int = 0
+    from_saved_answers: int = 0
     counted: int = 0
     not_counted_reasons: Counter = field(default_factory=Counter)
     example: Optional[dict] = None
@@ -51,7 +76,7 @@ class RunReport:
         L = [f"Run {self.run_id}", "", family_summary(self.documents), ""]
         L.append(f"Rates extracted and verified against the page: {self.rows_kept} (rejected by verification or abstention: {self.rows_rejected}).")
         L.append(f"Titles resolved to a role: {self.resolved} rows, of which {self.unbanded} have no seniority evidence and stay unbanded. "
-                 f"Resolved by the model step: {self.model_resolutions}.")
+                 f"Resolved by the model step: {self.model_resolutions}; from the analyst's saved answers: {self.from_saved_answers}.")
         if self.flagged_titles:
             L.append(f"Titles for the analyst queue ({len(self.flagged_titles)}): " + "; ".join(sorted(set(self.flagged_titles))[:12]))
         if self.ambiguous_titles:
@@ -103,8 +128,11 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
         gold_rows = []
         for row in out.rows:
             ctx = row.source_ref.quote or ""
-            o = resolve_with_model(row.observed_title, store, model, context=ctx, source=f"{client or 'unknown'} / {vendor or 'unknown'}", config=cfg)
+            o = resolve_title(led, store, model, cfg, row.observed_title, context=ctx, source=f"{client or 'unknown'} / {vendor or 'unknown'}",
+                              client=client, set_id=rec.family_id or rec.document_id)
             r = o.result
+            if r.method == "analyst":
+                rep.from_saved_answers += 1
             if o.used_model and r.status == "resolved":
                 rep.model_resolutions += 1
                 led.record_mapping_decision(run_id, row.observed_title, r.canonical_role_id, r.twm_band, "model", r.confidence, " ".join(r.notes)[-300:], cfg.model)

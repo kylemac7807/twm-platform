@@ -53,7 +53,14 @@ CREATE TABLE IF NOT EXISTS queue_decisions (
   id INTEGER PRIMARY KEY AUTOINCREMENT, queue_id INTEGER, kind TEXT NOT NULL, client TEXT, item TEXT NOT NULL,
   decision_json TEXT NOT NULL, reason TEXT NOT NULL, decided_by TEXT NOT NULL, decided_at TEXT NOT NULL,
   reviewed_by TEXT, reviewed_at TEXT, applied_to_taxonomy INTEGER NOT NULL DEFAULT 0, applied_at TEXT, superseded_by INTEGER);
+CREATE TABLE IF NOT EXISTS contract_sets (
+  set_id TEXT PRIMARY KEY, proposed_name TEXT, confirmed_name TEXT, name_confirmed_by TEXT, name_confirmed_at TEXT,
+  client TEXT, vendor TEXT, kind TEXT, year TEXT, created_at TEXT);
 """
+# Columns added after a table first shipped are applied by Ledger._migrate (additive; an existing file gains them on open):
+MIGRATIONS = [("queue_decisions", "scope", "TEXT"), ("mapping_decisions", "scope", "TEXT")]
+SCOPES = ("set", "client", "everyone")   # an answer applies to this contract set, this client (default), or is nominated for everyone
+DEFAULT_SCOPE = "client"
 # queue_decisions (workbench, Oct 13, 2026): the analyst's audit record. One row per queue item decided; a later decision on the
 # same item supersedes the earlier one and both stay. reviewed_by / reviewed_at are reserved for a second reviewer role (decided
 # Oct 6: not now, no data change later). applied_to_taxonomy is set by the main session once the rule is appended to taxonomy/.
@@ -76,6 +83,14 @@ class Ledger:
         self.path = Path(path)
         self.conn = sqlite3.connect(self.path)
         self.conn.executescript(SCHEMA)
+        self._migrate()
+
+    def _migrate(self) -> None:
+        for table, column, ctype in MIGRATIONS:
+            have = {r[1] for r in self.conn.execute(f"PRAGMA table_info({table})")}
+            if column not in have:
+                self.conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {ctype}")
+        self.conn.commit()
 
     # ------------------------------------------------------------ runs and documents
     def start_run(self, run_id: str, reader: str, model: str, rule_version: str, notes: str = "") -> None:
@@ -140,9 +155,9 @@ class Ledger:
         self.conn.commit()
 
     def record_mapping_decision(self, run_id: str, title: str, role: Optional[str], band: Optional[str], method: str,
-                                confidence: float, reasoning: str, decided_by: str) -> None:
-        self.conn.execute("INSERT INTO mapping_decisions(run_id, observed_title, canonical_role_id, twm_band, method, confidence, reasoning, decided_by, created_at) VALUES (?,?,?,?,?,?,?,?,?)",
-                          (run_id, title, role, band, method, confidence, reasoning, decided_by, _now()))
+                                confidence: float, reasoning: str, decided_by: str, scope: Optional[str] = None) -> None:
+        self.conn.execute("INSERT INTO mapping_decisions(run_id, observed_title, canonical_role_id, twm_band, method, confidence, reasoning, decided_by, created_at, scope) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                          (run_id, title, role, band, method, confidence, reasoning, decided_by, _now(), scope))
         self.conn.commit()
 
     # ------------------------------------------------------------ queries
@@ -181,20 +196,35 @@ class Ledger:
         """Open items by kind, for the workbench's front page."""
         return {k: n for k, n in self.conn.execute("SELECT kind, COUNT(*) FROM review_queue WHERE status='open' GROUP BY kind ORDER BY kind")}
 
-    def queue_items(self, kind: Optional[str] = None, status: str = "open") -> list[dict]:
+    def set_of_document(self, document_id: str) -> Optional[str]:
+        """The contract set a document belongs to: its family root, or itself when unlinked (same key as documents_by_set)."""
+        r = self.conn.execute("SELECT family_id FROM documents WHERE document_id=?", (document_id,)).fetchone()
+        if r is None:
+            return None
+        return r[0] or document_id
+
+    def _set_filter(self, set_id: Optional[str]) -> tuple[str, tuple]:
+        if not set_id:
+            return "", ()
+        return " AND (d.family_id=? OR d.document_id=?)", (set_id, set_id)
+
+    def queue_items(self, kind: Optional[str] = None, status: str = "open", set_id: Optional[str] = None) -> list[dict]:
         q = "SELECT q.*, d.filename FROM review_queue q LEFT JOIN documents d USING(document_id) WHERE q.status=?"
         args: list = [status]
         if kind:
             q += " AND q.kind=?"; args.append(kind)
+        f, fa = self._set_filter(set_id); q += f; args += list(fa)
         return self._rows(q + " ORDER BY q.id", tuple(args))
 
-    def title_queue_groups(self) -> list[dict]:
-        """Open title items grouped by (title, client): one decision per group resolves every row with that title for that
-        client (resolve once, applied to humans). Sorted by rows_unlocked, the live uncounted rows the decision would free."""
+    def title_queue_groups(self, set_id: Optional[str] = None, status: str = "open") -> list[dict]:
+        """Title items grouped by (title, client): one decision per group resolves every row with that title for that
+        client (resolve once, applied to humans). Sorted by rows_unlocked, the live uncounted rows the decision would free.
+        status='parked' lists the parked groups instead."""
         groups: dict[tuple, dict] = {}
-        for it in self.queue_items("title"):
+        for it in self.queue_items("title", status=status, set_id=set_id):
             client = self._client_of(it["document_id"])
-            g = groups.setdefault((it["item"], client), dict(title=it["item"], client=client, queue_ids=[], details=set(), documents=set()))
+            g = groups.setdefault((it["item"], client), dict(title=it["item"], client=client, queue_ids=[], details=set(), documents=set(),
+                                                             set_id=self.set_of_document(it["document_id"])))
             g["queue_ids"].append(it["id"]); g["details"].add(it["detail"] or ""); g["documents"].add(it["filename"] or "")
         out = []
         for g in groups.values():
@@ -202,22 +232,54 @@ class Ledger:
                              "FROM observations WHERE superseded_by IS NULL AND observed_title=? AND client IS ? ORDER BY obs_id", (g["title"], g["client"]))
             g["rows_affected"] = len(obs)
             g["rows_unlocked"] = sum(1 for o in obs if not o["counted"])
+            sid = g["set_id"]
+            g["rows_in_set"] = self.conn.execute("SELECT COUNT(*) FROM observations WHERE superseded_by IS NULL AND observed_title=? AND client IS ? AND (family_id=? OR document_id=?)",
+                                                 (g["title"], g["client"], sid, sid)).fetchone()[0]
             g["examples"] = obs[:3]
             g["details"] = sorted(g["details"]); g["documents"] = sorted(g["documents"])
             out.append(g)
         return sorted(out, key=lambda g: (-g["rows_unlocked"], g["title"]))
 
-    def _record_decision(self, queue_id: int, kind: str, client: Optional[str], item: str, decision: dict, reason: str, decided_by: str) -> int:
-        if not (reason or "").strip():
+    def _record_decision(self, queue_id: int, kind: str, client: Optional[str], item: str, decision: dict, reason: str, decided_by: str,
+                         scope: Optional[str] = None, status: str = "resolved", reason_required: bool = True) -> int:
+        if reason_required and not (reason or "").strip():
             raise ValueError("a decision needs a reason")
         if not (decided_by or "").strip():
             raise ValueError("a decision needs the analyst's name")
-        cur = self.conn.execute("INSERT INTO queue_decisions(queue_id, kind, client, item, decision_json, reason, decided_by, decided_at) VALUES (?,?,?,?,?,?,?,?)",
-                                (queue_id, kind, client, item, json.dumps(decision), reason.strip(), decided_by.strip(), _now()))
+        if scope is not None and scope not in SCOPES:
+            raise ValueError(f"scope must be one of {SCOPES}, not {scope!r}")
+        cur = self.conn.execute("INSERT INTO queue_decisions(queue_id, kind, client, item, decision_json, reason, decided_by, decided_at, scope) VALUES (?,?,?,?,?,?,?,?,?)",
+                                (queue_id, kind, client, item, json.dumps(decision), (reason or "").strip(), decided_by.strip(), _now(), scope))
         new_id = cur.lastrowid
         self.conn.execute("UPDATE queue_decisions SET superseded_by=? WHERE queue_id=? AND id<>? AND superseded_by IS NULL", (new_id, queue_id, new_id))
-        self.conn.execute("UPDATE review_queue SET status='resolved' WHERE id=?", (queue_id,))
+        self.conn.execute("UPDATE review_queue SET status=? WHERE id=?", (status, queue_id))
         return new_id
+
+    # ------------------------------------------------------------ park (decided with Kyle, Oct 13: replaces "can't decide" and "skip")
+    def park(self, queue_ids: Iterable[int], *, decided_by: str, note: str = "") -> list[int]:
+        """Set an item aside with an optional note. It leaves the open list for the parked list and can be brought back."""
+        ids = []
+        for qid in queue_ids:
+            rows = self._rows("SELECT * FROM review_queue WHERE id=?", (qid,))
+            if not rows:
+                raise ValueError(f"no queue item {qid}")
+            q = rows[0]
+            ids.append(self._record_decision(qid, q["kind"], self._client_of(q["document_id"]), q["item"], dict(parked=True, note=(note or "").strip()),
+                                             note, decided_by, status="parked", reason_required=False))
+        self.conn.commit()
+        return ids
+
+    def unpark(self, queue_ids: Iterable[int], *, decided_by: str) -> list[int]:
+        ids = []
+        for qid in queue_ids:
+            rows = self._rows("SELECT * FROM review_queue WHERE id=? AND status='parked'", (qid,))
+            if not rows:
+                raise ValueError(f"queue item {qid} is not parked")
+            q = rows[0]
+            ids.append(self._record_decision(qid, q["kind"], self._client_of(q["document_id"]), q["item"], dict(parked=False), "", decided_by,
+                                             status="open", reason_required=False))
+        self.conn.commit()
+        return ids
 
     def _queue_item(self, queue_id: int, kind: str) -> dict:
         rows = self._rows("SELECT * FROM review_queue WHERE id=?", (queue_id,))
@@ -226,28 +288,59 @@ class Ledger:
         return rows[0]
 
     def decide_title(self, queue_ids: Iterable[int], *, role_id: Optional[str], band: Optional[str], reason: str, decided_by: str,
-                     technology: Optional[str] = None, run_id: str = "workbench") -> list[int]:
+                     technology: Optional[str] = None, scope: str = DEFAULT_SCOPE, run_id: str = "workbench", suggested: bool = False) -> list[int]:
         """One analyst decision for one or more title queue items. role_id None means "leave flagged": the decision is recorded
-        and nothing else changes. band None means unbanded, the default (no band without evidence). The decision applies to every
-        live row with that title for that client; counted is recomputed by the same gate as add_observation. Returns decision ids."""
+        and nothing else changes. band None means unbanded, the default (no band without evidence). technology may hold several
+        tags, comma-separated. scope says where the answer applies: this contract set, this client (default), or everyone (a
+        nomination for the shared framework). The rows it updates follow the scope; counted is recomputed by the same gate as
+        add_observation. `suggested` records that the analyst confirmed a system suggestion. Returns decision ids."""
         if band is not None and band not in BANDS:
             raise ValueError(f"unknown band {band!r}")
+        if scope not in SCOPES:
+            raise ValueError(f"scope must be one of {SCOPES}, not {scope!r}")
+        tech = ",".join(t.strip() for t in (technology or "").split(",") if t.strip()) or None
         ids, applied = [], set()
         for qid in queue_ids:
             q = self._queue_item(qid, "title")
             client = self._client_of(q["document_id"])
-            ids.append(self._record_decision(qid, "title", client, q["item"], dict(canonical_role_id=role_id, twm_band=band, attr_technology=technology), reason, decided_by))
-            if role_id and (q["item"], client) not in applied:
-                applied.add((q["item"], client))
+            set_id = self.set_of_document(q["document_id"])
+            ids.append(self._record_decision(qid, "title", client, q["item"],
+                                             dict(canonical_role_id=role_id, twm_band=band, attr_technology=tech, scope=scope, set_id=set_id, suggested=suggested),
+                                             reason, decided_by, scope=scope))
+            key = (q["item"], client, set_id if scope == "set" else None)
+            if role_id and key not in applied:
+                applied.add(key)
+                where, args = ("observed_title=? AND client IS ?", [q["item"], client])
+                if scope == "set":
+                    where += " AND (family_id=? OR document_id=?)"; args += [set_id, set_id]
                 self.conn.execute(
                     "UPDATE observations SET canonical_role_id=?, twm_band=?, band_source='analyst', attr_technology=COALESCE(?, attr_technology), "
                     "resolution_status='resolved', resolution_confidence=1.0, needs_band_review=?, "
                     "counted=CASE WHEN COALESCE(extraction_confidence,0)>=? AND scan_quality IN ('native','good_scan','web') THEN 1 ELSE 0 END "
-                    "WHERE superseded_by IS NULL AND observed_title=? AND client IS ?",
-                    (role_id, band, technology, int(band is None), CONFIDENCE_FLOOR, q["item"], client))
-                self.record_mapping_decision(run_id, q["item"], role_id, band, "analyst", 1.0, reason.strip(), decided_by.strip())
+                    "WHERE superseded_by IS NULL AND " + where,
+                    [role_id, band, tech, int(band is None), CONFIDENCE_FLOOR] + args)
+                self.record_mapping_decision(run_id, q["item"], role_id, band, "analyst", 1.0, reason.strip(), decided_by.strip(), scope=scope)
         self.conn.commit()
         return ids
+
+    def saved_answer(self, title: str, client: Optional[str], set_id: Optional[str]) -> Optional[dict]:
+        """The analyst's live answer for a title, if any: a set-scoped answer for this contract set first, then a client- or
+        everyone-scoped answer for this client. The engine consults this before asking the model or a person on a re-run
+        (resolve once, applied to people). Returns the decision's role, band, tags and provenance, or None."""
+        rows = self._rows("SELECT * FROM queue_decisions WHERE kind='title' AND item=? AND superseded_by IS NULL ORDER BY id DESC", (title,))
+        best = None
+        for d in rows:
+            dec = json.loads(d["decision_json"])
+            if not dec.get("canonical_role_id"):
+                continue
+            sc = dec.get("scope") or d.get("scope") or DEFAULT_SCOPE
+            if sc == "set" and set_id and dec.get("set_id") == set_id:
+                return dict(canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band"), attr_technology=dec.get("attr_technology"),
+                            scope=sc, decided_by=d["decided_by"], decided_at=d["decided_at"], decision_id=d["id"])
+            if sc in ("client", "everyone") and best is None and (d["client"] == client or client is None):
+                best = dict(canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band"), attr_technology=dec.get("attr_technology"),
+                            scope=sc, decided_by=d["decided_by"], decided_at=d["decided_at"], decision_id=d["id"])
+        return best
 
     def decide_location(self, queue_ids: Iterable[int], *, classification: str, reason: str, decided_by: str) -> list[int]:
         """An analyst classifies a flagged place name for one client. Applies to the rows that raised the flag (same document and
@@ -281,12 +374,16 @@ class Ledger:
         return self._rows("SELECT * FROM queue_decisions WHERE item=? ORDER BY id", (item,))
 
     def pending_codification(self) -> dict[str, list[dict]]:
-        """Decisions not yet applied to the taxonomy, in the exact column order of the taxonomy CSVs (plus decision_id first),
-        so the main session can append them with the twm-change-the-taxonomy skill. The workbench never writes to taxonomy/."""
+        """Decisions nominated for the shared framework ("everyone" scope) and not yet applied to the taxonomy, in the exact
+        column order of the taxonomy CSVs (plus decision_id first), so the main session can append them with the
+        twm-change-the-taxonomy skill. Set- and client-scoped answers live in this database and never need this list.
+        The workbench never writes to taxonomy/."""
         out: dict[str, list[dict]] = {"title_mappings": [], "location_rules": []}
         seen = set()
         for d in self._rows("SELECT * FROM queue_decisions WHERE applied_to_taxonomy=0 AND superseded_by IS NULL ORDER BY id"):
             dec = json.loads(d["decision_json"])
+            if d["kind"] == "title" and (dec.get("scope") or d.get("scope")) != "everyone":
+                continue   # set- and client-scoped title answers live here and are consulted on re-runs; place names are always per client
             if d["kind"] == "title" and dec.get("canonical_role_id") and (d["item"], d["client"]) not in seen:
                 seen.add((d["item"], d["client"]))
                 out["title_mappings"].append(dict(decision_id=d["id"], observed_title=d["item"], source=d["client"] or "", source_url="",
@@ -328,4 +425,110 @@ class Ledger:
             s["documents"].append(d)
             if d["document_id"] == key:
                 s["root_filename"] = d["filename"]
+        for s in sets.values():
+            if s["root_filename"] is None:
+                s["root_filename"] = s["documents"][0]["filename"]
         return sorted(sets.values(), key=lambda s: (-len(s["documents"]), s["root_filename"] or ""))
+
+    # ------------------------------------------------------------ contract sets: names and status (plan v3, step 1)
+    KIND_WORDS = {"msa": "master agreement", "sow": "statement of work", "rate_card": "rate card", "amendment": "amendment", "sla": "service levels",
+                  "solicitation": "solicitation", "invoice": "invoice", "timesheet": "timesheet", "template": "template"}
+
+    def _manifest_row(self, path: str) -> dict:
+        """The library manifest row a downloaded file came from (v3 files are named <row number>_...), else {}."""
+        m = re.search(r"v3_(gov|edgar|invoices)[\\/](\d{3})_", path or "")
+        if not m:
+            return {}
+        import csv
+        mf = Path(__file__).resolve().parents[3] / "corpus" / "manifests" / f"v3_{m.group(1)}" / "manifest.csv"
+        if not mf.exists():
+            return {}
+        try:
+            rows = list(csv.DictReader(open(mf, encoding="utf-8")))
+            return rows[int(m.group(2)) - 1]
+        except Exception:
+            return {}
+
+    def propose_set_name(self, s: dict) -> dict:
+        """A readable name from fields the engine already has: client – vendor · kind · year (no model call)."""
+        docs = s["documents"]
+        client = vendor = year = None
+        for d in docs:
+            r = self.conn.execute("SELECT client, vendor, effective_date FROM observations WHERE document_id=? AND superseded_by IS NULL LIMIT 1", (d["document_id"],)).fetchone()
+            if r:
+                client, vendor = client or r[0], vendor or r[1]
+                year = year or (r[2] or "")[:4] or None
+        for d in docs:
+            mr = self._manifest_row(d.get("path") or "")
+            if mr:
+                client = client or mr.get("buyer") or mr.get("filer")
+                vendor = vendor or mr.get("vendor") or mr.get("counterparty")
+                y = re.search(r"(19|20)\d\d", mr.get("date_vintage") or mr.get("filing_date") or mr.get("date") or "")
+                year = year or (y.group(0) if y else None)
+        classes = {d["doc_class"] for d in docs}
+        if "msa" in classes and len(docs) > 1:
+            kind = "master agreement and exhibits"
+        elif len(classes) == 1:
+            kind = self.KIND_WORDS.get(next(iter(classes)), next(iter(classes)))
+        else:
+            kind = ", ".join(self.KIND_WORDS.get(c, c) for c in sorted(classes))
+        parties = " – ".join(p for p in (client, vendor) if p)
+        name = " · ".join(p for p in (parties or s["root_filename"], kind, year) if p)
+        return dict(proposed_name=name, client=client, vendor=vendor, kind=kind, year=year)
+
+    def contract_sets(self) -> list[dict]:
+        """Every contract set in the database with its name (proposed until confirmed), its counts and its review status:
+        ready (questions, none answered), in_review (some answered or parked, some left), complete (nothing left)."""
+        out = []
+        for s in self.documents_by_set():
+            row = self._rows("SELECT * FROM contract_sets WHERE set_id=?", (s["root_id"],))
+            if not row:
+                p = self.propose_set_name(s)
+                self.conn.execute("INSERT INTO contract_sets(set_id, proposed_name, client, vendor, kind, year, created_at) VALUES (?,?,?,?,?,?,?)",
+                                  (s["root_id"], p["proposed_name"], p["client"], p["vendor"], p["kind"], p["year"], _now()))
+                self.conn.commit()
+                row = self._rows("SELECT * FROM contract_sets WHERE set_id=?", (s["root_id"],))
+            meta = row[0]
+            rows = counted = 0
+            for d in s["documents"]:
+                obs = self.observations_for(d["document_id"])
+                rows += len(obs); counted += sum(1 for o in obs if o["counted"])
+            # questions: title groups count once per (title, client); other kinds once per item
+            qs: dict[tuple, str] = {}
+            for st in ("open", "parked", "resolved"):
+                for it in self.queue_items(status=st, set_id=s["root_id"]):
+                    if it["kind"] in ("extraction", "reading"):
+                        continue
+                    key = (it["kind"], it["item"]) if it["kind"] == "title" else (it["kind"], it["id"])
+                    cur = qs.get(key)
+                    qs[key] = st if cur is None or (st == "open") or (st == "parked" and cur == "resolved") else cur
+            n_open = sum(1 for v in qs.values() if v == "open"); n_parked = sum(1 for v in qs.values() if v == "parked")
+            n_done = sum(1 for v in qs.values() if v == "resolved"); total = len(qs)
+            status = "complete" if n_open == 0 and n_parked == 0 else ("ready" if n_done == 0 and n_parked == 0 else "in_review")
+            out.append(dict(set_id=s["root_id"], name=meta["confirmed_name"] or meta["proposed_name"], proposed_name=meta["proposed_name"],
+                            confirmed=bool(meta["confirmed_name"]), name_confirmed_by=meta["name_confirmed_by"], client=meta["client"], vendor=meta["vendor"],
+                            root_filename=s["root_filename"], documents=len(s["documents"]), rows=rows, counted=counted,
+                            questions=total, answered=n_done, parked=n_parked, open=n_open, status=status))
+        return sorted(out, key=lambda x: ({"ready": 0, "in_review": 1, "complete": 2}[x["status"]], -x["open"], x["name"]))
+
+    def set_name(self, set_id: str, name: str, decided_by: str) -> None:
+        if not (name or "").strip():
+            raise ValueError("a name is needed")
+        if not (decided_by or "").strip():
+            raise ValueError("the analyst's name is needed")
+        self.contract_sets()   # make sure the row exists
+        self.conn.execute("UPDATE contract_sets SET confirmed_name=?, name_confirmed_by=?, name_confirmed_at=? WHERE set_id=?",
+                          (name.strip(), decided_by.strip(), _now(), set_id))
+        self.conn.commit()
+
+    def set_overview(self, set_id: str) -> dict:
+        s = next((x for x in self.contract_sets() if x["set_id"] == set_id), None)
+        if not s:
+            raise ValueError(f"no contract set {set_id}")
+        s["queue"] = {k: n for k, n in self.conn.execute(
+            "SELECT q.kind, COUNT(*) FROM review_queue q JOIN documents d USING(document_id) WHERE q.status='open' AND (d.family_id=? OR d.document_id=?) GROUP BY q.kind",
+            (set_id, set_id))}
+        s["parked_items"] = len(self.queue_items(status="parked", set_id=set_id))
+        groups = self.title_queue_groups(set_id)
+        s["title_groups"] = len(groups); s["rows_unlocked"] = sum(g["rows_unlocked"] for g in groups)
+        return s

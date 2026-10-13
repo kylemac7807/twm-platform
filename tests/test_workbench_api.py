@@ -85,7 +85,7 @@ def test_rows_and_rules_export(tmp_path, monkeypatch):
     assert c.get(f"/api/rows/{rows[0]['obs_id']}/page.png").status_code == 404      # a text file has no page image: said, not faked
     assert c.get("/api/rows/999999").status_code == 404
     g = c.get("/api/queue/titles").json()[0]
-    c.post("/api/decisions/title", json=dict(queue_ids=g["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara"))
+    c.post("/api/decisions/title", json=dict(queue_ids=g["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara", scope="everyone"))
     pend = c.get("/api/rules/pending").json()
     assert len(pend["title_mappings"]) == 1 and pend["title_mappings"][0]["observed_title"] == "Operations"
     csv_text = c.get("/api/rules/pending.csv?kind=title_mappings").text.splitlines()
@@ -95,6 +95,43 @@ def test_rows_and_rules_export(tmp_path, monkeypatch):
     r = c.post("/api/rules/applied", json=dict(decision_ids=[pend["title_mappings"][0]["decision_id"]]))
     assert r.status_code == 200 and r.json()["marked"] == 2                         # both queue items' decision rows, the same rule
     assert c.get("/api/rules/pending").json()["title_mappings"] == []
+
+
+def test_sets_names_scope_park_and_suggestions(tmp_path, monkeypatch):
+    c, path = _client(tmp_path, monkeypatch)
+    sets = c.get("/api/sets").json()
+    s = sets[0]
+    assert s["name"] == "bank-a – Acme · rate card" and s["status"] == "ready" and s["questions"] == 3 and not s["confirmed"]
+    r = c.post(f"/api/sets/{s['root_id']}/name", json=dict(name="Acme rate card for bank-a", decided_by=""))
+    assert r.status_code == 400
+    r = c.post(f"/api/sets/{s['root_id']}/name", json=dict(name="Acme rate card for bank-a", decided_by="Kyle McNamara"))
+    assert r.status_code == 200 and r.json()["name"] == "Acme rate card for bank-a" and r.json()["confirmed"]
+    ov = c.get(f"/api/sets/{s['root_id']}").json()
+    assert ov["title_groups"] == 2 and ov["rows"] == 5 and ov["up_next"][0]["title"] == "Operations" and ov["queue"] == {"location": 1, "title": 3}
+    assert c.get("/api/sets/not-a-set").status_code == 404
+    sug = c.get("/api/suggest", params=dict(title="Senior Java Developer", set_id=s["root_id"], client="bank-a")).json()
+    assert sug["suggestions"][0]["id"] == "software_developer" and sug["tech_found"] == ["java"] and sug["band"] == "senior"
+    sug = c.get("/api/suggest", params=dict(title="Project Manager I / Test Leads")).json()
+    assert {x["id"] for x in sug["suggestions"][:2]} == {"project_manager", "test_manager"}      # both halves offered
+    sug = c.get("/api/suggest", params=dict(title="Operations")).json()
+    assert sug["suggestions"] and sug["saved"] is None and "not from the model" in sug["note"]
+    # park and bring back
+    g = c.get("/api/queue/titles", params=dict(set_id=s["root_id"])).json()[0]
+    r = c.post("/api/queue/park", json=dict(queue_ids=g["queue_ids"], note="need the SOW", decided_by="Kyle McNamara"))
+    assert r.status_code == 200 and r.json()["queue"] == {"location": 1, "title": 1}
+    parked = c.get("/api/queue/titles", params=dict(set_id=s["root_id"], status="parked")).json()
+    assert len(parked) == 1 and parked[0]["title"] == "Operations" and parked[0]["history"][-1]["reason"] == "need the SOW"
+    assert c.get("/api/sets").json()[0]["status"] == "in_review"
+    r = c.post("/api/queue/unpark", json=dict(queue_ids=g["queue_ids"], decided_by="Kyle McNamara"))
+    assert r.status_code == 200 and len(c.get("/api/queue/titles").json()) == 2
+    # scope: a set-scoped answer is not exported; the saved answer is reported by suggest afterwards
+    r = c.post("/api/decisions/title", json=dict(queue_ids=g["queue_ids"], role_id="systems_engineer", band=None, technology="java,azure", scope="set",
+                                                 suggested=True, reason="r", decided_by="Kyle McNamara"))
+    assert r.status_code == 200
+    assert c.get("/api/rules/pending").json()["title_mappings"] == []
+    assert c.get("/api/suggest", params=dict(title="Operations", set_id=s["root_id"], client="bank-a")).json()["saved"]["scope"] == "set"
+    r = c.post("/api/decisions/title", json=dict(queue_ids=g["queue_ids"], role_id="systems_engineer", band=None, scope="galaxy", reason="r", decided_by="Kyle McNamara"))
+    assert r.status_code == 400
 
 
 @pytest.mark.skipif(not PRICING.exists(), reason="pricing exhibit not on disk")

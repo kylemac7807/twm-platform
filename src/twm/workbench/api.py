@@ -19,7 +19,9 @@ from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from twm.pipeline.ledger import BANDS, LOCATION_RULE_COLUMNS, TITLE_MAPPING_COLUMNS, Ledger
+from twm.pipeline.ledger import BANDS, DEFAULT_SCOPE, LOCATION_RULE_COLUMNS, SCOPES, TITLE_MAPPING_COLUMNS, Ledger
+from twm.pipeline.normalize import normalize_title, resolve
+from twm.pipeline.resolve_model import similar_roles
 from twm.taxonomy.store import TaxonomyStore
 from twm.workbench.render import render_row
 
@@ -48,8 +50,21 @@ class TitleDecision(BaseModel):
     queue_ids: list[int] = Field(min_length=1)
     role_id: Optional[str] = None          # None = leave flagged (recorded)
     band: Optional[str] = None             # None = unbanded, the default
-    technology: Optional[str] = None
+    technology: Optional[str] = None       # one or several tags, comma-separated
+    scope: str = DEFAULT_SCOPE             # set | client | everyone
+    suggested: bool = False                # the analyst confirmed the system's suggestion
     reason: str = ""
+    decided_by: str = ""
+
+
+class ParkRequest(BaseModel):
+    queue_ids: list[int] = Field(min_length=1)
+    note: str = ""
+    decided_by: str = ""
+
+
+class SetName(BaseModel):
+    name: str
     decided_by: str = ""
 
 
@@ -96,10 +111,12 @@ def overview() -> dict:
 
 
 @app.get("/api/queue/titles")
-def queue_titles() -> list[dict]:
+def queue_titles(set_id: Optional[str] = None, status: str = "open") -> list[dict]:
+    if status not in ("open", "parked"):
+        raise _bad(ValueError("status must be open or parked"))
     led = Ledger(ledger_path())
     try:
-        groups = led.title_queue_groups()
+        groups = led.title_queue_groups(set_id, status=status)
         for g in groups:
             g["history"] = led.decision_history(g["title"])
         return groups
@@ -108,15 +125,79 @@ def queue_titles() -> list[dict]:
 
 
 @app.get("/api/queue/{kind}")
-def queue_kind(kind: str) -> list[dict]:
+def queue_kind(kind: str, set_id: Optional[str] = None, status: str = "open") -> list[dict]:
+    if status not in ("open", "parked"):
+        raise _bad(ValueError("status must be open or parked"))
     led = Ledger(ledger_path())
     try:
-        items = led.queue_items(kind)
+        items = led.queue_items(kind, status=status, set_id=set_id)
         for i in items:
             i["client"] = led._client_of(i["document_id"])
         return items
     finally:
         led.close()
+
+
+@app.post("/api/queue/park")
+def park(body: ParkRequest) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        ids = led.park(body.queue_ids, decided_by=body.decided_by, note=body.note)
+        return dict(decision_ids=ids, queue=led.queue_summary())
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
+@app.post("/api/queue/unpark")
+def unpark(body: ParkRequest) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        ids = led.unpark(body.queue_ids, decided_by=body.decided_by)
+        return dict(decision_ids=ids, queue=led.queue_summary())
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
+@app.get("/api/suggest")
+def suggest(title: str, set_id: Optional[str] = None, client: Optional[str] = None) -> dict:
+    """The system's best guess for a title, labelled as a suggestion: candidate roles by similarity to known titles and role
+    names (no model call), the technology tags found in the title, the halves of a dual title, and the tags common in this
+    contract set so the pick-list can show them first. The analyst confirms or changes; nothing here is saved."""
+    s = store()
+    base = resolve(title, s)
+    nt = normalize_title(title, s)
+    cands = []
+    seen = set()
+    if base.status == "resolved" and base.canonical_role_id:
+        cands.append(dict(id=base.canonical_role_id, name=s.role_by_id[base.canonical_role_id].name, why="the rules place it here", score=1.0)); seen.add(base.canonical_role_id)
+    for rid in base.candidates:
+        if rid in s.role_by_id and rid not in seen:
+            cands.append(dict(id=rid, name=s.role_by_id[rid].name, why="one half of the title", score=0.9)); seen.add(rid)
+    for rid, score, matched in similar_roles(s, title, k=5):
+        if rid in s.role_by_id and rid not in seen:
+            cands.append(dict(id=rid, name=s.role_by_id[rid].name, why=f"similar to '{matched}'", score=round(score, 2))); seen.add(rid)
+    common: list[str] = []
+    saved = None
+    if set_id or client:
+        led = Ledger(ledger_path())
+        try:
+            f, fa = led._set_filter(set_id)
+            rows = led._rows("SELECT o.attr_technology AS t, COUNT(*) AS n FROM observations o JOIN documents d USING(document_id) "
+                             "WHERE o.superseded_by IS NULL AND o.attr_technology IS NOT NULL" + f + " GROUP BY o.attr_technology ORDER BY n DESC LIMIT 8", fa)
+            for r in rows:
+                for tag in str(r["t"]).split(","):
+                    if tag and tag not in common:
+                        common.append(tag)
+            saved = led.saved_answer(title, client, set_id)
+        finally:
+            led.close()
+    return dict(title=title, suggestions=cands[:4], band=base.twm_band, band_source=base.band_source, tech_found=nt.tech_tags,
+                tech_common=common, location=base.attr_location, saved=saved,
+                note="suggestions come from similarity to known titles, not from the model; confirm or change")
 
 
 @app.get("/api/taxonomy")
@@ -137,10 +218,12 @@ def decide_title(body: TitleDecision) -> dict:
         raise _bad(ValueError(f"unknown band {body.band!r}"))
     if body.role_id and body.role_id not in store().role_by_id:
         raise _bad(ValueError(f"unknown role {body.role_id!r}"))
+    if body.scope not in SCOPES:
+        raise _bad(ValueError(f"scope must be one of {SCOPES}"))
     led = Ledger(ledger_path())
     try:
         ids = led.decide_title(body.queue_ids, role_id=body.role_id, band=body.band, reason=body.reason, decided_by=body.decided_by,
-                               technology=body.technology)
+                               technology=body.technology, scope=body.scope, suggested=body.suggested)
         return dict(decision_ids=ids, queue=led.queue_summary())
     except ValueError as e:
         raise _bad(e)
@@ -192,8 +275,10 @@ def _doc_view(d: dict) -> dict:
 
 @app.get("/api/sets")
 def sets() -> list[dict]:
+    """Every contract set with its name, status and documents: the landing page."""
     led = Ledger(ledger_path())
     try:
+        meta = {s["set_id"]: s for s in led.contract_sets()}
         out = []
         for s in led.documents_by_set():
             docs = []
@@ -203,8 +288,38 @@ def sets() -> list[dict]:
                 v["rows"] = len(obs); v["counted"] = sum(1 for o in obs if o["counted"])
                 v["role"] = "root" if d["document_id"] == s["root_id"] else ("linked" if d["family_id"] else "unlinked")
                 docs.append(v)
-            out.append(dict(root_id=s["root_id"], root_filename=s["root_filename"] or docs[0]["filename"], documents=docs))
-        return out
+            m = meta.get(s["root_id"], {})
+            out.append(dict(root_id=s["root_id"], root_filename=s["root_filename"] or docs[0]["filename"], documents=docs, **{k: m.get(k) for k in
+                            ("name", "proposed_name", "confirmed", "name_confirmed_by", "client", "vendor", "status", "questions", "answered", "parked", "open", "rows", "counted")}))
+        order = {"ready": 0, "in_review": 1, "complete": 2}
+        return sorted(out, key=lambda x: (order.get(x["status"], 3), -(x["open"] or 0), x["name"] or ""))
+    finally:
+        led.close()
+
+
+@app.get("/api/sets/{set_id}")
+def set_overview(set_id: str) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        ov = led.set_overview(set_id)
+        ov["up_next"] = led.title_queue_groups(set_id)[:6]
+        ov["items"] = [dict(id=i["id"], kind=i["kind"], item=i["item"], detail=i["detail"], document=i["filename"])
+                       for i in led.queue_items(set_id=set_id) if i["kind"] != "title"]
+        return ov
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    finally:
+        led.close()
+
+
+@app.post("/api/sets/{set_id}/name")
+def set_name(set_id: str, body: SetName) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        led.set_name(set_id, body.name, body.decided_by)
+        return led.set_overview(set_id)
+    except ValueError as e:
+        raise _bad(e)
     finally:
         led.close()
 

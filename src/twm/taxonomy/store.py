@@ -113,8 +113,9 @@ class TaxonomyStore:
                 continue  # history may point at a retired role (engagement_manager, retired Oct 6, 2026); only live rows must resolve
             if m.canonical_role_id and m.canonical_role_id not in self.role_by_id:
                 problems.append(f"mapping '{m.observed_title}' ({m.source}) -> unknown role {m.canonical_role_id}")
-            if m.attr_technology and m.attr_technology not in self.tech_by_tag:
-                problems.append(f"mapping '{m.observed_title}' uses unknown tech tag {m.attr_technology}")
+            for tag in (t.strip() for t in (m.attr_technology or "").split(",") if t.strip()):   # several tags, comma-separated (Oct 13)
+                if tag not in self.tech_by_tag:
+                    problems.append(f"mapping '{m.observed_title}' uses unknown tech tag {tag}")
             if m.status == "active" and not m.canonical_role_id:
                 problems.append(f"active mapping '{m.observed_title}' ({m.source}) has no canonical_role_id")
         if problems:
