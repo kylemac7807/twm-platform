@@ -211,6 +211,13 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
     def over_budget() -> bool:
         return spent_before + _uncached_so_far() >= DAILY_CALL_STOP
 
+    def key_refused() -> Optional[str]:
+        """The API refused the key itself (no credit, bad key): every further call would fail the same way, so the run stops."""
+        for l in llm.LOG:
+            if l.error and ("credit balance" in l.error or "authentication_error" in l.error or "invalid x-api-key" in l.error):
+                return "credit balance too low" if "credit balance" in l.error else "key rejected"
+        return None
+
     def store_rows(rec: DocumentRecord, out: ExtractionOutcome, scan_quality: str) -> list[dict]:
         gold_rows = []
         rep.rows_kept += len(out.rows); rep.rows_rejected += len(out.rejected)
@@ -302,7 +309,16 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
             rep.notes.append(f"HARD STOP at {DAILY_CALL_STOP} model calls today; {rec.filename} and later documents were not read")
             led.queue(run_id, rec.document_id, "extraction", rec.filename, "not read: the daily model-call limit was reached")
             break
-        reading = reader_for(rec).read(rec)
+        refused = key_refused()
+        if refused:
+            rep.notes.append(f"STOPPED: the API refused the key ({refused}); {rec.filename} and later documents were not read. Nothing was cached, so a re-run costs only what failed")
+            led.queue(run_id, rec.document_id, "extraction", rec.filename, f"not read: the API refused the key ({refused})")
+            break
+        try:
+            reading = reader_for(rec).read(rec)
+        except NotImplementedError as e:   # a Word file or spreadsheet before their readers exist: flag it, read the rest
+            led.queue(run_id, rec.document_id, "reading", rec.filename, str(e))
+            continue
         if reading.quality == "none":
             led.queue(run_id, rec.document_id, "reading", rec.filename, "no text layer; needs the document reading service")
             continue

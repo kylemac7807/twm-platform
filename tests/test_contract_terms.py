@@ -328,6 +328,30 @@ def test_the_daily_call_stop_refuses_to_spend(tmp_path):
     assert calls_today(cache) == DAILY_CALL_STOP, "a run that made no call adds nothing to the day's count"
 
 
+@needs_texas
+def test_a_run_stops_at_the_first_credit_refusal_instead_of_failing_every_section(tmp_path):
+    """When the API refuses the key (no credit), the run stops after the first document, says so, and leaves the rest for a re-run."""
+    docs = [EXHIBIT2, PRICING, TEXAS_MSA]
+
+    class NoCredit:
+        name = "fake"
+        calls = 0
+
+        def complete(self, system, user, max_tokens, temperature):
+            self.calls += 1
+            raise RuntimeError("Error code: 400 - Your credit balance is too low to access the Anthropic API.")
+
+    model = NoCredit()
+    rep = run_family(docs, vendor="Accenture LLP", client="Texas DIR", ledger_path=tmp_path / "l.sqlite", model=model, cache_dir=None, gold_dir=None,
+                     store=TaxonomyStore.load())
+    assert model.calls == 1, "one refusal is enough; the other documents are not attempted"
+    assert len(rep.term_docs) == 1, "only the first document was read"
+    assert any("STOPPED: the API refused the key (credit balance too low)" in n for n in rep.notes)
+    led = Ledger(tmp_path / "l.sqlite")
+    assert any("refused the key" in q["detail"] for q in led.queue_items("extraction"))
+    led.close()
+
+
 # ---------------------------------------------------------------- every contract year (step 5): two general table rules
 from decimal import Decimal
 from twm.pipeline.extract import expand_periods, extract_rate_card, sections_for_rate_card, split_table

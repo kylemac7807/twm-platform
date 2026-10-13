@@ -431,6 +431,17 @@ def title_on_page(reading: Reading, page: int, title: str) -> bool:
     return bool(reading.find(title, page=page))
 
 
+def key_refusal(flag_reason: Optional[str]) -> Optional[str]:
+    """A refusal of the key itself (no credit, bad key) will repeat on every call, so an extractor stops at the first one."""
+    if not flag_reason:
+        return None
+    if "credit balance" in flag_reason:
+        return "credit balance too low"
+    if "authentication_error" in flag_reason or "invalid x-api-key" in flag_reason:
+        return "key rejected"
+    return None
+
+
 _TOKEN = re.compile(r"[a-z0-9]+")
 
 
@@ -501,6 +512,9 @@ def extract_rate_card(record: DocumentRecord, reading: Reading, model: Model, co
         res = llm.call(RateCardExtraction, SYSTEM_RATE_CARD, user, model, config)
         if res.flagged or res.output is None:
             out.flags.append(f"pages {s.page_start}-{s.page_end}: {res.flag_reason}")
+            if key_refusal(res.flag_reason):
+                out.flags.append(f"stopped: the API refused the key ({key_refusal(res.flag_reason)}); later sections not attempted")
+                break
             continue
         rc: RateCardExtraction = res.output
         out.abstained.extend(rc.abstained)
@@ -615,6 +629,9 @@ def extract_sow(record: DocumentRecord, reading: Reading, model: Model, config: 
         res = llm.call(SOWExtraction, system, user, model, config)
         if res.flagged or res.output is None:
             out.flags.append(f"pages {s.page_start}-{s.page_end}: {res.flag_reason}")
+            if key_refusal(res.flag_reason):
+                out.flags.append(f"stopped: the API refused the key ({key_refusal(res.flag_reason)}); later sections not attempted")
+                break
             continue
         part: SOWExtraction = res.output
         out.abstained.extend(part.abstained)
