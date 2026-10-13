@@ -11,15 +11,20 @@ Worker session in worktree `story`, branch `story`. Updated at every commit. Kyl
   .venv/Scripts/python.exe work/story/build_page.py <facts.json> docs/story/follow-one-rate.html
   ```
 
+- **Oct 13, 2026 — the pitch narrative, first draft.** `docs/story/pitch-narrative.md`: one page written from the flow, grounded in the Business Plan v1.5, the Early Adopter Presentation (Nov 10, v2), the Consortium Approach v1.7 and the Pitch Deck v1.1, all four read in full. Ends with the wording the deck revision (D3) should retire. A draft to react to, not a delivery.
+- **Oct 13, 2026 — naming options, first draft.** `docs/story/naming.md`: 23 candidate names checked two ways (web search for an existing company or product; the .com registry's own lookup), the five strongest also checked at the .ai and .ca registries; reasoning per name; a shortlist of three (Ratetrail, Ratewright, Quorate); the checks that still need a registrar, a trademark database or counsel. A conversation, not a delivery.
+
 ## In progress
 
-- The pitch narrative (`docs/story/pitch-narrative.md`) and the naming options (`docs/story/naming.md`): first drafts to react to, not deliveries.
+- Nothing until Kyle reacts to the three drafts.
 
 ## Questions for Kyle
 
 1. **The page.** Is the six-stage layout the one to keep, or should the row read top to bottom? Is the amount of detail under each stage right for a CIO, or should the ledger values move behind a "show the stored row" toggle?
 2. **The flagged row.** "Operations" was chosen because it is the clearest abstention in this contract set. Neither contract set names a city, so there is no place-name flag to show yet; the first one will come from the volume run.
 3. **Two intake labels are honest but unflattering** (file 084 called a rate card, file 087 a weak "msa"). The page says so in a note. Keep them visible, or drop the file table from the CIO version?
+4. **The narrative.** The four documents give three different Early Adopter fees ($300k in the Early Adopter Presentation, $500k in the Pitch Deck, $1.5 to 2MM in the Business Plan). The narrative leaves the fee out and flags it; which figure stands for the deck revision?
+5. **Names.** Does one company name plus a plain "Ledger" product name fit how you want to pitch, or do you want two brands? Of the three on the shortlist, which two are worth a counsel's clearance search? Is "Straight Line" in or out of consideration?
 
 ## Observations for the main session (not changed by this stream)
 
