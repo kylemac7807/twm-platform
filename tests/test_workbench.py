@@ -235,6 +235,36 @@ def test_location_decision_through_the_screen(tmp_path, monkeypatch):
     c.close()
 
 
+def test_codify_screen_exports_in_taxonomy_column_order_and_marks_applied(tmp_path, monkeypatch):
+    import os
+    from twm.pipeline.ledger import Ledger
+    from twm.workbench.screens import codification_csv
+    at = _app(tmp_path, monkeypatch)
+    path = os.environ["TWM_LEDGER"]
+    led = Ledger(path)
+    g = led.title_queue_groups()[0]
+    led.decide_title(g["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="Kyle McNamara")
+    led.decide_location([q["id"] for q in led.queue_items("location")], classification="nearshore", reason="r", decided_by="Kyle McNamara")
+    pend = led.pending_codification()
+    led.close()
+    header = (ROOT / "taxonomy/title_mappings.csv").read_text(encoding="utf-8").splitlines()[0]
+    csv = codification_csv(pend["title_mappings"]).splitlines()
+    assert csv[0] == header and csv[1].startswith("Operations,bank-a,,systems_engineer,,")
+    assert codification_csv(pend["location_rules"]).splitlines()[0] == (ROOT / "taxonomy/location_rules.csv").read_text(encoding="utf-8").splitlines()[0]
+    at.run()
+    at.sidebar.radio[0].set_value("Decisions to codify").run()
+    assert not at.exception
+    assert [h.value for h in at.subheader] == ["Title mappings: 1 waiting", "Location rules: 1 waiting"]
+    assert list(at.dataframe[0].value["observed_title"]) == ["Operations"]
+    at.button(key="mark_title_mappings").click().run()
+    assert any("Pick" in e.value for e in at.error)                  # nothing picked: refused
+    at.multiselect(key="applied_title_mappings").set_value(at.multiselect(key="applied_title_mappings").options)
+    at.button(key="mark_title_mappings").click().run()
+    assert not at.exception
+    after = Ledger(path).pending_codification()
+    assert after["title_mappings"] == [] and len(after["location_rules"]) == 1
+
+
 def test_web_rows_and_missing_files_are_reported_not_guessed():
     web = render_row(dict(path="x.html", true_type="html", source_page=1, source_bbox="[0.0, 0.0, 0.0, 0.0]", source_quote="Trainee business architect | £750.00 | £195.00"))
     assert web["kind"] == "web" and "£750.00" in web["quote"]

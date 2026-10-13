@@ -248,6 +248,33 @@ def queues(led: Ledger, store: TaxonomyStore, analyst: str) -> None:
         _other_queue(led, "reading", analyst)
 
 
+# ---------------------------------------------------------------- 4. Decisions to codify
+def codification_csv(rows: list[dict]) -> str:
+    """The pending decisions as CSV in the exact column order of the taxonomy file they append to (decision_id dropped)."""
+    if not rows:
+        return ""
+    return pd.DataFrame(rows).drop(columns=["decision_id"]).to_csv(index=False, lineterminator="\n")
+
+
 def codify(led: Ledger) -> None:
     st.header("Decisions to codify")
-    st.info("Built in step 5 of the plan.")
+    st.caption("A decision becomes a permanent rule only when it is appended to the taxonomy files (the main session does that with the "
+               "twm-change-the-taxonomy skill; the workbench never writes to taxonomy/). Download the rows, append them, then mark them applied.")
+    pend = led.pending_codification()
+    for kind, label, fname in (("title_mappings", "Title mappings", "title_mappings_to_append.csv"),
+                               ("location_rules", "Location rules", "location_rules_to_append.csv")):
+        rows = pend[kind]
+        st.subheader(f"{label}: {len(rows)} waiting")
+        if not rows:
+            continue
+        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+        st.download_button(f"Download {fname}", codification_csv(rows), file_name=fname, mime="text/csv", key=f"dl_{kind}")
+        labels = {f"{r['decision_id']}: {r.get('observed_title') or r.get('place')}": r["decision_id"] for r in rows}
+        pick = st.multiselect("Rows appended to the taxonomy", list(labels), key=f"applied_{kind}")
+        if st.button("Mark applied", key=f"mark_{kind}"):
+            if not pick:
+                st.error("Pick the rows that were appended.")
+            else:
+                n = sum(led.mark_applied(labels[p]) for p in pick)
+                st.success(f"{n} decision row(s) marked applied.")
+                st.rerun()
