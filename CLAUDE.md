@@ -28,6 +28,8 @@ Two axes only: **canonical role** (~120–180, in ~16 families) × **seniority b
 
 ## Corpus (catalog: docs/corpus-catalog.md)
 
+**Terms (Kyle, Oct 13, 2026):** a **contract set** is the documents that belong to one contract (master agreement, SOWs, amendments, exhibits, invoices); the code calls it a *family* (`family_id`), but in anything Kyle reads say contract set, never family, which he reads as job family. Say "document library", never corpus, in anything Kyle reads.
+
 - `corpus/manifests/v3_*/manifest.csv` — 388 classified URLs of ORIGINAL documents (EDGAR MSAs, government signed contracts incl. UK/Canada bilingual, rare invoice/timesheet finds).
 - `corpus/gc15_ratecards/` — 13 G-Cloud 15 vendor rate cards (2026 vintage, UK/offshore columns), already extracted.
 - `corpus/scripts/v3_download.py` — fetches the 388 originals into `corpus/downloads/` (gitignored). **The Sept 1 package** (framework fetch script + 48-original downloader + earlier extractions) is delivered separately — Kyle drops its contents into `corpus/` before the first download run.

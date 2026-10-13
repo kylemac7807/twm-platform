@@ -191,7 +191,7 @@ def link_family(records: list[DocumentRecord]) -> list[DocumentRecord]:
         for r in orphans:
             r.family_id = None
             r.links.append(FamilyLink(parent_id=root.document_id, relation="exhibit_of", evidence=f"no contract number found; arrived with the {dominant} set", confirmed=False, suggested=True))
-            r.flags.append(f"family link to {dominant} is suggested only: confirm")
+            r.flags.append(f"contract-set link to {dominant} is suggested only: confirm")
     return records
 
 
@@ -209,11 +209,11 @@ def register_family(paths: Iterable[Path | str], source_class: str = "public") -
 
 
 def family_summary(recs: list[DocumentRecord]) -> str:
-    """Plain-language listing for Kyle: one line per document."""
+    """Plain-language listing for Kyle: one line per document. A "contract set" (Kyle's term, Oct 13, 2026) is what the code calls a family."""
     lines = []
     counts = Counter(r.doc_class for r in recs)
     roots = {r.family_id for r in recs if r.family_id}
-    lines.append(f"{len(recs)} documents registered; classes: " + ", ".join(f"{k} {v}" for k, v in counts.most_common()) + f"; families: {len(roots)}")
+    lines.append(f"{len(recs)} documents registered; classes: " + ", ".join(f"{k} {v}" for k, v in counts.most_common()) + f"; contract sets: {len(roots)}")
     for r in recs:
         role = "ROOT" if r.family_id == r.document_id else ("linked" if r.family_id else "unlinked")
         flag = f"  FLAGS: {'; '.join(r.flags)}" if r.flags else ""

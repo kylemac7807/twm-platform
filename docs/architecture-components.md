@@ -22,7 +22,7 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 
 **The story (proposed Oct 5, 2026; Kyle agreed the audience, story to confirm as components are designed):** one contract followed end to end, the Texas DIR Accenture agreement with its pricing exhibit.
 1. *The raw contract* on screen: about forty roles, eight years of rates, a dense grid.
-2. *Intake:* the seven files appear as one linked family under the master agreement, each labelled.
+2. *Intake:* the seven files appear as one linked contract set under the master agreement, each labelled.
 3. *Extraction:* the rate grid becomes a clean table; clicking any number highlights the exact spot on the original page.
 4. *Normalization:* "API Architect Developer" becomes Software Developer, senior, technology tagged, reasoning shown; one uncertain title sits in a review queue to show the system does not guess.
 5. *Benchmarking:* that role's rate placed inside the distribution of what eleven other vendors charge for the same role and seniority.
@@ -43,7 +43,7 @@ Grouped by Kyle's priority order of analyses (decision log, section 1.1):
 1. **Identity.** A permanent document ID and a content fingerprint, so the same file fed in twice is recognized, and every extracted value can be traced back to its source document, page and location forever (the `source_ref` rule in the task contracts).
 2. **True type.** What the file actually is, found by inspecting its contents, never by its name or extension. Rule already in CLAUDE.md after two real cases in the library.
 3. **Classification.** Master agreement, statement of work, amendment or change notice, rate card, invoice, timesheet, or unknown. Unknown goes to a person.
-4. **Family links.** Which master agreement a SOW sits under, which contract an amendment changes, which SOW an invoice bills against. One contract is often many files (the Texas Accenture set is seven).
+4. **Contract-set links** (called family links in the code). Which master agreement a SOW sits under, which contract an amendment changes, which SOW an invoice bills against. One contract is often many files (the Texas Accenture set is seven).
 5. **Readiness.** Whether the text layer is usable or the file is image-only and needs the document reading stage, with a scan-quality grade.
 
 **Decisions (Kyle, Oct 5, 2026).**

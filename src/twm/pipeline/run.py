@@ -1,4 +1,4 @@
-"""End-to-end run (M2 step 7): a document family through intake, reading, extraction, normalization and the ledger,
+"""End-to-end run (Thin Thread step 7): a contract set (a document family, in the code) through intake, reading, extraction, normalization and the ledger,
 with a plain-language report for Kyle and a drafted answer sheet for the evaluation sample.
 
     .venv/Scripts/python.exe -m twm.pipeline.run corpus/manifests/v3_downloads/v3_gov/08[1-7]*.pdf --vendor "Accenture LLP" --client "Texas DIR"
