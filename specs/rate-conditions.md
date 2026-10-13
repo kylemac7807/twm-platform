@@ -15,9 +15,23 @@
 - **Check**: a rule an invoice or timesheet is tested against in reconciliation (no overtime, no travel, hours per month).
 - **Evidence**: a clause cited in a finding (the extension runs at the prior year's rate).
 
+## The six groups (confirmed by Kyle, October 13, 2026)
+
+A condition is one row: one thing a contract can say that changes what the printed rate really costs, or whether it can be compared with another vendor's rate. The groups are the six headings the rows sit under. Each key carries its group in the code as well, so a screen or a report can show the inventory the same way.
+
+| Group | What its rows have in common | Rows |
+|---|---|---|
+| A. Expenses and pass-throughs | Costs that ride on top of, or hide inside, the hourly rate | 7 |
+| B. What an hour, a day or a month is | How time is counted before the rate is applied | 7 |
+| C. The structure of the rate itself | How the number on the page is built | 13 |
+| D. Discounts, credits and commitments | Money off, or money the client must spend | 10 |
+| E. Scope, change and exit | What happens when work changes or ends | 6 |
+| F. Transparency and governance | What the client is allowed to see and check | 5 |
+| | **Total** | **48** |
+
 ## The inventory
 
-Keys are the controlled vocabulary the extraction prompt uses to type a term; a test keeps this table and the code's list identical. "Seen" says where the library already shows the condition; "typical wording" rows are expected and not yet seen.
+Keys are the controlled vocabulary the extraction prompt uses to type a term; a test keeps this table, including the groups and the count, identical to the code's list. "Seen" says where the library already shows the condition; "typical wording" rows are expected and not yet seen.
 
 ### A. Expenses and pass-throughs
 
