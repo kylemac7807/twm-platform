@@ -18,7 +18,9 @@ from pathlib import Path
 from typing import Iterable, Optional
 
 from .contracts import RateRow
+from .contracts import NamedResource   # added Oct 13, 2026 (stream A)
 from .models import DocumentRecord
+from .models import SourceRef        # added Oct 13, 2026 (stream A)
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS documents (
@@ -48,6 +50,30 @@ CREATE TABLE IF NOT EXISTS mapping_decisions (
 CREATE TABLE IF NOT EXISTS review_queue (
   id INTEGER PRIMARY KEY AUTOINCREMENT, run_id TEXT, document_id TEXT, kind TEXT, item TEXT, detail TEXT,
   status TEXT DEFAULT 'open', created_at TEXT);
+CREATE TABLE IF NOT EXISTS contract_terms (
+  term_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  run_id TEXT NOT NULL, document_id TEXT NOT NULL, family_id TEXT,
+  vendor TEXT, client TEXT, source_class TEXT NOT NULL,
+  kind TEXT NOT NULL, term_type TEXT NOT NULL, condition_key TEXT, condition_group TEXT,
+  value TEXT NOT NULL,
+  extraction_confidence REAL, verified INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL, note TEXT,
+  source_page INTEGER, source_bbox TEXT, source_quote TEXT, source_section TEXT,
+  superseded_by TEXT, created_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS ix_terms_doc ON contract_terms(document_id);
+CREATE TABLE IF NOT EXISTS named_resources (
+  resource_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  run_id TEXT NOT NULL, document_id TEXT NOT NULL, family_id TEXT,
+  vendor TEXT, client TEXT, source_class TEXT NOT NULL,
+  name_or_role TEXT NOT NULL, observed_title TEXT, location_raw TEXT,
+  extraction_confidence REAL, verified INTEGER NOT NULL DEFAULT 0, status TEXT NOT NULL,
+  source_page INTEGER, source_bbox TEXT, source_quote TEXT,
+  superseded_by TEXT, created_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS ix_resources_doc ON named_resources(document_id);
+CREATE TABLE IF NOT EXISTS vendor_names (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  observed_name TEXT NOT NULL, name_key TEXT NOT NULL, vendor TEXT NOT NULL, vendor_class TEXT,
+  evidence TEXT, decided_by TEXT NOT NULL, created_at TEXT NOT NULL, deprecated_at TEXT);
+CREATE INDEX IF NOT EXISTS ix_vendor_names_key ON vendor_names(name_key);
 """
 
 CONFIDENCE_FLOOR = 0.90   # rows below this exist and are visible but are not counted until an analyst confirms (decided Oct 6)
@@ -153,3 +179,114 @@ class Ledger:
 
     def close(self) -> None:
         self.conn.close()
+
+    # ------------------------------------------------------------ contract terms and named resources (stream A, Oct 13, 2026)
+    def supersede_terms(self, document_id: str, new_run_id: str) -> int:
+        """A re-run supersedes earlier live term and named-resource rows for the document; they stay, marked."""
+        n = 0
+        for table in ("contract_terms", "named_resources"):
+            cur = self.conn.execute(f"UPDATE {table} SET superseded_by=? WHERE document_id=? AND superseded_by IS NULL AND run_id<>?",
+                                    (new_run_id, document_id, new_run_id))
+            n += cur.rowcount
+        self.conn.commit()
+        return n
+
+    def add_term(self, run_id: str, rec: DocumentRecord, *, kind: str, term_type: str, value: str, source_ref: SourceRef,
+                 confidence: float, verified: bool, vendor: Optional[str], client: Optional[str], condition_key: Optional[str] = None,
+                 note: Optional[str] = None, status: Optional[str] = None) -> int:
+        """One fact ('fact') or commercial term ('term') the document states, verbatim, with its page, box and quote.
+        Status: 'recorded' when verified on the page and at or above the confidence floor; 'flagged' when verified but
+        below it (kept, visible, not relied on). An unverified quote is the caller's to queue, not to store."""
+        if not verified:
+            raise ValueError("a term that was not verified on its page is not stored; queue it instead")
+        if status is None:
+            status = "recorded" if (confidence or 0) >= CONFIDENCE_FLOOR else "flagged"
+        group = None
+        if condition_key:
+            from .conditions import condition_group
+            group = condition_group(condition_key)
+        cur = self.conn.execute(
+            """INSERT INTO contract_terms(run_id, document_id, family_id, vendor, client, source_class, kind, term_type, condition_key,
+               condition_group, value, extraction_confidence, verified, status, note, source_page, source_bbox, source_quote,
+               source_section, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (run_id, rec.document_id, rec.family_id, vendor, client, rec.source_class, kind, term_type, condition_key, group, value,
+             confidence, int(bool(verified)), status, note, source_ref.page, json.dumps(source_ref.bbox) if source_ref.bbox else None,
+             source_ref.quote, source_ref.section, _now()))
+        self.conn.commit()
+        return cur.lastrowid
+
+    def add_named_resource(self, run_id: str, rec: DocumentRecord, res: NamedResource, *, verified: bool, vendor: Optional[str],
+                           client: Optional[str], status: Optional[str] = None) -> int:
+        """A person or role the document names (key personnel). Local tier only: names never leave the client's environment."""
+        if not verified:
+            raise ValueError("a named resource not found on its page is not stored; queue it instead")
+        conf = getattr(res, "confidence", 0.0) or 0.0
+        if status is None:
+            status = "recorded" if conf >= CONFIDENCE_FLOOR else "flagged"
+        cur = self.conn.execute(
+            """INSERT INTO named_resources(run_id, document_id, family_id, vendor, client, source_class, name_or_role, observed_title,
+               location_raw, extraction_confidence, verified, status, source_page, source_bbox, source_quote, created_at)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (run_id, rec.document_id, rec.family_id, vendor, client, rec.source_class, res.name_or_role, res.observed_title, res.location_raw,
+             conf, int(bool(verified)), status, res.source_ref.page, json.dumps(res.source_ref.bbox) if res.source_ref.bbox else None,
+             res.source_ref.quote, _now()))
+        self.conn.commit()
+        return cur.lastrowid
+
+    def live_terms(self, document_id: Optional[str] = None, kind: Optional[str] = None) -> list[sqlite3.Row]:
+        self.conn.row_factory = sqlite3.Row
+        q = "SELECT * FROM contract_terms WHERE superseded_by IS NULL"
+        args: list = []
+        if document_id:
+            q += " AND document_id=?"; args.append(document_id)
+        if kind:
+            q += " AND kind=?"; args.append(kind)
+        return list(self.conn.execute(q + " ORDER BY term_id", tuple(args)))
+
+    def live_named_resources(self, document_id: Optional[str] = None) -> list[sqlite3.Row]:
+        self.conn.row_factory = sqlite3.Row
+        q = "SELECT * FROM named_resources WHERE superseded_by IS NULL"
+        args: tuple = ()
+        if document_id:
+            q += " AND document_id=?"; args = (document_id,)
+        return list(self.conn.execute(q + " ORDER BY resource_id", args))
+
+    def term_counts(self) -> dict:
+        self.conn.row_factory = None
+        c = self.conn.execute
+        return {
+            "facts_live": c("SELECT COUNT(*) FROM contract_terms WHERE superseded_by IS NULL AND kind='fact'").fetchone()[0],
+            "terms_live": c("SELECT COUNT(*) FROM contract_terms WHERE superseded_by IS NULL AND kind='term'").fetchone()[0],
+            "terms_flagged": c("SELECT COUNT(*) FROM contract_terms WHERE superseded_by IS NULL AND status='flagged'").fetchone()[0],
+            "terms_superseded": c("SELECT COUNT(*) FROM contract_terms WHERE superseded_by IS NOT NULL").fetchone()[0],
+            "named_resources_live": c("SELECT COUNT(*) FROM named_resources WHERE superseded_by IS NULL").fetchone()[0],
+            "vendor_names": c("SELECT COUNT(*) FROM vendor_names WHERE deprecated_at IS NULL").fetchone()[0],
+        }
+
+    # ------------------------------------------------------------ vendor names, resolved once (stream A, Oct 13, 2026)
+    def lookup_vendor(self, observed_name: str) -> Optional[sqlite3.Row]:
+        """The vendor an observed party name stands for, if a person (or an operator override) has decided it before."""
+        self.conn.row_factory = sqlite3.Row
+        return self.conn.execute("SELECT * FROM vendor_names WHERE name_key=? AND deprecated_at IS NULL ORDER BY id DESC LIMIT 1",
+                                 (vendor_name_key(observed_name),)).fetchone()
+
+    def record_vendor_name(self, observed_name: str, vendor: str, decided_by: str, evidence: str = "",
+                           vendor_class: Optional[str] = None) -> int:
+        """Append a decision: this printed name is this vendor. Never edits an earlier row; a changed mind deprecates it."""
+        existing = self.lookup_vendor(observed_name)
+        if existing is not None and existing["vendor"] == vendor:
+            return existing["id"]
+        if existing is not None:
+            self.conn.execute("UPDATE vendor_names SET deprecated_at=? WHERE id=?", (_now(), existing["id"]))
+        cur = self.conn.execute(
+            "INSERT INTO vendor_names(observed_name, name_key, vendor, vendor_class, evidence, decided_by, created_at) VALUES (?,?,?,?,?,?,?)",
+            (observed_name, vendor_name_key(observed_name), vendor, vendor_class, evidence, decided_by, _now()))
+        self.conn.commit()
+        return cur.lastrowid
+
+
+def vendor_name_key(name: str) -> str:
+    """Lookup key for a printed party name: case, punctuation and spacing do not matter; the words (including a
+    corporate suffix) do, so 'Accenture LLP' and 'Accenture Inc.' are two names that may resolve to one vendor."""
+    import re as _re
+    return " ".join(_re.sub(r"[^a-z0-9]+", " ", name.lower()).split())

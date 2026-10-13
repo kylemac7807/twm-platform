@@ -8,6 +8,7 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
 from .models import SourceRef
+from .conditions import ConditionKey   # rate-conditions vocabulary (specs/rate-conditions.md), Oct 13, 2026
 
 
 class RateRow(BaseModel):
@@ -48,6 +49,7 @@ class NamedResource(BaseModel):
     observed_title: Optional[str] = None
     location_raw: Optional[str] = None
     source_ref: SourceRef
+    confidence: float = Field(ge=0, le=1, default=0.0)   # added Oct 13, 2026 (stream A)
 
 
 class CommercialTerm(BaseModel):
@@ -55,6 +57,8 @@ class CommercialTerm(BaseModel):
     verbatim_short: str
     source_ref: SourceRef
     confidence: float = Field(ge=0, le=1, default=0.0)
+    condition_key: Optional[ConditionKey] = None   # which rate condition this is (specs/rate-conditions.md); 'other' when not listed. Added Oct 13, 2026
+    condition_note: Optional[str] = None            # the model's own words when condition_key is 'other'
 
 
 class SOWDocumentMeta(BaseModel):
@@ -78,3 +82,24 @@ class SOWExtraction(BaseModel):
     redactions_present: bool = False
     confidence_overall: float = Field(ge=0, le=1, default=0.0)
     abstained: list[str] = Field(default_factory=list)
+    facts: list[ContractFact] = Field(default_factory=list)   # identity facts with page and quote each; added Oct 13, 2026 (stream A)
+
+
+# ---------------------------------------------------------------- contract terms (stream A, Oct 13, 2026): additions only
+FactType = Literal["party", "document_type", "effective_date", "expiry", "term", "governing_msa_ref", "contract_number",
+                   "pricing_model", "amendment_number", "amends", "contract_value"]
+
+
+class ContractFact(BaseModel):
+    """One identity fact a document states, verbatim, with its page and quote: a party, the contract number, the effective
+    date, the term, the governing agreement, the pricing model, an amendment number, what it amends, the contract value.
+    Shaped so that either the frontier model or Azure's prebuilt contract model can fill it."""
+
+    fact_type: FactType
+    value: str                                   # exactly as printed
+    source_ref: SourceRef
+    confidence: float = Field(ge=0, le=1, default=0.0)
+
+
+# Records above were extended with fields that reference classes defined later in this file; resolve them now.
+SOWExtraction.model_rebuild()

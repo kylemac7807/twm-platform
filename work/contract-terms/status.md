@@ -7,12 +7,12 @@ Updated at every commit by the worker session in the `contract-terms` worktree. 
 ## Done
 
 - Read everything the brief lists. Confirmed the three permitted documents are real PDFs by their first bytes (`%PDF`): Texas 081 (110 pages), Texas 084 (25 pages), Michigan Deloitte MiIntegrate (378 pages, 41 image-only).
-- Tests pass in this worktree with the main folder's environment (118).
-- `spec.md` and `plan.md` written.
+- `spec.md` and `plan.md` written; Kyle said go on Oct 13, 2026.
+- **Step 1 (Oct 13): shared-module additions.** New `src/twm/pipeline/conditions.py` holds the 48 rate conditions with their groups and meanings; `tests/test_contract_terms.py` proves the spec and the code are identical (keys, groups, meanings, per-group counts, total), that facts and terms append and supersede, that an unverified quote raises rather than stores, and that vendor names resolve once. 123 tests pass (118 before). The diff on the three shared modules is insertions only.
 
 ## In progress
 
-- Nothing. Code starts when Kyle says go.
+- Step 2: term reading (page selection, prompt, quote verification) and the library rehearsal.
 
 ## Blocked
 
@@ -34,9 +34,12 @@ Two, in `plan.md` under "Two things to confirm". Both have a stated default; sil
 
 | Module | Addition | Status |
 |---|---|---|
-| `contracts.py` | `ContractFact` record (fact type, verbatim value, source position, confidence); `facts` list and `condition_key` (from `specs/rate-conditions.md`) on the existing term record; `confidence` on `NamedResource` | planned |
-| `models.py` | `party_candidates` (names found on the first pages, each with its evidence) at the end of `DocumentRecord` | planned |
-| `ledger.py` | tables `contract_terms`, `named_resources` and `vendor_names` at the end of `SCHEMA`; methods `supersede_terms`, `add_term`, `add_named_resource`, `live_terms`, `live_named_resources`, `term_counts`, `lookup_vendor`, `record_vendor_name` at the end of the class | planned |
+| `contracts.py` | one import line (`from .conditions import ConditionKey`); `NamedResource.confidence`; `CommercialTerm.condition_key` and `.condition_note`; `SOWExtraction.facts`; new `FactType` and `ContractFact` at the end of the file, then `SOWExtraction.model_rebuild()` (pydantic needs it when a field's record is defined later in the file) | landed Oct 13 |
+| `models.py` | `DocumentRecord.party_candidates`; new `PartyCandidate` (name, evidence, page, role_hint) at the end, then `DocumentRecord.model_rebuild()` | landed Oct 13 |
+| `ledger.py` | two import lines (`NamedResource`, `SourceRef`); tables `contract_terms`, `named_resources`, `vendor_names` with indexes at the end of `SCHEMA`; methods `supersede_terms`, `add_term`, `add_named_resource`, `live_terms`, `live_named_resources`, `term_counts`, `lookup_vendor`, `record_vendor_name` at the end of the class; module function `vendor_name_key` after the class | landed Oct 13 |
+| new `conditions.py` | the rate-conditions vocabulary (`RATE_CONDITIONS`, `GROUP_NAMES`, `ConditionKey`, `prompt_lines`, `load_inventory`) | landed Oct 13 |
+
+Note for the merge: the workbench stream also appends methods at the end of the `Ledger` class; expect one adjacent-insertion conflict there, mechanical to resolve (keep both blocks).
 
 ## Packages needed
 
