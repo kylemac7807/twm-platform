@@ -270,8 +270,10 @@ def expand_periods(reading: Reading, section: Section, base_rows: list[RateRow],
         return " ".join((s or "").lower().split())
 
     for base in base_rows:
-        matches = [i for i in section.row_map if norm(rows[i][title_col]) == norm(base.observed_title)
-                   and (norm(base.rate_as_stated) in norm(rows[i][first]) or norm(rows[i][first]) in norm(base.rate_as_stated))]
+        same_title = [i for i in section.row_map if norm(rows[i][title_col]) == norm(base.observed_title)]
+        matches = [i for i in same_title if norm(rows[i][first]) == norm(base.rate_as_stated)]
+        if not matches:   # the model may have trimmed or padded the cell text ("$122" for "$122.00"); never let "$22.00" match "$122.00"
+            matches = [i for i in same_title if norm(base.rate_as_stated) and norm(base.rate_as_stated) in norm(rows[i][first]).split(" ")]
         if len(matches) != 1:
             notes.append(f"no single printed row for '{base.observed_title}' at {base.rate_as_stated}: {len(matches)} matched; periods not copied")
             continue

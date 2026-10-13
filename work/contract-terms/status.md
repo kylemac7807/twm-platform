@@ -26,9 +26,11 @@ Updated at every commit by the worker session in the `contract-terms` worktree. 
 - **Real model runs: the API key's credit balance is exhausted (Oct 13, during the Michigan run).** Kyle tops it up in the Anthropic console. Waiting on it: the two failed Michigan sections and its 22 title resolutions; Texas 083, 085 (the split grid, 4 calls, and its term pages, 2 calls) and 087; and the re-base of the Texas regression check. Calls made today before the refusal: 34 (8 Texas, 26 Michigan), of a daily stop of 200.
 - **The Texas regression check is marked expected-to-fail** (`tests/test_regression.py`, `xfail(strict=True)` with the reason in the test): the grid's prompt changed on purpose with the split and the replay needs a real run to refill the cache. The mark comes off, with re-based counts, as soon as that run happens.
 
+- **Review (Oct 13): `review.md`.** Two fixes during the pass: a base row now matches its printed row by exact title and exact first-period cell before any containment ("$22.00" could have matched "$122.00"); the daily stop counts API requests including retries. What was proven, what was left and why, and five things for Kyle are in the review.
+
 ## In progress
 
-- Review (`review.md`), then the pending real runs when credit is back.
+- Nothing until the API credit is topped up; then the pending real runs (about 30 calls) and the regression re-base.
 
 ## Found on the first real run, for Kyle
 

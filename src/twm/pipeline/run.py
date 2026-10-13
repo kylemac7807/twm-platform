@@ -136,7 +136,7 @@ def calls_today(cache_dir: Optional[Path]) -> int:
         except Exception:
             continue
         if d.get("date") == today:
-            n += int(d.get("uncached", 0))
+            n += int(d.get("attempts", d.get("uncached", 0)))   # attempts = API requests including retries; older rows carry uncached only
     return n
 
 
@@ -146,12 +146,13 @@ def _log_calls(cache_dir: Optional[Path], run_id: str, summary: dict) -> None:
     p = Path(cache_dir); p.mkdir(parents=True, exist_ok=True)
     with (p / "calls.jsonl").open("a", encoding="utf-8") as f:
         f.write(json.dumps({"date": date.today().isoformat(), "run_id": run_id, "calls": summary.get("calls", 0),
-                            "uncached": summary.get("calls", 0) - summary.get("cached", 0), "input_tokens": summary.get("input_tokens", 0),
+                            "uncached": summary.get("calls", 0) - summary.get("cached", 0),
+                            "attempts": sum(l.attempts for l in llm.LOG if not l.cached), "input_tokens": summary.get("input_tokens", 0),
                             "output_tokens": summary.get("output_tokens", 0)}) + chr(10))
 
 
 def _uncached_so_far() -> int:
-    return sum(1 for l in llm.LOG if not l.cached)
+    return sum(l.attempts for l in llm.LOG if not l.cached)   # API requests, retries included
 
 
 # ---------------------------------------------------------------- the vendor, resolved once
