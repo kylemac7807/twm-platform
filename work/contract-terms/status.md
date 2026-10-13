@@ -54,9 +54,20 @@ Updated at every commit by the worker session in the `contract-terms` worktree. 
 | Oct 13, 2026 | An inventory of the fine print that makes rates opaque or incomparable is kept and grown by flag-then-codify: `specs/rate-conditions.md`, label "rate conditions" (proposed; Kyle may rename). The extraction prompt types terms with its keys. Kyle confirmed the six groups (expenses and pass-throughs; what an hour, a day or a month is; the structure of the rate; discounts, credits and commitments; scope, change and exit; transparency and governance) and the 48 conditions; each key carries its group in the code. |
 | Oct 13, 2026 | The move to Azure Document Intelligence is captured now, in `work/contract-terms/spec.md` ("How this evolves on Azure"), so the page-and-position pointer on every term, verification on the page and the one facts record survive the rebuild. Hand-off to B28. |
 
+## Decided with Kyle on Oct 13, 2026 (second conversation), for the main session
+
+| Decision | What changes |
+|---|---|
+| **Rules at three levels apply to terms**: a clause binds one contract set; vendor-level decisions (which printed names are one vendor, a vendor's standard wording, later its own best rate) hold for that vendor at that client; the inventory and the typing rules are global vocabulary. Contract and vendor levels never leave the client; global vocabulary does | Proposal for the design record: every analyst decision on a term records its scope (contract, vendor, global). A small addition to the workbench's decision record |
+| **Build terms into the workbench, later**: a terms view per contract set (facts, then conditions grouped the six inventory ways), click a condition to see the page with the clause highlighted, two queue kinds ("name this condition" and "which vendor is this printed name") | A follow-up task for whoever owns the workbench next; about a day on the existing screens |
+| **Term confidence floor 0.75, confirmed**, and Kyle wants to be able to move it | The floor becomes a setting applied as a view at read time, not frozen into each row: rows keep the model's raw confidence, and moving the floor re-classifies recorded and flagged at once. Part of the workbench piece; until then the constant stands |
+| **Naming the 41 `other` conditions happens in the workbench**, not by hand now | They stay flagged and queued; the inventory stays at 48 |
+| **Contract-year rows on by default** | Done: `run_family(all_periods=True)`; `--first-period-only` keeps year 1 for the demo |
+| **The traced condition (clause, page, box) is enough evidence for a vendor challenge** | Recorded; the box is drawn by the workbench |
+
 ## Questions for Kyle
 
-Two, in `plan.md` under "Two things to confirm". Both have a stated default; silence keeps the default.
+- None open. Kyle has a benchmarking question to raise.
 
 ## Additions to shared modules (planned; this list becomes the record as each lands)
 

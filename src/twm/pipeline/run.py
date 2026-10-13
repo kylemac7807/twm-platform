@@ -75,7 +75,7 @@ class RunReport:
             L.append("Vendor: " + self.vendor_note)
         L.append(f"Rates extracted and verified against the page: {self.rows_kept} (rejected by verification or abstention: {self.rows_rejected})."
                  + (f" Of these, {self.base_rows} were read by the model from the first period column and {self.expanded_rows} copied by the software "
-                    f"from the other contract-year columns of the same printed row (--all-periods)." if self.expanded_rows else ""))
+                    f"from the other contract-year columns of the same printed row." if self.expanded_rows else ""))
         L.append(f"Titles resolved to a role: {self.resolved} rows, of which {self.unbanded} have no seniority evidence and stay unbanded. "
                  f"Resolved by the model step: {self.model_resolutions}.")
         if self.flagged_titles:
@@ -192,7 +192,7 @@ def resolve_vendor(led: Ledger, recs: list[DocumentRecord], override: Optional[s
 def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_path: Path | str, model: Optional[Model],
                reporting_currency: str = "CAD", source_class: str = "public", cache_dir: Optional[Path] = Path(".cache/llm"),
                gold_dir: Optional[Path] = Path("evals/gold"), store: Optional[TaxonomyStore] = None, terms: bool = True,
-               max_sections: int = 20, all_periods: bool = False) -> RunReport:
+               max_sections: int = 20, all_periods: bool = True) -> RunReport:   # on by default (Kyle, Oct 13, 2026)
     store = store or TaxonomyStore.load()
     cfg = ModelConfig(model=getattr(model, "name", llm.DEFAULT_MODEL), cache_dir=cache_dir, max_tokens=16000)
     run_id = "run_" + date.today().isoformat() + "_" + uuid.uuid4().hex[:6]
@@ -350,12 +350,12 @@ def main(argv=None) -> int:
     ap.add_argument("--no-model", action="store_true", help="intake and reading only")
     ap.add_argument("--no-terms", action="store_true", help="rates only; skip term reading")
     ap.add_argument("--max-sections", type=int, default=20, help="model calls per document for term reading")
-    ap.add_argument("--all-periods", action="store_true", help="one observation per contract year, copied by the software from the printed grid")
+    ap.add_argument("--first-period-only", action="store_true", help="keep year 1 of a grid only (shorter report, for the demo); the default copies every contract year")
     ap.add_argument("--reporting-currency", default="CAD")
     a = ap.parse_args(argv)
     model = None if a.no_model else AnthropicModel(llm.DEFAULT_MODEL)
     rep = run_family(a.paths, vendor=a.vendor, client=a.client, ledger_path=a.ledger, model=model, reporting_currency=a.reporting_currency,
-                     terms=not a.no_terms, max_sections=a.max_sections, all_periods=a.all_periods)
+                     terms=not a.no_terms, max_sections=a.max_sections, all_periods=not a.first_period_only)
     print(rep.plain())
     return 0
 
