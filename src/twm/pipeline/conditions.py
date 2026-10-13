@@ -18,7 +18,9 @@ GROUP_NAMES: dict[str, str] = {
     "D": "Discounts, credits and commitments",
     "E": "Scope, change and exit",
     "F": "Transparency and governance",
+    "G": "Disclosure and benchmarking rights",   # the gate, added Oct 13, 2026 at Kyle's request
 }
+GATE_GROUP = "G"
 
 # key -> (group letter, one-line meaning), in the order of the inventory
 RATE_CONDITIONS: dict[str, tuple[str, str]] = {
@@ -76,6 +78,13 @@ RATE_CONDITIONS: dict[str, tuple[str, str]] = {
     "benchmark_clause": ("F", "The client's right to benchmark rates and the adjustment that follows"),
     "subcontractor_passthrough": ("F", "Subcontracted labour billed at the prime's rate"),
     "common_categories": ("F", "A client rule that every vendor uses the same rate-card categories"),
+    # G. Disclosure and benchmarking rights (the gate)
+    "confidentiality_scope": ("G", "What the contract treats as confidential, and whether pricing is inside it"),
+    "advisor_disclosure": ("G", "Whether the client may show the contract to advisors, auditors or consultants under confidentiality"),
+    "disclosure_bar": ("G", "A clause that forbids the client sharing pricing or terms with any third party"),
+    "benchmark_conditions": ("G", "What a benchmark must do and what the vendor need not give: an independent benchmarker under NDA, a minimum number of comparables, the factors to normalize, no internal costs or other-customer data"),
+    "benchmark_data_use": ("G", "A limit on using the contract's data beyond this contract or for other clients"),
+    "public_record": ("G", "The contract is public under a freedom-of-information or procurement law"),
 }
 
 OTHER = "other"   # the model's escape hatch: a condition not in the inventory, described in its own words, queued for a person
@@ -106,9 +115,9 @@ def prompt_lines() -> list[str]:
 
 
 # ---------------------------------------------------------------- the inventory file, parsed (for the drift test and reports)
-_GROUP_HEADING = re.compile(r"^### ([A-F])\. (.+?)\s*$")
+_GROUP_HEADING = re.compile(r"^### ([A-Z])\. (.+?)\s*$")
 _ROW = re.compile(r"^\| `([a-z_]+)` \| (.+?) \| (.+?) \| (.+?) \|\s*$")
-_SUMMARY_ROW = re.compile(r"^\| ([A-F])\. (.+?) \| (.+?) \| (\d+) \|\s*$")
+_SUMMARY_ROW = re.compile(r"^\| ([A-Z])\. (.+?) \| (.+?) \| (\d+) \|\s*$")
 _TOTAL_ROW = re.compile(r"^\| \| \*\*Total\*\* \| \*\*(\d+)\*\* \|\s*$")
 
 

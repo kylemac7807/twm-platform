@@ -14,6 +14,7 @@
 - **Derive**: an arithmetic effect on the effective rate for a stated period or volume, as a derived column (an escalation percentage, a volume discount).
 - **Check**: a rule an invoice or timesheet is tested against in reconciliation (no overtime, no travel, hours per month).
 - **Evidence**: a clause cited in a finding (the extension runs at the prior year's rate).
+- **Gate**: a clause that decides what may be done with the contract at all: shown to an advisor, benchmarked, contributed to the consortium. Checked first, at the start of every engagement (Kyle, October 13, 2026).
 
 ## The six groups (confirmed by Kyle, October 13, 2026)
 
@@ -27,7 +28,8 @@ A condition is one row: one thing a contract can say that changes what the print
 | D. Discounts, credits and commitments | Money off, or money the client must spend | 10 |
 | E. Scope, change and exit | What happens when work changes or ends | 6 |
 | F. Transparency and governance | What the client is allowed to see and check | 5 |
-| | **Total** | **48** |
+| G. Disclosure and benchmarking rights | What the client may show, share and compare (added October 13, 2026 at Kyle's request; checked first) | 6 |
+| | **Total** | **54** |
 
 ## The inventory
 
@@ -110,6 +112,21 @@ Keys are the controlled vocabulary the extraction prompt uses to type a term; a 
 | `benchmark_clause` | The client's right to benchmark rates and the adjustment that follows | Typical: "either party may request a benchmark after year 2" | Evidence |
 | `subcontractor_passthrough` | Subcontracted labour billed at the prime's rate | Typical | Label |
 | `common_categories` | A client rule that every vendor uses the same rate-card categories | Texas 6.4 item 6 (page 23): "All Successful Respondents shall have the same rate card categories" | Evidence (a lever a bank can copy) |
+
+### G. Disclosure and benchmarking rights
+
+The gate. Kyle's worry (October 13, 2026): a vendor contract may not allow the client to share it with a third party, and a public contract set is a biased sample of what private contracts say. So every engagement starts by reading these clauses and flagging the contract set before anything is benchmarked or contributed.
+
+| Key | What it is, in one line | Seen, or typical wording | Use |
+|---|---|---|---|
+| `confidentiality_scope` | What the contract treats as confidential, and whether pricing is inside it | Michigan 2.101 (page 220): information marked confidential; the contract itself is excluded as public | Gate |
+| `advisor_disclosure` | Whether the client may show the contract to advisors, auditors or consultants under confidentiality | Michigan 2.102: disclosure limited to those who need it, bound in writing; typical: "professional advisors bound by confidentiality obligations no less protective" | Gate |
+| `disclosure_bar` | A clause that forbids the client sharing pricing or terms with any third party | Typical vendor wording: "Customer shall not disclose the pricing to any third party" | Gate, Evidence |
+| `benchmark_conditions` | What a benchmark must do and what the vendor need not give: an independent benchmarker under NDA, a minimum number of comparables, the factors to normalize, no internal costs or other-customer data | Texas master agreement 6.2.1 and 6.2.2 (pages 41 to 43) | Gate, Evidence |
+| `benchmark_data_use` | A limit on using the contract's data beyond this contract or for other clients | Typical: "the Benchmarker shall use the data solely for the purpose of this benchmark" | Gate |
+| `public_record` | The contract is public under a freedom-of-information or procurement law | Michigan 2.036 (page 214): the contract is subject to the Michigan FOIA | Gate |
+
+The right to benchmark itself stays under F as `benchmark_clause`; G holds its conditions and the disclosure rules around it.
 
 ## How the inventory grows
 

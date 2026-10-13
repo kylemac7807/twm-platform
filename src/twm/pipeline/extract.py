@@ -342,12 +342,14 @@ TERM_SIGNALS: dict[str, str] = {
     "passthrough": r"\bpass[- ]through\b|\bmark[- ]?ups?\b|\bat cost\b",
     "personnel": r"\bkey personnel\b|\bnamed (resource|personnel|individual)",
     "value": r"\bcontract value\b|\baggregate (contract )?value\b|\btotal (contract )?value\b|\bnot to exceed \$",
+    # the gate (Oct 13, 2026): disclosure, confidentiality and benchmarking clauses are read first and flagged before anything is benchmarked
+    "disclosure": r"\bnon-?disclosure\b|\bshall not disclose\b|\bmay (not )?disclose\b|\bconfidential information\b|\bfreedom of information\b|\bpublic records? (act|law)\b|\bbenchmark",
 }
 # Three classes, tuned on the whole library (work/contract-terms/rehearsal.md), not on one document:
 # a DECISIVE signal is rare and valuable enough to choose a page on its own (a most-favoured-customer clause stands alone);
 # STRONG signals need company (two of them, or one with two supporting); SUPPORTING signals never choose a page by
 # themselves (a contract number sits in the running header of every page of a Texas contract).
-DECISIVE_SIGNALS = {"discount", "escalation", "mfc", "minimum", "volume", "nte", "credit", "hours"}
+DECISIVE_SIGNALS = {"discount", "escalation", "mfc", "minimum", "volume", "nte", "credit", "hours", "disclosure"}
 STRONG_SIGNALS = {"invoice", "payment", "rates", "term", "amendment", "value", "parties", "dates", "pricing_model", "expenses", "personnel"}
 SUPPORTING_SIGNALS = {"contract_no", "passthrough"}
 _SIGNAL_RX = {k: re.compile(v, re.I) for k, v in TERM_SIGNALS.items()}

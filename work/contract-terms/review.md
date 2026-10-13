@@ -12,7 +12,8 @@
 | The ledger | `contract_terms` (facts and conditions), `named_resources`, `vendor_names`: append and supersede, confidence on every row, a verified flag, status recorded or flagged, page, box and quote; a term not verified on its page raises rather than stores |
 | The run report | Facts per document, conditions by key with page and quote, the model's abstentions in its own words, where the vendor came from, one condition traced to its box, model calls; draft answer sheets per document, marked unverified |
 | Every contract year | The Texas grid splits into four parts by its own block rows and column groups; a year-1 row expands to years 2 to 8 with the cell's own box, every value found on the page; the rules do nothing on the G-Cloud and Michigan tables (offline tests); the real run of the split grid is pending credit |
-| Daily call stop | A persisted log beside the cache; a run refuses to spend at 200 (offline test) |
+| Daily call stop | A persisted log beside the cache; a run refuses to spend at 200 (offline test); a run and its extractors stop at the first credit or key refusal (offline test) |
+| The gate (added after the review, Oct 13) | Inventory group G, six disclosure and benchmarking keys; pages with those words chosen on their own signal; every run report opens with the contract set marked restricted, cleared or unchecked, with restricted and unchecked queued (two offline tests) |
 | The library rehearsal | 131 PDFs through the reading interface, no spend: 399 calls for a full pass, median 1 per document, 20 at most; `rehearsal.md` |
 
 Tests: 151 pass, 1 expected failure (the Texas regression replay, pending re-base), from 118 at the start of the stream (23 added by this stream, the rest by the workbench merge).

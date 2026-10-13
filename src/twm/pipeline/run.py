@@ -25,7 +25,7 @@ from twm import llm
 from twm.llm import AnthropicModel, Model, ModelConfig
 from twm.taxonomy.store import TaxonomyStore
 
-from .conditions import OTHER
+from .conditions import GATE_GROUP, OTHER
 from .extract import ExtractionOutcome, extract_rate_card, extract_sow, rate_table_pages
 from .ingest import family_summary, register_family
 from .ledger import CONFIDENCE_FLOOR, Ledger, vendor_name_key
@@ -68,11 +68,17 @@ class RunReport:
     term_example: Optional[dict] = None
     base_rows: int = 0            # rows the model read from the first period column of each grid part
     expanded_rows: int = 0        # rows the software copied from the other period columns (--all-periods)
+    disclosure_status: str = ""   # "restricted" | "cleared" | "unchecked": may this contract set be shown, benchmarked, contributed?
+    disclosure: list[str] = field(default_factory=list)
 
     def plain(self) -> str:
         L = [f"Run {self.run_id}", "", family_summary(self.documents), ""]
         if self.vendor_note:
             L.append("Vendor: " + self.vendor_note)
+        if self.disclosure_status:
+            L.append(f"Disclosure check ({self.disclosure_status.upper()}): " + self.disclosure[0])
+            for d in self.disclosure[1:]:
+                L.append("  " + d)
         L.append(f"Rates extracted and verified against the page: {self.rows_kept} (rejected by verification or abstention: {self.rows_rejected})."
                  + (f" Of these, {self.base_rows} were read by the model from the first period column and {self.expanded_rows} copied by the software "
                     f"from the other contract-year columns of the same printed row." if self.expanded_rows else ""))
@@ -186,6 +192,40 @@ def resolve_vendor(led: Ledger, recs: list[DocumentRecord], override: Optional[s
     if queued:
         return None, f"not resolved: {len(queued)} printed name(s) queued for a decision ({', '.join(queued[:3])}); rows carry no vendor until then", queued
     return None, "not resolved: no party name with a legal-entity suffix on the first pages; pass --vendor", []
+
+
+# ---------------------------------------------------------------- the gate: may this contract set be shown, benchmarked, contributed?
+RESTRICTING_KEYS = {"disclosure_bar", "benchmark_data_use"}
+CLEARING_KEYS = {"public_record", "advisor_disclosure", "benchmark_clause", "benchmark_conditions"}
+
+
+def disclosure_check(led: Ledger, recs: list[DocumentRecord], run_id: str) -> tuple[str, list[str]]:
+    """Read the gate clauses this run stored and say, first thing, what the contract set allows (Kyle, Oct 13, 2026).
+    restricted: a clause bars disclosure or limits data use; an analyst clears it before benchmarking or any contribution.
+    cleared: a public record, an advisor carve-out or a benchmarking right was found. unchecked: nothing found on the pages
+    read; confirm with the client. Restricted and unchecked both go to the review queue (kind 'disclosure')."""
+    by_doc = {r.document_id: r for r in recs}
+    rows = [t for r in recs for t in led.live_terms(r.document_id, kind="term") if t["run_id"] == run_id
+            and (t["condition_group"] == GATE_GROUP or t["condition_key"] in CLEARING_KEYS)]
+
+    def cite(t) -> str:
+        return f"{t['condition_key']} ({by_doc[t['document_id']].filename[:40]} p{t['source_page']}): \"{t['value'][:120]}\""
+
+    restricting = [t for t in rows if t["condition_key"] in RESTRICTING_KEYS]
+    clearing = [t for t in rows if t["condition_key"] in CLEARING_KEYS]
+    other = [t for t in rows if t not in restricting and t not in clearing]
+    root = next((r for r in recs if r.family_id == r.document_id), recs[0]) if recs else None
+    if restricting:
+        lines = ["a clause restricts disclosure or data use; an analyst clears this contract set before it is benchmarked or contributed"] + [cite(t) for t in restricting] + [cite(t) for t in clearing]
+        for t in restricting:
+            led.queue(run_id, t["document_id"], "disclosure", t["condition_key"], f"page {t['source_page']}: \"{t['value'][:160]}\"; clear before benchmarking or contributing")
+        return "restricted", lines
+    if clearing:
+        return "cleared", ["the contract set may be benchmarked: " + "; ".join(sorted({t["condition_key"] for t in clearing}))] + [cite(t) for t in clearing] + [cite(t) for t in other]
+    lines = ["no disclosure, confidentiality or benchmarking clause found on the pages read; confirm with the client before benchmarking"] + [cite(t) for t in other]
+    if root is not None:
+        led.queue(run_id, root.document_id, "disclosure", root.filename, "no disclosure or benchmarking clause found; confirm the client may share and benchmark this contract set")
+    return "unchecked", lines
 
 
 # ---------------------------------------------------------------- the run
@@ -346,6 +386,8 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
                                 "terms": [t.model_dump(mode="json") for t in tout.terms], "named_resources": [r.model_dump(mode="json") for r in tout.resources],
                                 "rate_rows": [r.model_dump(mode="json") for r in tout.rows]},
                                f"{len(tout.facts)} facts, {len(tout.terms)} conditions")
+    if model is not None and terms:
+        rep.disclosure_status, rep.disclosure = disclosure_check(led, recs, run_id)
     rep.calls = llm.log_summary()
     _log_calls(cache_dir, run_id, rep.calls)
     led.finish_run(run_id, f"rows={rep.rows_kept} counted={rep.counted} facts={rep.facts} terms={rep.terms}")

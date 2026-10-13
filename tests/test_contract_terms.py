@@ -17,20 +17,21 @@ INVENTORY = ROOT / "specs/rate-conditions.md"
 
 
 # ---------------------------------------------------------------- the inventory and the code are one list
-def test_inventory_and_code_hold_the_same_48_conditions_in_six_groups():
-    """The rate-conditions inventory (specs/rate-conditions.md) and the code's list are identical: 48 keys, six groups, same meanings."""
+def test_inventory_and_code_hold_the_same_conditions_in_the_same_groups():
+    """The rate-conditions inventory (specs/rate-conditions.md) and the code's list are identical: same keys, groups, meanings and counts (48 in six groups confirmed Oct 13, 2026; the disclosure group added the same day)."""
     inv = load_inventory(INVENTORY)
     assert inv["groups"] == GROUP_NAMES
     assert list(inv["conditions"]) == list(RATE_CONDITIONS), "same keys in the same order"
     for key, (group, meaning, example, use) in inv["conditions"].items():
         assert RATE_CONDITIONS[key] == (group, meaning), f"{key}: group or meaning differs between the spec and the code"
-    assert inv["total"] == len(RATE_CONDITIONS) == 48
+    assert inv["total"] == len(RATE_CONDITIONS) == 54
     per_group = {}
     for key, (g, _) in RATE_CONDITIONS.items():
         per_group[g] = per_group.get(g, 0) + 1
     assert inv["summary"] == per_group, "the group table's counts must match the rows"
+    assert per_group["G"] == 6 and sum(per_group[g] for g in "ABCDEF") == 48
     assert OTHER not in RATE_CONDITIONS and condition_group(OTHER) is None
-    assert len(prompt_lines()) == 49 and prompt_lines()[-1].startswith("other:")
+    assert len(prompt_lines()) == len(RATE_CONDITIONS) + 1 and prompt_lines()[-1].startswith("other:")
 
 
 # ---------------------------------------------------------------- the records
@@ -313,6 +314,39 @@ def test_terms_land_in_the_ledger_beside_the_rates_and_a_condition_not_in_the_in
     led.close()
     drafts = list((tmp_path / "gold").glob("*.terms.draft.jsonl"))
     assert len(drafts) == 1 and json.loads(drafts[0].read_text(encoding="utf-8"))["verified_by"] is None
+    assert rep.disclosure_status == "unchecked" and text.index("Disclosure check (UNCHECKED)") < text.index("Rates extracted"), "the gate comes first in the report"
+
+
+@needs_texas
+def test_the_disclosure_check_flags_a_restricted_contract_set_first_and_clears_a_public_one(tmp_path):
+    """A clause that bars sharing or limits data use marks the contract set restricted and queues it before any benchmarking; a public-record or advisor carve-out clears it."""
+    store = TaxonomyStore.load()
+    usd = "All Charges are expressed and shall be paid in U.S. Dollars"
+    no_min = "The Successful Respondent shall not impose any fixed or monthly required minimum fees or support level pricing for any Service or at the total contract level"
+
+    def answers(key):
+        def answer(system, user):
+            if "extract rate tables" in system:
+                return json.dumps({"document_meta": {"source_ref": {"page": 1}}, "rows": [], "abstained": []})
+            if "PAGE 5:" in user:
+                return _sow_answer(terms=[{"term_type": "other", "condition_key": key, "verbatim_short": usd, "confidence": 0.9, "source_ref": {"page": 5, "quote": usd}},
+                                          {"term_type": "minimum_commitment", "condition_key": "no_minimum", "verbatim_short": no_min, "confidence": 0.9, "source_ref": {"page": 5, "quote": no_min}}])
+            return _sow_answer()
+        return answer
+
+    rep = run_family([EXHIBIT2], vendor="Accenture LLP", client="Texas DIR", ledger_path=tmp_path / "a.sqlite", model=FakeModel(fn=answers("disclosure_bar")),
+                     cache_dir=None, gold_dir=None, store=store)
+    assert rep.disclosure_status == "restricted" and "Disclosure check (RESTRICTED)" in rep.plain() and "disclosure_bar" in rep.plain()
+    led = Ledger(tmp_path / "a.sqlite")
+    assert [q["item"] for q in led.queue_items("disclosure")] == ["disclosure_bar"]
+    assert led.live_terms(kind="term")[0]["condition_group"] == "G"
+    led.close()
+    rep = run_family([EXHIBIT2], vendor="Accenture LLP", client="Texas DIR", ledger_path=tmp_path / "b.sqlite", model=FakeModel(fn=answers("public_record")),
+                     cache_dir=None, gold_dir=None, store=store)
+    assert rep.disclosure_status == "cleared" and "may be benchmarked: public_record" in rep.plain()
+    led = Ledger(tmp_path / "b.sqlite")
+    assert led.queue_items("disclosure") == []
+    led.close()
 
 
 @needs_texas
