@@ -18,6 +18,15 @@ Worker session in worktree `story`, branch `story`. Updated at every commit. Kyl
 
 - **Oct 13, 2026, later — naming round three and Kyle's shortlist.** Kyle ruled out contacting anyone (no note to Akerlof, no enquiry to a domain holder) and did not take to Tukey, Akerlov, Akerloft or Akerledger. Checked Akerlo-shaped coinages at four registries (.com, .ai, .ca, .io; the .io lookup validated against known domains). Shortlist recorded at the top of `docs/story/naming.md`: Akerlo (free on .ai, .ca, .io), Akerlow, Akerlio, Akerla, Akerlon, Kerlof (free on all four), and Bowley as the alternative. **Kyle will decide later.**
 
+- **Oct 13, 2026, later — PDF of the page.** `docs/story/follow-one-rate.pdf` (8 pages, Letter): made by `work/story/print_page.py`, which writes a print copy of the HTML with the three toggles opened and print rules added, then headless Chrome prints it:
+
+  ```
+  .venv/Scripts/python.exe work/story/print_page.py docs/story/follow-one-rate.html <print copy.html>
+  "C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --no-pdf-header-footer --print-to-pdf=docs/story/follow-one-rate.pdf file:///<print copy.html>
+  ```
+
+  Regenerate the PDF whenever the HTML is rebuilt.
+
 ## Proposed for the action list (main session to apply)
 
 - **A11, update.** "Name the business and the application. Shortlist (Oct 13): Akerlof derivatives, in Kyle's order of interest Akerlo, Akerlow, Akerlio, Akerla, Akerlon, Kerlof, with Bowley as the alternative; every candidate checked at the .com, .ai, .ca and .io registries and searched for collisions (`docs/story/naming.md`). Constraints: no outreach to anyone. Next, once Kyle chooses: register the four domains the same day; trademark database searches (USPTO, CIPO) on the choice and the runner-up; corporate-name search. **Waiting on Kyle.**"
