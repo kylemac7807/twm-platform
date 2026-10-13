@@ -178,7 +178,7 @@ def test_documents_by_contract_set_and_intake_decision(tmp_path):
 
 # ---------------------------------------------------------------- plan v3 (Oct 13): scope, park, saved answers, contract sets
 def test_scope_decides_which_rows_an_answer_reaches(tmp_path):
-    """A set-scoped answer touches only that contract set; a client-scoped one every set of the client; neither is exported."""
+    """A set-scoped answer touches only that contract set; a vendor-scoped one every set of the vendor; neither is exported."""
     led, rec, store = _ledger_with_queue(tmp_path)
     p2 = tmp_path / "other-set.txt"; p2.write_text("rate card other set", encoding="utf-8")
     rec2 = register(p2); led.upsert_document(rec2)
@@ -193,7 +193,7 @@ def test_scope_decides_which_rows_an_answer_reaches(tmp_path):
     assert all(r["canonical_role_id"] == "systems_engineer" for r in a) and all(r["canonical_role_id"] is None for r in b)
     assert led.pending_codification()["title_mappings"] == []
     g2 = led.title_queue_groups(set_id=rec2.document_id)[0]
-    led.decide_title(g2["queue_ids"], role_id="systems_engineer", band="senior", reason="whole client", decided_by="Kyle McNamara")   # default: client
+    led.decide_title(g2["queue_ids"], role_id="systems_engineer", band="senior", reason="whole vendor", decided_by="Kyle McNamara", scope="vendor")
     b = [r for r in led.live_rows(rec2.document_id) if r["observed_title"] == "Operations"]
     assert all(r["canonical_role_id"] == "systems_engineer" and r["twm_band"] == "senior" for r in b)
     assert led.pending_codification()["title_mappings"] == []
@@ -202,19 +202,19 @@ def test_scope_decides_which_rows_an_answer_reaches(tmp_path):
     led.close()
 
 
-def test_saved_answers_are_found_set_first_then_client(tmp_path):
-    """A re-run must find the analyst's answer: the set-scoped one for that set, else the client-scoped one, else nothing."""
+def test_saved_answers_are_found_set_first_then_vendor(tmp_path):
+    """A re-run must find the analyst's answer: the set-scoped one for that set, else the vendor-scoped one, else nothing."""
     led, rec, _ = _ledger_with_queue(tmp_path)
-    assert led.saved_answer("Operations", "bank-a", rec.document_id) is None
+    assert led.saved_answer("Operations", "Acme", rec.document_id) is None
     qids = led.title_queue_groups()[0]["queue_ids"]
-    led.decide_title(qids, role_id="systems_engineer", band=None, reason="client-wide", decided_by="Kyle McNamara", technology="java, azure")
-    ans = led.saved_answer("Operations", "bank-a", "some-other-set")
-    assert ans["canonical_role_id"] == "systems_engineer" and ans["scope"] == "client" and ans["attr_technology"] == "java,azure"
-    assert led.saved_answer("Operations", "bank-b", None) is None                      # another client: not theirs
+    led.decide_title(qids, role_id="systems_engineer", band=None, reason="vendor-wide", decided_by="Kyle McNamara", technology="java, azure", scope="vendor")
+    ans = led.saved_answer("Operations", "Acme", "some-other-set")
+    assert ans["canonical_role_id"] == "systems_engineer" and ans["scope"] == "vendor" and ans["attr_technology"] == "java,azure"
+    assert led.saved_answer("Operations", "OtherVendor", None) is None                 # another vendor: not theirs
     led.decide_title(qids, role_id="support_engineer" if "support_engineer" in TaxonomyStore.load().role_by_id else "systems_engineer",
                      band="junior", reason="this set is different", decided_by="Kyle McNamara", scope="set")
-    assert led.saved_answer("Operations", "bank-a", rec.document_id)["scope"] == "set"
-    assert led.saved_answer("Operations", "bank-a", "some-other-set") is None               # re-answering the same item replaced the client-wide answer
+    assert led.saved_answer("Operations", "Acme", rec.document_id)["scope"] == "set"
+    assert led.saved_answer("Operations", "Acme", "some-other-set") is None                 # re-answering the same item replaced the vendor-wide answer
     led.close()
 
 

@@ -50,7 +50,7 @@ class TitleDecision(BaseModel):
     role_id: Optional[str] = None          # None = leave flagged (recorded)
     band: Optional[str] = None             # None = unbanded, the default
     technology: Optional[str] = None       # one or several tags, comma-separated
-    scope: str = DEFAULT_SCOPE             # set | client | everyone
+    scope: str = DEFAULT_SCOPE             # set | vendor | everyone
     suggested: bool = False                # the analyst confirmed the system's suggestion
     reason: str = ""
     decided_by: str = ""
@@ -162,7 +162,7 @@ def unpark(body: ParkRequest) -> dict:
 
 
 @app.get("/api/suggest")
-def suggest(title: str, set_id: Optional[str] = None, client: Optional[str] = None) -> dict:
+def suggest(title: str, set_id: Optional[str] = None, vendor: Optional[str] = None, client: Optional[str] = None) -> dict:
     """The system's best guess for a title, labelled as a suggestion: candidate roles by similarity to known titles and role
     names (no model call), the technology tags found in the title, the halves of a dual title, and the tags common in this
     contract set so the pick-list can show them first. The analyst confirms or changes; nothing here is saved."""
@@ -172,7 +172,7 @@ def suggest(title: str, set_id: Optional[str] = None, client: Optional[str] = No
     answers: list[dict] = []
     led = Ledger(ledger_path())
     try:
-        if set_id or client:
+        if set_id or vendor:
             f, fa = led._set_filter(set_id)
             rows = led._rows("SELECT o.attr_technology AS t, COUNT(*) AS n FROM observations o JOIN documents d USING(document_id) "
                              "WHERE o.superseded_by IS NULL AND o.attr_technology IS NOT NULL" + f + " GROUP BY o.attr_technology ORDER BY n DESC LIMIT 8", fa)
@@ -180,8 +180,8 @@ def suggest(title: str, set_id: Optional[str] = None, client: Optional[str] = No
                 for tag in str(r["t"]).split(","):
                     if tag and tag not in common:
                         common.append(tag)
-            saved = led.saved_answer(title, client, set_id)
-        answers = led.analyst_answers(client)
+            saved = led.saved_answer(title, vendor, set_id)
+        answers = led.analyst_answers(vendor)
     finally:
         led.close()
     out = suggest_for(title, s, saved=answers)

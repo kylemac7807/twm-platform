@@ -13,7 +13,7 @@ const S = {
   docs: { docId: null, rows: [], filter: 'all', search: '', rowId: null, showDetail: false },
   rules: { pending: null, picked: new Set() },
 };
-function freshForm() { return { role: '', band: null, tags: [], scope: 'client', reason: '', confirm: false, cls: null, docType: '', note: '', fromSuggestion: false }; }
+function freshForm() { return { role: '', band: null, tags: [], scope: 'set', reason: '', confirm: false, cls: null, docType: '', note: '', fromSuggestion: false }; }
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
@@ -123,12 +123,7 @@ function setHeaderHtml() {
   return `
     <p class="crumb"><a href="#" data-screen="sets">Contract sets</a> › ${esc(s.name)}</p>
     <div class="sethead"><div><h1>${esc(s.name)}</h1>${nameBlock}</div><span class="pill status ${s.status}" style="font-size:12px;padding:6px 12px">${esc(statusLine(s))}</span></div>
-    <div class="tiles">
-      <div class="tile"><div class="k">Rates found</div><div class="v">${n(s.rows)}</div><div class="s">in ${plural(s.documents, 'document', 'documents')}</div></div>
-      <div class="tile ok"><div class="k">In benchmarks</div><div class="v">${n(s.counted)}</div><div class="s">${s.rows ? Math.round(100 * s.counted / s.rows) : 0}% of rates found</div></div>
-      <div class="tile wait"><div class="k">Held back</div><div class="v">${n(heldBack)}</div><div class="s">${n(s.rows_unlocked)} wait on a title you can decide</div></div>
-      <div class="tile"><div class="k">To answer</div><div class="v">${n(s.open)}</div><div class="s">${n(s.answered)} answered · ${n(s.parked)} parked</div></div>
-    </div>
+    <div class="strip"><span><b>${n(s.rows)}</b> rates in ${plural(s.documents, 'document', 'documents')}</span><span class="ok"><b>${n(s.counted)}</b> in benchmarks</span><span class="wait"><b>${n(heldBack)}</b> held back, ${n(s.rows_unlocked)} waiting on a title</span><span><b>${n(s.open)}</b> to answer · ${n(s.answered)} answered · ${n(s.parked)} parked</span></div>
     <div class="subtabs"><button data-settab="review" class="${S.setTab === 'review' ? 'active' : ''}">Review<span class="n">${s.open}</span></button><button data-settab="documents" class="${S.setTab === 'documents' ? 'active' : ''}">Documents<span class="n">${s.documents}</span></button></div>`;
 }
 /* after a save or park: refresh the numbers in place, re-list, keep the scroll position, show what just happened */
@@ -158,8 +153,6 @@ async function renderReview() {
   if (R.tab === 'titles' && R.selected.length === 1) await loadSuggestion(R.groups[R.selected[0]]); else R.suggest = null;
   const total = counts.titles + counts.location + counts.intake;
   $('#setbody').innerHTML = `
-    <div class="titlebar"><p class="lede">Pick an item, read the evidence, check the suggested answer, save. It moves to the next one for you.</p>
-      ${progress(s.answered, s.answered + total + s.parked, `${n(s.answered)} answered · ${n(total)} to go${s.parked ? ` · ${n(s.parked)} parked` : ''}`)}</div>
     <div class="cols review">
       <div class="card rail">
         <div class="tabs">${TABS.map(([k, l]) => `<button data-tab="${k}" class="${R.tab === k ? 'active' : ''}">${l}<span class="n">${counts[k]}</span></button>`).join('')}</div>
@@ -173,7 +166,7 @@ async function loadSuggestion(g) {
   const R = S.review, F = R.form;
   if (!g) { R.suggest = null; return; }
   if (R.suggest && R.suggest.title === g.title) return;
-  R.suggest = await api(`/api/suggest?title=${encodeURIComponent(g.title)}&set_id=${encodeURIComponent(S.setId)}${g.client ? '&client=' + encodeURIComponent(g.client) : ''}`);
+  R.suggest = await api(`/api/suggest?title=${encodeURIComponent(g.title)}&set_id=${encodeURIComponent(S.setId)}${g.vendor ? '&vendor=' + encodeURIComponent(g.vendor) : ''}`);
   const sg = R.suggest;
   if (!F.role && sg.suggestions.length) { F.role = sg.suggestions[0].id; F.fromSuggestion = true; }
   if (F.band === null && sg.band) F.band = sg.band;
@@ -212,12 +205,13 @@ function tagPicker() {
   const more = q ? S.tax.tech.filter(t => t.includes(q) && !shown.includes(t)).slice(0, 8) : [];
   return `<div class="tags" id="f-tags">${shown.map(t => `<button type="button" class="${F.tags.includes(t) ? 'on' : ''} ${sg.tech_found.includes(t) ? 'found' : ''}" data-tag="${esc(t)}" title="${sg.tech_found.includes(t) ? 'found in the title' : 'common in this contract set'}">${esc(t)}</button>`).join('')}
     <input class="tagsearch" id="f-tagq" placeholder="other tag…" value="${esc(F._tagq || '')}">${more.map(t => `<button type="button" data-tag="${esc(t)}">${esc(t)}</button>`).join('')}</div>
-    <div class="hint">Example: "Senior Java Developer" → role software developer, band senior, technology java. Dashed tags were found in the title.</div>`;
+    <div class="hint">${sg.tech_found.length ? 'Dashed tags were found in the title; the rest are common in this contract set.' : (sg.tech_common && sg.tech_common.length ? 'None named in the title. The chips are the tags common in this contract set; pick one only if the document says so.' : 'None named in the title. Pick one only if the document says so, e.g. "Senior Java Developer" → java.')}</div>`;
 }
 function scopeButtons(scope) {
+  const vendor = (S.set && S.set.vendor) || 'this vendor';
   return `<div class="scope" id="f-scope">
-    <button type="button" class="${scope === 'client' ? 'on' : ''}" data-scope="client"><b>This client</b>every contract for ${esc((S.set && S.set.client) || 'this client')}</button>
-    <button type="button" class="${scope === 'set' ? 'on' : ''}" data-scope="set"><b>This contract set only</b>just these documents</button>
+    <button type="button" class="${scope === 'set' ? 'on' : ''}" data-scope="set"><b>This contract set</b>just these documents</button>
+    <button type="button" class="${scope === 'vendor' ? 'on' : ''}" data-scope="vendor"><b>This vendor</b>every ${esc(vendor)} contract</button>
     <button type="button" class="${scope === 'everyone' ? 'on' : ''}" data-scope="everyone"><b>Everyone</b>nominate for the shared framework</button></div>`;
 }
 function titlePanel() {
@@ -233,7 +227,7 @@ function titlePanel() {
         <div class="plain"><b>Why you are being asked:</b> ${esc(plainWhy(g.details[0]))}</div>
         <details class="more"><summary>The system's own words</summary><div class="why-box">${esc(g.details.join(' | '))}</div></details>
         ${g.history.length ? `<details class="more"><summary>Earlier answers</summary>${g.history.map(h => `<div class="why-box">${esc(h.decided_at.slice(0, 10))} ${esc(h.decided_by)}: ${esc(h.decision_json)} — ${esc(h.reason)}${h.superseded_by ? ' (replaced)' : ''}</div>`).join('')}</details>` : ''}
-        ${sg && sg.saved ? `<div class="saved-note">You answered this title before (${esc(sg.saved.scope === 'set' ? 'this contract set' : sg.saved.scope === 'client' ? 'this client' : 'everyone')}): ${esc(roleName(sg.saved.canonical_role_id))}${sg.saved.twm_band ? ', ' + esc(sg.saved.twm_band) : ''}. Saving again replaces it.</div>` : ''}</div>`
+        ${sg && sg.saved ? `<div class="saved-note">You answered this title before (${esc(sg.saved.scope === 'set' ? 'this contract set' : sg.saved.scope === 'vendor' ? 'this vendor' : 'everyone')}): ${esc(roleName(sg.saved.canonical_role_id))}${sg.saved.twm_band ? ', ' + esc(sg.saved.twm_band) : ''}. Saving again replaces it.</div>` : ''}</div>`
     : `<div class="ev"><div class="step">Step 1 · check they are the same role</div><h3>${plural(sel.length, 'title', 'titles')} selected</h3>${sel.map(x => `<div>${esc(x.title)} <span class="muted">(${esc(x.client || '–')}, ${plural(x.rows_affected, 'rate', 'rates')})</span></div>`).join('')}</div>`;
   const top = sg && sel.length === 1 && sg.suggestions.length ? sg.suggestions[0] : null;
   const suggestion = top
@@ -252,7 +246,7 @@ function titlePanel() {
       <div class="step">Step 3 · save</div>
       <div class="btns"><button class="btn primary" id="f-record">Save and go to next</button>${parked ? '<button class="btn" id="f-unpark">Bring back to the list</button>' : '<button class="btn" id="f-park" title="Set it aside with a note; it moves to the Parked tab">Park</button>'}</div>
       ${R.parking ? `<div class="parknote"><input id="f-note" placeholder="optional note, e.g. need the SOW to decide" value="${esc(F.note)}"><div class="btns"><button class="btn primary sm" id="f-park-go">Park it</button><button class="btn ghost sm" id="f-park-cancel">Cancel</button></div></div>` : ''}
-      <div class="hint">Ctrl+Enter saves. Arrow keys move between titles.</div>
+      <div class="hint">Ctrl+Enter saves · arrow keys move</div>
     </div>`;
 }
 function itemPanel() {
@@ -311,7 +305,7 @@ async function saveTitle() {
     await post('/api/decisions/title', { queue_ids: sel.flatMap(g => g.queue_ids), role_id: F.role, band: F.band, technology: F.tags.join(',') || null, scope: F.scope,
                                          suggested: F.fromSuggestion, reason: F.reason, decided_by: S.analyst });
     S.saved += 1;
-    const msg = `Saved: ${sel.map(x => x.title).join(', ')} → ${roleName(F.role)}${F.band ? ', ' + F.band.replace('_', ' / ') : ''} (${F.scope === 'client' ? 'this client' : F.scope === 'set' ? 'this contract set' : 'everyone'}). Next one is below.`;
+    const msg = `Saved: ${sel.map(x => x.title).join(', ')} → ${roleName(F.role)}${F.band ? ', ' + F.band.replace('_', ' / ') : ''} (${F.scope === 'vendor' ? 'this vendor' : F.scope === 'set' ? 'this contract set' : 'everyone'}). Next one is below.`;
     nextAfterChange(sel.length);
     await afterChange(msg);
   } catch (e) { err.textContent = e.message; btn.disabled = false; btn.textContent = 'Save and go to next'; }

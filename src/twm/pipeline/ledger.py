@@ -59,8 +59,9 @@ CREATE TABLE IF NOT EXISTS contract_sets (
 """
 # Columns added after a table first shipped are applied by Ledger._migrate (additive; an existing file gains them on open):
 MIGRATIONS = [("queue_decisions", "scope", "TEXT"), ("mapping_decisions", "scope", "TEXT")]
-SCOPES = ("set", "client", "everyone")   # an answer applies to this contract set, this client (default), or is nominated for everyone
-DEFAULT_SCOPE = "client"
+SCOPES = ("set", "vendor", "everyone")   # an answer applies to this contract set (default), this vendor's contracts, or is nominated for everyone
+DEFAULT_SCOPE = "set"                    # Kyle, Oct 13: the hierarchy is contract set -> vendor -> everyone; the default is the narrowest
+LEGACY_SCOPES = {"client": "vendor"}     # scope names recorded before Oct 13 read as the current ones
 # queue_decisions (workbench, Oct 13, 2026): the analyst's audit record. One row per queue item decided; a later decision on the
 # same item supersedes the earlier one and both stay. reviewed_by / reviewed_at are reserved for a second reviewer role (decided
 # Oct 6: not now, no data change later). applied_to_taxonomy is set by the main session once the rule is appended to taxonomy/.
@@ -192,6 +193,10 @@ class Ledger:
         r = self.conn.execute("SELECT client FROM observations WHERE document_id=? LIMIT 1", (document_id,)).fetchone()
         return r[0] if r else None
 
+    def _vendor_of(self, document_id: str) -> Optional[str]:
+        r = self.conn.execute("SELECT vendor FROM observations WHERE document_id=? LIMIT 1", (document_id,)).fetchone()
+        return r[0] if r else None
+
     def queue_summary(self) -> dict:
         """Open items by kind, for the workbench's front page."""
         return {k: n for k, n in self.conn.execute("SELECT kind, COUNT(*) FROM review_queue WHERE status='open' GROUP BY kind ORDER BY kind")}
@@ -222,19 +227,19 @@ class Ledger:
         status='parked' lists the parked groups instead."""
         groups: dict[tuple, dict] = {}
         for it in self.queue_items("title", status=status, set_id=set_id):
-            client = self._client_of(it["document_id"])
-            g = groups.setdefault((it["item"], client), dict(title=it["item"], client=client, queue_ids=[], details=set(), documents=set(),
+            client = self._client_of(it["document_id"]); vendor = self._vendor_of(it["document_id"])
+            g = groups.setdefault((it["item"], vendor), dict(title=it["item"], client=client, vendor=vendor, queue_ids=[], details=set(), documents=set(),
                                                              set_id=self.set_of_document(it["document_id"])))
             g["queue_ids"].append(it["id"]); g["details"].add(it["detail"] or ""); g["documents"].add(it["filename"] or "")
         out = []
         for g in groups.values():
             obs = self._rows("SELECT obs_id, rate_as_stated, currency, rate_unit, period_raw, location_raw, level_raw, source_quote, source_page, counted "
-                             "FROM observations WHERE superseded_by IS NULL AND observed_title=? AND client IS ? ORDER BY obs_id", (g["title"], g["client"]))
+                             "FROM observations WHERE superseded_by IS NULL AND observed_title=? AND vendor IS ? ORDER BY obs_id", (g["title"], g["vendor"]))
             g["rows_affected"] = len(obs)
             g["rows_unlocked"] = sum(1 for o in obs if not o["counted"])
             sid = g["set_id"]
-            g["rows_in_set"] = self.conn.execute("SELECT COUNT(*) FROM observations WHERE superseded_by IS NULL AND observed_title=? AND client IS ? AND (family_id=? OR document_id=?)",
-                                                 (g["title"], g["client"], sid, sid)).fetchone()[0]
+            g["rows_in_set"] = self.conn.execute("SELECT COUNT(*) FROM observations WHERE superseded_by IS NULL AND observed_title=? AND vendor IS ? AND (family_id=? OR document_id=?)",
+                                                 (g["title"], g["vendor"], sid, sid)).fetchone()[0]
             g["examples"] = obs[:3]
             g["details"] = sorted(g["details"]); g["documents"] = sorted(g["documents"])
             out.append(g)
@@ -291,7 +296,7 @@ class Ledger:
                      technology: Optional[str] = None, scope: str = DEFAULT_SCOPE, run_id: str = "workbench", suggested: bool = False) -> list[int]:
         """One analyst decision for one or more title queue items. role_id None means "leave flagged": the decision is recorded
         and nothing else changes. band None means unbanded, the default (no band without evidence). technology may hold several
-        tags, comma-separated. scope says where the answer applies: this contract set, this client (default), or everyone (a
+        tags, comma-separated. scope says where the answer applies: this contract set (default), this vendor's contracts, or everyone (a
         nomination for the shared framework). The rows it updates follow the scope; counted is recomputed by the same gate as
         add_observation. `suggested` records that the analyst confirmed a system suggestion. Returns decision ids."""
         if band is not None and band not in BANDS:
@@ -302,15 +307,15 @@ class Ledger:
         ids, applied = [], set()
         for qid in queue_ids:
             q = self._queue_item(qid, "title")
-            client = self._client_of(q["document_id"])
+            client = self._client_of(q["document_id"]); vendor = self._vendor_of(q["document_id"])
             set_id = self.set_of_document(q["document_id"])
             ids.append(self._record_decision(qid, "title", client, q["item"],
-                                             dict(canonical_role_id=role_id, twm_band=band, attr_technology=tech, scope=scope, set_id=set_id, suggested=suggested),
+                                             dict(canonical_role_id=role_id, twm_band=band, attr_technology=tech, scope=scope, set_id=set_id, vendor=vendor, suggested=suggested),
                                              reason, decided_by, scope=scope))
-            key = (q["item"], client, set_id if scope == "set" else None)
+            key = (q["item"], vendor, set_id if scope == "set" else None)
             if role_id and key not in applied:
                 applied.add(key)
-                where, args = ("observed_title=? AND client IS ?", [q["item"], client])
+                where, args = ("observed_title=? AND vendor IS ?", [q["item"], vendor])
                 if scope == "set":
                     where += " AND (family_id=? OR document_id=?)"; args += [set_id, set_id]
                 self.conn.execute(
@@ -323,24 +328,24 @@ class Ledger:
         self.conn.commit()
         return ids
 
-    def analyst_answers(self, client: Optional[str] = None) -> list[dict]:
-        """Every live title answer with a role, newest first, for the suggestion engine to learn from: this client's (and
-        everyone-scoped) answers when a client is given, otherwise all of them."""
+    def analyst_answers(self, vendor: Optional[str] = None) -> list[dict]:
+        """Every live title answer with a role, newest first, for the suggestion engine to learn from: this vendor's (and
+        everyone-scoped) answers when a vendor is given, otherwise all of them."""
         out = []
         for d in self._rows("SELECT * FROM queue_decisions WHERE kind='title' AND superseded_by IS NULL ORDER BY id DESC"):
             dec = json.loads(d["decision_json"])
             if not dec.get("canonical_role_id"):
                 continue
-            sc = dec.get("scope") or d.get("scope") or DEFAULT_SCOPE
-            if client and d["client"] != client and sc != "everyone":
+            sc = dec.get("scope") or d.get("scope") or DEFAULT_SCOPE; sc = LEGACY_SCOPES.get(sc, sc)
+            if vendor and dec.get("vendor") not in (None, vendor) and sc != "everyone":
                 continue
             out.append(dict(observed_title=d["item"], canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band"),
-                            attr_technology=dec.get("attr_technology"), scope=sc, client=d["client"], decided_by=d["decided_by"]))
+                            attr_technology=dec.get("attr_technology"), scope=sc, client=d["client"], vendor=dec.get("vendor"), decided_by=d["decided_by"]))
         return out
 
-    def saved_answer(self, title: str, client: Optional[str], set_id: Optional[str]) -> Optional[dict]:
-        """The analyst's live answer for a title, if any: a set-scoped answer for this contract set first, then a client- or
-        everyone-scoped answer for this client. The engine consults this before asking the model or a person on a re-run
+    def saved_answer(self, title: str, vendor: Optional[str], set_id: Optional[str]) -> Optional[dict]:
+        """The analyst's live answer for a title, if any: a set-scoped answer for this contract set first, then a vendor- or
+        everyone-scoped answer for this vendor. The engine consults this before asking the model or a person on a re-run
         (resolve once, applied to people). Returns the decision's role, band, tags and provenance, or None."""
         rows = self._rows("SELECT * FROM queue_decisions WHERE kind='title' AND item=? AND superseded_by IS NULL ORDER BY id DESC", (title,))
         best = None
@@ -348,11 +353,11 @@ class Ledger:
             dec = json.loads(d["decision_json"])
             if not dec.get("canonical_role_id"):
                 continue
-            sc = dec.get("scope") or d.get("scope") or DEFAULT_SCOPE
+            sc = dec.get("scope") or d.get("scope") or DEFAULT_SCOPE; sc = LEGACY_SCOPES.get(sc, sc)
             if sc == "set" and set_id and dec.get("set_id") == set_id:
                 return dict(canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band"), attr_technology=dec.get("attr_technology"),
                             scope=sc, decided_by=d["decided_by"], decided_at=d["decided_at"], decision_id=d["id"])
-            if sc in ("client", "everyone") and best is None and (d["client"] == client or client is None):
+            if sc in ("vendor", "everyone") and best is None and (sc == "everyone" or vendor is None or dec.get("vendor") == vendor):
                 best = dict(canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band"), attr_technology=dec.get("attr_technology"),
                             scope=sc, decided_by=d["decided_by"], decided_at=d["decided_at"], decision_id=d["id"])
         return best
@@ -398,7 +403,7 @@ class Ledger:
         for d in self._rows("SELECT * FROM queue_decisions WHERE applied_to_taxonomy=0 AND superseded_by IS NULL ORDER BY id"):
             dec = json.loads(d["decision_json"])
             if d["kind"] == "title" and (dec.get("scope") or d.get("scope")) != "everyone":
-                continue   # set- and client-scoped title answers live here and are consulted on re-runs; place names are always per client
+                continue   # set- and vendor-scoped title answers live here and are consulted on re-runs; place names are always per client
             if d["kind"] == "title" and dec.get("canonical_role_id") and (d["item"], d["client"]) not in seen:
                 seen.add((d["item"], d["client"]))
                 out["title_mappings"].append(dict(decision_id=d["id"], observed_title=d["item"], source=d["client"] or "", source_url="",

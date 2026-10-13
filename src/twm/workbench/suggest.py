@@ -89,7 +89,7 @@ def band_from_words(title: str, store: TaxonomyStore) -> tuple[Optional[str], Op
 
 
 def suggest(title: str, store: TaxonomyStore, *, saved: Optional[list[dict]] = None, core_defaults: Optional[dict[str, dict]] = None) -> dict:
-    """saved: the analyst's live answers for this client, as dicts with observed_title, canonical_role_id, twm_band, scope."""
+    """saved: the analyst's live answers for this vendor, as dicts with observed_title, canonical_role_id, twm_band, scope."""
     saved = saved or []
     defaults = core_defaults if core_defaults is not None else load_core_defaults()
     base = resolve(title, store)
@@ -122,7 +122,7 @@ def suggest(title: str, store: TaxonomyStore, *, saved: Optional[list[dict]] = N
                 if j >= 0.5:
                     scored.append((j, a))
     for sc, a in sorted(scored, key=lambda x: -x[0]):
-        add(a["canonical_role_id"], f"you answered '{a['observed_title']}' as this" + (f" (for {'this contract set' if a.get('scope') == 'set' else 'this client'})" if a.get("scope") else ""), 0.95 * sc)
+        add(a["canonical_role_id"], f"you answered '{a['observed_title']}' as this" + (f" (for {'this contract set' if a.get('scope') == 'set' else 'this vendor' if a.get('scope') == 'vendor' else 'everyone'})" if a.get("scope") else ""), 0.95 * sc)
     # 3. halves of a dual title
     for rid in base.candidates:
         add(rid, "one half of the title", 0.9)

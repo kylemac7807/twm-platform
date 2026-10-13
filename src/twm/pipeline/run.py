@@ -31,14 +31,14 @@ RULE_VERSION = "0.1"
 
 
 def resolve_title(led: Ledger, store: TaxonomyStore, model: Optional[Model], cfg: ModelConfig, title: str, *, context: str,
-                  source: Optional[str], client: Optional[str], set_id: Optional[str]) -> ModelStepOutcome:
-    """Rules first; then the analyst's saved answer for this contract set or this client; only then the model.
+                  source: Optional[str], vendor: Optional[str], set_id: Optional[str]) -> ModelStepOutcome:
+    """Rules first; then the analyst's saved answer for this contract set or this vendor; only then the model.
     Resolve once, applied to people (decided with Kyle, Oct 13, 2026): a title answered in the workbench is never asked again
     on a re-run. The answer's provenance goes in the notes."""
     base = resolve(title, store, source=source)
     if base.status == "resolved":
         return ModelStepOutcome(base, False, [])
-    ans = led.saved_answer(title, client, set_id)
+    ans = led.saved_answer(title, vendor, set_id)
     if ans:
         role = store.role_by_id.get(ans["canonical_role_id"])
         base.canonical_role_id = ans["canonical_role_id"]
@@ -129,7 +129,7 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
         for row in out.rows:
             ctx = row.source_ref.quote or ""
             o = resolve_title(led, store, model, cfg, row.observed_title, context=ctx, source=f"{client or 'unknown'} / {vendor or 'unknown'}",
-                              client=client, set_id=rec.family_id or rec.document_id)
+                              vendor=vendor, set_id=rec.family_id or rec.document_id)
             r = o.result
             if r.method == "analyst":
                 rep.from_saved_answers += 1

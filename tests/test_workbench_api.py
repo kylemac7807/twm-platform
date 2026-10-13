@@ -109,7 +109,7 @@ def test_sets_names_scope_park_and_suggestions(tmp_path, monkeypatch):
     ov = c.get(f"/api/sets/{s['root_id']}").json()
     assert ov["title_groups"] == 2 and ov["rows"] == 5 and ov["up_next"][0]["title"] == "Operations" and ov["queue"] == {"location": 1, "title": 3}
     assert c.get("/api/sets/not-a-set").status_code == 404
-    sug = c.get("/api/suggest", params=dict(title="Senior Java Developer", set_id=s["root_id"], client="bank-a")).json()
+    sug = c.get("/api/suggest", params=dict(title="Senior Java Developer", set_id=s["root_id"], vendor="Acme")).json()
     assert sug["suggestions"][0]["id"] == "software_developer" and sug["tech_found"] == ["java"] and sug["band"] == "senior"
     sug = c.get("/api/suggest", params=dict(title="Project Manager I / Test Leads")).json()
     assert {x["id"] for x in sug["suggestions"][:2]} == {"project_manager", "test_manager"}      # both halves offered
@@ -129,7 +129,7 @@ def test_sets_names_scope_park_and_suggestions(tmp_path, monkeypatch):
                                                  suggested=True, reason="r", decided_by="Kyle McNamara"))
     assert r.status_code == 200
     assert c.get("/api/rules/pending").json()["title_mappings"] == []
-    assert c.get("/api/suggest", params=dict(title="Operations", set_id=s["root_id"], client="bank-a")).json()["saved"]["scope"] == "set"
+    assert c.get("/api/suggest", params=dict(title="Operations", set_id=s["root_id"], vendor="Acme")).json()["saved"]["scope"] == "set"
     r = c.post("/api/decisions/title", json=dict(queue_ids=g["queue_ids"], role_id="systems_engineer", band=None, scope="galaxy", reason="r", decided_by="Kyle McNamara"))
     assert r.status_code == 400
 
