@@ -243,7 +243,8 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
     llm.LOG.clear()
     rep.vendor, rep.vendor_note, rep.vendor_queued = resolve_vendor(led, recs, vendor, run_id)
     vendor = rep.vendor
-    spent_before = calls_today(cache_dir)
+    budgeted = getattr(model, "counts_toward_budget", True)   # a test stand-in that never reaches the API is not spend
+    spent_before = calls_today(cache_dir) if budgeted else 0
     if model is not None and spent_before >= DAILY_CALL_STOP:
         rep.notes.append(f"HARD STOP: {spent_before} model calls already made today (limit {DAILY_CALL_STOP}); no model call made in this run")
         model = None
@@ -389,7 +390,8 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
     if model is not None and terms:
         rep.disclosure_status, rep.disclosure = disclosure_check(led, recs, run_id)
     rep.calls = llm.log_summary()
-    _log_calls(cache_dir, run_id, rep.calls)
+    if budgeted:
+        _log_calls(cache_dir, run_id, rep.calls)
     led.finish_run(run_id, f"rows={rep.rows_kept} counted={rep.counted} facts={rep.facts} terms={rep.terms}")
     led.close()
     return rep

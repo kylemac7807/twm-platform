@@ -23,16 +23,20 @@ Updated at every commit by the worker session in the `contract-terms` worktree. 
 
 - **The gate (Oct 13, Kyle's decision after the benchmarking worry).** A seventh inventory group, G "Disclosure and benchmarking rights", six keys: confidentiality scope, advisor disclosure, a disclosure bar, benchmark conditions, benchmark data use, public record (the right to benchmark itself stays under F). The inventory is 54; the test holds the spec and the code identical. Pages with disclosure, confidentiality or benchmarking words are chosen on their own signal. Every run report now opens with a disclosure check for the contract set: RESTRICTED (a clause bars sharing or limits data use; queued, kind `disclosure`, to be cleared before benchmarking or any contribution), CLEARED (a public record, an advisor carve-out or a benchmarking right was found), or UNCHECKED (nothing found on the pages read; queued to confirm with the client). Two tests. Because the prompt now lists the new keys, the 23 cached term sections (8 Texas, 15 Michigan) are read again on the next successful run, about $2.
 
+- **Review (Oct 13): `review.md`.** Two fixes during the pass: a base row now matches its printed row by exact title and exact first-period cell before any containment ("$22.00" could have matched "$122.00"); the daily stop counts API requests including retries. What was proven, what was left and why, and five things for Kyle are in the review.
+- **The full real runs (Oct 13, evening, after Kyle put $20 of credit on the API console; the earlier $100 had gone to the chat subscription).** The afternoon's credit refusals are explained and over; the refusal guard stays.
+  - *Texas set, seven files:* 95 calls (57 new), 282,159 tokens in, 64,533 out, about $2.40. Disclosure check RESTRICTED: the model typed the vendor's own duty not to use DIR's confidential information (master agreement page 44) as a limit on data use; the gate is meant to err that way, and the set also shows the benchmarking right and its conditions (pages 42, 43, 98), an advisor carve-out (page 45) and the public-record clause (page 55), so an analyst clears it in one look. Rates: 1,648 verified rows, 206 read by the model from the four parts of the grid and 1,442 copied from the other contract-year columns, 0 rejected; 1,488 resolved (688 unbanded), 1,488 counted; the same two titles queued and three ambiguous as on Oct 6. Terms: 29 facts, 95 conditions, 0 named resources (the key-personnel attachment gave four facts and no names), 0 rejected.
+  - *Michigan:* 34 calls, 250,464 tokens in, 41,016 out, about $1.80. Disclosure check CLEARED by the public-record clause (pages 293 and 299). 91 facts, 118 conditions, 23 named resources, 1 fact rejected because its value was not on the page; 42 prose rate rows (the new prompt found monthly rates too), 6 resolved, 36 titles queued for the analyst (Deloitte's Table 5 labels), 3 resolved by the model step.
+  - Spend today in all: about $6.50 of the $20; 137 API requests of the daily stop of 200.
+- **Regression checks re-based (Oct 13).** The Texas replay asserts the split-and-copied counts and its term counts; the expected-failure mark is gone. A Michigan replay was added (facts, conditions, named resources, rate rows, the cleared gate). Both replay from the cache, no spend.
+
 ## Blocked
 
-- **Real model runs: the API key's credit balance is exhausted (Oct 13, during the Michigan run).** Kyle added $100 of credit later that day, but the key in this folder's `.env` still returns "credit balance is too low": the full Texas and Michigan re-runs (15 and 11 new calls) and a one-call probe on 087 were all refused. Nothing from the refusals is cached, so a re-run costs only what failed. Most likely the credit landed in a different organization or workspace from the one this key belongs to; Kyle checks in the Anthropic console that the Billing page shows the credit under the organization that owns the key named in `.env`. Waiting on it: the two failed Michigan sections and its 22 title resolutions; Texas 083 (7 sections), 085 (the split grid, 6 calls, and one term section) and 087 (1); the re-base of the Texas regression check. A run now stops at the first refusal instead of failing every section (added Oct 13 with a test). Side effect in this worktree's `ledger.sqlite` only: the refused runs superseded the Texas grid rows without replacing them, and left 19 refusal items in the extraction queue; the next successful run restores the rows, and the items can be closed in the workbench.
-- **The Texas regression check is marked expected-to-fail** (`tests/test_regression.py`, `xfail(strict=True)` with the reason in the test): the grid's prompt changed on purpose with the split and the replay needs a real run to refill the cache. The mark comes off, with re-based counts, as soon as that run happens.
-
-- **Review (Oct 13): `review.md`.** Two fixes during the pass: a base row now matches its printed row by exact title and exact first-period cell before any containment ("$22.00" could have matched "$122.00"); the daily stop counts API requests including retries. What was proven, what was left and why, and five things for Kyle are in the review.
+- Nothing.
 
 ## In progress
 
-- Nothing until the API credit is topped up; then the pending real runs (about 30 calls) and the regression re-base.
+- Nothing. The stream's definition of done is met; see `review.md`. At merge, the main session copies `.cache/llm` from this worktree to the main folder so the two regression replays run there.
 
 ## Found on the first real run, for Kyle
 
@@ -43,10 +47,6 @@ Updated at every commit by the worker session in the `contract-terms` worktree. 
    - F, invoicing mechanics: invoiced in arrears (Texas p13); invoices only after the month's deliverables are accepted (Michigan p89); invoices no more often than monthly (Michigan p170); right to invoice waived after four invoice cycles (Texas p14); progress payments on verified progress (Michigan p293); milestone payments on acceptance as percentages of a fixed total (Michigan pp 101, 190, 278).
    - E, scope and cost allocation: re-performance and defect correction at no charge (Texas p7; Michigan pp 104, 284); who bears compliance, force-majeure and transfer costs (Texas master agreement pp 30, 80, 90); fixed monthly fee changes by change notice (Michigan pp 24, 92); updates and emergency support included (Michigan p268).
    I propose keys for these in `rate-conditions.md` once you have looked; none added yet, so the inventory stays at your 48 until you say.
-
-## Blocked
-
-- Nothing.
 
 ## Decisions Kyle made in this stream (for the main session to log in `docs/requirements-and-rationale.md`)
 

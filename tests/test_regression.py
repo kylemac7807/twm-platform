@@ -19,6 +19,7 @@ GC15 = ROOT / "corpus/twm_corpus/UK_GCloud15_Accenture_service_page_ORIGINAL.htm
 class CacheOnlyModel:
     """Answers only from the cache: a miss means the prompt or the document changed, and that is a finding, not a spend."""
     name = llm.DEFAULT_MODEL
+    counts_toward_budget = False   # never reaches the API, so the daily call stop neither counts it nor logs it (Oct 13, 2026)
 
     def complete(self, system, user, max_tokens, temperature):
         raise RuntimeError("cache miss: this regression check never calls the model; the prompt or the document has changed")
@@ -33,17 +34,28 @@ def _run(path, vendor, client, tmp_path):
 
 
 @pytest.mark.skipif(not (TEXAS.exists() and CACHE.exists()), reason="Texas pricing exhibit or the model cache not on disk")
-@pytest.mark.xfail(strict=True, reason="Oct 13, 2026 (contract-terms stream): the grid is now split by block and service type (4 calls, not 1) and the exhibit's "
-                   "term pages are read too, so the replay needs a real run to refill the cache; that run is waiting on API credit. Re-base the "
-                   "counts and remove this mark when it has run.")
-def test_texas_dir_accenture_pricing_exhibit_gives_the_same_answer_as_on_oct_6(tmp_path):
-    """Texas DIR Accenture pricing exhibit (085): 53 verified rates, 0 rejected, 48 resolved (23 unbanded), 2 flagged, 3 ambiguous, 48 counted."""
+def test_texas_dir_accenture_pricing_exhibit_gives_the_same_answer_as_on_oct_13(tmp_path):
+    """Texas DIR Accenture pricing exhibit (085), re-based Oct 13, 2026 when the grid was split by block and service type and every contract year copied from the printed row: 1,648 verified rates (206 read by the model, 1,442 copied), 0 rejected, 1,488 resolved (688 unbanded), 2 flagged titles, 3 ambiguous, 1,488 counted; 4 facts and 2 conditions from its term pages. On Oct 6 it was 53 rates, year 1 of one block."""
     rep = _run(TEXAS, "Accenture LLP", "Texas DIR", tmp_path)
-    assert (rep.rows_kept, rep.rows_rejected) == (53, 0)
-    assert (rep.resolved, rep.unbanded, rep.counted) == (48, 23, 48)
+    assert (rep.rows_kept, rep.rows_rejected, rep.base_rows, rep.expanded_rows) == (1648, 0, 206, 1442)
+    assert (rep.resolved, rep.unbanded, rep.counted) == (1488, 688, 1488)
     assert sorted(set(rep.flagged_titles)) == ["Operations", "Technical Specialist"]
     assert len(set(rep.ambiguous_titles)) == 3
     assert rep.example and rep.example["page"] == 8
+    assert (rep.facts, rep.terms, rep.items_rejected) == (4, 2, 0)
+
+
+MICHIGAN = ROOT / "corpus/twm_corpus/MI_DTMB_Deloitte_MiIntegrate_Contract_SOW_Rates_2013-2026_ORIGINAL.pdf"
+
+
+@pytest.mark.skipif(not (MICHIGAN.exists() and CACHE.exists()), reason="Michigan Deloitte contract or the model cache not on disk")
+def test_michigan_deloitte_miintegrate_contract_gives_the_same_answer_as_on_oct_13(tmp_path):
+    """Michigan Deloitte MiIntegrate (378 pages, one cumulative file), Oct 13, 2026: 109 pages read for terms in 19 calls; 91 facts, 118 conditions, 23 named resources, 1 item rejected on the page; 42 prose rate rows, 0 rejected, 6 resolved; disclosure check cleared by the public-record clause."""
+    rep = _run(MICHIGAN, "Deloitte Consulting LLP", "State of Michigan DTMB", tmp_path)
+    assert (rep.facts, rep.terms, rep.resources, rep.items_rejected) == (91, 118, 23, 1)
+    assert (rep.rows_kept, rep.rows_rejected, rep.resolved) == (42, 0, 6)
+    assert rep.disclosure_status == "cleared" and "public_record" in rep.disclosure[0]
+    assert len(rep.term_docs) == 1 and rep.term_docs[0]["calls"] == 19 and rep.term_docs[0]["pages"] == 109
 
 
 @pytest.mark.skipif(not (GC15.exists() and CACHE.exists()), reason="G-Cloud page or the model cache not on disk")
