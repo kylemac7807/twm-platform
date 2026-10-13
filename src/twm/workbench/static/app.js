@@ -160,12 +160,12 @@ async function renderReview() {
   $('#setbody').innerHTML = `
     <div class="titlebar"><p class="lede">Pick an item, read the evidence, check the suggested answer, save. It moves to the next one for you.</p>
       ${progress(s.answered, s.answered + total + s.parked, `${n(s.answered)} answered · ${n(total)} to go${s.parked ? ` · ${n(s.parked)} parked` : ''}`)}</div>
-    <div class="cols">
-      <div class="card">
+    <div class="cols review">
+      <div class="card rail">
         <div class="tabs">${TABS.map(([k, l]) => `<button data-tab="${k}" class="${R.tab === k ? 'active' : ''}">${l}<span class="n">${counts[k]}</span></button>`).join('')}</div>
         <div class="bd flush" id="qlist">${(R.tab === 'titles' || R.tab === 'parked') ? titleTable(R.groups, R.tab === 'parked') : itemTable(R.items, R.tab)}</div>
       </div>
-      <div class="card panel" id="qpanel">${R.lastSaved ? `<div class="saved-note" style="margin:12px 18px 0">${esc(R.lastSaved)}</div>` : ''}${(R.tab === 'titles' || R.tab === 'parked') ? titlePanel() : itemPanel()}</div>
+      <div class="card panel" id="qpanel">${panelNav(list)}${R.lastSaved ? `<div class="saved-note" style="margin:12px 18px 0">${esc(R.lastSaved)}</div>` : ''}${(R.tab === 'titles' || R.tab === 'parked') ? titlePanel() : itemPanel()}</div>
     </div>`;
   R.lastSaved = null;
 }
@@ -179,11 +179,17 @@ async function loadSuggestion(g) {
   if (F.band === null && sg.band) F.band = sg.band;
   if (!F.tags.length && sg.tech_found.length) F.tags = [...sg.tech_found];
 }
+function panelNav(list) {
+  const R = S.review; if (!list.length) return '';
+  const i = R.selected[0] ?? 0;
+  return `<div class="panelnav"><button class="btn sm" data-step="-1" ${i <= 0 ? 'disabled' : ''}>‹ Previous</button><span>${R.selected.length > 1 ? `${R.selected.length} selected` : `${i + 1} of ${list.length}`}</span><button class="btn sm" data-step="1" ${i >= list.length - 1 ? 'disabled' : ''}>Next ›</button></div>`;
+}
 function titleTable(groups, parked) {
   if (!groups.length) return `<div class="empty">${parked ? 'Nothing parked.' : 'All job titles are decided. Nothing to do here.'}</div>`;
-  return `<table><thead><tr><th></th><th>Job title</th><th>Client</th><th class="num">Rates waiting</th></tr></thead><tbody>
+  const oneClient = new Set(groups.map(g => g.client)).size === 1;
+  return `<table><thead><tr><th></th><th>Job title</th>${oneClient ? '' : '<th>Client</th>'}<th class="num">Rates</th></tr></thead><tbody>
     ${groups.map((g, i) => `<tr class="row ${S.review.selected.includes(i) ? 'sel' : ''}" data-i="${i}"><td><input type="checkbox" data-check="${i}" ${S.review.selected.includes(i) ? 'checked' : ''} title="Tick several to give them one answer"></td>
-      <td>${esc(g.title)}<span class="why">${esc(parked && g.history.length ? (g.history[g.history.length - 1].reason || 'parked') : plainWhy(g.details[0]))}</span></td><td>${esc(g.client || '–')}</td><td class="num">${n(g.rows_unlocked)}</td></tr>`).join('')}
+      <td>${esc(g.title)}${parked && g.history.length ? `<span class="why">${esc(g.history[g.history.length - 1].reason || 'parked')}</span>` : ''}</td>${oneClient ? '' : `<td>${esc(g.client || '–')}</td>`}<td class="num">${n(g.rows_unlocked)}</td></tr>`).join('')}
   </tbody></table>${parked ? '' : '<div class="history">Tick more than one title only when they are the same role; one answer then covers all of them.</div>'}`;
 }
 function itemTable(items, kind) {
@@ -428,13 +434,14 @@ async function go(screen) {
 async function openSet(id) { S.setId = id; localStorage.setItem('twm.set', id); S.screen = 'set'; S.setTab = 'review'; S.review.selected = []; S.review.form = freshForm(); S.review.suggest = null; S.docs.rowId = null; S.docs.docId = null; await renderSet(); window.scrollTo(0, 0); }
 
 document.addEventListener('click', async e => {
-  const t = e.target.closest('#who-change,[data-screen],[data-open],[data-settab],[data-tab],[data-i],[data-check],[data-band],[data-cls],[data-tag],[data-alt],[data-scope],[data-doc],[data-row],[data-filter],[data-pick],[data-applied],[data-detail],[data-editname],[data-cancelname],[data-savename],[data-confirmname],#f-record,#f-park,#f-park-go,#f-park-cancel,#f-unpark');
+  const t = e.target.closest('#who-change,[data-step],[data-screen],[data-open],[data-settab],[data-tab],[data-i],[data-check],[data-band],[data-cls],[data-tag],[data-alt],[data-scope],[data-doc],[data-row],[data-filter],[data-pick],[data-applied],[data-detail],[data-editname],[data-cancelname],[data-savename],[data-confirmname],#f-record,#f-park,#f-park-go,#f-park-cancel,#f-unpark');
   if (!t) return;
   if (t.id === 'who-change') { e.preventDefault(); S.editingWho = true; showWho(); $('#analyst').focus(); return; }
   if (t.dataset.screen) { e.preventDefault(); return go(t.dataset.screen); }
   if (t.dataset.open) return openSet(t.dataset.open);
   if (t.dataset.settab) { if (S.setTab === 'review' && !leaveItem()) return; S.setTab = t.dataset.settab; return renderSet(); }
   if (t.dataset.tab) { if (!leaveItem()) return; S.review.tab = t.dataset.tab; S.review.selected = []; return renderReview(); }
+  if (t.dataset.step) { const R = S.review; const list = (R.tab === 'titles' || R.tab === 'parked') ? R.groups : R.items; const next = Math.max(0, Math.min(list.length - 1, (R.selected[0] ?? 0) + (+t.dataset.step))); if (!leaveItem()) return; R.selected = [next]; await renderReview(); const row = $('#qlist tr.sel'); if (row) row.scrollIntoView({ block: 'nearest' }); return; }
   if (t.dataset.check !== undefined) { const i = +t.dataset.check; const sel = S.review.selected; readForm(); S.review.selected = t.checked ? [...sel, i].sort((a, b) => a - b) : sel.filter(x => x !== i); S.review.suggest = null; return renderReview(); }
   if (t.dataset.i !== undefined) { if (S.review.selected.length === 1 && S.review.selected[0] === +t.dataset.i) return; if (!leaveItem()) return; S.review.selected = [+t.dataset.i]; return renderReview(); }
   if (t.dataset.band !== undefined) { S.review.form.band = t.dataset.band || null; $$('#f-bands button').forEach(b => b.classList.toggle('active', b === t)); return; }
