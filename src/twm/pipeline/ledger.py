@@ -11,6 +11,7 @@ SQLite file for the prototype; the same schema moves to PostgreSQL on Azure.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -50,6 +51,10 @@ CREATE TABLE IF NOT EXISTS mapping_decisions (
 CREATE TABLE IF NOT EXISTS review_queue (
   id INTEGER PRIMARY KEY AUTOINCREMENT, run_id TEXT, document_id TEXT, kind TEXT, item TEXT, detail TEXT,
   status TEXT DEFAULT 'open', created_at TEXT);
+CREATE TABLE IF NOT EXISTS queue_decisions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, queue_id INTEGER, kind TEXT NOT NULL, client TEXT, item TEXT NOT NULL,
+  decision_json TEXT NOT NULL, reason TEXT NOT NULL, decided_by TEXT NOT NULL, decided_at TEXT NOT NULL,
+  reviewed_by TEXT, reviewed_at TEXT, applied_to_taxonomy INTEGER NOT NULL DEFAULT 0, applied_at TEXT, superseded_by INTEGER);
 CREATE TABLE IF NOT EXISTS contract_terms (
   term_id INTEGER PRIMARY KEY AUTOINCREMENT,
   run_id TEXT NOT NULL, document_id TEXT NOT NULL, family_id TEXT,
@@ -75,6 +80,15 @@ CREATE TABLE IF NOT EXISTS vendor_names (
   evidence TEXT, decided_by TEXT NOT NULL, created_at TEXT NOT NULL, deprecated_at TEXT);
 CREATE INDEX IF NOT EXISTS ix_vendor_names_key ON vendor_names(name_key);
 """
+# queue_decisions (workbench, Oct 13, 2026): the analyst's audit record. One row per queue item decided; a later decision on the
+# same item supersedes the earlier one and both stay. reviewed_by / reviewed_at are reserved for a second reviewer role (decided
+# Oct 6: not now, no data change later). applied_to_taxonomy is set by the main session once the rule is appended to taxonomy/.
+
+TITLE_MAPPING_COLUMNS = ["observed_title", "source", "source_url", "canonical_role_id", "twm_band", "attr_technology", "attr_location",
+                         "attr_level_code_raw", "attr_years_raw", "confidence", "method", "reviewer", "status", "version_added", "source_class"]
+LOCATION_RULE_COLUMNS = ["client_key", "place", "classification", "decided_by", "decided_on", "reason", "status"]
+BANDS = ("junior", "intermediate", "senior", "lead_principal")
+USABLE_SCANS = ("native", "good_scan", "web")
 
 CONFIDENCE_FLOOR = 0.90   # rows below this exist and are visible but are not counted until an analyst confirms (decided Oct 6)
 
@@ -180,6 +194,167 @@ class Ledger:
     def close(self) -> None:
         self.conn.close()
 
+    # ------------------------------------------------------------ workbench: queues and analyst decisions (spec: work/workbench/spec.md)
+    def _rows(self, q: str, args: tuple = ()) -> list[dict]:
+        self.conn.row_factory = sqlite3.Row
+        return [dict(r) for r in self.conn.execute(q, args)]
+
+    def _client_of(self, document_id: str) -> Optional[str]:
+        r = self.conn.execute("SELECT client FROM observations WHERE document_id=? LIMIT 1", (document_id,)).fetchone()
+        return r[0] if r else None
+
+    def queue_summary(self) -> dict:
+        """Open items by kind, for the workbench's front page."""
+        return {k: n for k, n in self.conn.execute("SELECT kind, COUNT(*) FROM review_queue WHERE status='open' GROUP BY kind ORDER BY kind")}
+
+    def queue_items(self, kind: Optional[str] = None, status: str = "open") -> list[dict]:
+        q = "SELECT q.*, d.filename FROM review_queue q LEFT JOIN documents d USING(document_id) WHERE q.status=?"
+        args: list = [status]
+        if kind:
+            q += " AND q.kind=?"; args.append(kind)
+        return self._rows(q + " ORDER BY q.id", tuple(args))
+
+    def title_queue_groups(self) -> list[dict]:
+        """Open title items grouped by (title, client): one decision per group resolves every row with that title for that
+        client (resolve once, applied to humans). Sorted by rows_unlocked, the live uncounted rows the decision would free."""
+        groups: dict[tuple, dict] = {}
+        for it in self.queue_items("title"):
+            client = self._client_of(it["document_id"])
+            g = groups.setdefault((it["item"], client), dict(title=it["item"], client=client, queue_ids=[], details=set(), documents=set()))
+            g["queue_ids"].append(it["id"]); g["details"].add(it["detail"] or ""); g["documents"].add(it["filename"] or "")
+        out = []
+        for g in groups.values():
+            obs = self._rows("SELECT obs_id, rate_as_stated, currency, rate_unit, period_raw, location_raw, level_raw, source_quote, source_page, counted "
+                             "FROM observations WHERE superseded_by IS NULL AND observed_title=? AND client IS ? ORDER BY obs_id", (g["title"], g["client"]))
+            g["rows_affected"] = len(obs)
+            g["rows_unlocked"] = sum(1 for o in obs if not o["counted"])
+            g["examples"] = obs[:3]
+            g["details"] = sorted(g["details"]); g["documents"] = sorted(g["documents"])
+            out.append(g)
+        return sorted(out, key=lambda g: (-g["rows_unlocked"], g["title"]))
+
+    def _record_decision(self, queue_id: int, kind: str, client: Optional[str], item: str, decision: dict, reason: str, decided_by: str) -> int:
+        if not (reason or "").strip():
+            raise ValueError("a decision needs a reason")
+        if not (decided_by or "").strip():
+            raise ValueError("a decision needs the analyst's name")
+        cur = self.conn.execute("INSERT INTO queue_decisions(queue_id, kind, client, item, decision_json, reason, decided_by, decided_at) VALUES (?,?,?,?,?,?,?,?)",
+                                (queue_id, kind, client, item, json.dumps(decision), reason.strip(), decided_by.strip(), _now()))
+        new_id = cur.lastrowid
+        self.conn.execute("UPDATE queue_decisions SET superseded_by=? WHERE queue_id=? AND id<>? AND superseded_by IS NULL", (new_id, queue_id, new_id))
+        self.conn.execute("UPDATE review_queue SET status='resolved' WHERE id=?", (queue_id,))
+        return new_id
+
+    def _queue_item(self, queue_id: int, kind: str) -> dict:
+        rows = self._rows("SELECT * FROM review_queue WHERE id=?", (queue_id,))
+        if not rows or rows[0]["kind"] != kind:
+            raise ValueError(f"queue item {queue_id} is not a {kind} item")
+        return rows[0]
+
+    def decide_title(self, queue_ids: Iterable[int], *, role_id: Optional[str], band: Optional[str], reason: str, decided_by: str,
+                     technology: Optional[str] = None, run_id: str = "workbench") -> list[int]:
+        """One analyst decision for one or more title queue items. role_id None means "leave flagged": the decision is recorded
+        and nothing else changes. band None means unbanded, the default (no band without evidence). The decision applies to every
+        live row with that title for that client; counted is recomputed by the same gate as add_observation. Returns decision ids."""
+        if band is not None and band not in BANDS:
+            raise ValueError(f"unknown band {band!r}")
+        ids, applied = [], set()
+        for qid in queue_ids:
+            q = self._queue_item(qid, "title")
+            client = self._client_of(q["document_id"])
+            ids.append(self._record_decision(qid, "title", client, q["item"], dict(canonical_role_id=role_id, twm_band=band, attr_technology=technology), reason, decided_by))
+            if role_id and (q["item"], client) not in applied:
+                applied.add((q["item"], client))
+                self.conn.execute(
+                    "UPDATE observations SET canonical_role_id=?, twm_band=?, band_source='analyst', attr_technology=COALESCE(?, attr_technology), "
+                    "resolution_status='resolved', resolution_confidence=1.0, needs_band_review=?, "
+                    "counted=CASE WHEN COALESCE(extraction_confidence,0)>=? AND scan_quality IN ('native','good_scan','web') THEN 1 ELSE 0 END "
+                    "WHERE superseded_by IS NULL AND observed_title=? AND client IS ?",
+                    (role_id, band, technology, int(band is None), CONFIDENCE_FLOOR, q["item"], client))
+                self.record_mapping_decision(run_id, q["item"], role_id, band, "analyst", 1.0, reason.strip(), decided_by.strip())
+        self.conn.commit()
+        return ids
+
+    def decide_location(self, queue_ids: Iterable[int], *, classification: str, reason: str, decided_by: str) -> list[int]:
+        """An analyst classifies a flagged place name for one client. Applies to the rows that raised the flag (same document and
+        title); other rows with the same place follow once the rule is codified in taxonomy/location_rules.csv and the set is re-run."""
+        if classification not in ("onshore", "nearshore", "offshore"):
+            raise ValueError(f"classification must be onshore, nearshore or offshore, not {classification!r}")
+        ids = []
+        for qid in queue_ids:
+            q = self._queue_item(qid, "location")
+            client = self._client_of(q["document_id"])
+            m = re.search(r"place '([^']+)'", q["detail"] or "")
+            place = m.group(1) if m else None
+            ids.append(self._record_decision(qid, "location", client, q["item"], dict(place=place, classification=classification), reason, decided_by))
+            self.conn.execute("UPDATE observations SET attr_location=?, needs_location_review=0 "
+                              "WHERE superseded_by IS NULL AND document_id=? AND observed_title=? AND needs_location_review=1",
+                              (classification, q["document_id"], q["item"]))
+        self.conn.commit()
+        return ids
+
+    def decide_intake(self, queue_id: int, *, decision: dict, reason: str, decided_by: str) -> int:
+        """decision = {"doc_class": "msa"} confirms or corrects a classification (the document record is updated, confidence 1.0);
+        {"link": "confirm" | "reject"} answers a suggested contract-set link (recorded; the link itself is re-made on the next run)."""
+        q = self._queue_item(queue_id, "intake")
+        did = self._record_decision(queue_id, "intake", self._client_of(q["document_id"]), q["item"], decision, reason, decided_by)
+        if decision.get("doc_class"):
+            self.conn.execute("UPDATE documents SET doc_class=?, class_confidence=1.0 WHERE document_id=?", (decision["doc_class"], q["document_id"]))
+        self.conn.commit()
+        return did
+
+    def decision_history(self, item: str) -> list[dict]:
+        return self._rows("SELECT * FROM queue_decisions WHERE item=? ORDER BY id", (item,))
+
+    def pending_codification(self) -> dict[str, list[dict]]:
+        """Decisions not yet applied to the taxonomy, in the exact column order of the taxonomy CSVs (plus decision_id first),
+        so the main session can append them with the twm-change-the-taxonomy skill. The workbench never writes to taxonomy/."""
+        out: dict[str, list[dict]] = {"title_mappings": [], "location_rules": []}
+        seen = set()
+        for d in self._rows("SELECT * FROM queue_decisions WHERE applied_to_taxonomy=0 AND superseded_by IS NULL ORDER BY id"):
+            dec = json.loads(d["decision_json"])
+            if d["kind"] == "title" and dec.get("canonical_role_id") and (d["item"], d["client"]) not in seen:
+                seen.add((d["item"], d["client"]))
+                out["title_mappings"].append(dict(decision_id=d["id"], observed_title=d["item"], source=d["client"] or "", source_url="",
+                                                  canonical_role_id=dec["canonical_role_id"], twm_band=dec.get("twm_band") or "",
+                                                  attr_technology=dec.get("attr_technology") or "", attr_location="", attr_level_code_raw="",
+                                                  attr_years_raw="", confidence="1.00", method="human", reviewer=d["decided_by"], status="active",
+                                                  version_added="", source_class="observed"))
+            elif d["kind"] == "location" and dec.get("place"):
+                out["location_rules"].append(dict(decision_id=d["id"], client_key=d["client"] or "", place=dec["place"], classification=dec["classification"],
+                                                  decided_by=d["decided_by"], decided_on=d["decided_at"][:10], reason=d["reason"], status="active"))
+        return out
+
+    def mark_applied(self, decision_id: int) -> int:
+        """Mark a decision as appended to the taxonomy. Sibling decisions that say the same thing for the same item and client
+        (a group decided in one go produces one decision row per queue item) are the same rule and are marked with it."""
+        d = self._rows("SELECT * FROM queue_decisions WHERE id=?", (decision_id,))
+        if not d:
+            raise ValueError(f"no decision {decision_id}")
+        d = d[0]
+        cur = self.conn.execute("UPDATE queue_decisions SET applied_to_taxonomy=1, applied_at=? WHERE applied_to_taxonomy=0 AND superseded_by IS NULL "
+                                "AND kind=? AND item=? AND client IS ? AND decision_json=?", (_now(), d["kind"], d["item"], d["client"], d["decision_json"]))
+        self.conn.commit()
+        return cur.rowcount
+
+    def observation(self, obs_id: int) -> Optional[dict]:
+        rows = self._rows("SELECT o.*, d.filename, d.path, d.true_type FROM observations o JOIN documents d USING(document_id) WHERE obs_id=?", (obs_id,))
+        return rows[0] if rows else None
+
+    def observations_for(self, document_id: str) -> list[dict]:
+        return self._rows("SELECT * FROM observations WHERE superseded_by IS NULL AND document_id=? ORDER BY obs_id", (document_id,))
+
+    def documents_by_set(self) -> list[dict]:
+        """Documents grouped by contract set (family_id in the code); unlinked documents form sets of one."""
+        docs = self._rows("SELECT * FROM documents ORDER BY filename")
+        sets: dict[str, dict] = {}
+        for d in docs:
+            key = d["family_id"] or d["document_id"]
+            s = sets.setdefault(key, dict(root_id=key, root_filename=None, documents=[]))
+            s["documents"].append(d)
+            if d["document_id"] == key:
+                s["root_filename"] = d["filename"]
+        return sorted(sets.values(), key=lambda s: (-len(s["documents"]), s["root_filename"] or ""))
     # ------------------------------------------------------------ contract terms and named resources (stream A, Oct 13, 2026)
     def supersede_terms(self, document_id: str, new_run_id: str) -> int:
         """A re-run supersedes earlier live term and named-resource rows for the document; they stay, marked."""
