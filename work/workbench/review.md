@@ -46,3 +46,18 @@ Tests: 135 at the end of the run (118 before the task).
 1. **Work the 12 title groups** (step 6). Watch for: a role missing from the pick-list, a title you cannot decide without the SOW (use "leave flagged"), and whether the evidence shown is enough to decide from.
 2. Say whether the unused `workbench` worktree and branch should go.
 3. Read `tests/PROMISES.md` once and say which lines you would phrase differently; that tells me how to write the docstrings.
+
+
+---
+
+# Review addendum: v2, the designed web application (October 13, 2026)
+
+**What changed.** Kyle rejected the Streamlit screens (ugly, not intuitive). The screens were rebuilt the same day as one page in plain HTML, CSS and JavaScript over a small FastAPI service (`work/workbench/plan-v2.md`), in the "Ledger" colour system he chose (deep teal-green accent, cool grey canvas, IBM Plex Sans, Plex Mono for anything quoted from a page), with none of the Vedra prototype's colours, words or logo. Streamlit is retired: `app.py`, `screens.py`, their eight tests and the dependency are gone; the ledger methods, the renderer, the promises list and the regression replays are unchanged.
+
+**Proven by.** Five service tests (`tests/test_workbench_api.py`): a title decision through the API leaves the ledger exactly as the direct call does; bulk writes one decision row per queue item; a missing name, a blank reason or an unknown role is refused with nothing written; the page-image endpoint returns the boxed page 8 for the Texas row; the rules CSV matches the taxonomy headers and mark-applied clears the siblings. On the real ledger in the browser: Overview (483 rows, 458 counted, 21 waiting, 2 contract sets), Queue grouping the 19 items into 12 decisions with the evidence and the decision form beside the list, Documents opening the Texas set to its 7 documents and 53 rows and tracing row 1 to page 8 with the box and close-up, Rules empty as expected. 134 tests.
+
+**Fixed during the build.** The list showed the model's whole abstention note (now shortened in lists, whole in the panel); the rate line doubled the currency for G-Cloud rows and showed an empty unit; wide tables now scroll inside their card so narrow panes do not scroll the page.
+
+**Known limits, left.** The web page loads IBM Plex from Google Fonts and falls back to the system sans offline. Keyboard: arrows move the selection and Enter jumps to the reason; there is no shortcut to record. The Queue panel shows one close-up for a title group even when the group spans two rows (UK and offshore). Intake link confirmations are recorded, not applied (as before). No screen test drives the JavaScript itself; the service tests cover every write path and the browser check was by hand, with Kyle's step 6 still to come.
+
+**For Kyle.** Step 6 as before: name in the top bar, Queue, work the 12 titles. Say what feels wrong in the first minute; that is the most useful feedback now.
