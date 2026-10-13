@@ -31,7 +31,17 @@ def test_rules_dual_titles_and_similarity_keep_their_places():
     s = suggest("Project Manager I / Test Leads", store)
     assert {x["id"] for x in s["suggestions"][:2]} == {"project_manager", "test_manager"}
     s = suggest("Lead cyber security governance and risk manager", store)
-    assert s["band"] == "lead_principal" and s["suggestions"] and all("similar to" in x["why"] or "usually" in x["why"] for x in s["suggestions"])
+    assert s["band"] == "lead_principal" and {x["id"] for x in s["suggestions"][:3]} >= {"security_grc_analyst"}
+
+
+def test_cyber_architecture_titles_find_security_architect_by_their_head_noun():
+    """Kyle, Oct 13: 'Associate cyber security secure systems architecture and design' is a security architect."""
+    s = suggest("Associate cyber security secure systems architecture and design", store)
+    assert s["suggestions"][0]["id"] == "security_architect" and s["band"] == "junior"
+    s = suggest("Principal cyber security secure systems architecture and design", store)
+    assert s["suggestions"][0]["id"] == "security_architect" and s["band"] == "lead_principal"
+    s = suggest("Lead cyber security governance and risk manager", store, saved=[dict(observed_title="Principal cyber security governance and risk manager", canonical_role_id="security_grc_analyst", twm_band="lead_principal", scope="set")])
+    assert s["suggestions"][0]["id"] == "security_grc_analyst" and "you answered" in s["suggestions"][0]["why"]
 
 
 def test_core_defaults_file_is_well_formed_and_points_at_real_roles():
