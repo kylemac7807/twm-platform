@@ -35,6 +35,12 @@ if echo "$STAGED" | grep -q -E '^taxonomy/.*\.csv$'; then
   git add taxonomy/REPORT.md
 fi
 
+# 4. Test changes regenerate the plain-English promises list (test strategy, Oct 13, 2026).
+if echo "$STAGED" | grep -q -E '^tests/test_.*\.py$'; then
+  "$PY" scripts/promises.py > /dev/null || { echo "pre-commit: promises list failed." >&2; exit 1; }
+  git add tests/PROMISES.md
+fi
+
 # 2. Tests before commit (only when code, tests or taxonomy are staged; docs-only commits skip it).
 if echo "$STAGED" | grep -q -E '^(src|tests|taxonomy|scripts)/'; then
   "$PY" -m pytest -q -x 2>&1 | tail -3 >&2

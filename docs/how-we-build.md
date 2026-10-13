@@ -19,11 +19,20 @@ Every stage of work leaves a short written artifact in the project folder, saved
 
 A task is small enough that Kyle can read its plan in five minutes. Bigger work is several tasks.
 
-## Three guardrails (automatic, in `scripts/git-hooks/pre-commit`)
+## Four guardrails (automatic, in `scripts/git-hooks/pre-commit`)
 
 1. **No secrets in version history.** A commit is refused if a staged file contains something that looks like an API key or password.
 2. **Tests before commit.** A commit is refused if the test suite fails.
 3. **Taxonomy changes regenerate the acceptance report.** If any `taxonomy/*.csv` is staged, the acceptance report is regenerated and staged with it, so the report can never be stale.
+4. **Test changes regenerate the promises list.** If any test file is staged, `tests/PROMISES.md` is regenerated and staged with it (added Oct 13, 2026).
+
+## The tests are promises (decided by Kyle, October 13, 2026)
+
+`tests/PROMISES.md` lists every test in plain English, grouped by the area it protects; Kyle reads it, and adds a promise in plain language when he wants one kept, and Claude turns the line into a test. Three rules keep the list growing with the system:
+
+1. **Every decision becomes a test**, written in the same session and named after the decision (no default band; places flagged, never guessed).
+2. **Every bug becomes a test** that fails until the fix is in, so it cannot come back.
+3. **Every document run becomes a regression check**: the counts a document produced (rows, resolved, counted) are asserted in `tests/test_regression.py`, replayed from the model's cached answers so the check never spends. A cache miss fails the check loudly rather than calling the model.
 
 Install once per machine: `cp scripts/git-hooks/pre-commit .git/hooks/pre-commit`. Claude Code does this; Kyle never needs to.
 
