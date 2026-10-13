@@ -259,3 +259,17 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 .cols.review .panel .bands button, .cols.review .panel .tags button { padding: 3px 10px; }
 .panelnav { padding: 8px 18px; }
 .page { padding-top: 18px; }
+
+/* ── no scrolling in the panel: actions in its top bar, evidence beside the answer ── */
+.panelnav { position: sticky; top: var(--topbar); z-index: 5; }
+.panelnav .pos { display: flex; align-items: center; gap: 8px; }
+.panelnav .pos .btn.sm { padding: 3px 9px; }
+.panelnav .acts { display: flex; align-items: center; gap: 8px; }
+.panelnav .acts .hint { margin: 0 0 0 6px; }
+.parknote.bar { display: flex; gap: 8px; align-items: center; padding: 8px 18px; border-bottom: 1px solid var(--border); background: var(--wait-bg); }
+.parknote.bar input { flex: 1; }
+.twocol { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.twocol .col:first-child { border-right: 1px solid var(--border); }
+.twocol .col .ev:last-child { border-bottom: 0; }
+.cols.review .panel .form.col { padding: 10px 18px 14px; }
+@media (max-width: 1100px) { .twocol { grid-template-columns: 1fr; } .twocol .col:first-child { border-right: 0; border-bottom: 1px solid var(--border); } }

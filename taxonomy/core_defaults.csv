@@ -5,7 +5,7 @@ programmer,software_developer,programmer_analyst,"'programmer' on its own is a s
 engineer,software_developer,systems_engineer;infrastructure_engineer,"'engineer' on its own most often means software; systems and infrastructure are the usual alternatives",Claude (proposed),2026-10-13
 consultant,technology_consultant,management_consultant,"a consulting-firm 'consultant' grade is the consultant role; the band comes from the grade word",Kyle McNamara,2026-10-13
 architect,solution_architect,technical_architect;enterprise_architect,"'architect' on its own usually means solution architect",Claude (proposed),2026-10-13
-tester,test_analyst,test_automation_engineer;quality_assurance_analyst,"'tester' is the test analyst role",Claude (proposed),2026-10-13
+tester,test_automation_engineer,test_analyst;quality_assurance_analyst,"'tester' or 'test engineer' is the Test Engineer role (Kyle, Oct 13, 2026); manual and functional testing is the test analyst",Kyle McNamara,2026-10-13
 administrator,systems_administrator,database_administrator,"'administrator' on its own usually means systems administrator",Claude (proposed),2026-10-13
 designer,interaction_designer,web_designer;graphic_designer,"'designer' on its own in a technology contract usually means interaction (UX) designer",Claude (proposed),2026-10-13
 manager,project_manager,delivery_manager;program_manager,"'manager' on its own in a technology contract most often means project manager; the pyramid grade 'Manager' is handled by the consulting rule, not here",Claude (proposed),2026-10-13
