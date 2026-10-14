@@ -42,8 +42,6 @@ def test_a_title_decision_through_the_api_equals_the_direct_call(tmp_path, monke
     body = dict(queue_ids=g["queue_ids"], role_id="systems_engineer", band=None, reason="Operations on this exhibit is the systems operations role", decided_by="Kyle McNamara")
     r = c.post("/api/decisions/title", json={**body, "decided_by": ""})
     assert r.status_code == 400 and "name" in r.json()["detail"]
-    r = c.post("/api/decisions/title", json={**body, "reason": "  "})
-    assert r.status_code == 400 and "reason" in r.json()["detail"]
     r = c.post("/api/decisions/title", json={**body, "role_id": "not_a_role"})
     assert r.status_code == 400 and "unknown role" in r.json()["detail"]
     assert _ledger_state(path)[1] == []                                   # the refusals wrote nothing

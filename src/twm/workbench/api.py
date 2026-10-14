@@ -432,7 +432,7 @@ def rules_applied(body: Applied) -> dict:
 # ---------------------------------------------------------------- the page
 @app.get("/favicon.ico")
 def favicon() -> Response:
-    svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0F6E56"/><rect x="9" y="9" width="14" height="14" rx="3" fill="#9FE1CB"/></svg>'
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#2F4A6D"/><rect x="9" y="9" width="14" height="14" rx="3" fill="#B9CBE0"/></svg>'
     return Response(content=svg, media_type="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
 
 

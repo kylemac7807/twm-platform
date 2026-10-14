@@ -1,11 +1,11 @@
-/* The workbench's visual system: "Ledger" (decided by Kyle, Oct 13, 2026). One accent, a cool grey canvas, white cards,
+/* The workbench's visual system (Kyle, Oct 13, 2026; slate replaced the first teal-green the same day). One accent, a cool grey canvas, white cards,
    conventional status colours, IBM Plex Sans with Plex Mono for anything quoted from a page. Tokens first so a later
    identity can re-skin by changing this block only. */
 :root {
-  --accent: #0F6E56; --accent-dark: #085041; --accent-ink: #04342C; --accent-light: #E1F5EE; --accent-mid: #9FE1CB; --accent-bright: #1D9E75;
-  --canvas: #F4F6F6; --card: #FFFFFF; --border: rgba(10, 30, 30, 0.10); --border-2: rgba(10, 30, 30, 0.20);
-  --ink: #16211F; --ink-2: #4A5553; --ink-3: #8A9492;
-  --ok-bg: #E1F5EE; --ok: #085041;
+  --accent: #2F4A6D; --accent-dark: #1F3A5F; --accent-ink: #14283F; --accent-light: #E9EFF6; --accent-mid: #B9CBE0; --accent-bright: #4C78A8;
+  --canvas: #F4F5F7; --card: #FFFFFF; --border: rgba(20, 30, 45, 0.10); --border-2: rgba(20, 30, 45, 0.20);
+  --ink: #1A2230; --ink-2: #4B5563; --ink-3: #8A94A3;
+  --ok-bg: #EAF3DE; --ok: #27500A; --ok-mid: #639922;
   --wait-bg: #FAEEDA; --wait: #633806; --wait-mid: #BA7517;
   --no-bg: #FAECE7; --no: #712B13; --no-mid: #993C1D;
   --neutral-bg: #EEF0F0; --neutral: #444441;
@@ -46,8 +46,8 @@ a { color: var(--accent); text-decoration: none; }
 .alert { display: flex; gap: 12px; align-items: flex-start; background: var(--wait-bg); border: 1px solid #F0D9B5; border-radius: var(--r-md); padding: 12px 16px; margin-bottom: 20px; color: var(--wait); }
 .alert b { font-weight: 600; }
 .alert .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--wait-mid); margin-top: 7px; flex-shrink: 0; }
-.alert.ok { background: var(--ok-bg); border-color: var(--accent-mid); color: var(--ok); }
-.alert.ok .dot { background: var(--accent-bright); }
+.alert.ok { background: var(--ok-bg); border-color: #C0DD97; color: var(--ok); }
+.alert.ok .dot { background: var(--ok-mid); }
 
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 22px; }
 .tile { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 18px; }
@@ -55,7 +55,7 @@ a { color: var(--accent); text-decoration: none; }
 .tile .v { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
 .tile .s { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
 .tile.wait .v { color: var(--wait-mid); }
-.tile.ok .v { color: var(--accent); }
+.tile.ok .v { color: var(--ok-mid); }
 
 .cols { display: grid; grid-template-columns: 1fr var(--panel); gap: 20px; align-items: start; }
 .cols.even { grid-template-columns: 3fr 2fr; }
@@ -150,7 +150,7 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 
 /* ── usability pass (Oct 13): workflow pieces ── */
 .hero { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--wait-mid); border-radius: var(--r-md); padding: 18px 22px; margin-bottom: 20px; }
-.hero.done { border-left-color: var(--accent-bright); }
+.hero.done { border-left-color: var(--ok-mid); }
 .hero-t { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
 .hero-s { color: var(--ink-2); margin-top: 4px; max-width: 640px; }
 .btn.big { padding: 12px 20px; font-size: 15px; white-space: nowrap; }
@@ -182,6 +182,8 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 .status.ready { background: var(--wait-bg); color: var(--wait); }
 .status.in_review { background: var(--accent-light); color: var(--accent-dark); }
 .status.complete { background: var(--ok-bg); color: var(--ok); }
+.mark .sq::after { background: var(--accent-mid); }
+.mark .sq::after { background: var(--accent-mid); }
 .sethead { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 16px; }
 .sethead h1 { font-size: 22px; margin-bottom: 2px; }
 .sethead .file { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
@@ -208,7 +210,7 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 .scope button.on { border-color: var(--accent); background: var(--accent-light); }
 .scope button.on b { color: var(--accent-dark); }
 .plain { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
-.saved-note { background: var(--ok-bg); border: 1px solid var(--accent-mid); border-radius: var(--r-sm); padding: 8px 10px; font-size: 13px; color: var(--ok); margin-top: 10px; }
+.saved-note { background: var(--ok-bg); border: 1px solid #C0DD97; border-radius: var(--r-sm); padding: 8px 10px; font-size: 13px; color: var(--ok); margin-top: 10px; }
 .parknote { margin-top: 8px; }
 .parknote input { width: 100%; height: 32px; border: 1px solid var(--border-2); border-radius: var(--r-sm); padding: 0 10px; font-size: 13px; }
 .need-set { padding: 30px; text-align: center; color: var(--ink-2); }
@@ -234,7 +236,7 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 /* ── tight (Kyle, Oct 13): less white space, less movement ── */
 .strip { display: flex; gap: 22px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin: 0 0 12px; }
 .strip b { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
-.strip .ok b { color: var(--accent); } .strip .wait b { color: var(--wait-mid); }
+.strip .ok b { color: var(--ok-mid); } .strip .wait b { color: var(--wait-mid); }
 .sethead { margin-bottom: 8px; } .sethead h1 { font-size: 19px; }
 .subtabs { margin-bottom: 12px; } .subtabs button { padding: 8px 14px; }
 .cols.review .panel .ev { padding: 10px 18px; }

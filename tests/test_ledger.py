@@ -87,7 +87,7 @@ def test_title_decision_resolves_every_row_for_that_client_and_recomputes_counte
     assert len(groups) == 1 and groups[0]["title"] == "Operations" and groups[0]["client"] == "bank-a"
     assert len(groups[0]["queue_ids"]) == 2 and groups[0]["rows_affected"] == 2 and groups[0]["rows_unlocked"] == 2
     with pytest.raises(ValueError):
-        led.decide_title(groups[0]["queue_ids"], role_id="systems_engineer", band=None, reason="  ", decided_by="Kyle McNamara")
+        led.decide_title(groups[0]["queue_ids"], role_id="systems_engineer", band=None, reason="r", decided_by="  ")   # the name is required; a note is not
     ids = led.decide_title(groups[0]["queue_ids"], role_id="systems_engineer", band=None, reason="Operations on this exhibit is the systems operations role", decided_by="Kyle McNamara")
     assert len(ids) == 2
     rows = [r for r in led.live_rows(rec.document_id) if r["observed_title"] == "Operations"]

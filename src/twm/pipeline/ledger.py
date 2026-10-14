@@ -311,7 +311,7 @@ class Ledger:
             set_id = self.set_of_document(q["document_id"])
             ids.append(self._record_decision(qid, "title", client, q["item"],
                                              dict(canonical_role_id=role_id, twm_band=band, attr_technology=tech, scope=scope, set_id=set_id, vendor=vendor, suggested=suggested),
-                                             reason, decided_by, scope=scope))
+                                             reason, decided_by, scope=scope, reason_required=False))
             key = (q["item"], vendor, set_id if scope == "set" else None)
             if role_id and key not in applied:
                 applied.add(key)
@@ -324,7 +324,7 @@ class Ledger:
                     "counted=CASE WHEN COALESCE(extraction_confidence,0)>=? AND scan_quality IN ('native','good_scan','web') THEN 1 ELSE 0 END "
                     "WHERE superseded_by IS NULL AND " + where,
                     [role_id, band, tech, int(band is None), CONFIDENCE_FLOOR] + args)
-                self.record_mapping_decision(run_id, q["item"], role_id, band, "analyst", 1.0, reason.strip(), decided_by.strip(), scope=scope)
+                self.record_mapping_decision(run_id, q["item"], role_id, band, "analyst", 1.0, (reason or "").strip() or ("confirmed the suggestion" if suggested else "analyst decision"), decided_by.strip(), scope=scope)
         self.conn.commit()
         return ids
 
@@ -373,7 +373,7 @@ class Ledger:
             client = self._client_of(q["document_id"])
             m = re.search(r"place '([^']+)'", q["detail"] or "")
             place = m.group(1) if m else None
-            ids.append(self._record_decision(qid, "location", client, q["item"], dict(place=place, classification=classification), reason, decided_by))
+            ids.append(self._record_decision(qid, "location", client, q["item"], dict(place=place, classification=classification), reason, decided_by, reason_required=False))
             self.conn.execute("UPDATE observations SET attr_location=?, needs_location_review=0 "
                               "WHERE superseded_by IS NULL AND document_id=? AND observed_title=? AND needs_location_review=1",
                               (classification, q["document_id"], q["item"]))
@@ -384,7 +384,7 @@ class Ledger:
         """decision = {"doc_class": "msa"} confirms or corrects a classification (the document record is updated, confidence 1.0);
         {"link": "confirm" | "reject"} answers a suggested contract-set link (recorded; the link itself is re-made on the next run)."""
         q = self._queue_item(queue_id, "intake")
-        did = self._record_decision(queue_id, "intake", self._client_of(q["document_id"]), q["item"], decision, reason, decided_by)
+        did = self._record_decision(queue_id, "intake", self._client_of(q["document_id"]), q["item"], decision, reason, decided_by, reason_required=False)
         if decision.get("doc_class"):
             self.conn.execute("UPDATE documents SET doc_class=?, class_confidence=1.0 WHERE document_id=?", (decision["doc_class"], q["document_id"]))
         self.conn.commit()

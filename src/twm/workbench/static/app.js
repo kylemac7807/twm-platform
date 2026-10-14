@@ -123,7 +123,7 @@ function setHeaderHtml() {
   return `
     <p class="crumb"><a href="#" data-screen="sets">Contract sets</a> › ${esc(s.name)}</p>
     <div class="sethead"><div><h1>${esc(s.name)}</h1>${nameBlock}</div><span class="pill status ${s.status}" style="font-size:12px;padding:6px 12px">${esc(statusLine(s))}</span></div>
-    <div class="strip"><span><b>${n(s.rows)}</b> rates in ${plural(s.documents, 'document', 'documents')}</span><span class="ok"><b>${n(s.counted)}</b> in benchmarks</span><span class="wait"><b>${n(heldBack)}</b> held back, ${n(s.rows_unlocked)} waiting on a title</span><span><b>${n(s.open)}</b> to answer · ${n(s.answered)} answered · ${n(s.parked)} parked</span></div>
+    <div class="strip"><span><b>${n(s.rows)}</b> rates in ${plural(s.documents, 'document', 'documents')}</span><span class="ok"><b>${n(s.counted)}</b> in benchmarks</span><span class="wait"><b>${n(heldBack)}</b> not in benchmarks${heldBack ? `: ${n(s.rows_unlocked)} need a job-title answer${heldBack - s.rows_unlocked > 0 ? `, ${n(heldBack - s.rows_unlocked)} read with low confidence` : ''}` : ''}</span><span><b>${n(s.open)}</b> to answer · ${n(s.answered)} answered · ${n(s.parked)} parked</span></div>
     <div class="subtabs"><button data-settab="review" class="${S.setTab === 'review' ? 'active' : ''}">Review<span class="n">${s.open}</span></button><button data-settab="documents" class="${S.setTab === 'documents' ? 'active' : ''}">Documents<span class="n">${s.documents}</span></button></div>`;
 }
 /* after a save or park: refresh the numbers in place, re-list, keep the scroll position, show what just happened */
@@ -226,26 +226,26 @@ function titlePanel() {
   if (!sel.length) return '<div class="empty">Pick a job title on the left.</div>';
   const g = sel[0], ex = g.examples[0] || {}, sg = R.suggest;
   const head = sel.length === 1
-    ? `<div class="ev"><div class="step">Step 1 · read the evidence</div><h3>${esc(g.title)}</h3><div class="meta">${esc(g.client || 'no client')} · ${plural(g.rows_in_set ?? g.rows_affected, 'rate', 'rates')} here${g.rows_affected > (g.rows_in_set ?? g.rows_affected) ? `, ${n(g.rows_affected)} for the client` : ''} · ${esc(g.documents.join(', '))}</div>
+    ? `<div class="ev"><div class="step">What the document says</div><h3>${esc(g.title)}</h3><div class="meta">${esc(g.client || 'no client')} · ${plural(g.rows_in_set ?? g.rows_affected, 'rate', 'rates')} here${g.rows_affected > (g.rows_in_set ?? g.rows_affected) ? `, ${n(g.rows_affected)} for the client` : ''} · ${esc(g.documents.join(', '))}</div>
         <div class="quote">${esc(ex.source_quote || '(no quote stored)')}</div>
         ${kv([['Rate', rateLine(ex)], ['Period', ex.period_raw], ['Location on the card', ex.location_raw], ['Level on the card', ex.level_raw], ['Page', ex.source_page]])}
         ${ex.obs_id ? `<img class="closeup" src="/api/rows/${ex.obs_id}/closeup.png" alt="" onerror="this.remove()">` : ''}
-        <div class="plain"><b>Why you are being asked:</b> ${esc(plainWhy(g.details[0]))}</div>
+        <div class="plain"><b>Why this needs you:</b> ${esc(plainWhy(g.details[0]))}</div>
         <details class="more"><summary>The system's own words</summary><div class="why-box">${esc(g.details.join(' | '))}</div></details>
         ${g.history.length ? `<details class="more"><summary>Earlier answers</summary>${g.history.map(h => `<div class="why-box">${esc(h.decided_at.slice(0, 10))} ${esc(h.decided_by)}: ${esc(h.decision_json)} — ${esc(h.reason)}${h.superseded_by ? ' (replaced)' : ''}</div>`).join('')}</details>` : ''}
         ${sg && sg.saved ? `<div class="saved-note">You answered this title before (${esc(sg.saved.scope === 'set' ? 'this contract set' : sg.saved.scope === 'vendor' ? 'this vendor' : 'everyone')}): ${esc(roleName(sg.saved.canonical_role_id))}${sg.saved.twm_band ? ', ' + esc(sg.saved.twm_band) : ''}. Saving again replaces it.</div>` : ''}</div>`
-    : `<div class="ev"><div class="step">Step 1 · check they are the same role</div><h3>${plural(sel.length, 'title', 'titles')} selected</h3>${sel.map(x => `<div>${esc(x.title)} <span class="muted">(${esc(x.client || '–')}, ${plural(x.rows_affected, 'rate', 'rates')})</span></div>`).join('')}</div>`;
+    : `<div class="ev"><div class="step">Check they are the same role</div><h3>${plural(sel.length, 'title', 'titles')} selected</h3>${sel.map(x => `<div>${esc(x.title)} <span class="muted">(${esc(x.client || '–')}, ${plural(x.rows_affected, 'rate', 'rates')})</span></div>`).join('')}</div>`;
   const top = sg && sel.length === 1 && sg.suggestions.length ? sg.suggestions[0] : null;
   const suggestion = top
     ? `<div class="suggested">Suggested: <b>${esc(top.name)}</b> <span class="muted">(${esc(top.why)})</span>. Confirm it, or pick another.${sg.suggestions.length > 1 ? `<div class="alts">${sg.suggestions.slice(1).map(x => `<button type="button" data-alt="${esc(x.id)}" title="${esc(x.why)}">${esc(x.name)}</button>`).join('')}</div>` : ''}</div>`
     : '';
   return `<div class="twocol"><div class="col">${head}</div><div class="col form">
-      <div class="step">Step 2 · answer</div>
+      <div class="step">Your answer</div>
       <label for="f-role">Which role is this?</label>${suggestion}${roleSelect(F.role)}
       <label>How senior?</label>${bandButtons(F.band)}
       <label>Technology named in the title <span class="muted">(optional)</span></label>${tagPicker()}
       <label>Where does this answer apply?</label>${scopeButtons(F.scope)}
-      <label for="f-reason">Why? <span class="muted">(one line; it is kept with the answer)</span></label><textarea id="f-reason" placeholder="the SOW describes this role as the platform’s operations lead">${esc(F.reason)}</textarea>
+      <label for="f-reason">Note <span class="muted">(optional)</span></label><textarea id="f-reason" placeholder="anything worth remembering about this answer">${esc(F.reason)}</textarea>
       ${sel.length > 1 ? `<label class="confirm"><input type="checkbox" id="f-confirm" ${F.confirm ? 'checked' : ''}> Yes, one answer for all ${sel.length} titles (${plural(sel.reduce((a, x) => a + x.rows_affected, 0), 'rate', 'rates')}).</label>` : ''}
       <div class="err" id="f-err"></div>
     </div></div>`;
@@ -258,19 +258,19 @@ function itemPanel() {
   const it = sel[0];
   if (R.tab === 'location') {
     const m = /place '([^']+)'/.exec(it.detail || '');
-    return `<div class="twocol"><div class="col"><div class="ev"><div class="step">Step 1 · read</div><h3>${esc(m ? m[1] : it.item)}</h3><div class="meta">on "${esc(it.item)}" · ${esc(it.client || 'no client')} · ${esc(it.filename || '')}</div>
+    return `<div class="twocol"><div class="col"><div class="ev"><div class="step">What the system found</div><h3>${esc(m ? m[1] : it.item)}</h3><div class="meta">on "${esc(it.item)}" · ${esc(it.client || 'no client')} · ${esc(it.filename || '')}</div>
         <div class="plain">Is this place onshore, nearshore or offshore <b>for this client</b>? The system never decides a place on its own. Your answer is reused for this client from now on.</div></div></div>
-      <div class="col form"><div class="step">Step 2 · answer</div><label>For this client, this place is</label><div class="bands" id="f-cls">${S.tax.locations.map(l => `<button type="button" class="${F.cls === l ? 'active' : ''}" data-cls="${l}">${l}</button>`).join('')}</div>
-        <label for="f-reason">Why?</label><textarea id="f-reason" placeholder="Buffalo is a short drive from the client’s Toronto teams">${esc(F.reason)}</textarea>
+      <div class="col form"><div class="step">Your answer</div><label>For this client, this place is</label><div class="bands" id="f-cls">${S.tax.locations.map(l => `<button type="button" class="${F.cls === l ? 'active' : ''}" data-cls="${l}">${l}</button>`).join('')}</div>
+        <label for="f-reason">Note <span class="muted">(optional)</span></label><textarea id="f-reason" placeholder="e.g. a short drive from the client’s Toronto teams">${esc(F.reason)}</textarea>
         <div class="err" id="f-err"></div><div class="step">Step 3 · save</div><div class="btns"><button class="btn primary" id="f-record">Save${sel.length > 1 ? ` for ${sel.length} items` : ''}</button><button class="btn" id="f-park">Park</button></div>
         ${R.parking ? `<div class="parknote"><input id="f-note" placeholder="optional note" value="${esc(F.note)}"><div class="btns"><button class="btn primary sm" id="f-park-go">Park it</button><button class="btn ghost sm" id="f-park-cancel">Cancel</button></div></div>` : ''}</div>`;
   }
   const isClass = /classification/.test(it.detail || '');
-  return `<div class="twocol"><div class="col"><div class="ev"><div class="step">Step 1 · read</div><h3>${esc(it.item)}</h3><div class="meta">${esc(short(it.detail))}</div></div></div>
-    <div class="col form"><div class="step">Step 2 · answer</div>${isClass
+  return `<div class="twocol"><div class="col"><div class="ev"><div class="step">What the system found</div><h3>${esc(it.item)}</h3><div class="meta">${esc(short(it.detail))}</div></div></div>
+    <div class="col form"><div class="step">Your answer</div>${isClass
       ? `<label for="f-doctype">What kind of document is it?</label><select id="f-doctype"><option value="">Choose…</option>${[['msa', 'Master agreement'], ['sow', 'Statement of work'], ['amendment', 'Amendment'], ['rate_card', 'Rate card or pricing exhibit'], ['sla', 'Service levels'], ['solicitation', 'Solicitation / RFP'], ['template', 'Template'], ['invoice', 'Invoice'], ['timesheet', 'Timesheet'], ['other', 'Other']].map(([v, l]) => `<option value="${v}" ${F.docType === v ? 'selected' : ''}>${l}</option>`).join('')}</select>`
       : `<label>Does this document belong to the contract set it was filed with?</label><div class="bands" id="f-cls">${[['confirm', 'Yes'], ['reject', 'No']].map(([v, l]) => `<button type="button" class="${F.cls === v ? 'active' : ''}" data-cls="${v}">${l}</button>`).join('')}</div>`}
-      <label for="f-reason">Why?</label><textarea id="f-reason">${esc(F.reason)}</textarea>
+      <label for="f-reason">Note <span class="muted">(optional)</span></label><textarea id="f-reason">${esc(F.reason)}</textarea>
       <div class="err" id="f-err"></div><div class="step">Step 3 · save</div><div class="btns"><button class="btn primary" id="f-record">Save</button><button class="btn" id="f-park">Park</button></div>
       ${R.parking ? `<div class="parknote"><input id="f-note" placeholder="optional note" value="${esc(F.note)}"><div class="btns"><button class="btn primary sm" id="f-park-go">Park it</button><button class="btn ghost sm" id="f-park-cancel">Cancel</button></div></div>` : ''}</div>`;
 }
@@ -299,7 +299,6 @@ async function saveTitle() {
   const sel = R.selected.map(i => R.groups[i]).filter(Boolean);
   const err = $('#f-err');
   if (!F.role) { err.textContent = 'Choose a role, or park it.'; $('#f-role').focus(); return; }
-  if (!F.reason.trim()) { err.textContent = 'Add one line saying why.'; $('#f-reason').focus(); return; }
   if (sel.length > 1 && !F.confirm) { err.textContent = 'Tick the box to confirm one answer for all of them.'; return; }
   const btn = $('#f-record'); btn.disabled = true; btn.textContent = 'Saving…';
   try {
@@ -316,7 +315,6 @@ async function saveItem() {
   if (needName()) return;
   const sel = R.selected.map(i => R.items[i]).filter(Boolean);
   const err = $('#f-err');
-  if (!F.reason.trim()) { err.textContent = 'Add one line saying why.'; $('#f-reason').focus(); return; }
   try {
     if (R.tab === 'location') {
       if (!F.cls) { err.textContent = 'Choose onshore, nearshore or offshore.'; return; }
