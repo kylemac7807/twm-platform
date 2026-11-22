@@ -11,29 +11,29 @@ const OUT = process.argv[2] || "pitch-deck-narrative.docx";
 const DATE = "November 22, 2026";
 
 const decisions = [
-  ["Fee.", " Early Adopter fee: $300k, $500k or $1.5MM? Your three documents give different figures."],
-  ["Dates.", " Every milestone in the documents has passed. A new timeline is needed."],
-  ["Profitability.", " Q3 2027 (Business Plan) or 2026 (Pitch Deck)?"],
-  ["Target market.", " $100MM+ or $200MM+ in third-party labour spend?"],
-  ["The ask.", " Still a $1MM SAFE, with a Series A in early 2027?"],
-  ["Team.", " Names for the additional leadership, or “to be announced”?"],
-  ["The real example.", " Show the Texas contract with Accenture by name, or as “a global systems integrator”?"],
-  ["“Train”.", " No model has been trained, so the draft says the system is taught, through the role framework and analyst decisions. Agree?"],
-  ["Name.", " Akerlow throughout, as the working name?"],
+  ["Fee.", " $1.5MM per Early Adopter, contingent on the engagement generating more than $10MM in value for that client."],
+  ["Dates.", " The plan starts today. Every Business Plan milestone moves eight months later (slide B4)."],
+  ["Profitability.", " Proposed: the second quarter of 2028, from the Business Plan\u2019s own model moved to today\u2019s start, at about five clients paying the full fee. The Pitch Deck\u2019s 2026 counted only consulting costs. For Kyle to confirm."],
+  ["Target market.", " Organizations with $100MM+ in third-party technology labour spend."],
+  ["The ask.", " $1MM through a SAFE now; a Series A in the second half of 2027."],
+  ["Team.", " Additional leadership to be announced."],
+  ["The real example.", " The Texas contract with Accenture is shown by name."],
+  ["\u201cTrain\u201d.", " The system is described as taught, through the role framework and analyst decisions, not trained."],
+  ["Name.", " TWM throughout this deck. The case for Akerlow is a separate one-page slide."],
 ];
 
 // slide: n, title, headline, points (string | [bold, rest]), flag
 const core = [
   { n: "1", title: "Title",
     visual: "The name and tagline over a faint crop of the real Texas page with its boxed row.",
-    headline: "Akerlow (working name). Every rate you pay, traced to the page it came from.",
+    headline: "TWM. Every rate you pay, traced to the page it came from.",
     points: ["An AI platform and specialist consulting practice that cuts third-party technology labour spend by 10 to 15%."] },
   { n: "2", title: "The short version",
     visual: "Four boxes: the problem, what we do, the prize, the proof.",
-    headline: "Enterprises overpay for technology contractors because the vendor sees every price and the client sees one contract at a time. Akerlow closes that gap.",
+    headline: "Enterprises overpay for technology contractors because the vendor sees every price and the client sees one contract at a time. TWM closes that gap.",
     points: [
       "Third-party technology labour costs each large Canadian bank over $1.5B a year, and the leakage is buried in contracts, invoices and timesheets that nobody links.",
-      "Akerlow reads them, builds one traceable record of every rate, benchmarks each rate, and finds savings of 10 to 15%.",
+      "TWM reads them, builds one traceable record of every rate, benchmarks each rate, and finds savings of 10 to 15%.",
       "Consultants deliver it first; the software takes on more each year. Early Adopters join a consortium of 4 to 5 organizations.",
       "Already built: a library of 438 real contracts, a framework of 129 roles, and a working prototype.",
     ] },
@@ -49,7 +49,7 @@ const core = [
     visual: "Two panels: the vendor\u2019s view of every client\u2019s rates; the client\u2019s view of one contract.",
     headline: "The vendor sees everything; the client sees fragments.",
     points: [
-      "George Akerlof, the Nobel economist, showed that when one side of a market knows far more than the other, that side sets the price. Akerlow is a nod to him.",
+      "George Akerlof, the Nobel economist, showed that when one side of a market knows far more than the other, that side sets the price.",
       "The vendor knows what every client pays. The client sees one statement of work at a time, each defining roles, seniority, rate units and price increases in its own way.",
       "So the client cannot tell a fair rate from an inflated one, and fair pricing cannot win. Nobody has to behave badly; the gap does it on its own.",
     ] },
@@ -62,14 +62,14 @@ const core = [
       "The first 5 to 10% comes from price, a further 5 to 15% from mix. For a $150MM opportunity, every week of delay costs about $3MM.",
     ] },
   { n: "6", title: "Why existing tools do not fix it",
-    visual: "Columns for each kind of tool and its gap, with Akerlow spanning them.",
+    visual: "Columns for each kind of tool and its gap, with TWM spanning them.",
     headline: "Every tool sees one slice. None links the timecard to the invoice to the contracted rate.",
     points: [
       "HR, procurement and IT finance systems (Workday, SAP Ariba, Fieldglass, Apptio) hold pieces of the picture, but not comparable rates or the leakage.",
       "Benchmark providers (ISG, Gartner) cannot be lined up against your own statements of work.",
       "General-purpose AI does not hold your contracts, a role framework or peer benchmarks, and it cannot be allowed to guess.",
     ] },
-  { n: "7", title: "What Akerlow does",
+  { n: "7", title: "What TWM does",
     visual: "Documents in, the ledger in the middle, benchmarks and savings out.",
     headline: "It turns contracts, invoices and timesheets into one traceable record of every rate, and that record into savings.",
     points: [
@@ -104,7 +104,7 @@ const core = [
     flag: "The dashboards are designed, not built. Any mock-up must be labelled illustrative." },
   { n: "11", title: "Your data stays home",
     visual: "Two zones, the client\u2019s environment and the shared tier, with the gate between.",
-    headline: "Akerlow is installed inside each client’s own Azure environment.",
+    headline: "TWM is installed inside each client’s own Azure environment.",
     points: [
       "Contracts, rates and vendor relationships never leave it.",
       "Only the shared vocabulary and anonymized benchmark summaries leave, each backed by at least three observations from at least two clients; vendors appear only as a class.",
@@ -188,17 +188,18 @@ const endingA = [
       ["Capability Development:", " tools in place, processes standardized, internal capability built, benchmarks refreshed."],
     ] },
   { n: "A3", title: "What we ask, what we bring",
-    visual: "Two columns: the member, Akerlow.",
+    visual: "Two columns: the member, TWM.",
     headline: "A committed sponsor and access to the documents; in return, a dedicated team and the platform.",
     points: [
       ["Members:", " a CIO sponsor and a dedicated leader; procurement, HR and finance at the table; access to statements of work, invoices and timecards."],
-      ["Akerlow:", " hands-on leadership, a pod for each member, and the platform running inside your environment."],
+      ["TWM:", " hands-on leadership, a pod for each member, and the platform running inside your environment."],
     ] },
   { n: "A4", title: "Commercials, and why join now",
     visual: "An offer box and a timeline.",
     headline: "Founding members get the deepest discount, the earliest benchmarks and the most influence.",
     points: [
-      "Fee: [decision 1], heavily discounted against a McKinsey team (about $1.5MM a month).",
+      "Fee: $1.5MM per Early Adopter, contingent on the engagement generating more than $10MM in value for that client, so the fee is never more than 15% of the value created.",
+      "A fraction of the cost of a McKinsey team (about $1.5MM a month).",
       "Why now: shape the product, see the benchmarks first, and start saving within months. Every week of delay costs about $3MM on a $150MM opportunity.",
     ] },
 ];
@@ -209,7 +210,7 @@ const endingB = [
     headline: "A very large spend with no purpose-built solution.",
     points: [
       "IT services spend of $1.87 trillion in 2026 (Gartner, IDC); the top seven providers employ about 3 million people.",
-      "1,500+ organizations with large third-party labour spend, half of them in North America and 400+ in North American financial services and telecom [threshold: decision 4]. Goal: 50+ clients.",
+      "1,500+ organizations with $100MM+ in third-party technology labour spend, about half of them in North America and 400+ in North American financial services and telecom. Goal: 50+ clients.",
     ] },
   { n: "B2", title: "Business model",
     headline: "Revenue tied to the savings we create.",
@@ -226,20 +227,35 @@ const endingB = [
       ["Months 1 to 12:", " the Early Adopter consortium, through the leadership team\u2019s executive network."],
       ["Years 2 to 3:", " enterprise sales with 4 to 8 week pilots across North American financial services and telecom; CIOs first, chief procurement officers second; case studies from the Early Adopters."],
     ] },
-  { n: "B4", title: "Financial model",
-    visual: "Revenue and client ramp to 2030; the cost stack.",
-    headline: "Profitable early, on a path to $200MM.",
+  { n: "B4", title: "Timeline",
+    headline: "Starting now: Early Adopters in the first quarter of 2027, profitability in 2028.",
+    visual: "A horizontal timeline from today to 2031.",
     points: [
-      "Profitable in Q3 2027 on 8 clients, and profitable at 5 [decision 3]. 2030 run rate: $200MM revenue, $100MM+ profit before tax, 50 clients.",
+      ["December 2026:", " the $1MM SAFE; the founding team and the first two engagement pods start."],
+      ["March 2027:", " on the ground with four Early Adopters for Value Validation."],
+      ["September 2027:", " a second cohort of Early Adopters; the Series A in the second half of 2027."],
+      ["Late 2027:", " the first version of the platform running in Early Adopter environments (the prototype already exists)."],
+      ["March 2028:", " new clients at the full annual fee; profitable from the second quarter of 2028."],
+      ["2031:", " 50 clients and a $200MM revenue run rate."],
+    ] },
+  { n: "B5", title: "Financial model",
+    visual: "Revenue and client ramp to 2031; the cost stack.",
+    headline: "Profitable in 2028, on a path to $200MM.",
+    points: [
+      "Profitable from the second quarter of 2028, at about five clients paying the full fee: the Business Plan\u2019s model, moved to today\u2019s start.",
+      "Run rate by 2031: $200MM revenue, $100MM+ profit before tax, 50 clients.",
       "First two years: $30MM of costs in the base case, $10 to 12MM in the leaner case, paced to traction.",
-    ] },
-  { n: "B5", title: "The ask",
+    ],
+    flag: "The profitability date is my proposal from the Business Plan\u2019s own numbers (decision 3). Confirm it." },
+  { n: "B6", title: "The ask",
     visual: "Use of funds and the milestones the round buys.",
-    headline: "[Amount, decision 5] to take a working prototype into the first consortium.",
+    headline: "$1MM through a SAFE to take a working prototype into the first consortium.",
     points: [
-      "The Pitch Deck’s $1MM SAFE funded Value Validation with 4 to 5 Early Adopters and the first two engagement pods.",
+      "$1MM through a SAFE funds the founding team and the first two engagement pods to launch Value Validation with four Early Adopters.",
       "The prototype already exists, so the money goes into the first engagements, not into proving the idea.",
-    ] },
+      "A Series A in the second half of 2027 funds the broader platform.",
+    ],
+    flag: "With the fee contingent on more than $10MM of value, Early Adopter cash arrives only once that value is shown, likely months into Value Validation. Check that $1MM covers the gap." },
 ];
 
 // ---------------------------------------------------------------- layout
@@ -264,13 +280,13 @@ function slide(s) {
 }
 const h1 = (t) => children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [run(t)] }));
 
-children.push(new Paragraph({ heading: HeadingLevel.TITLE, children: [run("Akerlow: pitch deck narrative")] }));
+children.push(new Paragraph({ heading: HeadingLevel.TITLE, children: [run("TWM: pitch deck narrative")] }));
 children.push(new Paragraph({ spacing: { after: 120 }, children: [run(
   `Draft for Kyle’s review, ${DATE}. One deck, two audiences: a shared core, then a short ending for an Early Adopter CIO and one for investors. ` +
-  "Each slide has its headline, its points and a suggested visual. A fuller version, with the sources for every slide, is in pitch-deck-narrative-detailed.docx.",
+  "Each slide has its headline, its points and a suggested visual. A fuller version, with the sources for every slide, is in pitch-deck-narrative-detailed.docx; it was written before Kyle\u2019s decisions of November 22.",
   { color: "444444" })] }));
 
-h1("Decisions for Kyle");
+h1("Kyle\u2019s decisions (November 22, 2026)");
 decisions.forEach((d) => children.push(new Paragraph({ children: [run(d[0], { bold: true }), run(d[1])], numbering: { reference: "decisions", level: 0 }, spacing: { after: 40 } })));
 
 h1("The core (both audiences)");
@@ -287,7 +303,7 @@ children.push(new Paragraph({ spacing: { before: 240 }, children: [run(
 
 const doc = new Document({
   creator: "Claude Code for Kyle McNamara",
-  title: "Akerlow pitch deck narrative",
+  title: "TWM pitch deck narrative",
   styles: {
     default: { document: { run: { font: FONT, size: 22 } } },
     paragraphStyles: [
@@ -302,7 +318,7 @@ const doc = new Document({
   ] },
   sections: [{
     properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
-    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [run(`Akerlow pitch narrative, draft for Kyle, ${DATE}. Confidential.`, { size: 16, color: "888888" })] })] }) },
+    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [run(`TWM pitch narrative, draft for Kyle, ${DATE}. Confidential.`, { size: 16, color: "888888" })] })] }) },
     footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [run("Page ", { size: 16, color: "888888" }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16, color: "888888" })] })] }) },
     children,
   }],
