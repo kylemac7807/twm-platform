@@ -160,3 +160,39 @@ def test_page_image_endpoint_returns_the_boxed_page(tmp_path, monkeypatch):
     img = Image.open(io.BytesIO(r.content))
     assert img.width > 600 and img.height > img.width
     assert c.get("/api/rows/1/closeup.png").status_code == 200
+
+
+def test_a_contract_set_by_kind_where_a_title_appears_and_the_original(tmp_path, monkeypatch):
+    """Kyle, Nov 22, 2026: a contract set is shown by kind of document, a title shows where it appears, and the original opens."""
+    c, path = _client(tmp_path, monkeypatch)
+    s = c.get("/api/sets").json()[0]
+    assert s["kinds"]["rate_cards"] == 1 and s["kinds"]["contracts"] == 0 and s["composition_total"]["rates"] == 5
+    comp = c.get(f"/api/sets/{s['root_id']}/composition").json()
+    by = {r["kind"]: r for r in comp["rows"]}
+    assert [r["label"] for r in comp["rows"]] == ["Contracts", "Amendments", "SOWs", "Rate cards", "Other", "Invoices and timesheets"]
+    assert by["rate_cards"]["documents"] == 1 and by["rate_cards"]["read"] == 1 and by["rate_cards"]["rates"] == 5
+    assert by["rate_cards"]["questions"] == comp["total"]["questions"] == s["open"] == 3     # each question once: Operations, Technical Specialist, the place name
+    assert by["contracts"]["documents"] == 0 and comp["total"]["documents"] == 1
+    assert sum(r["documents"] for r in comp["rows"]) == comp["total"]["documents"]          # the kinds add up to the documents
+    assert c.get("/api/sets/nope/composition").status_code == 404
+    ap = c.get("/api/appearances", params=dict(title="Operations", vendor="Acme", set_id=s["root_id"])).json()
+    assert len(ap) == 1 and ap[0]["rates"] == 2 and ap[0]["how"] == "priced" and (ap[0]["rate_min"], ap[0]["rate_max"]) == ("99.50", "101.00")
+    assert ap[0]["pages"] == [2] and ap[0]["periods"] == ["Year 1"]
+    assert c.get("/api/appearances", params=dict(title="Operations", vendor="Someone else")).json() == []
+    doc = by["rate_cards"]["docs"][0]
+    f = c.get(f"/api/documents/{doc['document_id']}/file")
+    assert f.status_code == 200 and "rate card exhibit" in f.text and "inline" in f.headers["content-disposition"]
+    assert c.get("/api/documents/nope/file").status_code == 404
+    rows = c.get(f"/api/documents/{doc['document_id']}/rows").json()
+    assert c.get(f"/api/rows/{rows[0]['obs_id']}/table").json()["kind"] == "none"            # a text file has no table to show: said, not faked
+
+
+@pytest.mark.skipif(not PRICING.exists(), reason="pricing exhibit not on disk")
+def test_the_row_is_shown_in_its_table_with_its_headings():
+    from twm.workbench.render import table_context
+    ctx = table_context(dict(path=str(PRICING), true_type="pdf", source_page=8, source_bbox="[65.0, 128.0, 553.8, 132.6]",
+                             observed_title="Advanced Systems Engineer", rate_as_stated="$83.00"))
+    assert ctx["kind"] == "table" and ctx["page"] == 8
+    hit = [r for r in ctx["rows"] if r["hit"]]
+    assert len(hit) == 1 and "Advanced Systems Engineer" in " ".join(hit[0]["cells"]) and any("83.00" in c for c in hit[0]["cells"])
+    assert ctx["header"] and len(ctx["rows"]) >= 3                                          # headings and neighbours come with it

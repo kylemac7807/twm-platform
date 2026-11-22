@@ -21,6 +21,10 @@ GROUP_NAMES: dict[str, str] = {
     "G": "Disclosure and benchmarking rights",   # the gate, added Oct 13, 2026 at Kyle's request
 }
 GATE_GROUP = "G"
+# The gate (Kyle, Oct 13, 2026): which clauses restrict showing or benchmarking a contract set, and which clear it.
+RESTRICTING_KEYS = {"disclosure_bar", "benchmark_data_use"}
+CLEARING_KEYS = {"public_record", "advisor_disclosure", "benchmark_clause", "benchmark_conditions"}
+PROPOSED_PREFIX = "proposed:"   # a condition an analyst named that is not in the inventory yet (a nomination)
 
 # key -> (group letter, one-line meaning), in the order of the inventory
 RATE_CONDITIONS: dict[str, tuple[str, str]] = {

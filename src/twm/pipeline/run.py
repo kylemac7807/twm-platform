@@ -25,7 +25,7 @@ from twm import llm
 from twm.llm import AnthropicModel, Model, ModelConfig
 from twm.taxonomy.store import TaxonomyStore
 
-from .conditions import GATE_GROUP, OTHER
+from .conditions import CLEARING_KEYS, GATE_GROUP, OTHER, RESTRICTING_KEYS
 from .extract import ExtractionOutcome, extract_rate_card, extract_sow, rate_table_pages
 from .ingest import family_summary, register_family
 from .ledger import CONFIDENCE_FLOOR, Ledger, vendor_name_key
@@ -220,9 +220,6 @@ def resolve_vendor(led: Ledger, recs: list[DocumentRecord], override: Optional[s
 
 
 # ---------------------------------------------------------------- the gate: may this contract set be shown, benchmarked, contributed?
-RESTRICTING_KEYS = {"disclosure_bar", "benchmark_data_use"}
-CLEARING_KEYS = {"public_record", "advisor_disclosure", "benchmark_clause", "benchmark_conditions"}
-
 
 def disclosure_check(led: Ledger, recs: list[DocumentRecord], run_id: str) -> tuple[str, list[str]]:
     """Read the gate clauses this run stored and say, first thing, what the contract set allows (Kyle, Oct 13, 2026).
@@ -265,6 +262,7 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
     rep = RunReport(run_id, recs)
     led = Ledger(ledger_path)
     led.start_run(run_id, "local", cfg.model, RULE_VERSION)
+    led.ask_each_question_once()
     llm.LOG.clear()
     rep.vendor, rep.vendor_note, rep.vendor_queued = resolve_vendor(led, recs, vendor, run_id)
     vendor = rep.vendor
@@ -335,12 +333,18 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
             key = t.condition_key or OTHER
             status = None
             note = t.condition_note
-            if key == OTHER:
+            group = key_source = None
+            saved = led.saved_condition(t.verbatim_short, vendor, rec.family_id or rec.document_id) if key == OTHER else None
+            if saved:   # an analyst named this clause before (resolve once, applied to people): it is not asked again
+                key, group, key_source = saved["condition_key"], saved.get("condition_group"), "analyst"
+                status = "dismissed" if saved.get("not_a_condition") else "recorded"
+            elif key == OTHER:
                 status = "flagged"
                 led.queue(run_id, rec.document_id, "condition", (t.condition_note or t.verbatim_short)[:120],
                           f"a condition not in the inventory (page {t.source_ref.page}): \"{t.verbatim_short[:160]}\"; name it and add it to specs/rate-conditions.md")
             tid = led.add_term(run_id, rec, kind="term", term_type=t.term_type, value=t.verbatim_short, source_ref=t.source_ref, confidence=t.confidence,
-                               verified=True, vendor=vendor, client=client, condition_key=key, note=note, status=status)
+                               verified=True, vendor=vendor, client=client, condition_key=key, note=note, status=status,
+                               condition_group=group, key_source=key_source)
             row = [x for x in led.live_terms(rec.document_id, kind="term") if x["term_id"] == tid][0]
             if row["status"] != "recorded":
                 rep.terms_flagged += 1
@@ -370,6 +374,7 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
 
     for rec in recs:
         led.upsert_document(rec)
+        led.supersede_queue(rec.document_id, run_id, kinds=("intake", "vendor", "disclosure"))   # re-raised below or already, by this run
         for f in rec.flags:
             led.queue(run_id, rec.document_id, "intake", rec.filename, f)
         if model is None or rec.doc_class not in TERM_CLASSES:
@@ -393,6 +398,7 @@ def run_family(paths, *, vendor: Optional[str], client: Optional[str], ledger_pa
             continue
         led.supersede_document(rec.document_id, run_id)
         led.supersede_terms(rec.document_id, run_id)
+        led.supersede_queue(rec.document_id, run_id)   # this document is being read again: its older open questions are replaced
         if rec.doc_class == "rate_card":
             out = extract_rate_card(rec, reading, model, cfg, expand=all_periods)
             rep.base_rows += out.base_rows; rep.expanded_rows += out.expanded_rows

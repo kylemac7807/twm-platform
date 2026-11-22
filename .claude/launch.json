@@ -14,6 +14,15 @@
         "8501"
       ],
       "port": 8501
+    },
+    {
+      "name": "workbench-practice-copy",
+      "runtimeExecutable": ".venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "-c",
+        "import os, uvicorn; os.environ['TWM_LEDGER'] = '.cache/ledger.uitest.sqlite'; uvicorn.run('twm.workbench.api:app', host='127.0.0.1', port=8502)"
+      ],
+      "port": 8502
     }
   ]
 }

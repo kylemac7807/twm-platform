@@ -60,6 +60,64 @@ def crop_around(img: Image.Image, bbox: tuple[float, float, float, float], page_
     return img.crop(box)
 
 
+def _clean(cell) -> str:
+    return " ".join(str(cell or "").split())
+
+
+def table_context(observation: dict, before: int = 2, after: int = 2) -> dict:
+    """The row as it sits in its table: the heading rows, the row itself and a few rows either side, so a rate is seen under
+    its column headings rather than as a loose quote (Kyle, Nov 22, 2026). Returns {"kind": "table", "header": [[...]],
+    "rows": [{"cells": [...], "hit": bool}], "page": n} or {"kind": "none", "note": ...}. Nothing is inferred: the cells are
+    what the page's table holds."""
+    path = Path(observation.get("path") or "")
+    page = observation.get("source_page")
+    if not path.exists():
+        return {"kind": "none", "note": f"document not on disk: {path}"}
+    if observation.get("true_type") == "html":
+        from twm.pipeline.ingest import register
+        from twm.pipeline.read import reader_for
+        rec = register(path)
+        reading = reader_for(rec).read(rec)
+        title = _clean(observation.get("observed_title")).lower()
+        stated = _clean(observation.get("rate_as_stated"))
+        for pg in reading.pages:
+            for t in pg.tables:
+                rows = [[_clean(c) for c in r] for r in t.rows()]
+                for i, r in enumerate(rows):
+                    if r and r[0].lower() == title and (not stated or any(stated in c for c in r)):
+                        head = [rows[0]] if i > 0 else []
+                        lo, hi = max(1 if head else 0, i - before), min(len(rows), i + after + 1)
+                        return {"kind": "table", "page": None, "header": head, "rows": [{"cells": rows[j], "hit": j == i} for j in range(lo, hi)], "of_rows": len(rows)}
+        return {"kind": "none", "note": "the row was not found in a table on the saved page"}
+    bbox = _bbox_of(observation)
+    if observation.get("true_type") != "pdf" or not bbox or not page:
+        return {"kind": "none", "note": "no page position for this row"}
+    cx, cy = (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2
+    with pdfplumber.open(path) as pdf:
+        pg = pdf.pages[page - 1]
+        best = None
+        for t in pg.find_tables():
+            x0, top, x1, bottom = t.bbox
+            if top - 2 <= cy <= bottom + 2:
+                best = t
+                break
+        if best is None:
+            return {"kind": "none", "note": "no table found around this row on the page"}
+        cells = [[_clean(c) for c in r] for r in best.extract()]
+        tops = [(r.bbox[1] + r.bbox[3]) / 2 for r in best.rows]
+    if not cells:
+        return {"kind": "none", "note": "the table on this page could not be read"}
+    i = min(range(len(tops)), key=lambda k: abs(tops[k] - cy)) if tops else 0
+    i = min(i, len(cells) - 1)
+    # heading rows: the first row, and the next one or two while the row above them is mostly empty (stacked headings)
+    n_head = 1
+    while n_head < min(3, len(cells)) and sum(1 for c in cells[n_head - 1] if c) <= max(1, len(cells[n_head - 1]) // 2):
+        n_head += 1
+    n_head = min(n_head, i) if i > 0 else 0
+    lo, hi = max(n_head, i - before), min(len(cells), i + after + 1)
+    return {"kind": "table", "page": page, "header": cells[:n_head], "rows": [{"cells": cells[j], "hit": j == i} for j in range(lo, hi)], "of_rows": len(cells)}
+
+
 def _bbox_of(observation: dict) -> Optional[tuple[float, float, float, float]]:
     raw = observation.get("source_bbox")
     if raw is None:

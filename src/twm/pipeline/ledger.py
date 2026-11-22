@@ -84,7 +84,8 @@ CREATE TABLE IF NOT EXISTS vendor_names (
 CREATE INDEX IF NOT EXISTS ix_vendor_names_key ON vendor_names(name_key);
 """
 # Columns added after a table first shipped are applied by Ledger._migrate (additive; an existing file gains them on open):
-MIGRATIONS = [("queue_decisions", "scope", "TEXT"), ("mapping_decisions", "scope", "TEXT")]
+MIGRATIONS = [("queue_decisions", "scope", "TEXT"), ("mapping_decisions", "scope", "TEXT"),
+              ("contract_terms", "key_source", "TEXT")]   # 'analyst' once a person named or confirmed the condition (Nov 22, 2026)
 SCOPES = ("set", "vendor", "everyone")   # an answer applies to this contract set (default), this vendor's contracts, or is nominated for everyone
 DEFAULT_SCOPE = "set"                    # Kyle, Oct 13: the hierarchy is contract set -> vendor -> everyone; the default is the narrowest
 LEGACY_SCOPES = {"client": "vendor"}     # scope names recorded before Oct 13 read as the current ones
@@ -136,6 +137,13 @@ class Ledger:
             "INSERT OR REPLACE INTO documents VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (rec.document_id, rec.fingerprint, rec.filename, rec.path, rec.true_type, rec.doc_class, rec.class_confidence,
              json.dumps(rec.contract_numbers), rec.family_id, rec.readiness, rec.source_class, rec.registered_at, rec.model_dump_json()))
+        # An analyst's answer about what kind of document this is stands over intake's first-page guess, on every later run
+        # (resolve once, applied to people). The engine's own guess stays in record_json, and is what the run itself uses.
+        for d in self.conn.execute("SELECT decision_json FROM queue_decisions WHERE kind='intake' AND superseded_by IS NULL ORDER BY id DESC").fetchall():
+            dec = json.loads(d[0])
+            if dec.get("document_id") == rec.document_id and dec.get("doc_class"):
+                self.conn.execute("UPDATE documents SET doc_class=?, class_confidence=1.0 WHERE document_id=?", (dec["doc_class"], rec.document_id))
+                break
         self.conn.commit()
 
     # ------------------------------------------------------------ observations
@@ -179,9 +187,34 @@ class Ledger:
         return cur.lastrowid
 
     def queue(self, run_id: str, document_id: Optional[str], kind: str, item: str, detail: str) -> None:
+        asked = getattr(self, "_asked", None)
+        if asked is not None:   # during a run (ask_each_question_once): one question per document, kind, item and detail
+            key = (document_id, kind, item, detail)
+            if key in asked:
+                return
+            asked.add(key)
+            if self.conn.execute("SELECT 1 FROM review_queue WHERE document_id IS ? AND kind=? AND item=? AND status='parked' LIMIT 1",
+                                 (document_id, kind, item)).fetchone():
+                return          # the analyst parked this one; it stays parked rather than being asked again
         self.conn.execute("INSERT INTO review_queue(run_id, document_id, kind, item, detail, created_at) VALUES (?,?,?,?,?,?)",
                           (run_id, document_id, kind, item, detail, _now()))
         self.conn.commit()
+
+    def ask_each_question_once(self) -> None:
+        """Called by a run: from here on the same question (document, kind, item, detail) is queued a single time, however many
+        rows raise it (a title priced in eight contract years is one question, not eight), and not at all while it is parked."""
+        self._asked = set()
+
+    def supersede_queue(self, document_id: str, new_run_id: str, kinds: Optional[tuple] = None) -> int:
+        """A re-run of a document closes the open questions an earlier run raised for it; the new run raises its own. Answered
+        and parked questions are left as they are (answers are found again through saved_answer). Nothing is deleted."""
+        q = "UPDATE review_queue SET status='superseded' WHERE document_id=? AND status='open' AND run_id<>?"
+        args: list = [document_id, new_run_id]
+        if kinds:
+            q += " AND kind IN (" + ",".join("?" for _ in kinds) + ")"; args += list(kinds)
+        cur = self.conn.execute(q, args)
+        self.conn.commit()
+        return cur.rowcount
 
     def record_mapping_decision(self, run_id: str, title: str, role: Optional[str], band: Optional[str], method: str,
                                 confidence: float, reasoning: str, decided_by: str, scope: Optional[str] = None) -> None:
@@ -261,7 +294,7 @@ class Ledger:
             g["queue_ids"].append(it["id"]); g["details"].add(it["detail"] or ""); g["documents"].add(it["filename"] or "")
         out = []
         for g in groups.values():
-            obs = self._rows("SELECT obs_id, rate_as_stated, currency, rate_unit, period_raw, location_raw, level_raw, source_quote, source_page, counted "
+            obs = self._rows("SELECT obs_id, document_id, qualifier, rate_as_stated, currency, rate_unit, period_raw, location_raw, level_raw, source_quote, source_page, counted "
                              "FROM observations WHERE superseded_by IS NULL AND observed_title=? AND vendor IS ? ORDER BY obs_id", (g["title"], g["vendor"]))
             g["rows_affected"] = len(obs)
             g["rows_unlocked"] = sum(1 for o in obs if not o["counted"])
@@ -412,11 +445,45 @@ class Ledger:
         """decision = {"doc_class": "msa"} confirms or corrects a classification (the document record is updated, confidence 1.0);
         {"link": "confirm" | "reject"} answers a suggested contract-set link (recorded; the link itself is re-made on the next run)."""
         q = self._queue_item(queue_id, "intake")
+        decision = {**decision, "document_id": q["document_id"]}
         did = self._record_decision(queue_id, "intake", self._client_of(q["document_id"]), q["item"], decision, reason, decided_by, reason_required=False)
         if decision.get("doc_class"):
             self.conn.execute("UPDATE documents SET doc_class=?, class_confidence=1.0 WHERE document_id=?", (decision["doc_class"], q["document_id"]))
+            self._refresh_proposed_name(self.set_of_document(q["document_id"]))
         self.conn.commit()
         return did
+
+    DOC_KINDS = ("msa", "sow", "amendment", "rate_card", "sla", "solicitation", "template", "invoice", "timesheet", "other")
+
+    def set_document_kind(self, document_id: str, doc_class: str, *, decided_by: str, reason: str = "") -> int:
+        """An analyst corrects what kind of document a file is, with no question having been asked (a contract file that
+        opens with a change notice reads as an amendment to intake). Recorded like any answer; it replaces an earlier one
+        for the same document, closes an open "confirm the type" question for it, and stands on later runs."""
+        if doc_class not in self.DOC_KINDS:
+            raise ValueError(f"the kind is one of {self.DOC_KINDS}, not {doc_class!r}")
+        rows = self._rows("SELECT filename FROM documents WHERE document_id=?", (document_id,))
+        if not rows:
+            raise ValueError(f"no document {document_id}")
+        earlier = [d["id"] for d in self._rows("SELECT id, decision_json FROM queue_decisions WHERE kind='intake' AND superseded_by IS NULL")
+                   if json.loads(d["decision_json"]).get("document_id") == document_id and json.loads(d["decision_json"]).get("doc_class")]
+        asked = self._rows("SELECT id FROM review_queue WHERE kind='intake' AND status IN ('open','parked') AND document_id=? AND detail LIKE '%classification%'", (document_id,))
+        did = self._record_decision(asked[0]["id"] if asked else None, "intake", self._client_of(document_id), rows[0]["filename"],
+                                    dict(doc_class=doc_class, document_id=document_id, corrected=True), reason, decided_by, reason_required=False)
+        for e in earlier:
+            self.conn.execute("UPDATE queue_decisions SET superseded_by=? WHERE id=? AND superseded_by IS NULL", (did, e))
+        self.conn.execute("UPDATE documents SET doc_class=?, class_confidence=1.0 WHERE document_id=?", (doc_class, document_id))
+        self._refresh_proposed_name(self.set_of_document(document_id))
+        self.conn.commit()
+        return did
+
+    def _refresh_proposed_name(self, set_id: Optional[str]) -> None:
+        """A set's proposed name says what kind of contract it is; when a document's kind changes, the proposal follows.
+        A name a person confirmed is never touched."""
+        s = next((x for x in self.documents_by_set() if x["root_id"] == set_id), None)
+        if s is None or not self._rows("SELECT 1 FROM contract_sets WHERE set_id=?", (set_id,)):
+            return
+        p = self.propose_set_name(s)
+        self.conn.execute("UPDATE contract_sets SET proposed_name=?, kind=? WHERE set_id=?", (p["proposed_name"], p["kind"], set_id))
 
     def decision_history(self, item: str) -> list[dict]:
         return self._rows("SELECT * FROM queue_decisions WHERE item=? ORDER BY id", (item,))
@@ -426,7 +493,8 @@ class Ledger:
         column order of the taxonomy CSVs (plus decision_id first), so the main session can append them with the
         twm-change-the-taxonomy skill. Set- and client-scoped answers live in this database and never need this list.
         The workbench never writes to taxonomy/."""
-        out: dict[str, list[dict]] = {"title_mappings": [], "location_rules": []}
+        from .conditions import GROUP_NAMES, RATE_CONDITIONS
+        out: dict[str, list[dict]] = {"title_mappings": [], "location_rules": [], "conditions": []}
         seen = set()
         for d in self._rows("SELECT * FROM queue_decisions WHERE applied_to_taxonomy=0 AND superseded_by IS NULL ORDER BY id"):
             dec = json.loads(d["decision_json"])
@@ -439,6 +507,14 @@ class Ledger:
                                                   attr_technology=dec.get("attr_technology") or "", attr_location="", attr_level_code_raw="",
                                                   attr_years_raw="", confidence="1.00", method="human", reviewer=d["decided_by"], status="active",
                                                   version_added="", source_class="observed"))
+            elif d["kind"] == "condition" and dec.get("condition_key") and not dec.get("not_a_condition") and not dec.get("confirmed") \
+                    and (dec.get("proposed") or (dec.get("scope") or d.get("scope")) == "everyone") and ("c", dec["condition_key"], dec.get("quote")) not in seen:
+                seen.add(("c", dec["condition_key"], dec.get("quote")))
+                key = dec["condition_key"]
+                out["conditions"].append(dict(
+                    decision_id=d["id"], what="new condition" if dec.get("proposed") else "wording for a condition already listed", condition_key=key,
+                    name=dec.get("proposed_name") or (RATE_CONDITIONS[key][1] if key in RATE_CONDITIONS else key), group=dec.get("condition_group") or "",
+                    group_name=GROUP_NAMES.get(dec.get("condition_group") or "", ""), quote=dec.get("quote") or "", decided_by=d["decided_by"], note=d["reason"]))
             elif d["kind"] == "location" and dec.get("place"):
                 out["location_rules"].append(dict(decision_id=d["id"], client_key=d["client"] or "", place=dec["place"], classification=dec["classification"],
                                                   decided_by=d["decided_by"], decided_on=d["decided_at"][:10], reason=d["reason"], status="active"))
@@ -541,23 +617,29 @@ class Ledger:
             for d in s["documents"]:
                 obs = self.observations_for(d["document_id"])
                 rows += len(obs); counted += sum(1 for o in obs if o["counted"])
-            # questions: title groups count once per (title, client); other kinds once per item
-            qs: dict[tuple, str] = {}
-            for st in ("open", "parked", "resolved"):
-                for it in self.queue_items(status=st, set_id=s["root_id"]):
-                    if it["kind"] in ("extraction", "reading"):
-                        continue
-                    key = (it["kind"], it["item"]) if it["kind"] == "title" else (it["kind"], it["id"])
-                    cur = qs.get(key)
-                    qs[key] = st if cur is None or (st == "open") or (st == "parked" and cur == "resolved") else cur
-            n_open = sum(1 for v in qs.values() if v == "open"); n_parked = sum(1 for v in qs.values() if v == "parked")
-            n_done = sum(1 for v in qs.values() if v == "resolved"); total = len(qs)
+            qs = self.questions(s["root_id"])
+            n_open = sum(1 for v in qs.values() if v["status"] == "open"); n_parked = sum(1 for v in qs.values() if v["status"] == "parked")
+            n_done = sum(1 for v in qs.values() if v["status"] == "resolved"); total = len(qs)
             status = "complete" if n_open == 0 and n_parked == 0 else ("ready" if n_done == 0 and n_parked == 0 else "in_review")
             out.append(dict(set_id=s["root_id"], name=meta["confirmed_name"] or meta["proposed_name"], proposed_name=meta["proposed_name"],
                             confirmed=bool(meta["confirmed_name"]), name_confirmed_by=meta["name_confirmed_by"], client=meta["client"], vendor=meta["vendor"],
                             root_filename=s["root_filename"], documents=len(s["documents"]), rows=rows, counted=counted,
                             questions=total, answered=n_done, parked=n_parked, open=n_open, status=status))
         return sorted(out, key=lambda x: ({"ready": 0, "in_review": 1, "complete": 2}[x["status"]], -x["open"], x["name"]))
+
+    def questions(self, set_id: str) -> dict[tuple, dict]:
+        """The questions a person answers for a contract set, each counted once: a job title once however many rows or
+        documents raise it, the disclosure check once per set, everything else per item. Open wins over parked, parked over
+        answered. Each carries the first document that raised it. Engine notes (extraction, reading) are not questions."""
+        qs: dict[tuple, dict] = {}
+        for st in ("open", "parked", "resolved"):
+            for it in self.queue_items(status=st, set_id=set_id):
+                if it["kind"] in ("extraction", "reading"):
+                    continue
+                key = ("title", it["item"]) if it["kind"] == "title" else (("disclosure",) if it["kind"] == "disclosure" else (it["kind"], it["id"]))
+                if key not in qs:
+                    qs[key] = dict(status=st, kind=it["kind"], document_id=it["document_id"])
+        return qs
 
     def set_name(self, set_id: str, name: str, decided_by: str) -> None:
         if not (name or "").strip():
@@ -581,6 +663,293 @@ class Ledger:
         s["title_groups"] = len(groups); s["rows_unlocked"] = sum(g["rows_unlocked"] for g in groups)
         return s
     # ------------------------------------------------------------ contract terms and named resources (stream A, Oct 13, 2026)
+    # ------------------------------------------------------------ a contract set by kind of document (Kyle, Nov 22, 2026)
+    KIND_OF_CLASS = {"msa": "contracts", "amendment": "amendments", "sow": "sows", "rate_card": "rate_cards", "invoice": "invoices", "timesheet": "invoices"}
+    KIND_ORDER = (("contracts", "Contracts"), ("amendments", "Amendments"), ("sows", "SOWs"), ("rate_cards", "Rate cards"), ("other", "Other"),
+                  ("invoices", "Invoices and timesheets"))
+
+    def set_composition(self, set_id: str) -> dict:
+        """What a contract set holds, in the shape of the library table: one row per kind of document, with how many the engine
+        has read, the rates, facts and conditions found in them, and the questions waiting. Invoices and timesheets are listed
+        apart: matching them to the contract is a later stage (reconciliation), not part of reading the contract set."""
+        docs = self._rows("SELECT * FROM documents WHERE family_id=? OR document_id=? ORDER BY filename", (set_id, set_id))
+        if not docs:
+            raise ValueError(f"no contract set {set_id}")
+        have_terms = "contract_terms" in {r[0] for r in self.conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        rows = {k: dict(kind=k, label=label, documents=0, read=0, rates=0, counted=0, facts=0, conditions=0, flagged_conditions=0, resources=0, questions=0, notes=0, docs=[])
+                for k, label in self.KIND_ORDER}
+        open_by_doc: dict[str, int] = {}
+        for v in self.questions(set_id).values():
+            if v["status"] == "open":
+                open_by_doc[v["document_id"]] = open_by_doc.get(v["document_id"], 0) + 1
+        for d in docs:
+            k = self.KIND_OF_CLASS.get(d["doc_class"], "other")
+            did = d["document_id"]
+            rates, counted = self.conn.execute("SELECT COUNT(*), COALESCE(SUM(counted),0) FROM observations WHERE superseded_by IS NULL AND document_id=?", (did,)).fetchone()
+            facts = conds = flagged = res = 0
+            if have_terms:
+                facts = self.conn.execute("SELECT COUNT(*) FROM contract_terms WHERE superseded_by IS NULL AND document_id=? AND kind='fact'", (did,)).fetchone()[0]
+                conds, flagged = self.conn.execute("SELECT COUNT(*), COALESCE(SUM(status='flagged'),0) FROM contract_terms WHERE superseded_by IS NULL AND document_id=? AND kind<>'fact'", (did,)).fetchone()
+                res = self.conn.execute("SELECT COUNT(*) FROM named_resources WHERE superseded_by IS NULL AND document_id=?", (did,)).fetchone()[0]
+            questions = open_by_doc.get(did, 0)   # each question once, under the first document that raised it: the column adds up
+            notes = self.conn.execute("SELECT COUNT(*) FROM review_queue WHERE status='open' AND kind IN ('extraction','reading') AND document_id=?", (did,)).fetchone()[0]
+            rec = json.loads(d["record_json"]) if d.get("record_json") else {}
+            read = int(bool(rates or facts or conds or res))
+            r = rows[k]
+            r["documents"] += 1; r["read"] += read; r["rates"] += rates; r["counted"] += counted; r["facts"] += facts; r["conditions"] += conds
+            r["flagged_conditions"] += flagged; r["resources"] += res; r["questions"] += questions; r["notes"] += notes
+            r["docs"].append(dict(document_id=did, filename=d["filename"], doc_class=d["doc_class"], pages=rec.get("page_count"), read=bool(read), rates=rates,
+                                  counted=counted, facts=facts, conditions=conds, resources=res, questions=questions, true_type=d["true_type"]))
+        ordered = [rows[k] for k, _ in self.KIND_ORDER]
+        total = {f: sum(r[f] for r in ordered) for f in ("documents", "read", "rates", "counted", "facts", "conditions", "flagged_conditions", "resources", "questions", "notes")}
+        return dict(set_id=set_id, rows=ordered, total=total)
+
+    def title_appearances(self, title: str, vendor: Optional[str], set_id: Optional[str] = None) -> list[dict]:
+        """Where a job title appears: each document that prices it or names it, with the pages, how many rates, the periods,
+        locations and conditions it is priced under, and the range. A title in a pricing grid appears once per contract year,
+        location and service type; a SOW may name a person under the same title."""
+        f, fa = ("", ())
+        if set_id:
+            f, fa = " AND (o.family_id=? OR o.document_id=?)", (set_id, set_id)
+        obs = self._rows("SELECT o.*, d.filename, d.doc_class FROM observations o JOIN documents d USING(document_id) "
+                         "WHERE o.superseded_by IS NULL AND o.observed_title=? AND o.vendor IS ?" + f + " ORDER BY o.obs_id", (title, vendor) + fa)
+        by_doc: dict[str, dict] = {}
+        for o in obs:
+            a = by_doc.setdefault(o["document_id"], dict(document_id=o["document_id"], filename=o["filename"], doc_class=o["doc_class"], how="priced", rates=0, counted=0,
+                                                         pages=set(), periods=[], locations=[], qualifiers=[], values=[], currency=o["currency"], unit=o["rate_unit"], first_obs=o["obs_id"]))
+            a["rates"] += 1; a["counted"] += int(bool(o["counted"]))
+            if o["source_page"]:
+                a["pages"].add(o["source_page"])
+            for key, col in (("periods", "period_raw"), ("locations", "location_raw"), ("qualifiers", "qualifier")):
+                if o[col] and o[col] not in a[key]:
+                    a[key].append(o[col])
+            try:
+                a["values"].append(Decimal(o["rate_value"]))
+            except Exception:
+                pass
+        out = []
+        for a in by_doc.values():
+            vals = a.pop("values")
+            a["pages"] = sorted(a["pages"])
+            a["rate_min"] = str(min(vals)) if vals else None
+            a["rate_max"] = str(max(vals)) if vals else None
+            out.append(a)
+        if "named_resources" in {r[0] for r in self.conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}:
+            g, ga = ("", ())
+            if set_id:
+                g, ga = " AND (n.family_id=? OR n.document_id=?)", (set_id, set_id)
+            for n in self._rows("SELECT n.document_id, n.source_page, n.name_or_role, d.filename, d.doc_class FROM named_resources n JOIN documents d USING(document_id) "
+                                "WHERE n.superseded_by IS NULL AND n.observed_title=? AND n.vendor IS ?" + g, (title, vendor) + ga):
+                out.append(dict(document_id=n["document_id"], filename=n["filename"], doc_class=n["doc_class"], how="named", rates=0, counted=0, pages=[n["source_page"]] if n["source_page"] else [],
+                                periods=[], locations=[], qualifiers=[], rate_min=None, rate_max=None, currency=None, unit=None, first_obs=None, who=n["name_or_role"]))
+        return out
+
+    # ------------------------------------------------------------ terms in the workbench (work/workbench-terms/plan.md, Nov 22, 2026)
+    def set_documents(self, set_id: str) -> list[dict]:
+        return self._rows("SELECT * FROM documents WHERE family_id=? OR document_id=? ORDER BY filename", (set_id, set_id))
+
+    def term(self, term_id: int) -> Optional[dict]:
+        rows = self._rows("SELECT t.*, d.filename, d.path, d.true_type, d.doc_class FROM contract_terms t JOIN documents d USING(document_id) "
+                          "WHERE t.term_id=?", (term_id,))
+        return rows[0] if rows else None
+
+    def terms_for_set(self, set_id: str) -> list[dict]:
+        """Every live fact and condition read in a contract set's documents, in document and page order."""
+        return self._rows("SELECT t.*, d.filename, d.doc_class FROM contract_terms t JOIN documents d USING(document_id) "
+                          "WHERE t.superseded_by IS NULL AND (d.family_id=? OR d.document_id=?) ORDER BY d.filename, t.source_page, t.term_id", (set_id, set_id))
+
+    def resources_for_set(self, set_id: str) -> list[dict]:
+        return self._rows("SELECT n.*, d.filename FROM named_resources n JOIN documents d USING(document_id) "
+                          "WHERE n.superseded_by IS NULL AND (d.family_id=? OR d.document_id=?) ORDER BY d.filename, n.source_page, n.resource_id", (set_id, set_id))
+
+    def term_of_question(self, q: dict) -> Optional[dict]:
+        """The stored condition a 'condition' question is about: the term in the same document whose description (the engine's
+        note, else the clause) the question carries, on the page the question names; the still-unnamed one first."""
+        rows = self._rows("SELECT t.*, d.filename, d.path, d.true_type, d.doc_class FROM contract_terms t JOIN documents d USING(document_id) "
+                          "WHERE t.superseded_by IS NULL AND t.kind='term' AND t.document_id=? ORDER BY t.term_id", (q["document_id"],))
+        match = [t for t in rows if (t["note"] or t["value"] or "")[:120] == q["item"]]
+        m = re.search(r"\(page (\d+)\)", q.get("detail") or "")
+        if m:
+            match = [t for t in match if t["source_page"] == int(m.group(1))] or match
+        unnamed = [t for t in match if t["condition_key"] == "other" and t["status"] != "dismissed"]
+        return (unnamed or match or [None])[0]
+
+    def decide_condition(self, queue_ids: Iterable[int], *, condition_key: Optional[str] = None, proposed_name: Optional[str] = None,
+                         proposed_group: Optional[str] = None, not_a_condition: bool = False, scope: str = DEFAULT_SCOPE,
+                         reason: str = "", decided_by: str = "") -> list[int]:
+        """An analyst names a clause the engine could not place: a condition from the inventory, a proposed new one (a short
+        name and its group; kept here at once, nominated for the inventory on Global Framework Updates), or "not a rate
+        condition" (kept, set aside, relied on by nothing). The answer covers the same clause wording within the scope: this
+        contract set, or this vendor's contracts. Every question about a covered clause is answered with it."""
+        from .conditions import GROUP_NAMES, PROPOSED_PREFIX, RATE_CONDITIONS
+        name = " ".join((proposed_name or "").split())
+        if sum((bool(condition_key), bool(name), bool(not_a_condition))) != 1:
+            raise ValueError("choose a condition from the inventory, propose a new one, or say it is not a rate condition")
+        if scope not in SCOPES:
+            raise ValueError(f"scope must be one of {SCOPES}, not {scope!r}")
+        if condition_key:
+            if condition_key not in RATE_CONDITIONS:
+                raise ValueError(f"unknown condition {condition_key!r}")
+            key, group = condition_key, RATE_CONDITIONS[condition_key][0]
+        elif name:
+            if proposed_group not in GROUP_NAMES:
+                raise ValueError("a proposed condition needs its group (A to G)")
+            slug = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+            if not slug:
+                raise ValueError("a proposed condition needs a name")
+            if slug in RATE_CONDITIONS:
+                raise ValueError("that name is already in the inventory; choose it from the list")
+            key, group = PROPOSED_PREFIX + slug, proposed_group
+        else:
+            key, group = "other", None
+        status = "dismissed" if not_a_condition else "recorded"
+        ids, done = [], set()
+        for qid in queue_ids:
+            if qid in done:
+                continue
+            q = self._queue_item(qid, "condition")
+            term = self.term_of_question(q)
+            if term is None:
+                raise ValueError(f"the clause behind question {qid} is no longer in the ledger")
+            set_id = self.set_of_document(q["document_id"])
+            where, args = "t.superseded_by IS NULL AND t.kind='term' AND t.condition_key='other' AND t.value=?", [term["value"]]
+            if scope == "set":
+                where += " AND (d.family_id=? OR d.document_id=?)"; args += [set_id, set_id]
+            else:
+                where += " AND t.vendor IS ?"; args.append(term["vendor"])
+            targets = self._rows("SELECT t.term_id, t.document_id, t.note, t.value FROM contract_terms t JOIN documents d USING(document_id) WHERE " + where, tuple(args))
+            if not any(t["term_id"] == term["term_id"] for t in targets):
+                targets.append(term)
+            decision = dict(condition_key=key, condition_group=group, proposed=bool(name), proposed_name=name or None, not_a_condition=bool(not_a_condition),
+                            quote=term["value"], term_id=term["term_id"], scope=scope, set_id=set_id, vendor=term["vendor"])
+            covered = [(qid, q["item"])]
+            for t in targets:
+                self.conn.execute("UPDATE contract_terms SET condition_key=?, condition_group=?, status=?, key_source='analyst' WHERE term_id=?",
+                                  (key, group, status, t["term_id"]))
+                for o in self._rows("SELECT id, item FROM review_queue WHERE kind='condition' AND status IN ('open','parked') AND document_id=? AND item=?",
+                                    (t["document_id"], (t["note"] or t["value"] or "")[:120])):
+                    if o["id"] not in [c[0] for c in covered]:
+                        covered.append((o["id"], o["item"]))
+            for cid, item in covered:
+                ids.append(self._record_decision(cid, "condition", term["client"], item, decision, reason, decided_by, scope=scope, reason_required=False))
+                done.add(cid)
+        self.conn.commit()
+        return ids
+
+    def confirm_term(self, term_id: int, *, decided_by: str, condition_key: Optional[str] = None, reason: str = "") -> int:
+        """An analyst confirms the type the engine gave a condition it was unsure of (below the floor), or corrects it to
+        another inventory condition. The clause is then relied on whatever the floor. No question need exist for it."""
+        from .conditions import RATE_CONDITIONS
+        t = self.term(term_id)
+        if t is None or t["superseded_by"] is not None or t["kind"] != "term":
+            raise ValueError(f"no live condition {term_id}")
+        key = condition_key or t["condition_key"]
+        if key not in RATE_CONDITIONS and not (condition_key is None and key.startswith("proposed:")):
+            raise ValueError("choose a condition from the inventory; an unnamed clause is named in Review")
+        group = RATE_CONDITIONS[key][0] if key in RATE_CONDITIONS else t["condition_group"]
+        did = self._record_decision(None, "condition", t["client"], (t["note"] or t["value"] or "")[:120],
+                                    dict(condition_key=key, condition_group=group, confirmed=True, changed_from=t["condition_key"] if key != t["condition_key"] else None,
+                                         quote=t["value"], term_id=term_id, scope="set", set_id=self.set_of_document(t["document_id"]), vendor=t["vendor"]),
+                                    reason, decided_by, scope="set", reason_required=False)
+        self.conn.execute("UPDATE contract_terms SET condition_key=?, condition_group=?, status='recorded', key_source='analyst' WHERE term_id=?", (key, group, term_id))
+        self.conn.commit()
+        return did
+
+    def saved_condition(self, value: str, vendor: Optional[str], set_id: Optional[str]) -> Optional[dict]:
+        """The analyst's live answer for a clause wording, if any: a set-scoped answer for this contract set first, then a
+        vendor- or everyone-scoped answer for this vendor. A re-run consults this before it asks again."""
+        best = None
+        for d in self._rows("SELECT * FROM queue_decisions WHERE kind='condition' AND superseded_by IS NULL ORDER BY id DESC"):
+            dec = json.loads(d["decision_json"])
+            if dec.get("quote") != value or not dec.get("condition_key") or dec.get("confirmed"):
+                continue
+            sc = dec.get("scope") or DEFAULT_SCOPE
+            if sc == "set" and set_id and dec.get("set_id") == set_id:
+                return dec
+            if sc in ("vendor", "everyone") and best is None and (vendor is None or dec.get("vendor") == vendor):
+                best = dec
+        return best
+
+    def decide_vendor(self, queue_ids: Iterable[int], *, vendor: Optional[str] = None, not_the_vendor: bool = False, reason: str = "",
+                      decided_by: str = "") -> list[int]:
+        """An analyst says which vendor a printed party name is (written to the vendor-name table, so the name resolves by
+        lookup from now on, and this contract set's rows that carry no vendor receive it), or that the name is not the
+        vendor. Naming the vendor closes the set's other printed-name questions: they asked the same thing."""
+        vendor = " ".join((vendor or "").split())
+        if bool(vendor) == bool(not_the_vendor):
+            raise ValueError("say which vendor this printed name is, or that it is not the vendor")
+        ids = []
+        for qid in queue_ids:
+            q = self._queue_item(qid, "vendor")
+            set_id = self.set_of_document(q["document_id"])
+            ids.append(self._record_decision(qid, "vendor", None, q["item"], dict(observed_name=q["item"], vendor=vendor or None, not_the_vendor=bool(not_the_vendor), set_id=set_id),
+                                             reason, decided_by, reason_required=False))
+            if not vendor:
+                continue
+            self.record_vendor_name(q["item"], vendor, decided_by.strip(), evidence=(q["detail"] or "")[:200])
+            docs = [d["document_id"] for d in self.set_documents(set_id)]
+            marks = ",".join("?" for _ in docs)
+            for table in ("observations", "contract_terms", "named_resources"):
+                self.conn.execute(f"UPDATE {table} SET vendor=? WHERE vendor IS NULL AND superseded_by IS NULL AND document_id IN ({marks})", [vendor] + docs)
+            self.contract_sets()   # make sure the set's row exists
+            self.conn.execute("UPDATE contract_sets SET vendor=COALESCE(vendor, ?) WHERE set_id=?", (vendor, set_id))
+            for o in self._rows("SELECT q.id, q.item FROM review_queue q JOIN documents d USING(document_id) WHERE q.kind='vendor' AND q.status='open' AND q.id<>? "
+                                "AND (d.family_id=? OR d.document_id=?)", (qid, set_id, set_id)):
+                ids.append(self._record_decision(o["id"], "vendor", None, o["item"], dict(observed_name=o["item"], closed_by=qid, vendor_of_set=vendor, set_id=set_id),
+                                                 "", decided_by, reason_required=False))
+        self.conn.commit()
+        return ids
+
+    def known_vendors(self) -> list[str]:
+        names = {r["vendor"] for r in self._rows("SELECT DISTINCT vendor FROM vendor_names WHERE deprecated_at IS NULL")}
+        names |= {r["vendor"] for r in self._rows("SELECT DISTINCT vendor FROM observations WHERE vendor IS NOT NULL")}
+        return sorted(names)
+
+    def set_disclosure(self, set_id: str) -> dict:
+        """The gate, read first: may this contract set be shown, benchmarked, contributed? The engine's reading of the
+        clauses (restricted: a clause bars disclosure or limits data use; cleared: a public record, an advisor carve-out or a
+        benchmarking right; unchecked: nothing found), then the analyst's decision if one was made, which stands over it."""
+        from .conditions import CLEARING_KEYS, GATE_GROUP, RESTRICTING_KEYS
+        terms = self.terms_for_set(set_id)
+        gate = [t for t in terms if t["kind"] == "term" and t["status"] != "dismissed" and (t["condition_group"] == GATE_GROUP or t["condition_key"] in CLEARING_KEYS)]
+        restricting = [t for t in gate if t["condition_key"] in RESTRICTING_KEYS]
+        clearing = [t for t in gate if t["condition_key"] in CLEARING_KEYS]
+        other = [t for t in gate if t not in restricting and t not in clearing]
+        engine = "restricted" if restricting else ("cleared" if clearing else "unchecked")
+        decided = None
+        for d in self._rows("SELECT * FROM queue_decisions WHERE kind='disclosure' AND superseded_by IS NULL ORDER BY id DESC"):
+            dec = json.loads(d["decision_json"])
+            if dec.get("set_id") == set_id and dec.get("outcome"):
+                decided = dict(outcome=dec["outcome"], basis=dec.get("basis"), note=d["reason"], decided_by=d["decided_by"], decided_at=d["decided_at"], decision_id=d["id"])
+                break
+        questions = [it for st in ("open", "parked") for it in self.queue_items("disclosure", status=st, set_id=set_id)]
+        return dict(set_id=set_id, status=decided["outcome"] if decided else engine, engine=engine, decided=decided, read=any(t["kind"] == "term" for t in terms),
+                    restricting=restricting, clearing=clearing, other=other, queue_ids=[it["id"] for it in questions])
+
+    def decide_disclosure(self, set_id: str, *, outcome: str, basis: str = "", reason: str = "", decided_by: str = "") -> list[int]:
+        """An analyst clears a contract set for benchmarking (the basis is required: a public record, the client's written
+        confirmation, a clause that allows it) or keeps it restricted. One decision per contract set; it answers every open
+        disclosure question in the set and replaces an earlier decision. No row changes: the status is read from this."""
+        if outcome not in ("cleared", "restricted"):
+            raise ValueError("the outcome is cleared or restricted")
+        basis = " ".join((basis or "").split())
+        if outcome == "cleared" and not basis:
+            raise ValueError("say on what basis the contract set is cleared")
+        if not self.set_documents(set_id):
+            raise ValueError(f"no contract set {set_id}")
+        earlier = [d["id"] for d in self._rows("SELECT * FROM queue_decisions WHERE kind='disclosure' AND superseded_by IS NULL")
+                   if json.loads(d["decision_json"]).get("set_id") == set_id]
+        decision = dict(outcome=outcome, basis=basis or None, set_id=set_id)
+        open_ids = self.set_disclosure(set_id)["queue_ids"] or [None]
+        ids = []
+        for qid in open_ids:
+            item = self._rows("SELECT item FROM review_queue WHERE id=?", (qid,))[0]["item"] if qid else "disclosure check"
+            ids.append(self._record_decision(qid, "disclosure", None, item, decision, reason, decided_by, reason_required=False))
+        for e in earlier:
+            self.conn.execute("UPDATE queue_decisions SET superseded_by=? WHERE id=? AND superseded_by IS NULL", (ids[0], e))
+        self.conn.commit()
+        return ids
+
     def supersede_terms(self, document_id: str, new_run_id: str) -> int:
         """A re-run supersedes earlier live term and named-resource rows for the document; they stay, marked."""
         n = 0
@@ -593,7 +962,8 @@ class Ledger:
 
     def add_term(self, run_id: str, rec: DocumentRecord, *, kind: str, term_type: str, value: str, source_ref: SourceRef,
                  confidence: float, verified: bool, vendor: Optional[str], client: Optional[str], condition_key: Optional[str] = None,
-                 note: Optional[str] = None, status: Optional[str] = None) -> int:
+                 note: Optional[str] = None, status: Optional[str] = None, condition_group: Optional[str] = None,
+                 key_source: Optional[str] = None) -> int:
         """One fact ('fact') or commercial term ('term') the document states, verbatim, with its page, box and quote.
         Status: 'recorded' when verified on the page and at or above the confidence floor; 'flagged' when verified but
         below it (kept, visible, not relied on). An unverified quote is the caller's to queue, not to store."""
@@ -601,17 +971,17 @@ class Ledger:
             raise ValueError("a term that was not verified on its page is not stored; queue it instead")
         if status is None:
             status = "recorded" if (confidence or 0) >= TERM_CONFIDENCE_FLOOR else "flagged"
-        group = None
-        if condition_key:
-            from .conditions import condition_group
-            group = condition_group(condition_key)
+        group = condition_group
+        if condition_key and group is None:
+            from .conditions import condition_group as group_of
+            group = group_of(condition_key)
         cur = self.conn.execute(
             """INSERT INTO contract_terms(run_id, document_id, family_id, vendor, client, source_class, kind, term_type, condition_key,
                condition_group, value, extraction_confidence, verified, status, note, source_page, source_bbox, source_quote,
-               source_section, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+               source_section, created_at, key_source) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
             (run_id, rec.document_id, rec.family_id, vendor, client, rec.source_class, kind, term_type, condition_key, group, value,
              confidence, int(bool(verified)), status, note, source_ref.page, json.dumps(source_ref.bbox) if source_ref.bbox else None,
-             source_ref.quote, source_ref.section, _now()))
+             source_ref.quote, source_ref.section, _now(), key_source))
         self.conn.commit()
         return cur.lastrowid
 

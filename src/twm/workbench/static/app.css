@@ -275,3 +275,49 @@ td .doc { color: var(--ink-3); font-size: 12px; }
 .twocol .col .ev:last-child { border-bottom: 0; }
 .cols.review .panel .form.col { padding: 10px 18px 14px; }
 @media (max-width: 1100px) { .twocol { grid-template-columns: 1fr; } .twocol .col:first-child { border-right: 0; border-bottom: 1px solid var(--border); } }
+
+/* ── the contract set in the shape of the library table; the row in its table; where a title appears (Kyle, Nov 22) ── */
+.comp { margin: 4px 0 12px; overflow-x: auto; }
+.comp table td, .comp table th { padding: 6px 12px; }
+.comp table td:first-child { font-weight: 500; }
+.comp tr.later td { color: var(--ink-3); font-style: italic; font-weight: 400; background: #FAFBFB; }
+.comp tr.tot td { font-weight: 600; border-top: 1px solid var(--border-2); background: #FAFBFB; }
+.comp tr.tot td .why { font-weight: 400; }
+th.gap, td.gap { border-left: 1px solid var(--border-2); }
+.setlist th { white-space: normal; line-height: 1.2; vertical-align: bottom; }
+.tctx { margin-top: 2px; }
+.ctxwrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-sm); background: #fff; }
+table.ctx { font-family: var(--mono); font-size: 11.5px; width: auto; min-width: 100%; }
+table.ctx th { text-transform: none; letter-spacing: 0; font-size: 11px; font-weight: 600; color: var(--ink-2); background: var(--canvas); padding: 4px 8px; white-space: nowrap; }
+table.ctx td { padding: 4px 8px; white-space: nowrap; border-bottom: 1px solid var(--border); color: var(--ink-3); }
+table.ctx tr.hit td { background: var(--wait-bg); color: var(--ink); font-weight: 500; }
+table.ctx tr.hit td.hitcell { background: #F5D99A; color: var(--ink); font-weight: 600; outline: 1px solid var(--wait-mid); }
+.links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; margin-top: 6px; }
+.appear { font-size: 12.5px; margin-top: 2px; }
+.appear > div { padding: 4px 0; border-bottom: 1px solid var(--border); }
+.appear > div:last-child { border-bottom: 0; }
+.appear .why { display: block; color: var(--ink-3); font-size: 12px; }
+a.open { font-size: 11px; margin-left: 6px; }
+.closeup { cursor: zoom-in; } .pageimg { cursor: zoom-in; }
+
+/* terms */
+.gate { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin: 0 0 12px; }
+.gate .pill { font-size: 12px; padding: 3px 11px; }
+.oneline { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r-sm); padding: 9px 14px; font-size: 13px; color: var(--ink-2); margin: 0 0 14px; }
+.oneline b { color: var(--ink); font-weight: 600; } .oneline div { margin-top: 3px; color: var(--ink); }
+tr.grp td { background: #FAFBFB; font-size: 12px; font-weight: 600; color: var(--accent-dark); padding-top: 8px; padding-bottom: 6px; border-top: 1px solid var(--border-2); }
+tr.grp td .n { margin-left: 8px; font-weight: 400; color: var(--ink-3); }
+table.facts td { vertical-align: top; padding: 7px 12px; }
+table.facts td.flabel { width: 170px; font-weight: 500; color: var(--ink-2); white-space: nowrap; }
+a.fact { display: inline-block; margin: 0 6px 4px 0; padding: 2px 9px; border: 1px solid var(--border-2); border-radius: var(--r-sm); font-size: 12.5px; color: var(--ink); text-decoration: none; background: #fff; }
+a.fact:hover, a.fact.sel { border-color: var(--accent); background: var(--accent-light); }
+a.morelink { font-size: 12px; white-space: nowrap; }
+.confirmbox { margin-top: 10px; padding: 9px 11px; background: var(--wait-bg); border-radius: var(--r-sm); font-size: 13px; color: var(--wait); }
+.confirmbox .btns { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 7px; }
+.confirmbox select { height: 30px; max-width: 210px; border: 1px solid var(--border-2); border-radius: var(--r-sm); background: #fff; font-size: 12.5px; }
+.clause { margin-top: 6px; font-size: 12.5px; } .clause .quote { margin-top: 3px; }
+.alts button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.history select { height: 24px; border: 1px solid var(--border-2); border-radius: var(--r-sm); background: #fff; font-size: 12px; }
+.cols.review .rail .tabs { flex-wrap: wrap; padding: 0 6px; }
+.cols.review .rail .tabs button { padding: 8px 8px; font-size: 12.5px; }
+.cols.review .panel .form input[type=text] { font-size: 13.5px; height: 34px; }

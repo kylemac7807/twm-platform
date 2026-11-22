@@ -19,9 +19,10 @@ from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from twm.pipeline.ledger import BANDS, DEFAULT_SCOPE, LOCATION_RULE_COLUMNS, SCOPES, TITLE_MAPPING_COLUMNS, Ledger
+from twm.pipeline.ledger import BANDS, DEFAULT_SCOPE, LOCATION_RULE_COLUMNS, SCOPES, TERM_CONFIDENCE_FLOOR, TITLE_MAPPING_COLUMNS, Ledger
 from twm.taxonomy.store import TaxonomyStore
-from twm.workbench.render import render_row
+from twm.workbench import terms_view
+from twm.workbench.render import render_row, table_context
 from twm.workbench.suggest import suggest as suggest_for
 
 STATIC = Path(__file__).parent / "static"
@@ -81,6 +82,44 @@ class IntakeDecision(BaseModel):
     decided_by: str = ""
 
 
+class ConditionDecision(BaseModel):
+    queue_ids: list[int] = Field(min_length=1)
+    condition_key: Optional[str] = None    # a condition from the inventory, or
+    proposed_name: Optional[str] = None    # a proposed new one (with its group), or
+    proposed_group: Optional[str] = None
+    not_a_condition: bool = False          # "this is not a rate condition"
+    scope: str = DEFAULT_SCOPE
+    reason: str = ""
+    decided_by: str = ""
+
+
+class TermConfirm(BaseModel):
+    condition_key: Optional[str] = None    # None = the engine's type is right
+    reason: str = ""
+    decided_by: str = ""
+
+
+class VendorDecision(BaseModel):
+    queue_ids: list[int] = Field(min_length=1)
+    vendor: Optional[str] = None
+    not_the_vendor: bool = False
+    reason: str = ""
+    decided_by: str = ""
+
+
+class DisclosureDecision(BaseModel):
+    outcome: str                           # cleared | restricted
+    basis: str = ""                        # required when cleared
+    reason: str = ""
+    decided_by: str = ""
+
+
+class DocumentKind(BaseModel):
+    doc_class: str
+    reason: str = ""
+    decided_by: str = ""
+
+
 class Applied(BaseModel):
     decision_ids: list[int] = Field(min_length=1)
 
@@ -119,6 +158,29 @@ def queue_titles(set_id: Optional[str] = None, status: str = "open") -> list[dic
         for g in groups:
             g["history"] = led.decision_history(g["title"])
         return groups
+    finally:
+        led.close()
+
+
+@app.get("/api/queue/conditions")
+def queue_conditions(set_id: Optional[str] = None, status: str = "open") -> list[dict]:
+    """The clauses the engine found but could not place among the named conditions, each with the clause itself, where it
+    is, and the inventory rows nearest its wording. Documents with the most to name come first."""
+    if status not in ("open", "parked"):
+        raise _bad(ValueError("status must be open or parked"))
+    led = Ledger(ledger_path())
+    try:
+        out = []
+        for q in led.queue_items("condition", status=status, set_id=set_id):
+            term = led.term_of_question(q)
+            if term is None:
+                continue
+            out.append(dict(id=q["id"], item=q["item"], detail=q["detail"], document_id=q["document_id"], filename=q["filename"], client=term["client"],
+                            term=terms_view.term_view(term), closest=terms_view.closest_conditions(term["term_type"], f"{term['note'] or ''} {term['value']}")))
+        per_doc: dict[str, int] = {}
+        for o in out:
+            per_doc[o["document_id"]] = per_doc.get(o["document_id"], 0) + 1
+        return sorted(out, key=lambda o: (-per_doc[o["document_id"]], o["filename"] or "", o["term"]["page"] or 0, o["id"]))
     finally:
         led.close()
 
@@ -278,7 +340,8 @@ def sets() -> list[dict]:
                 v["role"] = "root" if d["document_id"] == s["root_id"] else ("linked" if d["family_id"] else "unlinked")
                 docs.append(v)
             m = meta.get(s["root_id"], {})
-            out.append(dict(root_id=s["root_id"], root_filename=s["root_filename"] or docs[0]["filename"], documents=docs, **{k: m.get(k) for k in
+            comp = led.set_composition(s["root_id"])
+            out.append(dict(kinds={r["kind"]: r["documents"] for r in comp["rows"]}, composition_total=comp["total"], root_id=s["root_id"], root_filename=s["root_filename"] or docs[0]["filename"], documents=docs, **{k: m.get(k) for k in
                             ("name", "proposed_name", "confirmed", "name_confirmed_by", "client", "vendor", "status", "questions", "answered", "parked", "open", "rows", "counted")}))
         order = {"ready": 0, "in_review": 1, "complete": 2}
         return sorted(out, key=lambda x: (order.get(x["status"], 3), -(x["open"] or 0), x["name"] or ""))
@@ -381,7 +444,217 @@ def row_closeup(obs_id: int) -> Response:
     return _png(shown["closeup"])
 
 
+# ---------------------------------------------------------------- a contract set by kind of document; where a title appears; the original
+@app.get("/api/sets/{set_id}/composition")
+def set_composition(set_id: str) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        return led.set_composition(set_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    finally:
+        led.close()
+
+
+@app.get("/api/appearances")
+def appearances(title: str, vendor: Optional[str] = None, set_id: Optional[str] = None) -> list[dict]:
+    led = Ledger(ledger_path())
+    try:
+        return led.title_appearances(title, vendor, set_id)
+    finally:
+        led.close()
+
+
+@app.get("/api/rows/{obs_id}/table")
+def row_table(obs_id: int) -> dict:
+    """The row as it sits in its table: heading rows, the row, a few rows either side."""
+    led = Ledger(ledger_path())
+    try:
+        o = led.observation(obs_id)
+    finally:
+        led.close()
+    if not o:
+        raise HTTPException(status_code=404, detail="no such row")
+    try:
+        return table_context(o)
+    except Exception as e:   # a table that cannot be re-read is said, not faked
+        return {"kind": "none", "note": f"the table could not be re-read: {type(e).__name__}"}
+
+
+@app.post("/api/documents/{document_id}/kind")
+def document_kind(document_id: str, body: DocumentKind) -> dict:
+    """An analyst corrects what kind of document a file is; the contract set's breakdown and proposed name follow."""
+    led = Ledger(ledger_path())
+    try:
+        did = led.set_document_kind(document_id, body.doc_class, decided_by=body.decided_by, reason=body.reason)
+        return dict(decision_ids=[did])
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
+MEDIA = {"pdf": "application/pdf", "html": "text/html; charset=utf-8", "text": "text/plain; charset=utf-8"}
+
+
+@app.get("/api/documents/{document_id}/file")
+def document_file(document_id: str) -> FileResponse:
+    """The original document as it was collected, opened in the browser (a PDF opens at #page=N). Read-only; served from disk."""
+    led = Ledger(ledger_path())
+    try:
+        rows = led._rows("SELECT path, filename, true_type FROM documents WHERE document_id=?", (document_id,))
+    finally:
+        led.close()
+    if not rows:
+        raise HTTPException(status_code=404, detail="no such document")
+    d = rows[0]
+    path = Path(d["path"])
+    if not path.is_absolute():
+        path = Path.cwd() / path
+    if not path.exists():
+        raise HTTPException(status_code=404, detail=f"the document is not on disk: {d['filename']}")
+    return FileResponse(path, media_type=MEDIA.get(d["true_type"], "application/octet-stream"),
+                        headers={"Content-Disposition": f'inline; filename="{d["filename"]}"', "Cache-Control": "no-store"})
+
+
+# ---------------------------------------------------------------- contract terms (work/workbench-terms/plan.md)
+def _floor(floor: Optional[float]) -> float:
+    if floor is None:
+        return TERM_CONFIDENCE_FLOOR
+    if not 0 <= floor <= 1:
+        raise _bad(ValueError("the floor is a confidence between 0 and 1"))
+    return floor
+
+
+@app.get("/api/conditions")
+def conditions() -> dict:
+    """The inventory of named rate conditions, by group, for the pick-list."""
+    return terms_view.inventory()
+
+
+@app.get("/api/vendors")
+def vendors() -> list[str]:
+    led = Ledger(ledger_path())
+    try:
+        return led.known_vendors()
+    finally:
+        led.close()
+
+
+@app.get("/api/sets/{set_id}/terms")
+def set_terms(set_id: str, floor: Optional[float] = None) -> dict:
+    """What a contract set says beyond its rates: the disclosure check first, then the facts, then the conditions by group.
+    The floor decides only which conditions are shown as "to review"; nothing is rewritten."""
+    led = Ledger(ledger_path())
+    try:
+        if not led.set_documents(set_id):
+            raise HTTPException(status_code=404, detail=f"no contract set {set_id}")
+        return terms_view.set_terms_view(led.terms_for_set(set_id), led.resources_for_set(set_id), led.set_disclosure(set_id), _floor(floor))
+    finally:
+        led.close()
+
+
+def _term(term_id: int) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        t = led.term(term_id)
+    finally:
+        led.close()
+    if not t:
+        raise HTTPException(status_code=404, detail="no such term")
+    return t
+
+
+@app.get("/api/terms/{term_id}")
+def term(term_id: int, floor: Optional[float] = None) -> dict:
+    t = _term(term_id)
+    shown = render_row(t)
+    view = terms_view.term_view(t, _floor(floor))
+    view.update(true_type=t["true_type"], status=t["status"], position=dict(kind=shown["kind"], page=shown.get("page"), note=shown.get("note"), quote=shown.get("quote")))
+    return view
+
+
+@app.get("/api/terms/{term_id}/page.png")
+def term_page(term_id: int) -> Response:
+    shown = render_row(_term(term_id))
+    if shown["kind"] != "pdf":
+        raise HTTPException(status_code=404, detail=shown["note"])
+    return _png(shown["image"])
+
+
+@app.get("/api/terms/{term_id}/closeup.png")
+def term_closeup(term_id: int) -> Response:
+    shown = render_row(_term(term_id))
+    if shown["kind"] != "pdf":
+        raise HTTPException(status_code=404, detail=shown["note"])
+    return _png(shown["closeup"])
+
+
+@app.post("/api/terms/{term_id}/confirm")
+def term_confirm(term_id: int, body: TermConfirm) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        did = led.confirm_term(term_id, decided_by=body.decided_by, condition_key=body.condition_key, reason=body.reason)
+        return dict(decision_ids=[did])
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
+@app.post("/api/decisions/condition")
+def decide_condition(body: ConditionDecision) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        ids = led.decide_condition(body.queue_ids, condition_key=body.condition_key, proposed_name=body.proposed_name, proposed_group=body.proposed_group,
+                                   not_a_condition=body.not_a_condition, scope=body.scope, reason=body.reason, decided_by=body.decided_by)
+        return dict(decision_ids=ids, queue=led.queue_summary())
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
+@app.post("/api/decisions/vendor")
+def decide_vendor(body: VendorDecision) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        ids = led.decide_vendor(body.queue_ids, vendor=body.vendor, not_the_vendor=body.not_the_vendor, reason=body.reason, decided_by=body.decided_by)
+        return dict(decision_ids=ids, queue=led.queue_summary())
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
+@app.get("/api/sets/{set_id}/disclosure")
+def set_disclosure(set_id: str) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        if not led.set_documents(set_id):
+            raise HTTPException(status_code=404, detail=f"no contract set {set_id}")
+        d = led.set_disclosure(set_id)
+        for k in ("restricting", "clearing", "other"):
+            d[k] = [terms_view.term_view(x) for x in d[k]]
+        return d
+    finally:
+        led.close()
+
+
+@app.post("/api/sets/{set_id}/disclosure")
+def decide_disclosure(set_id: str, body: DisclosureDecision) -> dict:
+    led = Ledger(ledger_path())
+    try:
+        ids = led.decide_disclosure(set_id, outcome=body.outcome, basis=body.basis, reason=body.reason, decided_by=body.decided_by)
+        return dict(decision_ids=ids, queue=led.queue_summary(), status=led.set_disclosure(set_id)["status"])
+    except ValueError as e:
+        raise _bad(e)
+    finally:
+        led.close()
+
+
 # ---------------------------------------------------------------- rules to codify
+CONDITION_COLUMNS = ["what", "condition_key", "name", "group", "group_name", "decided_by"]   # vocabulary only: no clause text, no client, no vendor
 def codification_csv(rows: list[dict], columns: list[str]) -> str:
     """Pending decisions as CSV in the exact column order of the taxonomy file they append to."""
     buf = io.StringIO()
@@ -403,14 +676,14 @@ def rules_pending() -> dict:
 
 @app.get("/api/rules/pending.csv")
 def rules_csv(kind: str = "title_mappings") -> PlainTextResponse:
-    if kind not in ("title_mappings", "location_rules"):
-        raise _bad(ValueError("kind must be title_mappings or location_rules"))
+    if kind not in ("title_mappings", "location_rules", "conditions"):
+        raise _bad(ValueError("kind must be title_mappings, location_rules or conditions"))
     led = Ledger(ledger_path())
     try:
         rows = led.pending_codification()[kind]
     finally:
         led.close()
-    cols = TITLE_MAPPING_COLUMNS if kind == "title_mappings" else LOCATION_RULE_COLUMNS
+    cols = {"title_mappings": TITLE_MAPPING_COLUMNS, "location_rules": LOCATION_RULE_COLUMNS, "conditions": CONDITION_COLUMNS}[kind]
     return PlainTextResponse(codification_csv(rows, cols), media_type="text/csv",
                              headers={"Content-Disposition": f'attachment; filename="{kind}_to_append.csv"'})
 
@@ -437,11 +710,16 @@ def favicon() -> Response:
 
 
 @app.get("/")
-def index() -> FileResponse:
+def index() -> Response:
     page = STATIC / "index.html"
     if not page.exists():
         raise HTTPException(status_code=404, detail="the page is not built yet (plan-v2 step 2)")
-    return FileResponse(page, headers={"Cache-Control": "no-store"})
+    html = page.read_text(encoding="utf-8")
+    for name in ("app.js", "app.css"):   # stamp the files with their last change, so a plain reload always loads the newest
+        f = STATIC / name
+        if f.exists():
+            html = html.replace(f"/static/{name}", f"/static/{name}?v={int(f.stat().st_mtime)}")
+    return Response(content=html, media_type="text/html; charset=utf-8", headers={"Cache-Control": "no-store"})
 
 
 if STATIC.exists():
