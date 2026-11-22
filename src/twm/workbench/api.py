@@ -709,6 +709,13 @@ def favicon() -> Response:
     return Response(content=svg, media_type="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
 
 
+@app.get("/api/version")
+def version() -> dict:
+    """When the page's script last changed. An open page compares this with the script it loaded and offers a reload."""
+    f = STATIC / "app.js"
+    return dict(js=str(int(f.stat().st_mtime)) if f.exists() else "")
+
+
 @app.get("/")
 def index() -> Response:
     page = STATIC / "index.html"

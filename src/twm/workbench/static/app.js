@@ -4,6 +4,23 @@
    reason for asking stays, folded; nothing is saved without the analyst's name and a reason. */
 'use strict';
 
+/* The version of this script the browser loaded (the page stamps it on the script's address). An open page that is older than
+   the server's script says so and offers a reload, so a change is never missed because a tab was left open. */
+const LOADED_VERSION = (() => { try { return new URL(document.currentScript.src).searchParams.get('v'); } catch (e) { return null; } })();
+async function checkVersion() {
+  if (!LOADED_VERSION || document.getElementById('stale')) return;
+  try {
+    const v = await (await fetch('/api/version', { cache: 'no-store' })).json();
+    if (v.js && v.js !== LOADED_VERSION) {
+      const b = document.createElement('div'); b.id = 'stale'; b.className = 'stale';
+      b.innerHTML = 'This page has been updated since you opened it. <button class="btn primary sm" onclick="location.reload()">Reload to see the new version</button>';
+      document.body.appendChild(b);
+    }
+  } catch (e) { /* the server is restarting; the next look will tell */ }
+}
+window.addEventListener('focus', checkVersion);
+setInterval(checkVersion, 60000);
+
 const S = {
   screen: 'sets',
   analyst: localStorage.getItem('twm.analyst') || '',
@@ -260,7 +277,7 @@ function panelNav(list) {
 function titleTable(groups, parked) {
   if (!groups.length) return `<div class="empty">${parked ? 'Nothing parked.' : 'All job titles are decided. Nothing to do here.'}</div>`;
   const oneClient = new Set(groups.map(g => g.client)).size === 1;
-  return `<table><thead><tr><th></th><th>Job title</th>${oneClient ? '' : '<th>Client</th>'}<th class="num">Rates</th></tr></thead><tbody>
+  return `<table><thead><tr><th></th><th>Job title</th>${oneClient ? '' : '<th>Client</th>'}<th class="num" title="How many rates in this contract set are priced under this job title and wait on your answer">Rates under<br>this title</th></tr></thead><tbody>
     ${groups.map((g, i) => `<tr class="row ${S.review.selected.includes(i) ? 'sel' : ''}" data-i="${i}"><td><input type="checkbox" data-check="${i}" ${S.review.selected.includes(i) ? 'checked' : ''} title="Tick several to give them one answer"></td>
       <td>${esc(g.title)}${parked && g.history.length ? `<span class="why">${esc(g.history[g.history.length - 1].reason || 'parked')}</span>` : ''}</td>${oneClient ? '' : `<td>${esc(g.client || '–')}</td>`}<td class="num">${n(g.rows_unlocked)}</td></tr>`).join('')}
   </tbody></table>${parked ? '' : '<div class="history">Tick more than one title only when they are the same role; one answer then covers all of them.</div>'}`;
