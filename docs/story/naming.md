@@ -6,7 +6,7 @@
 
 **Kyle has settled on Akerlow as the working name.** Recorded in the decision log as Directional; it becomes final once the four domains are registered and the trademark database searches are clear (action item A11). On November 22 the registries showed akerlow.com, .ai, .ca and .io all free; register them before the name is shared.
 
-Text for sharing the rationale, November 22: drafted by Claude, then rewritten by Kyle and edited once more (no mention of the paper's title; the gap described in terms of technology labour; the name line restored at Kyle's request; the definitions sentence broadened beyond job titles):
+**Approved by Kyle as the version to share (November 22, 2026).** Text for sharing the rationale: drafted by Claude, then rewritten by Kyle and edited once more (no mention of the paper's title; the gap described in terms of technology labour; the name line restored at Kyle's request; the definitions sentence broadened beyond job titles):
 
 > **Working name: Akerlow** (said AK-er-low)
 >
