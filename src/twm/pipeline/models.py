@@ -57,3 +57,18 @@ class DocumentRecord(BaseModel):
     registered_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds"))
     source_class: Literal["public", "consortium", "synthetic"] = "public"
     notes: list[str] = Field(default_factory=list)
+    party_candidates: list[PartyCandidate] = Field(default_factory=list)   # party names printed on the first pages; added Oct 13, 2026 (stream A)
+
+
+# ---------------------------------------------------------------- parties (stream A, Oct 13, 2026): additions only
+class PartyCandidate(BaseModel):
+    """A party name printed on the first pages, with the phrase it was read from. Intake only finds candidates; the
+    vendor is resolved once through the ledger's vendor-name table (an unknown name goes to the review queue)."""
+
+    name: str                           # as printed, e.g. "Accenture LLP"
+    evidence: str                       # the phrase, e.g. "between the Texas Department of Information Resources and Accenture LLP"
+    page: Optional[int] = None
+    role_hint: Optional[Literal["vendor", "client"]] = None   # only when the page labels it ("CONTRACTOR", "Successful Respondent")
+
+
+DocumentRecord.model_rebuild()

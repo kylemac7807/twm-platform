@@ -31,6 +31,7 @@ AREAS = {  # test file -> the area, in the words of the design record
     "test_ledger.py": "The ledger and the analyst's decisions",
     "test_workbench.py": "The review workbench",
     "test_regression.py": "Regression: whole documents give the same answer as before",
+    "test_contract_terms.py": "Contract terms: the fine print beside the rates, verified on the page",
 }
 
 
