@@ -6,19 +6,15 @@
 
 **Kyle has settled on Akerlow as the working name.** Recorded in the decision log as Directional; it becomes final once the four domains are registered and the trademark database searches are clear (action item A11). On November 22 the registries showed akerlow.com, .ai, .ca and .io all free; register them before the name is shared.
 
-Text for sharing the rationale, drafted November 22 at Kyle's request and revised the same day (no mention of the paper's title; the gap described in terms of technology labour):
+Text for sharing the rationale, November 22: drafted by Claude, then rewritten by Kyle and edited once more (no mention of the paper's title; the gap described in terms of technology labour; Kyle's version drops the name line and the closing paragraph on the coined word and the domains):
 
-> **Working name: Akerlow** (said AK-er-low)
->
 > The business helps large enterprises cut what they spend on third-party technology labour. It reads their contracts, invoices and timesheets, builds one traceable record of every rate they pay, and benchmarks those rates against peers.
 >
 > The name is a nod to George Akerlof, the Nobel economist who showed what happens when one side of a market knows far more than the other: the side with the information sets the price.
 >
-> That is the position large companies are in with their technology vendors. The vendor knows what every client pays for the same role, whether its "Senior Developer" is really senior, and what an off-rate-card role actually involves. The client sees one statement of work at a time. So the client cannot tell a fair rate from an inflated one and pays the vendor's number. A vendor that prices fairly cannot even win on price, because the client cannot see that it is fair.
+> That is the position companies are in with their technology vendors. The vendor knows what every client pays for the same role. The client sees one statement of work at a time, with its rates hidden behind job titles that mean something different in every contract and behind complex terms and conditions. The vendor has the full picture; the client has fragments.
 >
-> We close that gap. Every rate the client pays sits in one ledger, traceable to the page of the contract it came from, like a vehicle-history report. Benchmarks show what the same role costs elsewhere, like a price guide. And a consortium of clients pools benchmarks that no single company could build alone, without any client's contracts leaving its own walls.
->
-> Akerlow is a coined word, not his surname, so it is easy to say, distinctive enough to trademark, and doesn't borrow anyone's name. The .com, .ai, .ca and .io domains are all available.
+> We close that gap. Every rate the client pays sits in one ledger, traceable to the page of the contract it came from. Benchmarks show what the same role costs elsewhere, like a price guide. And a consortium pools benchmarks that no single company could build alone, without any client's contracts leaving its own walls.
 
 ## Where this stood (October 13, 2026, end of day)
 
