@@ -2,7 +2,21 @@
 
 **Draft for conversation, October 13, 2026.** Options for Kyle to choose from, with the reasoning and the public checks already done. Nothing here is legal clearance; the last section lists the checks that still need a registrar, a trademark database or counsel.
 
-## Where this stands (October 13, 2026, end of day)
+## Working choice (November 22, 2026)
+
+**Kyle has settled on Akerlow as the working name.** Recorded in the decision log as Directional; it becomes final once the four domains are registered and the trademark database searches are clear (action item A11). On November 22 the registries showed akerlow.com, .ai, .ca and .io all free; register them before the name is shared.
+
+Text for sharing the rationale, drafted November 22 at Kyle's request:
+
+> **Working name: Akerlow** (said AK-er-low)
+>
+> The business helps large enterprises cut what they spend on third-party technology labour. It reads their contracts, invoices and timesheets, builds one traceable record of every rate they pay, and benchmarks those rates against peers.
+>
+> The name is a nod to George Akerlof, the Nobel economist behind "The Market for Lemons" (1970). His point: when buyers can't see the quality of what they're buying, sellers set the price, and fair pricing can't win. Large companies are in exactly that position with their technology vendors. The vendor sees what every client pays; the client sees one contract at a time. Our job is to close that gap, the way vehicle-history reports did for used cars.
+>
+> Akerlow is a coined word, not his surname, so it is easy to say, distinctive enough to trademark, and doesn't borrow anyone's name. The .com, .ai, .ca and .io domains are all available.
+
+## Where this stood (October 13, 2026, end of day)
 
 **Kyle will decide later.** The shortlist is Akerlof and its derivatives, with Bowley as the alternative. Constraints Kyle set: no outreach to anyone, not to George Akerlof and not to the holder of a parked domain, so the name must be free outright or usable on the free .ai, .ca and .io. Round three below has the candidates and the registry results. The decision is action item A11 on the main list; the status file carries the proposed wording.
 
