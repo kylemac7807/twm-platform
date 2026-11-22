@@ -18,6 +18,28 @@ Text for sharing the rationale, November 22: drafted by Claude, then rewritten b
 >
 > We close that gap. Every rate the client pays sits in one ledger, traceable to the page of the contract it came from. Benchmarks show what the same role costs elsewhere, like a price guide. And a consortium pools benchmarks that no single company could build alone, without any client's contracts leaving its own walls.
 
+## Trademark database searches (November 22, 2026)
+
+Public lookups only, run by Claude in the two official databases; nobody was contacted. This is a knockout search, not a clearance opinion.
+
+| Searched | USPTO (tmsearch.uspto.gov), live and dead marks | CIPO Canadian Trademarks Database, all statuses since 1865 |
+|---|---|---|
+| Akerlow | no marks | no marks |
+| Akerlio | no marks | no marks |
+| Akerlo | no marks | no marks |
+| Akerlof | no marks | no marks |
+| Aker | 66 marks | 10 marks |
+
+**The finding that matters is in the "Aker" results.** The Aker group's IP company (Intellectual Property Holdings AS, Norway) holds AKER in both countries for services close to ours:
+
+- **United States:** AKER, registered, class 35, business management consulting (serial 78227148). And AKER, **pending**, filed June 24, 2026, serial 79460587, covering artificial intelligence software (class 9), data processing (class 35), and artificial intelligence consultancy and software as a service (class 42); under examination, with an office action being prepared (status date October 22, 2026).
+- **Canada:** AKER, registered 2011, number 1370269, covering business management consultancy (class 35) and development of computer programs (class 42).
+- The group also files many "AKER + word" marks (Aker Solutions, Aker Offshore Wind, Aker Krill, Aker Maritime), a family pattern.
+
+**What it means.** Nothing blocks Akerlow or Akerlio directly. The risk is that an examiner, or the Aker group, argues the names are confusingly similar to AKER because they begin with it, and TWM sells exactly the consulting and AI software those marks cover. In Akerlow's favour: it reads as one coined word (AK-er-low), not "Aker" plus a word, and the meaning is unrelated. Against it: the shared first four letters, the overlapping services, and a group that polices a family of AKER marks. Every Akerlof derivative carries the same prefix, so switching to Akerlio does not avoid the question. Bowley has no Aker problem but was not searched.
+
+**Recommended next step:** a short opinion from a trademark lawyer on Akerlow against the AKER marks before money goes into the name beyond the domains. Registering the four domains first is still cheap and reversible.
+
 ## Where this stood (October 13, 2026, end of day)
 
 **Kyle will decide later.** The shortlist is Akerlof and its derivatives, with Bowley as the alternative. Constraints Kyle set: no outreach to anyone, not to George Akerlof and not to the holder of a parked domain, so the name must be free outright or usable on the free .ai, .ca and .io. Round three below has the candidates and the registry results. The decision is action item A11 on the main list; the status file carries the proposed wording.
