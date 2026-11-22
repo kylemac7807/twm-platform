@@ -31,6 +31,18 @@ Of the 228 contract sets, 55 have more than one document and 173 have just one.
 
 Three documents have no readable text at all (scanned pages saved as pictures) and need Azure's document reader: two UK rate exhibits and one Michigan contract.
 
+## What the estimate rests on (measured November 22, 2026, no AI calls)
+
+The engine's first two stages (sort the document, read it, find its tables) were run over all 436 documents twice.
+
+| Test | Documents | What it means |
+|---|---|---|
+| Is a rate card outright | 33 | The Rate cards column; two of them are scans with no readable text |
+| Has a table that clearly prices people (roles or levels beside prices) | 35 | A strict test, so a floor: it recognized only 9 of the 25 rate cards it was shown, because many cards price categories and levels rather than job titles |
+| Has any table with prices in it | 173 | A ceiling: contracts also carry fee schedules, service credits and milestone payments, which are not rates for people |
+
+The truth sits between the floor and the ceiling, and the 50 to 100 range in the table stands. Two things the count showed that the range does not: the 35 documents that passed the strict test hold about 4,200 priced rows between them, so the ledger will run to thousands of rates even at the low end; and eight Florida state contracts with different vendors each carry a 158-row table of priced roles, which is either eight vendors priced on the same roles or one state ceiling repeated, to be settled when they are read.
+
 ## Keeping it current
 
-The counts come from the catalogue and the files on disk. The "read by the engine" column changes with every run, and the "likely to contain rates" range is to be replaced by a measured count from the engine's own table detector (first run started November 22, 2026). Update this file when either changes, and after the full run.
+The counts come from the catalogue and the files on disk. The "read by the engine" column changes with every run. The "likely to contain rates" range is replaced by a real count only when the engine reads the documents with the model (the full run); until then the floor and ceiling above are the evidence for it. Update this file when either changes.
