@@ -88,21 +88,24 @@ In the lean launch, pods are hired only when the Early Adopter work starts (Marc
 
 | Topic | Decision |
 |---|---|
-| 1. Early Adopter fee | $1.5MM for every Early Adopter, the second cohort of two included (it was $2MM in the workbook and Business Plan); contingent on more than $10MM of value; booked as the workbook books it |
+| 1. Early Adopter fee | Only 4 Early Adopters, $1.5MM each, contingent on more than $10MM of value, earned over the ~6 months of Value Acceleration (March to August 2027), so all $6MM is in Year 1. The two clients that were a second cohort pay the full fee from September 2027 |
 | 2. Full-fee price | $4MM per client per year, unchanged |
 | 3. Client ramp | Unchanged: 4, 8, 25, 40, 50 |
 | 4. Consulting | Pods stay at five people; $225K per Engagement Manager, $100K per Associate |
 | 5. Software and AI | $500K per leader, $200K per engineer; team sizes unchanged |
 
-The updated workbook is `docs/story/twm-business-model-2026-11-22.xlsx` (Kyle's formulas, five inputs changed, listed on its Changes sheet). Effect:
+The updated workbook is `docs/story/twm-business-model-2026-11-22.xlsx` (Kyle's formulas, with the inputs and the four revenue formulas changed listed on its Changes sheet). Effect:
 
 | | Before | After |
 |---|---|---|
-| Cash needed before TWM pays for itself | $9.4MM | $6.3MM |
+| Revenue, Year 1 / Year 2 | $3.0MM / $23.0MM | $6.0MM / $20.0MM |
+| Cash needed before TWM pays for itself | $9.4MM | $5.3MM |
 | Profitable from (deck dates) | Mar 2028 | Mar 2028 |
 | Clients needed to break even (Year 2 costs) | 5 | 4 |
 | Costs at exit, per year | $75.4MM | $58.8MM |
 | Profit at exit, per year | $124.6MM (62%) | $141.2MM (71%) |
+
+Open from topic 1: the 4 Early Adopters pay nothing from September 2027 to February 2028. If they move to the full fee when Value Acceleration ends, Year 2 revenue is $28MM and the cash needed falls to about $2.6MM.
 
 Still to go through: topic 6 (sales, overhead and the costs not yet in the model) and topic 7 (funding).
 

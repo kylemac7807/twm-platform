@@ -48,7 +48,7 @@ Worker session in worktree `story`, branch `story`. Updated at every commit. Kyl
 - Nothing on naming until Kyle decides. Next conversation: the page, then the narrative.
 - Working through the financial model with Kyle, topic by topic (Nov 22): revenue (Early Adopter fee, full-fee price, client ramp), then costs, then funding. His answers go in the decision log as they land.
 - Later (Kyle, Nov 22): slide 9 of his latest version (the progress slide, now that he removed the prototype slide) has differently formatted items at the bottom of the page (the rounded library box, the plain caption under the chart, the grey Next box); make them consistent.
-- Nov 22: Kyle's model decisions 1 to 5 applied: `docs/story/twm-business-model-2026-11-22.xlsx` and `docs/story/twm-pitch-deck-v4.pptx` (v3 was open in PowerPoint; v4 is his latest saved v3 with the financial page redone and the Ask slide's notes updated). Next: topics 6 and 7.
+- Nov 22: Kyle's model decisions 1 to 5 applied: `docs/story/twm-business-model-2026-11-22.xlsx` and `docs/story/twm-pitch-deck-v4.pptx` (v3 was open in PowerPoint; v4 is his latest saved v3 with the financial page redone and the Ask slide's notes updated). Next: topics 6 and 7. Then Kyle corrected the revenue the same evening: only 4 Early Adopters, all $6MM in Year 1, the former second cohort on the full fee from September 2027; `twm-pitch-deck-v5.pptx` (v4 was open) carries it on the financial, timeline, executive summary, go-to-market and Ask slides.
 
 ## Questions for Kyle
 
