@@ -38,6 +38,7 @@ class A:
     sw_start_q: int = 1  # software team costs start Q2 2026
     pods_start_q: int = 1  # first two pods hired Q2 2026 (a quarter before the Early Adopter work)
     ea_upfront: float = 0.0  # share of each Early Adopter fee paid at signing, before the value test
+    ea_lump_q: object = None  # quarter the first cohort's remaining fee lands in one payment (second cohort two quarters later)
     # sales, overhead
     sales_per_client: float = 0.30
     overhead: tuple = (1.5, 3.0, 5.0, 7.0, 10.0)
@@ -66,6 +67,14 @@ def run(a: A):
             r += a.ea_n * a.ea_fee * a.ea_upfront
         if q == 4:
             r += a.ea2_n * a.ea2_fee * a.ea_upfront
+        # alternative: the rest of each cohort's fee lands in one quarter (on the client's sign-off of the value)
+        if a.ea_lump_q is not None:
+            r -= sum(x for x in [a.ea_n * a.ea_fee / 4 * a.ea_paid * later] if 2 <= qe <= 5)
+            r -= sum(x for x in [a.ea2_n * a.ea2_fee / 2 * a.ea_paid * later] if 4 <= qe <= 5)
+            if q == a.ea_lump_q:
+                r += a.ea_n * a.ea_fee * a.ea_paid * later
+            if q == a.ea_lump_q + 2:
+                r += a.ea2_n * a.ea2_fee * a.ea_paid * later
         # consulting: leadership plus pods sized to clients
         c_cons = a.consult_lead[y] / 4
         if q == 1 and a.pods_start_q <= 1:

@@ -84,7 +84,29 @@ Each row changes one thing unless it says otherwise. "Profitable from" is the fi
 
 In the lean launch, pods are hired only when the Early Adopter work starts (March 2027). The software team waits for the Series A (September 2027), and Year 1 leadership and overhead are halved. The working prototype is what makes this credible.
 
-## Decisions for Kyle
+## Kyle's decisions so far (Nov 22, 2026)
+
+| Topic | Decision |
+|---|---|
+| 1. Early Adopter fee | $1.5MM for every Early Adopter, the second cohort of two included (it was $2MM in the workbook and Business Plan); contingent on more than $10MM of value; booked as the workbook books it |
+| 2. Full-fee price | $4MM per client per year, unchanged |
+| 3. Client ramp | Unchanged: 4, 8, 25, 40, 50 |
+| 4. Consulting | Pods stay at five people; $225K per Engagement Manager, $100K per Associate |
+| 5. Software and AI | $500K per leader, $200K per engineer; team sizes unchanged |
+
+The updated workbook is `docs/story/twm-business-model-2026-11-22.xlsx` (Kyle's formulas, five inputs changed, listed on its Changes sheet). Effect:
+
+| | Before | After |
+|---|---|---|
+| Cash needed before TWM pays for itself | $9.4MM | $6.3MM |
+| Profitable from (deck dates) | Mar 2028 | Mar 2028 |
+| Clients needed to break even (Year 2 costs) | 5 | 4 |
+| Costs at exit, per year | $75.4MM | $58.8MM |
+| Profit at exit, per year | $124.6MM (62%) | $141.2MM (71%) |
+
+Still to go through: topic 6 (sales, overhead and the costs not yet in the model) and topic 7 (funding).
+
+## Decisions for Kyle (as first put to him)
 
 1. **Funding.** Keep $1MM with a lean launch, or raise more now? Recommendation: run lean until the Series A, ask Early Adopters for a third of the fee at signing, and size the SAFE at about $1.5MM. Plan the Series A at about $12MM to $15MM, which covers the $8.7MM need with room to spare.
 2. **The contingent fee.** What counts as $10MM of value, and when is the fee paid? Recommendation: savings identified and signed off by the client's CFO or CPO at the end of Value Acceleration, with payment on that sign-off.

@@ -14,7 +14,7 @@ The subfolder `Claude Grounding` is Kyle's own curated set and holds the first f
 | **Consortium Approach v1.7** | `Claude Grounding\TWM - Consortium Approach - January 20 2026 - v1.7.pptx` (and `.pdf`) | Jan 20, 2026 | The Early Adopter consortium proposition. |
 | **Summary Technical Approach v1.2** | `Claude Grounding\TWM - Summary Technical Approach - January 29 2026 - v1.2.pptx` (and `.pdf`); Word version `Technical Approach\Technical Approach - TWM - January 29 2026 v1.2.docx` | Jan 29, 2026 | The technical approach as presented to clients. |
 | Early Adopter Presentation | `Early Adopter Presentation - November 10th - v2.docx` | Nov 2025 | Talking points for early adopter meetings. |
-| Business Model | `TWM - Business Model - October 2nd.xlsx` | Oct 2025 | Financial model spreadsheet. |
+| Business Model | `TWM - Business Model - October 2nd.xlsx` | Oct 2025 | Financial model spreadsheet. **Updated Nov 22, 2026** with Kyle's new assumptions as `docs/story/twm-business-model-2026-11-22.xlsx` in this project (same formulas; a Changes sheet lists every input changed); that copy is current. |
 | Competitive analysis | `Competitive Analysis\Detailed Competitive Analysis - October 3rd - 2025.docx`, `Competitive Analysis\Competitive Analysis - October 6th - 2025.docx`, `Competitive Analysis\everest-group-vms-peak-matrix-assessment-2025.pdf` | Oct 2025 | Competitors and the VMS market. |
 | Things to do | `TWM Things to do - January 29 2026.docx` | Jan 2026 | Kyle's action list at that date. |
 
